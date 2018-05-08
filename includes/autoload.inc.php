@@ -2,7 +2,7 @@
 if(!defined("EXEC"))
 	return;
 
-spl_autoload_register(function ($class) {
+spl_autoload_register(function ($className) {
     if (file_exists(ROOT . DS . 'includes' . DS . $className . '.inc.php'))
         require_once(ROOT . DS . 'includes' . DS . $className . '.inc.php');
     else if (file_exists(ROOT . DS . 'controllers' . DS . $className . '.class.php'))
