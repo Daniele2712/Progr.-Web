@@ -15,6 +15,6 @@ class EUtente{
         if($nascita === null)
             $this->dataNascita = new DateTime();
         else
-            $this->dataNascita = $nascita;
+            $this->dataNascita = clone $nascita;
     }
 }
