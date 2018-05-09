@@ -9,7 +9,10 @@ class EIndirizzo{
     private $note;
 
     public function __construct(EComune $comune=null, string $via="", int $civico=0, string $note=""){
-        $this->comune = clone $comune;
+        if($comune === null)
+            $this->comune = new EComune();
+        else
+            $this->comune = clone $comune;
         $this->via = $via;
         $this->civico = $civico;
         $this->note = $note;

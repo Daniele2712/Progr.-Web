@@ -8,7 +8,7 @@ class EUtente{
     private $telefono;
     private $dataNascita;
 
-    public function __construct(string $nome="",string $cognome="",string $telefono="",DateTime $nascita = null){
+    public function __construct(string $nome="", string $cognome="", string $telefono="", DateTime $nascita = null){
         $this->nome = $nome;
         $this->cognome = $cognome;
         $this->telefono = $telefono;

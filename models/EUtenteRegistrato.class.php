@@ -11,13 +11,13 @@ class EUtenteRegistrato extends EUtente{
     public function __construct($nome, $cognome, $telefono, $nascita, array $pagamenti=array(), array $indirizzi=array(), array $carrelli=array(), string $email=""){
 
         parent::__construct($nome, $cognome, $telefono, $nascita);
-        foreach ($pagamenti as $p){
+        foreach($pagamenti as $p){
             $this->pagamenti[] = clone $p;
         }
-        foreach ($indirizzi as $i){
+        foreach($indirizzi as $i){
             $this->indirizzi[] = clone $i;
         }
-        foreach ($carrelli as $c){
+        foreach($carrelli as $c){
             $this->carrelli[] = clone $c;
         }
         $this->email = $email;
