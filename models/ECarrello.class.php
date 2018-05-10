@@ -2,6 +2,7 @@
 <?php
 if(!defined("EXEC"))
 	return;
+    
 class ECarrello{
     //Attributi
 	private $id="";
@@ -16,13 +17,12 @@ class ECarrello{
 		$prodotti[]=clone $i;
 	}
 	public function CalcolaTotale(){
-		
+
 	}
 	public function CompletaOrdine(){
-		
+
 	}
 	public function Aggiornaprezzi(){
-		
+
 	}
 }
-?>

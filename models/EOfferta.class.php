@@ -1,6 +1,7 @@
 <?php
 if(!defined("EXEC"))
 	return;
+    
 public class EOfferta{
 	//Attributi
 	//Costruttori
@@ -11,4 +12,3 @@ public class EOfferta{
 	private static function VerificaSconti(){
 	}
 }
-?>

@@ -1,6 +1,7 @@
 <?php
 if(!defined("EXEC"))
 	return;
+    
 class EProdotto{
 	//Attributi
 	private $nome="";
@@ -26,7 +27,6 @@ class EProdotto{
 		$this->descrizione=$d;
 	}
 	public function setTag(){
-		
+
 	}
 }
-?>

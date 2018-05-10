@@ -9,7 +9,6 @@ class EUtenteRegistrato extends EUtente{
     private $email;
 
     public function __construct($nome, $cognome, $telefono, $nascita, array $pagamenti=array(), array $indirizzi=array(), array $carrelli=array(), string $email=""){
-
         parent::__construct($nome, $cognome, $telefono, $nascita);
         foreach($pagamenti as $p){
             $this->pagamenti[] = clone $p;

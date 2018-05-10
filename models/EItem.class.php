@@ -1,6 +1,7 @@
 <?php
 if(!defined("EXEC"))
 	return;
+    
 class EItem{
     //Attributi
 	private $prodotto;
@@ -14,4 +15,3 @@ class EItem{
 		$this->prezzo=$p;
 	}
 }
-?>
