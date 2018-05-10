@@ -4,10 +4,10 @@ if(!defined("EXEC"))
 class EItem{
     //Attributi
 	private $prodotto;
-	private $quantità;
+	private $quantità=0;
 	private $prezzo;
 	//Costruttori
-	public function __construct(Money $m, $q,EProdotto $p)
+	public function __construct(Money $m, int $q, EProdotto $p)
 	{
 		$this->prodotto=$p;
 		$this->quantità=$q;
