@@ -14,4 +14,7 @@ class EItem{
 		$this->quantità=$q;
 		$this->prezzo=$m;
 	}
+	public function getPrezzo(){
+		return $m=$this->prezzo;
+	}
 }

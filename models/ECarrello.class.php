@@ -7,7 +7,7 @@ class ECarrello{
     //Attributi
 	private $id="";
 	private $prodotti=array();
-	private $totale;
+	private $totale=new EMoney(0,'Euro');
 	//Costruttori
 	public function __construct(String $i){
 		$this->id=$i;
@@ -18,15 +18,20 @@ class ECarrello{
 		$pre.setPrezzo($pre.getPrezzo*$q);
 		$i=new EItem($pro, $pre, $q);
 		$this->prodotti[]=$i;
+		AggiornaPrezzi();
 		CalcolaTotale();
 	}
 	public function CalcolaTotale(){
-
+		for ($i=0;i<$this->prodotti.size();i++){
+			$t=prodotti[i];
+			$c+=$t.getPrezzo().getPrezzo();
+		}
+        $this->totale.setPrezzo($c);
 	}
 	public function CompletaOrdine(){
 
 	}
-	public function Aggiornaprezzi(){
+	public function AggiornaPrezzi(){
 
 	}
 }
