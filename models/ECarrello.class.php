@@ -13,8 +13,12 @@ class ECarrello{
 		$this->id=$i;
 	}
 	//Metodi
-	public function addProdotto($i){
-		$prodotti[]=clone $i;
+	public function addProdotto(EProdotto $pro, int $q){
+		$pre=$pro.getPrezzo();
+		$pre.setPrezzo($pre.getPrezzo*$q);
+		$i=new EItem($pro, $pre, $q);
+		$this->prodotti[]=$i;
+		CalcolaTotale();
 	}
 	public function CalcolaTotale(){
 
