@@ -8,10 +8,10 @@ class EItem{
 	private $quantità=0;
 	private $prezzo;
 	//Costruttori
-	public function __construct(Money $m, int $q, EProdotto $p)
+	public function __construct(EMoney $m, int $q, EProdotto $p)
 	{
 		$this->prodotto=$p;
 		$this->quantità=$q;
-		$this->prezzo=$p;
+		$this->prezzo=$m;
 	}
 }
