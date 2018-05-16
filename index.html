@@ -1,0 +1,38 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>PROGRAMMAZIONE WEB</title>
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<p>aaaa</p>
+<h1> Cose non cose...servono solo x giocarci e verificare se le cose funzionano o no </h1>
+
+<form action="models/SimulateBankServer.php" method="post" name="paypal" id="paypal">
+    Nome:    <input  name="nome" placeholder="nome"><br>
+    Cognome: <input  name="cognome" placeholder="cognome"><br>
+    Importo:   <input  name="denarotrasferito" placeholder="Importo"><br>
+    Birthday:<input type="date" name="bday"><br>
+      
+    <input  name="creditCardNumber" placeholder="creditCardNumber">
+    <input  name="threeDigit" placeholder="threeDigit">
+    <input type="submit" value="Send">
+    </form>
+
+
+<h2> E l-altro</h2>
+<form action="models/SimulatePayPalServer.php" method="post" name="paypal" id="paypal">
+    <input  name="email" placeholder="email">
+    <input  name="password" placeholder="password">
+    <input type="submit" value="Send">
+</form>
+
+
+
+<body>
+  <script src="js/scripts.js"></script>
+</body>
+</html>
