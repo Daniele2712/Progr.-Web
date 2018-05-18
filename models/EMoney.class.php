@@ -7,24 +7,24 @@ if(!defined("EXEC")){
 public class EMoney{
 	//Attributi
 	private $prezzo=0;
-	private $moneta='';
+	private $valuta='';
 	//Costruttori
-	public function __construct(int $p, string $m){
-		$this->prezzo=$p;
-		$this->moneta=$m;
+	public function __construct(int $pre, string $val){
+		$this->prezzo=$pre;
+		$this->valuta=$val;
 	}
 	//Metodi
-	public function setPrezzo(int $p){
-		$this->prezzo=$p;
+	public function setPrezzo(int $pre){
+		$this->prezzo=$pre;
 	}
-	public function setMoneta(int $m){
-		$this->moneta=$m;
+	public function setMoneta(int $val){
+		$this->valuta=$val;
 	}
 	public function getPrezzo(){
-		return $p=$this->prezzo;
+		return $pre=$this->prezzo;
 	}
-	public function getMoneta(){
-		return $m=$this->moneta;
+	public function getValuta(){
+		return $val=$this->valuta;
 	}
 }
 ?>
