@@ -1,8 +1,10 @@
 
 <?php
-if(!defined("EXEC"))
+if(!defined("EXEC")){
+    header("location: /index.php");
 	return;
-    
+}
+
 class ECarrello{
     //Attributi
 	private $id="";

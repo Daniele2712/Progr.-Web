@@ -1,4 +1,9 @@
 <?php
+if(!defined("EXEC")){
+    header("location: /index.php");
+	return;
+}
+
 public class EMoney{
 	//Attributi
 	private $prezzo=0;

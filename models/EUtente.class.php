@@ -1,6 +1,8 @@
 <?php
-if(!defined("EXEC"))
+if(!defined("EXEC")){
+    header("location: /index.php");
 	return;
+}
 
 class EUtente{
     private $nome;
