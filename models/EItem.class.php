@@ -10,7 +10,7 @@ class EItem{
 	//Costruttori
 	public function __construct(EProdotto $p, EMoney $m, int $q)
 	{
-		$this->prodotto=$p;
+		$this->prodotto=clone $p;
 		$this->quantità=$q;
 		$this->prezzo=$m;
 	}
