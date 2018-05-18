@@ -1,6 +1,8 @@
 <?php
-if(!defined("EXEC"))
+if(!defined("EXEC")){
+    header("location: /index.php");
 	return;
+}
 
 spl_autoload_register(function ($className) {
     if (file_exists(ROOT . DS . 'includes' . DS . $className . '.inc.php'))

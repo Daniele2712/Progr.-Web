@@ -1,6 +1,9 @@
 <?php
-if(!defined("EXEC"))
+if(!defined("EXEC")){
+    header("location: /index.php");
 	return;
+}
+
 class EProdotto{
 	//Attributi
 	private $nome="";

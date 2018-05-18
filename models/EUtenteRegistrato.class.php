@@ -1,6 +1,8 @@
 <?php
-if(!defined("EXEC"))
+if(!defined("EXEC")){
+    header("location: /index.php");
 	return;
+}
 
 class EUtenteRegistrato extends EUtente{
     private $pagamenti = array();

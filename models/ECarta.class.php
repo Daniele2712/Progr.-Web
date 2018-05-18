@@ -1,10 +1,12 @@
 <?php
-if(!defined("EXEC"))
-    return;
+if(!defined("EXEC")){
+    header("location: /index.php");
+	return;
+}
 
 class Carta implements EMetodoPagamento
 {
-    
+
     private $numeroCarta;
     private $nuemro3Cifre;
     private $nome;
@@ -17,17 +19,17 @@ class Carta implements EMetodoPagamento
   public function __construct(){
     prende le ocse dalle form e le mette dentro alle variabili
     }
-    
+
     private function verificaScadenza(){
-        
-        
-        
+
+
+
     }
 
     private verificaCredenziali(){
 
         // vede se i dati inviati sono nei range ammisibili, e toglie i caratteri illegali....
-    } 
+    }
 
     public function paga(){
 
@@ -46,8 +48,8 @@ il tizio mettere sti dati
     <form action="/action_page.php">
       Birthday:
       <input type="date" name="bday">
-      
-    
+
+
     <input  name="creditCardNumber" placeholder="creditCardNumber">
     <input  name="threeDigit" placeholder="threeDigit">
     <input type="submit" value="Send">
@@ -58,5 +60,5 @@ il tizio mettere sti dati
 */
 
 
-    
+
 }
