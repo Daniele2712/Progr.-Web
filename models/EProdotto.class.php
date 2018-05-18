@@ -9,29 +9,26 @@ class EProdotto{
 	private $nome="";
 	private $info="";
 	private $descrizione="";
-	private $categoria="";
-	private $sottocategoria="";
+	private $sottocategoria;
 	private $prezzo;
 	private $tag=array();
 	//Costruttori
-	public function __construct(String $n, String $c, String $sc, EMoney $p)
-	{
-		$this->nome=$n;
-		$this->categoria=$c;
-		$this->sottocategoria=$sc;
-		$this->prezzo=$p;
+	public function __construct(string $nome, ECategoria $cat, EMoney $price){
+		$this->nome = $nome;
+		$this->sottocategoria = $cat;
+		$this->prezzo = $price;
 	}
 	//Metodi
 	public function setInfo($i){
-		$this->info=$i;
+		$this->info = $i;
 	}
 	public function setDescrizione($d){
-		$this->descrizione=$d;
+		$this->descrizione = $d;
 	}
 	public function setTag(array $t){
-        $this->tag=array($t);
+        $this->tag = array($t);
 	}
 	public function getPrezzo(){
-		return $m=$this->prezzo;
+		return $m = $this->prezzo;
 	}
 }
