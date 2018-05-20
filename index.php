@@ -34,4 +34,7 @@ echo "<br><br>";
 $prodotto = new EProdotto('macbook', $categoria, $prezzo);
 var_dump($prodotto);
 echo "<br><br>";
+$item = new EItem($prodotto, $prezzo, 2);
+var_dump($item);
+echo "<br><br>";
 ?>
