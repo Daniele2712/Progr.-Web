@@ -7,13 +7,28 @@ if(!defined("EXEC")){
 
 
 class EOrdine{
+	//Attributi
     private $prodotti= array();
     private $metodoPagamento;
     private $indirizzo;
-
-    public function __construct(array $prodotti,string $metodoPagamento, string $indirizzo){
+	private $utente;
+    //Costruttori
+    public function __construct(array $prodotti, EIndirizzo $indirizzo, EUtente $utente){
     	$this->prodotti =  $prodotti;
-        $this->metodoPagamento = $metodoPagamento;
         $this->indirizzo = $indirizzo;
+		$this->utente = $utente;
     }
+	//Metodi
+	public function setProdotti(array $prodotti){
+		$this->prodotti =  $prodotti;
+	}
+	public function setMetodoPagamento(EMetodoPagamento $metodopagamento){
+		$this->metodopagamento =  $metodopagamento;
+	}
+	public function setIndirizzo(EIndirizzo $indirizzo){
+		$this->indirizzo =  $indirizzo;
+	}
+	public function setUtente(EUtente $utente){
+		$this->utente =  $utente;
+	}
 }

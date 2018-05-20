@@ -10,9 +10,15 @@ class EFiltro{
 	private $sottocategoria;
 	private $valori=array();
 	//Costruttori
-	public function __construct(string $nome="", string $cat=""){
+	public function __construct(string $nome="", ECategoria $sottocategoria){
 		$this->nome = $nome;
 		$this->sottocategoria = $cat;
 	}
 	//Metodi
+	public function getNome(){
+		return $t=$this->nome;
+	}
+	public function setValori(array $v){
+		
+	}
 }

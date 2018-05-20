@@ -29,10 +29,11 @@ class ECarrello{
 		}
         $this->totale.setPrezzo($c);
 	}
-	public function CompletaOrdine(){
-
+	public function CompletaOrdine(EIndirizzo $ind, EUtente $ut){
+        $ord=new EOrdine($this->prodotti, $ind, $utente);
+		return $ord;
 	}
 	public function AggiornaPrezzi(){
-
+        EOfferta::VerificaOfferte($prodotti);
 	}
 }

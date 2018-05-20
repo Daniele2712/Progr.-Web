@@ -17,4 +17,8 @@ class EMagazzino{
             $this->items[] = clone $i;
         }
     }
+	
+	public function setQuantita(int $qnt){
+		
+	}
 }

@@ -19,4 +19,7 @@ class EItem{
 	public function getPrezzo(){
 		return $m=$this->prezzo;
 	}
+	public function getQuantita(){
+		return $q=$this->quantità;
+	}
 }
