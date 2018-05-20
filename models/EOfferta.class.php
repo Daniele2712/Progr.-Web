@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-public class EOfferta{
+class EOfferta{
 	//Attributi
 	//Costruttori
 	//Metodi
