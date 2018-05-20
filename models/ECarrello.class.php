@@ -8,10 +8,11 @@ class ECarrello{
     //Attributi
 	private $id="";
 	private $prodotti=array();
-	private $totale=new EMoney(0,'Euro');
+	private $totale;
 	//Costruttori
 	public function __construct(String $i){
 		$this->id=$i;
+		$this->totale=new EMoney(0,'Euro');
 	}
 	//Metodi
 	public function addProdotto(EProdotto $pro, int $q){
@@ -23,7 +24,7 @@ class ECarrello{
 		CalcolaTotale();
 	}
 	public function CalcolaTotale(){
-		for ($i=0;i<$this->prodotti.size();i++){
+		for ($i=0;$i<$this->prodotti.size();$i++){
 			$t=prodotti[i];
 			$c+=$t.getPrezzo().getPrezzo();
 		}

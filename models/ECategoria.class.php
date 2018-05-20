@@ -5,18 +5,18 @@ return;
 }
 
     
-public class ECategoria{
+class ECategoria{
 	
-    private $categoira;
+    private $categoria='';
     private $padre;  // se e' inizializzato vuol dire ceh abbiamo una sottocategoria
 	
     public function __constructor(string $nome , ECategoria $padre=null){
         
-        $this->categoria= $nome;
+        $this->categoria = $nome;
         $this->padre = $padre;
     }
     
 	public function getCategoria():string{
-        return $categoira;
+        return $categoria;
 	}
 }

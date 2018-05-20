@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-public class EMoney{
+class EMoney{
 	//Attributi
 	private $prezzo=0;
 	private $valuta='';
