@@ -37,4 +37,10 @@ echo "<br><br>";
 $item = new EItem($prodotto, $prezzo, 2);
 var_dump($item);
 echo "<br><br>";
+$ordine = new EOrdine($t=array(), $indirizzo, $utente);
+var_dump($ordine);
+echo "<br><br>";
+$filtro = new EFiltro('Display', $categoria);
+var_dump($filtro);
+echo "<br><br>";
 ?>

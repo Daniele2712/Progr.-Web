@@ -12,7 +12,7 @@ class EFiltro{
 	//Costruttori
 	public function __construct(string $nome="", ECategoria $sottocategoria){
 		$this->nome = $nome;
-		$this->sottocategoria = $cat;
+		$this->sottocategoria = $sottocategoria;
 	}
 	//Metodi
 	public function getNome(){
