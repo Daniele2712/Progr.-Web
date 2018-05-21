@@ -5,7 +5,7 @@ if(!defined("EXEC")){
 }
 
 class FProdotto extends Foundation{
-    protected static $table = "carrelli";
+    protected static $table = "prodotti";
 	//Attributi
     //Costruttori
     //Metodi

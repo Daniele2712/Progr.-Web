@@ -5,7 +5,7 @@ if(!defined("EXEC")){
 }
 
 class FOrdine extends Foundation{
-    protected static $table = "carrelli";
+    protected static $table = "ordini";
 
 }
 ?>
