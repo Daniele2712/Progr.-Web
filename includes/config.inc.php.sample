@@ -13,6 +13,6 @@ $config['smarty']['cache_dir'] =
 
 $config['debug'] = false;
 $config['mysql']['user'] = 'root';
-$config['mysql']['password'] = 'asdasd';
-$config['mysql']['host'] = 'localhost';
+$config['mysql']['password'] = 'password';
+$config['mysql']['host'] = 'host';
 $config['mysql']['database'] = 'progr_web';
