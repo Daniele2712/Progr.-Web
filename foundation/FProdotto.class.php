@@ -1,10 +1,13 @@
 <?php
-class FProdotto{
+if(!defined("EXEC")){
+    header("location: /index.php");
+	return;
+}
+
+class FProdotto extends Foundation{
+    protected static $table = "carrelli";
 	//Attributi
     //Costruttori
     //Metodi
-	public function getProdotto(){
-		
-	}
 }
 ?>

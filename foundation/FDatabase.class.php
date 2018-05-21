@@ -1,4 +1,9 @@
 <?php
+if(!defined("EXEC")){
+    header("location: /index.php");
+	return;
+}
+
 class FDatabase{
 	//Attributi
 	 private $connection;
@@ -6,10 +11,10 @@ class FDatabase{
     public function __construct() {
 
         global $config;
-        $this->connect( $config['mysql']['host'],
-                        $config['mysql']['user'],
-                        $config['mysql']['password'],
-                        $config['mysql']['database'] );
+        $this->connect( $config['mysql']['127.0.0.1'],
+                        $config['mysql']['root'],
+                        $config['mysql']['Samsungn150'],
+                        $config['mysql']['progr_web'] );
     }
     //Metodi
     private function connect( $host, $user, $password, $database ) {
