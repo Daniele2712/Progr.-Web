@@ -1,5 +1,12 @@
 <?php
-class FCarrello{
+if(!defined("EXEC")){
+    header("location: /index.php");
+	return;
+}
+
+class FCarrello extends Foundation{
+    protected static $table = "carrelli";
+
 	public static function all(){
         $ret = array();
         $results = Singleton::DB()->query("SELECT * FROM carrelli");
