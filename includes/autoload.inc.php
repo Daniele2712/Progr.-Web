@@ -13,4 +13,6 @@ spl_autoload_register(function ($className) {
         require_once(ROOT . DS . 'views' . DS . $className . '.class.php');
     else if (file_exists(ROOT . DS . 'models' . DS . $className . '.class.php'))
         require_once(ROOT . DS . 'models' . DS . $className . '.class.php');
+    else if (file_exists(ROOT . DS . 'foundation' . DS . $className . '.class.php'))
+        require_once(ROOT . DS . 'foundation' . DS . $className . '.class.php');
 });
