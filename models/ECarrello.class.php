@@ -37,4 +37,7 @@ class ECarrello{
 	public function AggiornaPrezzi(){
         EOfferta::VerificaOfferte($prodotti);
 	}
+	public function addItem(EItem $item){
+		
+	}
 }
