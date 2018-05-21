@@ -11,7 +11,7 @@ class FProdotto extends Foundation{
     public static function getProdottoByid($id){
         $results = Singleton::DB()->query("SELECT * FROM prodotti WHERE id=".$id);
         if($result){
-            $row = $result->fetch_array(MYSQLI_ASSOC));
+            $row = $result->fetch_array(MYSQLI_ASSOC);
             $cat_ar = array();
             $cat_ar = FCategoria::getCategoriaByid($row[id_categoria]);
             if($cat_ar.size()==2)
