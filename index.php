@@ -43,4 +43,4 @@ echo "<br><br>";
 $filtro = new EFiltro('Display', $categoria);
 var_dump($filtro);
 echo "<br><br>";
-?>
+?>*/

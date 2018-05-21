@@ -6,11 +6,10 @@ if(!defined("EXEC")){
 
 class ECategoria{
 	//Attributi
-    private $categoria='';
+    private $categoria;
     private $padre;  // se e' inizializzato vuol dire che abbiamo una sottocategoria
 	//Costruttori
-    public function __constructor(string $nome , ECategoria $padre=null){
-        
+    public function __construct(string $nome , ECategoria $padre=null){
         $this->categoria = $nome;
         $this->padre = $padre;
     }
