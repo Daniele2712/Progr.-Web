@@ -1,29 +1,38 @@
 <?php
 class FDatabase{
 	//Attributi
-	 private $_connection;
+	 private $connection;
     //Costruttori
     public function __construct() {
-        
-        global $config; 
-        $this->connect( $config['mysql']['host'], 
-                        $config['mysql']['user'], 
-                        $config['mysql']['password'], 
+
+        global $config;
+        $this->connect( $config['mysql']['host'],
+                        $config['mysql']['user'],
+                        $config['mysql']['password'],
                         $config['mysql']['database'] );
     }
     //Metodi
     private function connect( $host, $user, $password, $database ) {
 
-        $this->_connection = new mysqli($host,$user,$password,$database);
-        if ($this->_connection->connect_errno) {
-            echo "Failed to connect to MySQL: (" . $this->_connection->connect_errno . ") " . $this->_connection->connect_error;
+        $this->connection = new mysqli($host,$user,$password,$database);
+        if ($this->connection->connect_errno) {
+            echo "Failed to connect to MySQL: (" . $this->connection->connect_errno . ") " . $this->connection->connect_error;
         }
 
         return true;
 
     }
     public function close() {
-        $this->_connection->close();
+        $this->connection->close();
+    }
+    public function query($query){
+        if($this->connection){
+            $result=$this->connection->query($query);
+            if (!$result)
+                return false;
+            return $result;
+        }
+        return false;
     }
 }
 ?>
