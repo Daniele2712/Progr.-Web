@@ -12,7 +12,7 @@ class FCategoria extends Foundation{
       $ret = array();
       $result = Singleton::DB()->query("SELECT nome, padre FROM categorie WHERE id=".$id);
       if($result){
-          $row = $result->fetch_array(MYSQLI_ASSOC))
+          $row = $result->fetch_array(MYSQLI_ASSOC));
               if($row["padre"]==NULL){
                   $cat=new ECategoria($row["nome"]);
                   $ret[]=$cat;
