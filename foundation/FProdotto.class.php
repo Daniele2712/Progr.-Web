@@ -5,9 +5,12 @@ if(!defined("EXEC")){
 }
 
 class FProdotto extends Foundation{
+    //Attributi
     protected static $table = "prodotti";
-	//Attributi
-    //Costruttori
     //Metodi
+    public static function getProdottoByid(){
+      $ret = array();
+        $results = Singleton::DB()->query("SELECT nome FROM ");
+    }
 }
 ?>

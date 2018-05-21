@@ -11,10 +11,10 @@ class FDatabase{
     public function __construct() {
 
         global $config;
-        $this->connect( $config['mysql']['127.0.0.1'],
-                        $config['mysql']['root'],
-                        $config['mysql']['Samsungn150'],
-                        $config['mysql']['progr_web'] );
+        $this->connect( $config['mysql']['host'],
+                        $config['mysql']['user'],
+                        $config['mysql']['password'],
+                        $config['mysql']['database'] );
     }
     //Metodi
     private function connect( $host, $user, $password, $database ) {

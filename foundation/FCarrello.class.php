@@ -7,7 +7,7 @@ if(!defined("EXEC")){
 class FCarrello extends Foundation{
     protected static $table = "carrelli";
 
-	public static function all(){
+	  public static function all(){
         $ret = array();
         $results = Singleton::DB()->query("SELECT * FROM carrelli");
         if($result){
