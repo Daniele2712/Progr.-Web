@@ -6,6 +6,7 @@ if(!defined("EXEC")){
 
 class FCategoria extends Foundation{
     protected static $table = "categorie";
+		
 
 }
 ?>
