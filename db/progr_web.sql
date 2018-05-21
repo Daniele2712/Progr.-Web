@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 21, 2018 alle 19:21
+-- Creato il: Mag 21, 2018 alle 22:52
 -- Versione del server: 10.1.30-MariaDB
 -- Versione PHP: 7.2.2
 
@@ -21,19 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `progr_web`
 --
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `attributi`
---
-
-CREATE TABLE `attributi` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `filtrabile` tinyint(1) NOT NULL,
-  `nome_categoria` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -69,8 +56,9 @@ CREATE TABLE `carte` (
 --
 
 CREATE TABLE `categorie` (
+  `id` int(11) NOT NULL,
   `nome` varchar(50) NOT NULL,
-  `padre` varchar(50) DEFAULT NULL
+  `padre` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -98,6 +86,19 @@ CREATE TABLE `dati_anagrafici` (
   `cognome` varchar(100) NOT NULL,
   `telefono` varchar(20) NOT NULL,
   `datanascita` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `filtri`
+--
+
+CREATE TABLE `filtri` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `filtrabile` tinyint(1) NOT NULL,
+  `id_categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -173,8 +174,8 @@ CREATE TABLE `magazzini` (
 
 CREATE TABLE `opzioni` (
   `id` int(11) NOT NULL,
-  `id_attributo` int(11) NOT NULL,
-  `valore` varchar(100) NOT NULL
+  `valore` varchar(100) NOT NULL,
+  `id_filtro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -217,7 +218,7 @@ CREATE TABLE `prodotti` (
   `nome` varchar(100) NOT NULL,
   `info` varchar(200) NOT NULL,
   `descrizione` text NOT NULL,
-  `nome_categoria` varchar(50) DEFAULT NULL
+  `id_categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -241,22 +242,15 @@ CREATE TABLE `utenti_registrati` (
 
 CREATE TABLE `valori` (
   `id` int(11) NOT NULL,
-  `id_attributo` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `id_opzione` int(11) DEFAULT NULL,
-  `valore` varchar(100) DEFAULT NULL
+  `valore` varchar(100) DEFAULT NULL,
+  `id_filtro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indici per le tabelle scaricate
 --
-
---
--- Indici per le tabelle `attributi`
---
-ALTER TABLE `attributi`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `nome_categoria` (`nome_categoria`);
 
 --
 -- Indici per le tabelle `carrelli`
@@ -274,7 +268,7 @@ ALTER TABLE `carte`
 -- Indici per le tabelle `categorie`
 --
 ALTER TABLE `categorie`
-  ADD PRIMARY KEY (`nome`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `padre` (`padre`);
 
 --
@@ -288,6 +282,13 @@ ALTER TABLE `comuni`
 --
 ALTER TABLE `dati_anagrafici`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `filtri`
+--
+ALTER TABLE `filtri`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_categoria` (`id_categoria`);
 
 --
 -- Indici per le tabelle `gestori`
@@ -330,7 +331,7 @@ ALTER TABLE `magazzini`
 --
 ALTER TABLE `opzioni`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_attributo` (`id_attributo`);
+  ADD KEY `id_filtro` (`id_filtro`);
 
 --
 -- Indici per le tabelle `ordini`
@@ -352,7 +353,7 @@ ALTER TABLE `pagamenti_preferiti`
 --
 ALTER TABLE `prodotti`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_categoria` (`nome_categoria`);
+  ADD KEY `id_categoria` (`id_categoria`);
 
 --
 -- Indici per le tabelle `utenti_registrati`
@@ -368,17 +369,11 @@ ALTER TABLE `valori`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_prodotto` (`id_prodotto`),
   ADD KEY `id_opzione` (`id_opzione`),
-  ADD KEY `id_attributo` (`id_attributo`);
+  ADD KEY `id_filtro` (`id_filtro`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
-
---
--- AUTO_INCREMENT per la tabella `attributi`
---
-ALTER TABLE `attributi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `carrelli`
@@ -393,6 +388,12 @@ ALTER TABLE `carte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT per la tabella `categorie`
+--
+ALTER TABLE `categorie`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `comuni`
 --
 ALTER TABLE `comuni`
@@ -402,6 +403,12 @@ ALTER TABLE `comuni`
 -- AUTO_INCREMENT per la tabella `dati_anagrafici`
 --
 ALTER TABLE `dati_anagrafici`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `filtri`
+--
+ALTER TABLE `filtri`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -469,16 +476,16 @@ ALTER TABLE `valori`
 --
 
 --
--- Limiti per la tabella `attributi`
---
-ALTER TABLE `attributi`
-  ADD CONSTRAINT `attributi_ibfk_1` FOREIGN KEY (`nome_categoria`) REFERENCES `categorie` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Limiti per la tabella `categorie`
 --
 ALTER TABLE `categorie`
-  ADD CONSTRAINT `categorie_ibfk_1` FOREIGN KEY (`padre`) REFERENCES `categorie` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `categorie_ibfk_1` FOREIGN KEY (`padre`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `filtri`
+--
+ALTER TABLE `filtri`
+  ADD CONSTRAINT `filtri_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `indirizzi`
@@ -509,7 +516,7 @@ ALTER TABLE `magazzini`
 -- Limiti per la tabella `opzioni`
 --
 ALTER TABLE `opzioni`
-  ADD CONSTRAINT `opzioni_ibfk_1` FOREIGN KEY (`id_attributo`) REFERENCES `attributi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `opzioni_ibfk_1` FOREIGN KEY (`id_filtro`) REFERENCES `filtri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `ordini`
@@ -528,7 +535,7 @@ ALTER TABLE `pagamenti_preferiti`
 -- Limiti per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
-  ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`nome_categoria`) REFERENCES `categorie` (`nome`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti_registrati`
@@ -540,9 +547,9 @@ ALTER TABLE `utenti_registrati`
 -- Limiti per la tabella `valori`
 --
 ALTER TABLE `valori`
-  ADD CONSTRAINT `valori_ibfk_1` FOREIGN KEY (`id_attributo`) REFERENCES `attributi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `valori_ibfk_2` FOREIGN KEY (`id_opzione`) REFERENCES `opzioni` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `valori_ibfk_3` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `valori_ibfk_3` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `valori_ibfk_4` FOREIGN KEY (`id_filtro`) REFERENCES `filtri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -5,7 +5,7 @@ if(!defined("EXEC")){
 }
 
 class FFIltro extends Foundation{
-    protected static $table = "attributi";
+    protected static $table = "filtri";
 
 }
 ?>
