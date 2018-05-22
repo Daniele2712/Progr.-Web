@@ -20,4 +20,5 @@ class FMagazzino extends Foundation{
       }
       return $mag;
     }
+  }
 ?>
