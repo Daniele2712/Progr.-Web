@@ -20,15 +20,16 @@ class ECarrello{
 		$pre.setPrezzo($pre.getPrezzo()*$q);
 		$i=new EItem($pro, $pre, $q);
 		$this->prodotti[]=$i;
-		AggiornaPrezzi();
-		CalcolaTotale();
+		$this->AggiornaPrezzi();
+		$this->CalcolaTotale();
 	}
 	public function CalcolaTotale(){
 		for ($i=0;$i<count($this->prodotti);$i++){
-			$t=$prodotti[i];
-			$c+=$t.getPrezzo().getPrezzo();
+			$t=$this->prodotti[$i];
+      $c=0;
+			$c+=$t->getPrezzo()->getPrezzo();
 		}
-        $this->totale.setPrezzo($c);
+        $this->totale->setPrezzo($c);
 	}
 	public function CompletaOrdine(EIndirizzo $ind, EUtente $ut){
         $ord=new EOrdine($this->prodotti, $ind, $utente);
@@ -39,8 +40,8 @@ class ECarrello{
 	}
 	public function addItem(EItem $item){
 		$this->prodotti[] = $item;
-    //AggiornaPrezzi();
-    CalcolaTotale();
+    $this->AggiornaPrezzi();
+    $this->CalcolaTotale();
 	}
   //public function ricaricaCarrello(){};
 }
