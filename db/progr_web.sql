@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 22, 2018 alle 10:44
+-- Creato il: Mag 22, 2018 alle 17:02
 -- Versione del server: 10.1.30-MariaDB
 -- Versione PHP: 7.2.2
 
@@ -34,6 +34,13 @@ CREATE TABLE `carrelli` (
   `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `carrelli`
+--
+
+INSERT INTO `carrelli` (`id`, `totale`, `valuta`) VALUES
+(1, 0, 'EUR');
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +56,13 @@ CREATE TABLE `carte` (
   `data_scadenza` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `carte`
+--
+
+INSERT INTO `carte` (`id`, `numero`, `cvv`, `nome`, `cognome`, `data_scadenza`) VALUES
+(1, 1, 0, 'mario', 'rossi', '1970-01-01');
+
 -- --------------------------------------------------------
 
 --
@@ -60,6 +74,16 @@ CREATE TABLE `categorie` (
   `nome` varchar(50) NOT NULL,
   `padre` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `categorie`
+--
+
+INSERT INTO `categorie` (`id`, `nome`, `padre`) VALUES
+(1, 'alimentari', NULL),
+(2, 'elettrodomestici', NULL),
+(3, 'latticini', 1),
+(4, 'televisori', 2);
 
 -- --------------------------------------------------------
 
@@ -73,6 +97,13 @@ CREATE TABLE `comuni` (
   `nome` varchar(100) NOT NULL,
   `provincia` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `comuni`
+--
+
+INSERT INTO `comuni` (`id`, `CAP`, `nome`, `provincia`) VALUES
+(1, 67100, 'l\'aquila', 'AQ');
 
 -- --------------------------------------------------------
 
@@ -88,6 +119,14 @@ CREATE TABLE `dati_anagrafici` (
   `datanascita` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `dati_anagrafici`
+--
+
+INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `datanascita`) VALUES
+(1, 'mario', 'rossi', '33312345678', '1970-01-01'),
+(2, 'luigi', 'verdi', '33387654321', '1980-02-02');
+
 -- --------------------------------------------------------
 
 --
@@ -100,6 +139,13 @@ CREATE TABLE `filtri` (
   `filtrabile` tinyint(1) NOT NULL,
   `id_categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `filtri`
+--
+
+INSERT INTO `filtri` (`id`, `nome`, `filtrabile`, `id_categoria`) VALUES
+(1, 'display', 1, 4);
 
 -- --------------------------------------------------------
 
@@ -114,6 +160,13 @@ CREATE TABLE `gestori` (
   `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `gestori`
+--
+
+INSERT INTO `gestori` (`id`, `id_datianagrafici`, `email`, `password`) VALUES
+(1, 2, 'luigiverdi@gmail.com', 'abc');
+
 -- --------------------------------------------------------
 
 --
@@ -127,6 +180,13 @@ CREATE TABLE `indirizzi` (
   `civico` int(11) NOT NULL,
   `note` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `indirizzi`
+--
+
+INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`) VALUES
+(1, 1, 'viale croce rossa', 2, '');
 
 -- --------------------------------------------------------
 
@@ -148,12 +208,19 @@ CREATE TABLE `indirizzi_preferiti` (
 
 CREATE TABLE `items` (
   `id` int(11) NOT NULL,
-  `locazione` enum('M','O','C','') NOT NULL,
+  `locazione` enum('M','O','C') NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `totale` float NOT NULL,
   `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL,
   `quantita` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `items`
+--
+
+INSERT INTO `items` (`id`, `locazione`, `id_prodotto`, `totale`, `valuta`, `quantita`) VALUES
+(1, 'C', 1, 3.87, 'EUR', 3);
 
 -- --------------------------------------------------------
 
@@ -163,7 +230,8 @@ CREATE TABLE `items` (
 
 CREATE TABLE `magazzini` (
   `id` int(11) NOT NULL,
-  `id_gestore` int(11) DEFAULT NULL
+  `id_gestore` int(11) DEFAULT NULL,
+  `id_indirizzo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -222,6 +290,13 @@ CREATE TABLE `prodotti` (
   `prezzo` float NOT NULL,
   `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `prodotti`
+--
+
+INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `valuta`) VALUES
+(1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 'EUR');
 
 -- --------------------------------------------------------
 
@@ -326,7 +401,8 @@ ALTER TABLE `items`
 --
 ALTER TABLE `magazzini`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_gestore` (`id_gestore`);
+  ADD KEY `id_gestore` (`id_gestore`),
+  ADD KEY `id_indirizzo` (`id_indirizzo`);
 
 --
 -- Indici per le tabelle `opzioni`
@@ -381,49 +457,49 @@ ALTER TABLE `valori`
 -- AUTO_INCREMENT per la tabella `carrelli`
 --
 ALTER TABLE `carrelli`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `carte`
 --
 ALTER TABLE `carte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `categorie`
 --
 ALTER TABLE `categorie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `comuni`
 --
 ALTER TABLE `comuni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `dati_anagrafici`
 --
 ALTER TABLE `dati_anagrafici`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `filtri`
 --
 ALTER TABLE `filtri`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `gestori`
 --
 ALTER TABLE `gestori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `indirizzi_preferiti`
@@ -459,7 +535,7 @@ ALTER TABLE `pagamenti_preferiti`
 -- AUTO_INCREMENT per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `utenti_registrati`
@@ -512,7 +588,8 @@ ALTER TABLE `items`
 -- Limiti per la tabella `magazzini`
 --
 ALTER TABLE `magazzini`
-  ADD CONSTRAINT `magazzini_ibfk_1` FOREIGN KEY (`id_gestore`) REFERENCES `gestori` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `magazzini_ibfk_1` FOREIGN KEY (`id_gestore`) REFERENCES `gestori` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `magazzini_ibfk_2` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `opzioni`

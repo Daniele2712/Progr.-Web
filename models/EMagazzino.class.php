@@ -6,6 +6,7 @@ if(!defined("EXEC")){
 
 class EMagazzino{
     private $indirizzo;
+    private $gestore;
     private $items = array();
 
     public function __construct(EIndirizzo $indirizzo=null, array $items=array()){
@@ -17,8 +18,11 @@ class EMagazzino{
             $this->items[] = clone $i;
         }
     }
-	
+
 	public function setQuantita(int $qnt){
-		
+
 	}
+  public function setGestore(EGestore $ges){
+    $this->gestore = clone $ges;
+  }
 }

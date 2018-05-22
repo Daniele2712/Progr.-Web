@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class FIndirizzo{
+class FIndirizzo extends Foundation{
   protected static $table = "indirizzi";
 
   public static function getIndirizzoByid(int $id){

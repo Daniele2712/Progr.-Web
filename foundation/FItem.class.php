@@ -20,4 +20,17 @@ class FItem extends Foundation{
       }
       return $ret;
     }
+    public static function getMagazzinoItems(int $id){
+      $ret=array();
+      $result = Singleton::DB()->query("SELECT id_prodotto, totale, valuta, quantita FROM items WHERE locazione='M' AND id=".$id);
+      if($result){
+          while($row = $result->fetch_array(MYSQLI_ASSOC)){
+              $pro = FProdotto::getProdottoByid($row["id_prodotto"]);
+              $pre = new EMoney($row["totale"], $row["valuta"]);
+              $item = new EItem($pro, $pre, $row["quantita"]);
+              $ret[] = $item;
+          }
+      }
+      return $ret;
+    }
 }

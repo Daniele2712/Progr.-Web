@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class FComune{
+class FComune extends Foundation{
   protected static $table = "comuni";
 
   public static function getComuneByid(int $id){
