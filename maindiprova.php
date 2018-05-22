@@ -13,7 +13,13 @@ require_once(ROOT.DS.'includes'.DS.'autoload.inc.php');
 //$it=array();
 //$it=FItem::getCarrelloItems(1);
 //print_r($it);
-$car=array();
-$car=FCarrello::all();
-print_r($car);
+//$car=array();
+//$car=FCarrello::all();
+//print_r($car);
+//$com=array();
+//$com=FComune::getComuneByid(1);
+//print_r($com);
+$ind=array();
+$ind=FIndirizzo::getIndirizzoByid(1);
+print_r($ind);
 ?>
