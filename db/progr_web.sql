@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 21, 2018 alle 22:52
+-- Creato il: Mag 22, 2018 alle 10:44
 -- Versione del server: 10.1.30-MariaDB
 -- Versione PHP: 7.2.2
 
@@ -58,7 +58,7 @@ CREATE TABLE `carte` (
 CREATE TABLE `categorie` (
   `id` int(11) NOT NULL,
   `nome` varchar(50) NOT NULL,
-  `padre` int(11) NOT NULL
+  `padre` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -218,7 +218,9 @@ CREATE TABLE `prodotti` (
   `nome` varchar(100) NOT NULL,
   `info` varchar(200) NOT NULL,
   `descrizione` text NOT NULL,
-  `id_categoria` int(11) DEFAULT NULL
+  `id_categoria` int(11) DEFAULT NULL,
+  `prezzo` float NOT NULL,
+  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -391,7 +393,7 @@ ALTER TABLE `carte`
 -- AUTO_INCREMENT per la tabella `categorie`
 --
 ALTER TABLE `categorie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `comuni`
