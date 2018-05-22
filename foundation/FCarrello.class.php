@@ -10,7 +10,7 @@ class FCarrello extends Foundation{
 	  public static function all(){
         $ret = array();
         $result = Singleton::DB()->query("SELECT * FROM carrelli");
-        if($result){
+        if($result){ 
             while($row = $result->fetch_array(MYSQLI_ASSOC)){
                 $carrello = new ECarrello($row["id"]);
                 $items = FItem::getCarrelloItems($row["id"]);

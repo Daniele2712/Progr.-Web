@@ -12,5 +12,5 @@ abstract class Foundation{
             Singleton::DB()->query("DELETE FROM ".$this->table." WHERE id='$id'");
     }
 
-    protected static function find(int $id)
+  //  protected static function find(int $id){};
 }

@@ -18,16 +18,15 @@ class FCategoria extends Foundation{
                   $ret[]=$cat;
               }
               else{
-                  $res_par=Singleton::DB()->query("SELECT nome FROM categorie WHERE id=".$row[padre]);
-                  $row_par = $result->fetch_array(MYSQLI_ASSOC);
+                  $res_par=Singleton::DB()->query("SELECT nome FROM categorie WHERE id=".$row["padre"]);
+                  $row_par = $res_par->fetch_array(MYSQLI_ASSOC);
                   $cat=new ECategoria($row_par["nome"]);
-                  $sot_cat=new ECategoria($row["nome"], $cat]);
+                  $sot_cat=new ECategoria($row["nome"], $cat);
                   $ret[]=$cat;
                   $ret[]=$sot_cat;
               }
       }
     return $ret;
     }
-
 }
 ?>

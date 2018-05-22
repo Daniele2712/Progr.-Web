@@ -17,15 +17,15 @@ class ECarrello{
 	//Metodi
 	public function addProdotto(EProdotto $pro, int $q){
 		$pre=$pro.getPrezzo();
-		$pre.setPrezzo($pre.getPrezzo*$q);
+		$pre.setPrezzo($pre.getPrezzo()*$q);
 		$i=new EItem($pro, $pre, $q);
 		$this->prodotti[]=$i;
 		AggiornaPrezzi();
 		CalcolaTotale();
 	}
 	public function CalcolaTotale(){
-		for ($i=0;$i<$this->prodotti.size();$i++){
-			$t=prodotti[i];
+		for ($i=0;$i<count($this->prodotti);$i++){
+			$t=$prodotti[i];
 			$c+=$t.getPrezzo().getPrezzo();
 		}
         $this->totale.setPrezzo($c);
@@ -38,6 +38,9 @@ class ECarrello{
         EOfferta::VerificaOfferte($prodotti);
 	}
 	public function addItem(EItem $item){
-		
+		$this->prodotti[] = $item;
+    //AggiornaPrezzi();
+    CalcolaTotale();
 	}
+  //public function ricaricaCarrello(){};
 }

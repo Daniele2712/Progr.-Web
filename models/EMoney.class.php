@@ -6,18 +6,18 @@ if(!defined("EXEC")){
 
 class EMoney{
 	//Attributi
-	private $prezzo=0;
+	private $prezzo=0.0;
 	private $valuta='';
 	//Costruttori
-	public function __construct(int $pre, string $val){
+	public function __construct(float $pre, string $val){
 		$this->prezzo=$pre;
 		$this->valuta=$val;
 	}
 	//Metodi
-	public function setPrezzo(int $pre){
+	public function setPrezzo(float $pre){
 		$this->prezzo=$pre;
 	}
-	public function setMoneta(int $val){
+	public function setMoneta(string $val){
 		$this->valuta=$val;
 	}
 	public function getPrezzo(){
