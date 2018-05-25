@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
--- https://www.phpmyadmin.net/
+-- version 4.6.0
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Creato il: Mag 25, 2018 alle 16:39
--- Versione del server: 10.1.30-MariaDB
--- Versione PHP: 7.2.2
+-- Host: localhost
+-- Creato il: Mag 25, 2018 alle 19:33
+-- Versione del server: 5.7.22-0ubuntu0.16.04.1
+-- Versione PHP: 7.0.30-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -292,6 +290,13 @@ CREATE TABLE `offerte` (
   `data_fine` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `offerte`
+--
+
+INSERT INTO `offerte` (`id`, `id_tipo`, `data_inizio`, `data_fine`) VALUES
+(1, 1, '2018-05-25 00:00:00', '2018-05-26 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -345,6 +350,33 @@ CREATE TABLE `offerte_sconti` (
   `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `offerte_sconti`
+--
+
+INSERT INTO `offerte_sconti` (`id`, `id_offerta`, `id_prodotto`, `prezzo`, `valuta`) VALUES
+(1, 1, 1, 0.25, 'EUR');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `offerte_tipi`
+--
+
+CREATE TABLE `offerte_tipi` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `offerte_tipi`
+--
+
+INSERT INTO `offerte_tipi` (`id`, `tipo`) VALUES
+(1, 'Sconto'),
+(2, 'Omaggio'),
+(3, 'NxM');
+
 -- --------------------------------------------------------
 
 --
@@ -362,8 +394,8 @@ CREATE TABLE `opzioni` (
 --
 
 INSERT INTO `opzioni` (`id`, `valore`, `id_filtro`) VALUES
-(1, '23\"', 1),
-(2, '40\"', 1);
+(1, '23"', 1),
+(2, '40"', 1);
 
 -- --------------------------------------------------------
 
@@ -423,17 +455,6 @@ CREATE TABLE `prodotti` (
 
 INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `valuta`) VALUES
 (1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 'EUR');
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `tipi`
---
-
-CREATE TABLE `tipi` (
-  `id` int(11) NOT NULL,
-  `tipo` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -605,6 +626,12 @@ ALTER TABLE `offerte_sconti`
   ADD KEY `id_prodotto` (`id_prodotto`);
 
 --
+-- Indici per le tabelle `offerte_tipi`
+--
+ALTER TABLE `offerte_tipi`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indici per le tabelle `opzioni`
 --
 ALTER TABLE `opzioni`
@@ -634,12 +661,6 @@ ALTER TABLE `prodotti`
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
--- Indici per le tabelle `tipi`
---
-ALTER TABLE `tipi`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indici per le tabelle `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
@@ -664,145 +685,121 @@ ALTER TABLE `valori`
 --
 ALTER TABLE `carrelli`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `carte`
 --
 ALTER TABLE `carte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `categorie`
 --
 ALTER TABLE `categorie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT per la tabella `comuni`
 --
 ALTER TABLE `comuni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `dati_anagrafici`
 --
 ALTER TABLE `dati_anagrafici`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT per la tabella `filtri`
 --
 ALTER TABLE `filtri`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `gestori`
 --
 ALTER TABLE `gestori`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT per la tabella `indirizzi_preferiti`
 --
 ALTER TABLE `indirizzi_preferiti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `items_magazzino`
 --
 ALTER TABLE `items_magazzino`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `items_ordine`
 --
 ALTER TABLE `items_ordine`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `magazzini`
 --
 ALTER TABLE `magazzini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte`
 --
 ALTER TABLE `offerte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT per la tabella `offerte_mxn`
 --
 ALTER TABLE `offerte_mxn`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte_omaggi`
 --
 ALTER TABLE `offerte_omaggi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte_omaggi_condizioni`
 --
 ALTER TABLE `offerte_omaggi_condizioni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte_sconti`
 --
 ALTER TABLE `offerte_sconti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT per la tabella `offerte_tipi`
+--
+ALTER TABLE `offerte_tipi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT per la tabella `opzioni`
 --
 ALTER TABLE `opzioni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT per la tabella `ordini`
 --
 ALTER TABLE `ordini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT per la tabella `tipi`
---
-ALTER TABLE `tipi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `valori`
 --
 ALTER TABLE `valori`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- Limiti per le tabelle scaricate
 --
@@ -864,7 +861,7 @@ ALTER TABLE `magazzini`
 -- Limiti per la tabella `offerte`
 --
 ALTER TABLE `offerte`
-  ADD CONSTRAINT `offerte_ibfk_1` FOREIGN KEY (`id_tipo`) REFERENCES `tipi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `offerte_ibfk_1` FOREIGN KEY (`id_tipo`) REFERENCES `offerte_tipi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `offerte_mxn`
@@ -932,7 +929,6 @@ ALTER TABLE `valori`
   ADD CONSTRAINT `valori_ibfk_2` FOREIGN KEY (`id_opzione`) REFERENCES `opzioni` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `valori_ibfk_3` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `valori_ibfk_4` FOREIGN KEY (`id_filtro`) REFERENCES `filtri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

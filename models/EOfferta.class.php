@@ -6,16 +6,18 @@ if(!defined("EXEC")){
 
 abstract class EOfferta{
 	//Attributi
-  private $tipo='';
-  private $data_inizio;
-  private $data_fine;
-  //Costruttori
-  private function __construct(string $tipo, DateTime $data_inizio, DateTime $data_fine){
-    $this->tipo = $tipo;
-    $this->data_inizio = $data_inizio;
-    $this->data_fine = $data_fine;
-  }
+    protected $idOfferta;
+    protected $tipo;
+    protected $data_inizio;
+    protected $data_fine;
+
+    //Costruttori
+    protected function __construct(int $idOfferta, string $tipo, DateTime $data_inizio, DateTime $data_fine){
+        $this->idOfferta = $idOfferta;
+        $this->tipo = $tipo;
+        $this->data_inizio = $data_inizio;
+        $this->data_fine = $data_fine;
+    }
 	//Metodi
-	abstract public function VerificaOfferte(array &$items){
-	}
+	abstract public function VerificaOfferte(array &$items);
 }

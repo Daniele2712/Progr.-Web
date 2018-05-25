@@ -22,17 +22,32 @@ class FDatabase{
         return true;
 
     }
+
     public function close() {
         $this->connection->close();
     }
+
     public function query($query){
         if($this->connection){
-            $result=$this->connection->query($query);
-            if (!$result)
-                return false;
-            return $result;
+            return $this->connection->query($query);
         }
         return false;
+    }
+
+    public function prepare($query){
+        if($this->connection){
+            $r = $this->connection->prepare($query);
+            if(!$r){
+                echo "DB: ".$this->connection->error."<br/>";
+                die();
+            }
+            return $r;
+        }
+        return false;
+    }
+
+    public function error(){
+        return $this->connection->error;
     }
 }
 ?>
