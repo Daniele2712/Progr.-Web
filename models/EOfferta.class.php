@@ -4,16 +4,18 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EOfferta{
+abstract class EOfferta{
 	//Attributi
-	//Costruttori
+  private $tipo='';
+  private $data_inizio;
+  private $data_fine;
+  //Costruttori
+  private function __construct(string $tipo, DateTime $data_inizio, DateTime $data_fine){
+    $this->tipo = $tipo;
+    $this->data_inizio = $data_inizio;
+    $this->data_fine = $data_fine;
+  }
 	//Metodi
-	public static function VerificaOfferte(array $items){
-		VerificaSconti($items);
-	}
-	private static function VerificaSconti(array $items){
-		//for ($i=0;$i<$this->$items.size();$i++){
-			//$t=$items[i];
-    //}
+	abstract public function VerificaOfferte(array &$items){
 	}
 }

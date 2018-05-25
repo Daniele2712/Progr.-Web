@@ -6,6 +6,7 @@ if(!defined("EXEC")){
 
 class EProdotto{
 	//Attributi
+  private $id=0;
 	private $nome="";
 	private $info="";
 	private $descrizione="";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 22, 2018 alle 17:02
+-- Creato il: Mag 25, 2018 alle 16:39
 -- Versione del server: 10.1.30-MariaDB
 -- Versione PHP: 7.2.2
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `progr_web`
 --
+CREATE DATABASE IF NOT EXISTS `progr_web` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `progr_web`;
 
 -- --------------------------------------------------------
 
@@ -186,7 +188,8 @@ CREATE TABLE `indirizzi` (
 --
 
 INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`) VALUES
-(1, 1, 'viale croce rossa', 2, '');
+(1, 1, 'viale croce rossa', 2, ''),
+(2, 1, 'viale aldo moro', 4, '');
 
 -- --------------------------------------------------------
 
@@ -200,15 +203,22 @@ CREATE TABLE `indirizzi_preferiti` (
   `id_indirizzo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `indirizzi_preferiti`
+--
+
+INSERT INTO `indirizzi_preferiti` (`id`, `id_utente_r`, `id_indirizzo`) VALUES
+(1, 1, 2);
+
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `items`
+-- Struttura della tabella `items_carrello`
 --
 
-CREATE TABLE `items` (
+CREATE TABLE `items_carrello` (
   `id` int(11) NOT NULL,
-  `locazione` enum('M','O','C') NOT NULL,
+  `id_carrello` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `totale` float NOT NULL,
   `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL,
@@ -216,11 +226,39 @@ CREATE TABLE `items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dump dei dati per la tabella `items`
+-- Dump dei dati per la tabella `items_carrello`
 --
 
-INSERT INTO `items` (`id`, `locazione`, `id_prodotto`, `totale`, `valuta`, `quantita`) VALUES
-(1, 'C', 1, 3.87, 'EUR', 3);
+INSERT INTO `items_carrello` (`id`, `id_carrello`, `id_prodotto`, `totale`, `valuta`, `quantita`) VALUES
+(1, 1, 1, 3.87, 'EUR', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `items_magazzino`
+--
+
+CREATE TABLE `items_magazzino` (
+  `id` int(11) NOT NULL,
+  `id_magazzino` int(11) NOT NULL,
+  `id_prodotto` int(11) NOT NULL,
+  `quantita` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `items_ordine`
+--
+
+CREATE TABLE `items_ordine` (
+  `id` int(11) NOT NULL,
+  `id_ordine` int(11) NOT NULL,
+  `id_prodotto` int(11) NOT NULL,
+  `prezzo` float NOT NULL,
+  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL,
+  `quantita` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -234,6 +272,79 @@ CREATE TABLE `magazzini` (
   `id_indirizzo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `magazzini`
+--
+
+INSERT INTO `magazzini` (`id`, `id_gestore`, `id_indirizzo`) VALUES
+(1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `offerte`
+--
+
+CREATE TABLE `offerte` (
+  `id` int(11) NOT NULL,
+  `id_tipo` int(11) NOT NULL,
+  `data_inizio` datetime NOT NULL,
+  `data_fine` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `offerte_mxn`
+--
+
+CREATE TABLE `offerte_mxn` (
+  `id` int(11) NOT NULL,
+  `id_offerta` int(11) NOT NULL,
+  `id_prodotto` int(11) NOT NULL,
+  `quantita_m` int(11) NOT NULL,
+  `quantita_n` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `offerte_omaggi`
+--
+
+CREATE TABLE `offerte_omaggi` (
+  `id` int(11) NOT NULL,
+  `id_offerta` int(11) NOT NULL,
+  `id_prodotto_omaggio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `offerte_omaggi_condizioni`
+--
+
+CREATE TABLE `offerte_omaggi_condizioni` (
+  `id` int(11) NOT NULL,
+  `id_offerta_omaggio` int(11) NOT NULL,
+  `id_prodotto` int(11) NOT NULL,
+  `quantita` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `offerte_sconti`
+--
+
+CREATE TABLE `offerte_sconti` (
+  `id` int(11) NOT NULL,
+  `id_offerta` int(11) NOT NULL,
+  `id_prodotto` int(11) NOT NULL,
+  `prezzo` float NOT NULL,
+  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- --------------------------------------------------------
 
 --
@@ -245,6 +356,14 @@ CREATE TABLE `opzioni` (
   `valore` varchar(100) NOT NULL,
   `id_filtro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `opzioni`
+--
+
+INSERT INTO `opzioni` (`id`, `valore`, `id_filtro`) VALUES
+(1, '23\"', 1),
+(2, '40\"', 1);
 
 -- --------------------------------------------------------
 
@@ -275,6 +394,13 @@ CREATE TABLE `pagamenti_preferiti` (
   `id_m_pagamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `pagamenti_preferiti`
+--
+
+INSERT INTO `pagamenti_preferiti` (`id`, `id_utente_r`, `tipo`, `id_m_pagamento`) VALUES
+(1, 1, 'Carta', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -301,6 +427,17 @@ INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `pr
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `tipi`
+--
+
+CREATE TABLE `tipi` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `utenti_registrati`
 --
 
@@ -310,6 +447,13 @@ CREATE TABLE `utenti_registrati` (
   `email` varchar(100) NOT NULL,
   `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `utenti_registrati`
+--
+
+INSERT INTO `utenti_registrati` (`id`, `id_datianagrafici`, `email`, `password`) VALUES
+(1, 1, 'mariorossi@gmail.com', 'xyz');
 
 -- --------------------------------------------------------
 
@@ -390,10 +534,27 @@ ALTER TABLE `indirizzi_preferiti`
   ADD KEY `id_indirizzo` (`id_indirizzo`);
 
 --
--- Indici per le tabelle `items`
+-- Indici per le tabelle `items_carrello`
 --
-ALTER TABLE `items`
-  ADD PRIMARY KEY (`id`,`locazione`,`id_prodotto`),
+ALTER TABLE `items_carrello`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_prodotto` (`id_prodotto`),
+  ADD KEY `id_carrello` (`id_carrello`);
+
+--
+-- Indici per le tabelle `items_magazzino`
+--
+ALTER TABLE `items_magazzino`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ordine` (`id_magazzino`),
+  ADD KEY `id_prodotto` (`id_prodotto`);
+
+--
+-- Indici per le tabelle `items_ordine`
+--
+ALTER TABLE `items_ordine`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ordine` (`id_ordine`),
   ADD KEY `id_prodotto` (`id_prodotto`);
 
 --
@@ -403,6 +564,45 @@ ALTER TABLE `magazzini`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_gestore` (`id_gestore`),
   ADD KEY `id_indirizzo` (`id_indirizzo`);
+
+--
+-- Indici per le tabelle `offerte`
+--
+ALTER TABLE `offerte`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_tipo` (`id_tipo`);
+
+--
+-- Indici per le tabelle `offerte_mxn`
+--
+ALTER TABLE `offerte_mxn`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_offerta` (`id_offerta`),
+  ADD KEY `id_prodotto` (`id_prodotto`);
+
+--
+-- Indici per le tabelle `offerte_omaggi`
+--
+ALTER TABLE `offerte_omaggi`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_offerta` (`id_offerta`),
+  ADD KEY `id_omaggio` (`id_prodotto_omaggio`);
+
+--
+-- Indici per le tabelle `offerte_omaggi_condizioni`
+--
+ALTER TABLE `offerte_omaggi_condizioni`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_prodotto` (`id_prodotto`),
+  ADD KEY `id_offerta_omaggio` (`id_offerta_omaggio`);
+
+--
+-- Indici per le tabelle `offerte_sconti`
+--
+ALTER TABLE `offerte_sconti`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_offerta` (`id_offerta`),
+  ADD KEY `id_prodotto` (`id_prodotto`);
 
 --
 -- Indici per le tabelle `opzioni`
@@ -432,6 +632,12 @@ ALTER TABLE `pagamenti_preferiti`
 ALTER TABLE `prodotti`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_categoria` (`id_categoria`);
+
+--
+-- Indici per le tabelle `tipi`
+--
+ALTER TABLE `tipi`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indici per le tabelle `utenti_registrati`
@@ -499,25 +705,67 @@ ALTER TABLE `gestori`
 -- AUTO_INCREMENT per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `indirizzi_preferiti`
 --
 ALTER TABLE `indirizzi_preferiti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `items_magazzino`
+--
+ALTER TABLE `items_magazzino`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `items_ordine`
+--
+ALTER TABLE `items_ordine`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `magazzini`
 --
 ALTER TABLE `magazzini`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `offerte`
+--
+ALTER TABLE `offerte`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `offerte_mxn`
+--
+ALTER TABLE `offerte_mxn`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `offerte_omaggi`
+--
+ALTER TABLE `offerte_omaggi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `offerte_omaggi_condizioni`
+--
+ALTER TABLE `offerte_omaggi_condizioni`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `offerte_sconti`
+--
+ALTER TABLE `offerte_sconti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `opzioni`
 --
 ALTER TABLE `opzioni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `ordini`
@@ -529,7 +777,7 @@ ALTER TABLE `ordini`
 -- AUTO_INCREMENT per la tabella `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `prodotti`
@@ -538,10 +786,16 @@ ALTER TABLE `prodotti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT per la tabella `tipi`
+--
+ALTER TABLE `tipi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `valori`
@@ -579,10 +833,25 @@ ALTER TABLE `indirizzi_preferiti`
   ADD CONSTRAINT `indirizzi_preferiti_ibfk_2` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti_registrati` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `items`
+-- Limiti per la tabella `items_carrello`
 --
-ALTER TABLE `items`
-  ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE `items_carrello`
+  ADD CONSTRAINT `items_carrello_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `items_carrello_ibfk_2` FOREIGN KEY (`id_carrello`) REFERENCES `carrelli` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `items_magazzino`
+--
+ALTER TABLE `items_magazzino`
+  ADD CONSTRAINT `items_magazzino_ibfk_1` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `items_magazzino_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `items_ordine`
+--
+ALTER TABLE `items_ordine`
+  ADD CONSTRAINT `items_ordine_ibfk_1` FOREIGN KEY (`id_ordine`) REFERENCES `ordini` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `items_ordine_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `magazzini`
@@ -590,6 +859,40 @@ ALTER TABLE `items`
 ALTER TABLE `magazzini`
   ADD CONSTRAINT `magazzini_ibfk_1` FOREIGN KEY (`id_gestore`) REFERENCES `gestori` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `magazzini_ibfk_2` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `offerte`
+--
+ALTER TABLE `offerte`
+  ADD CONSTRAINT `offerte_ibfk_1` FOREIGN KEY (`id_tipo`) REFERENCES `tipi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `offerte_mxn`
+--
+ALTER TABLE `offerte_mxn`
+  ADD CONSTRAINT `offerte_mxn_ibfk_1` FOREIGN KEY (`id_offerta`) REFERENCES `offerte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `offerte_mxn_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `offerte_omaggi`
+--
+ALTER TABLE `offerte_omaggi`
+  ADD CONSTRAINT `offerte_omaggi_ibfk_1` FOREIGN KEY (`id_prodotto_omaggio`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `offerte_omaggi_ibfk_2` FOREIGN KEY (`id_offerta`) REFERENCES `offerte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `offerte_omaggi_condizioni`
+--
+ALTER TABLE `offerte_omaggi_condizioni`
+  ADD CONSTRAINT `offerte_omaggi_condizioni_ibfk_1` FOREIGN KEY (`id_offerta_omaggio`) REFERENCES `offerte_omaggi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `offerte_omaggi_condizioni_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `offerte_sconti`
+--
+ALTER TABLE `offerte_sconti`
+  ADD CONSTRAINT `offerte_sconti_ibfk_1` FOREIGN KEY (`id_offerta`) REFERENCES `offerte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `offerte_sconti_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `opzioni`

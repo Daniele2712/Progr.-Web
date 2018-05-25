@@ -8,7 +8,7 @@ INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `pr
 //carrelli
 INSERT INTO `carrelli` (`id`, `totale`, `valuta`) VALUES (NULL, '0', 'EUR');
 //items
-INSERT INTO `items` (`id`, `locazione`, `id_prodotto`, `totale`, `valuta`, `quantita`) VALUES ('1', 'C', '1', '3.87', 'EUR', '3');
+INSERT INTO `items_carrello` (`id`, `id_carrello`, `id_prodotto`, `totale`, `valuta`, `quantita`) VALUES (NULL, '1', '1', '3.87', 'EUR', '3');
 //comuni
 INSERT INTO `comuni` (`id`, `CAP`, `nome`, `provincia`) VALUES (NULL, '67100', 'l\'aquila', 'AQ');
 //indirizzi
