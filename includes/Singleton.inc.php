@@ -8,8 +8,8 @@ class Singleton{
     private static $DB_handler = null;
 
     public static function DB(){
-        if(!$DB_handler)
-            $DB_handler = new FDatabase();
-        return $DB_handler;
+        if(!self::$DB_handler)
+            self::$DB_handler = new FDatabase();
+        return self::$DB_handler;
     }
 }
