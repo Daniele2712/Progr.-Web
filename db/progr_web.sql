@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Creato il: Mag 25, 2018 alle 19:33
+-- Creato il: Mag 26, 2018 alle 21:25
 -- Versione del server: 5.7.22-0ubuntu0.16.04.1
 -- Versione PHP: 7.0.30-0ubuntu0.16.04.1
 
@@ -116,14 +116,14 @@ CREATE TABLE `dati_anagrafici` (
   `nome` varchar(100) NOT NULL,
   `cognome` varchar(100) NOT NULL,
   `telefono` varchar(20) NOT NULL,
-  `datanascita` date NOT NULL
+  `data_nascita` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `dati_anagrafici`
 --
 
-INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `datanascita`) VALUES
+INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascita`) VALUES
 (1, 'mario', 'rossi', '33312345678', '1970-01-01'),
 (2, 'luigi', 'verdi', '33387654321', '1980-02-02');
 
@@ -155,17 +155,10 @@ INSERT INTO `filtri` (`id`, `nome`, `filtrabile`, `id_categoria`) VALUES
 
 CREATE TABLE `gestori` (
   `id` int(11) NOT NULL,
-  `id_datianagrafici` int(11) NOT NULL,
+  `id_utente` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `gestori`
---
-
-INSERT INTO `gestori` (`id`, `id_datianagrafici`, `email`, `password`) VALUES
-(1, 2, 'luigiverdi@gmail.com', 'abc');
 
 -- --------------------------------------------------------
 
@@ -275,7 +268,7 @@ CREATE TABLE `magazzini` (
 --
 
 INSERT INTO `magazzini` (`id`, `id_gestore`, `id_indirizzo`) VALUES
-(1, 1, 1);
+(1, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -459,22 +452,35 @@ INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `pr
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `utenti`
+--
+
+CREATE TABLE `utenti` (
+  `id` int(11) NOT NULL,
+  `id_datianagrafici` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `utenti`
+--
+
+INSERT INTO `utenti` (`id`, `id_datianagrafici`, `email`, `username`, `password`) VALUES
+(1, 1, 'mariorossi@gmail.com', '', 'xyz');
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `utenti_registrati`
 --
 
 CREATE TABLE `utenti_registrati` (
   `id` int(11) NOT NULL,
-  `id_datianagrafici` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `id_utente` int(11) NOT NULL,
+  `punti` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `utenti_registrati`
---
-
-INSERT INTO `utenti_registrati` (`id`, `id_datianagrafici`, `email`, `password`) VALUES
-(1, 1, 'mariorossi@gmail.com', 'xyz');
 
 -- --------------------------------------------------------
 
@@ -537,7 +543,7 @@ ALTER TABLE `filtri`
 --
 ALTER TABLE `gestori`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_datianagrafici` (`id_datianagrafici`);
+  ADD KEY `id_datianagrafici` (`id_utente`);
 
 --
 -- Indici per le tabelle `indirizzi`
@@ -661,11 +667,18 @@ ALTER TABLE `prodotti`
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
+-- Indici per le tabelle `utenti`
+--
+ALTER TABLE `utenti`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_datianagrafici` (`id_datianagrafici`);
+
+--
 -- Indici per le tabelle `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_datianagrafici` (`id_datianagrafici`);
+  ADD KEY `id_utente` (`id_utente`);
 
 --
 -- Indici per le tabelle `valori`
@@ -791,10 +804,15 @@ ALTER TABLE `pagamenti_preferiti`
 ALTER TABLE `prodotti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT per la tabella `utenti`
+--
+ALTER TABLE `utenti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT per la tabella `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT per la tabella `valori`
 --
@@ -817,6 +835,12 @@ ALTER TABLE `filtri`
   ADD CONSTRAINT `filtri_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
+-- Limiti per la tabella `gestori`
+--
+ALTER TABLE `gestori`
+  ADD CONSTRAINT `gestori_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Limiti per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
@@ -827,7 +851,7 @@ ALTER TABLE `indirizzi`
 --
 ALTER TABLE `indirizzi_preferiti`
   ADD CONSTRAINT `indirizzi_preferiti_ibfk_1` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `indirizzi_preferiti_ibfk_2` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti_registrati` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `indirizzi_preferiti_ibfk_2` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `items_carrello`
@@ -908,7 +932,7 @@ ALTER TABLE `ordini`
 -- Limiti per la tabella `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
-  ADD CONSTRAINT `pagamenti_preferiti_ibfk_1` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti_registrati` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `pagamenti_preferiti_ibfk_1` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `prodotti`
@@ -917,10 +941,16 @@ ALTER TABLE `prodotti`
   ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
+-- Limiti per la tabella `utenti`
+--
+ALTER TABLE `utenti`
+  ADD CONSTRAINT `utenti_ibfk_1` FOREIGN KEY (`id_datianagrafici`) REFERENCES `dati_anagrafici` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Limiti per la tabella `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
-  ADD CONSTRAINT `utenti_registrati_ibfk_1` FOREIGN KEY (`id_datianagrafici`) REFERENCES `dati_anagrafici` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `utenti_registrati_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `valori`
