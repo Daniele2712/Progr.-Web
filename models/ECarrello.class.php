@@ -6,11 +6,11 @@ if(!defined("EXEC")){
 
 class ECarrello{
     //Attributi
-	private $id="";
+	private $id=0;
 	private $prodotti=array();
 	private $totale;
 	//Costruttori
-	public function __construct(String $i){
+	public function __construct(int $i){
 		$this->id=$i;
 		$this->totale=new EMoney(0,'Euro');
 	}
@@ -39,9 +39,22 @@ class ECarrello{
         EOfferta::VerificaOfferte($prodotti);
 	}
 	public function addItem(EItem $item){
-		$this->prodotti[] = $item;
+		$this->prodotti[] = clone $item;
     $this->AggiornaPrezzi();
     $this->CalcolaTotale();
 	}
+    public function getTotale(){
+        return $mon=$this->totale;
+    }
+    public function getId(){
+        return $id=$this->id;
+    }
+    public function getProdotti(){
+        $t = array();
+        foreach($this->prodotti as $item)
+            $t[]=clone $item;
+        return $t;
+    }
+    public function deleteItem();
   //public function ricaricaCarrello(){};
 }

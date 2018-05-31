@@ -34,6 +34,13 @@ class FDatabase{
         return false;
     }
 
+    public function lastId(){
+        if($this->connection){
+            return $this->connection->insert_id;
+        }
+        return 0;
+    }
+
     public function prepare($query){
         if($this->connection){
             $r = $this->connection->prepare($query);

@@ -5,6 +5,8 @@ if(!defined("EXEC")){
 }
 
 class FGestore{
+  protected static $table = "gestori";
+
   
 }
 ?>

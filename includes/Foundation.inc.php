@@ -7,10 +7,21 @@ if(!defined("EXEC")){
 abstract class Foundation{
     protected static $table;
 
-    protected static function delete(int $id){
+    public abstract static function find(int $id);
+    public abstract static function save($object);
+    public abstract static function store($object);
+    public abstract static function create($object);
+    public abstract static function all();
+    public static function delete(int $id){
         if($this->table)
             Singleton::DB()->query("DELETE FROM ".$this->table." WHERE id='$id'");
     }
+    public static function save($obj):int{
+        $p = self::find($obj->getId());
+        if($p)
+            return self::store($obj);
+        else
+            return self::create($obj);
+    }
 
-    public abstract static function find(int $id);
 }
