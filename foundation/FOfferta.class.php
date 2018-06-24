@@ -24,16 +24,16 @@ abstract class FOfferta extends Foundation{
         $r = null;
         if($p->fetch()){
             $p->close();
-            $r = self::create($id, $tipo, new DateTime($inizio), new DateTime($fine));
+            $r = self::create(array("id"=>$id, "tipo"=>$tipo, "inizio"=>new DateTime($inizio), "fine"=>new DateTime($fine)));
         }else
             $p->close();
         return $r;
     }
 
-    private static function create(int $id, string $tipo, DateTime $inizio, DateTime $fine){
-        $Fname = "FOfferta".$tipo;
+    public static function create($obj){
+        $Fname = "FOfferta".$obj["tipo"];
         if(class_exists($Fname) && (new ReflectionClass($Fname))->isSubclassOf("FOfferta"))
-            return $Fname::load($id, $tipo, $inizio, $fine);
+            return $Fname::load($obj["id"], $obj["tipo"], $obj["inizio"], $obj["fine"]);
         return null;
     }
 

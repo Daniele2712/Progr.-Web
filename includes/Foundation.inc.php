@@ -8,7 +8,6 @@ abstract class Foundation{
     protected static $table;
 
     public abstract static function find(int $id);
-    public abstract static function save($object);
     public abstract static function store($object);
     public abstract static function create($object);
     public abstract static function all();

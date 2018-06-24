@@ -24,5 +24,13 @@ class FOffertaSconto extends FOfferta{
         return $r;
     }
 
+    public static function store($obj){
+
+    }
+
+    public static function all(){
+
+    }
+
 }
 ?>
