@@ -1,0 +1,125 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+div.content{
+    width:100%;
+    height:100%;
+}
+
+div#header{
+    height: 100px;
+    background-color: red;
+}
+
+div#nav{
+    height:60px;
+    background-color: green;
+}
+
+div#nav>.content{
+    display: flex;
+}
+
+div#nav .button{
+    height:100%;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #eee;
+    min-width: 60px;
+    flex: 0 0 auto;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+div#nav #menu_container:hover,div#nav #cart_container:hover,div#nav #user_container:hover{
+    background-color: #888;
+}
+
+div#nav #logo_container{
+    flex: 1 1 auto;
+    cursor: auto;
+    background-color: transparent;
+}
+
+div#nav #logo_link{
+    display: inline-block;
+    height: 100%;
+    cursor: pointer;
+    background-color: #eee;
+}
+
+div#nav #logo{
+    height: 100%;
+}
+
+div#nav #menu_container{
+    background-image: url("../img/menu.png");
+}
+
+div#nav #cart_container{
+    background-image: url("../img/cart.png");
+}
+
+div#nav #user_container{
+    background-image: url("../img/user.png");
+}
+
+div#footer{
+    height: 100px;
+    background-color: blue;
+}
+
+@media screen and (min-width:800px) and (max-width:1024px){
+    body{
+        font-size: 26px;
+    }
+
+    div.content{
+        width:800px;
+        height:100%;
+        margin: 0 auto;
+    }
+
+    div#header{
+        height: 300px;
+    }
+
+    div#nav{
+        height: 100px;
+    }
+
+    div#nav .button{
+        min-width: 100px;
+    }
+
+    div#footer{
+        height: 300px;
+    }
+}
+
+@media screen and (min-width:1024px){
+    div.content{
+        width:1024px;
+        height:100%;
+        margin: 0 auto;
+    }
+
+    div#header{
+        height: 100px;
+    }
+
+    div#nav{
+        height: 45px;
+    }
+
+    div#nav .button{
+        min-width: 45px;
+    }
+
+    div#footer{
+        height: 100px;
+    }
+}

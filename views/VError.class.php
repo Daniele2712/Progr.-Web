@@ -25,12 +25,12 @@ class VError implements View{
     public function render(){
         header('HTTP/1.1 '.$this->message["errorn"].' '.$this->message["error"]);
         if($this->rest){
-            json_encode($this->message);
+            echo json_encode($this->message);
         }else{
             $smarty = Singleton::Smarty();
             $smarty->assign("content","error/message.tpl");
             $smarty->assign("message",$this->message);
-            $smarty->display("home.tpl");
+            $smarty->display("layout.tpl");
         }
     }
 }
