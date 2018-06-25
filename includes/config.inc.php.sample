@@ -13,3 +13,6 @@ $config['mysql']['user'] = 'root';
 $config['mysql']['password'] = 'password';
 $config['mysql']['host'] = 'host';
 $config['mysql']['database'] = 'progr_web';
+
+$config['default']['controller'] = 'Cshop';
+$config['default']['action'] = 'home';

@@ -5,6 +5,7 @@ if(!defined("EXEC")){
 }
 
 spl_autoload_register(function ($className) {
+    //echo $className."<br>";
     if (file_exists(ROOT . DS . 'includes' . DS . $className . '.inc.php'))
         require_once(ROOT . DS . 'includes' . DS . $className . '.inc.php');
     if (file_exists(ROOT . DS . 'libs' . DS . strtolower($className) . DS . $className . '.class.php'))

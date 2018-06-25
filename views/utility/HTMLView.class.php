@@ -5,16 +5,16 @@ if(!defined("EXEC")){
 }
 
 abstract class HTMLView implements View{
-    private $smarty;
-    protected $layout;
+    protected $smarty;
+    protected $layout = "default";
 
-    public function __contruct(){
+    public function __construct(){
         $this->smarty = Singleton::Smarty();
     }
 
-    public funtion Render(){
-        $this->smarty->display($layout.".tpl");
+    public function render(){
+        $this->smarty->display($this->layout.".tpl");
     }
 
-    public function HTMLRender();
+    public abstract function HTMLRender();
 }
