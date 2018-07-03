@@ -7,14 +7,22 @@ if(!defined("EXEC")){
 class FIndirizzo extends Foundation{
   protected static $table = "indirizzi";
 
-  public static function getIndirizzoByid(int $id){
-    $result = Singleton::DB()->query("SELECT id_comune, via, civico, note FROM indirizzi WHERE id=".$id);
-    if($result){
-      $row = $result->fetch_array(MYSQLI_ASSOC);
-      $com = FComune::getComuneByid($row["id_comune"]);
-      $ret = new EIndirizzo($com, $row["via"], $row["civico"], $row["note"]);
+  public static function getIndirizzoByUserId(int $id){
+        $p = Singleton::DB()->prepare("
+            SELECT id, id_comune, via, civico, note
+            FROM indirizzi
+            LEFT JOIN indirizzi_preferiti ON indirizzi.id=indirizzi_preferiti.id_indirizzo
+            WHERE id_utente_r = ?");
+        $p->bind_param("i",$id);
+        $p->execute();
+        $p->bind_result($id, $id_comune, $via, $civico, $note);
+        $r = array();
+        while($p->fetch()){                 //TODO:cambiare fetch con getresource
+            $comune = FComune::find($id_comune);
+            $r[] = new EIndirizzo($comune, $via, $civico, $note);
+        }
+        $p->close();
+        return $r;
     }
-    return $ret;
-  }
 }
 ?>

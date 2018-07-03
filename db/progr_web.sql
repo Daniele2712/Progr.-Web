@@ -456,6 +456,7 @@ INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `pr
 CREATE TABLE `utenti` (
   `id` int(11) NOT NULL,
   `id_datianagrafici` int(11) NOT NULL,
+  `tipoUtente` ENUM('Gestore','UtenteRegistrato','Corriere') NOT NULL,
   `email` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL
