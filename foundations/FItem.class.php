@@ -9,7 +9,7 @@ class FItem extends Foundation{
 
     public static function getCarrelloItems(int $id){
       $ret=array();
-      $result = Singleton::DB()->query("SELECT id_prodotto, totale, valuta, quantita FROM items WHERE locazione='C' AND id=".$id);
+      $result = Singleton::DB()->query("SELECT id_prodotto, totale, valuta, quantita FROM items_carrello WHERE id_carrello=".$id);
       if($result){
           while($row = $result->fetch_array(MYSQLI_ASSOC)){
               $pro = FProdotto::getProdottoByid($row["id_prodotto"]);
@@ -22,7 +22,7 @@ class FItem extends Foundation{
     }
     public static function getMagazzinoItems(int $id){
       $ret=array();
-      $result = Singleton::DB()->query("SELECT id_prodotto, totale, valuta, quantita FROM items WHERE locazione='M' AND id=".$id);
+      $result = Singleton::DB()->query("SELECT id_prodotto, totale, valuta, quantita FROM items_magazzino WHERE id_magazzino=".$id);
       if($result){
           while($row = $result->fetch_array(MYSQLI_ASSOC)){
               $pro = FProdotto::getProdottoByid($row["id_prodotto"]);
