@@ -21,4 +21,9 @@ class EDatiAnagrafici{
         else
             $this->dataNascita = clone $nascita;
     }
+
+    public function getNome(){return $this->nome;}
+    public function getCognome(){return $this->cognome;}
+    public function getTelefono(){return $this->telefono;}
+    public function getDataNascita(){return $this->DataNascita;}
 }
