@@ -28,5 +28,69 @@ class FCategoria extends Foundation{
       }
     return $ret;
     }
+    public static function find(int $id){
+        $DB = Singleton::DB();
+        $p = $DB->prepare("
+        SELECT *
+        FROM categorie
+        WHERE categorie.id = ?");
+        if(!$p){
+            var_dump($p);
+            echo $DB->error();
+            die();
+        }
+        $p->bind_param("i",$id);
+        $p->execute();
+        $p->bind_result($id, $nome, $padre);
+        $r = null;
+        if($p->fetch()){
+            $p->close();
+            $r = new ECategoria($nome);
+        }else
+        $p->close();
+        return $r;
+    }
+    public static function create(ECategoria $categoria):int{
+        $DB = Singleton::DB();
+        $p = $DB->prepare("
+        INSERTO INTO categorie
+        VALUES(NULL, ?, ?)");
+        if(!$p){
+            var_dump($p);
+            echo $DB->error();
+            die();
+        }
+        $money=$carrello->getTotale();
+        $p->bind_param("ds", $categoria->getCategoria(), $categoria->getPadreid();
+        $r = 0;
+        if($p->execute())
+        $r = $DB->lastId();
+        $p->close();
+        return $r;
+    }
+    public static function store(ECategoria $categoria){
+        $DB = Singleton::DB();
+        $p = $DB->prepare("
+        UPDATE categorie
+        SET nome=?, padre=?
+        WHERE categorie.id = ?");
+        if(!$p){
+            var_dump($p);
+            echo $DB->error();
+            die();
+        }
+        $money=$carrello->getTotale();
+        $p->bind_param("dsi", $categoria->getCategoria(), $categoria->getPadreid(), $categoria->getid());
+        $r=$p->execute();
+        $p->close();
+        if(!$r)
+            return $r;
+        foreach($carrello->getProdotti() as $item){
+            $r = FItem::save($item);
+            if(!$r)
+                return $r;
+        }
+        return true;
+    }
 }
 ?>
