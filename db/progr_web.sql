@@ -155,9 +155,7 @@ INSERT INTO `filtri` (`id`, `nome`, `filtrabile`, `id_categoria`) VALUES
 
 CREATE TABLE `gestori` (
   `id` int(11) NOT NULL,
-  `id_utente` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `id_utente` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -460,7 +458,7 @@ CREATE TABLE `utenti` (
   `id_datianagrafici` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `password` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
