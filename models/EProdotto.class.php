@@ -32,4 +32,8 @@ class EProdotto{
 	public function getPrezzo(){
 		return $m = $this->prezzo;
 	}
+    public function getInfo(){return $this->info;}
+    public function getDescrizione(){return $this->Descrizione;}
+    public function getCategoriaId(){return $this->categoria->getid();}
+
 }

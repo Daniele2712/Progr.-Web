@@ -50,7 +50,7 @@ class FCategoria extends Foundation{
         $p->close();
         return $r;
     }
-    
+
     public static function create(ECategoria $categoria):int{
         $DB = Singleton::DB();
         $p = $DB->prepare("
@@ -62,7 +62,7 @@ class FCategoria extends Foundation{
             die();
         }
         $money=$carrello->getTotale();
-        $p->bind_param("si", $categoria->getCategoria(), $categoria->getPadreid();
+        $p->bind_param("si", $categoria->getCategoria(), $categoria->getPadreid());
         $r = 0;
         if($p->execute())
         $r = $DB->lastId();
@@ -86,10 +86,6 @@ class FCategoria extends Foundation{
         $p->close();
         if(!$r)
             return $r;
-        foreach($carrello->getProdotti() as $item){
-            $r = FItem::save($item);
-            if(!$r)
-                return $r;
         }
         return true;
     }
