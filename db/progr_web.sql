@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.0
--- http://www.phpmyadmin.net
+-- version 4.7.7
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Creato il: Mag 26, 2018 alle 21:25
--- Versione del server: 5.7.22-0ubuntu0.16.04.1
--- Versione PHP: 7.0.30-0ubuntu0.16.04.1
+-- Host: 127.0.0.1
+-- Creato il: Lug 03, 2018 alle 15:36
+-- Versione del server: 10.1.30-MariaDB
+-- Versione PHP: 7.2.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `progr_web`
 --
-CREATE DATABASE IF NOT EXISTS `progr_web` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `progr_web`;
 
 -- --------------------------------------------------------
 
@@ -156,6 +156,32 @@ INSERT INTO `filtri` (`id`, `nome`, `filtrabile`, `id_categoria`) VALUES
 CREATE TABLE `gestori` (
   `id` int(11) NOT NULL,
   `id_utente` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `immagini`
+--
+
+CREATE TABLE `immagini` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(50) NOT NULL DEFAULT '',
+  `size` varchar(25) NOT NULL DEFAULT '',
+  `type` varchar(25) NOT NULL DEFAULT '',
+  `immagine` blob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `immagini_prodotti`
+--
+
+CREATE TABLE `immagini_prodotti` (
+  `id` int(11) NOT NULL,
+  `id_immagine` int(11) DEFAULT NULL,
+  `id_prodotto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -385,8 +411,8 @@ CREATE TABLE `opzioni` (
 --
 
 INSERT INTO `opzioni` (`id`, `valore`, `id_filtro`) VALUES
-(1, '23"', 1),
-(2, '40"', 1);
+(1, '23\"', 1),
+(2, '40\"', 1);
 
 -- --------------------------------------------------------
 
@@ -477,7 +503,8 @@ INSERT INTO `utenti` (`id`, `id_datianagrafici`, `email`, `username`, `password`
 CREATE TABLE `utenti_registrati` (
   `id` int(11) NOT NULL,
   `id_utente` int(11) NOT NULL,
-  `punti` int(11) NOT NULL
+  `punti` int(11) NOT NULL,
+  `id_carrello` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -542,6 +569,20 @@ ALTER TABLE `filtri`
 ALTER TABLE `gestori`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_datianagrafici` (`id_utente`);
+
+--
+-- Indici per le tabelle `immagini`
+--
+ALTER TABLE `immagini`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `immagini_prodotti`
+--
+ALTER TABLE `immagini_prodotti`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_prodotto` (`id_prodotto`),
+  ADD KEY `id_immagine` (`id_immagine`);
 
 --
 -- Indici per le tabelle `indirizzi`
@@ -676,7 +717,8 @@ ALTER TABLE `utenti`
 --
 ALTER TABLE `utenti_registrati`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_utente` (`id_utente`);
+  ADD KEY `id_utente` (`id_utente`),
+  ADD KEY `id_carrello` (`id_carrello`);
 
 --
 -- Indici per le tabelle `valori`
@@ -696,126 +738,163 @@ ALTER TABLE `valori`
 --
 ALTER TABLE `carrelli`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `carte`
 --
 ALTER TABLE `carte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `categorie`
 --
 ALTER TABLE `categorie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT per la tabella `comuni`
 --
 ALTER TABLE `comuni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `dati_anagrafici`
 --
 ALTER TABLE `dati_anagrafici`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT per la tabella `filtri`
 --
 ALTER TABLE `filtri`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `gestori`
 --
 ALTER TABLE `gestori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `immagini`
+--
+ALTER TABLE `immagini`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `immagini_prodotti`
+--
+ALTER TABLE `immagini_prodotti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT per la tabella `indirizzi_preferiti`
 --
 ALTER TABLE `indirizzi_preferiti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `items_magazzino`
 --
 ALTER TABLE `items_magazzino`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT per la tabella `items_ordine`
 --
 ALTER TABLE `items_ordine`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT per la tabella `magazzini`
 --
 ALTER TABLE `magazzini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `offerte`
 --
 ALTER TABLE `offerte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `offerte_mxn`
 --
 ALTER TABLE `offerte_mxn`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT per la tabella `offerte_omaggi`
 --
 ALTER TABLE `offerte_omaggi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT per la tabella `offerte_omaggi_condizioni`
 --
 ALTER TABLE `offerte_omaggi_condizioni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT per la tabella `offerte_sconti`
 --
 ALTER TABLE `offerte_sconti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `offerte_tipi`
 --
 ALTER TABLE `offerte_tipi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT per la tabella `opzioni`
 --
 ALTER TABLE `opzioni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT per la tabella `ordini`
 --
 ALTER TABLE `ordini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT per la tabella `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `utenti`
 --
 ALTER TABLE `utenti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT per la tabella `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT per la tabella `valori`
 --
 ALTER TABLE `valori`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- Limiti per le tabelle scaricate
 --
@@ -837,6 +916,13 @@ ALTER TABLE `filtri`
 --
 ALTER TABLE `gestori`
   ADD CONSTRAINT `gestori_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `immagini_prodotti`
+--
+ALTER TABLE `immagini_prodotti`
+  ADD CONSTRAINT `immagini_prodotti_ibfk_1` FOREIGN KEY (`id_immagine`) REFERENCES `immagini` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `immagini_prodotti_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `indirizzi`
@@ -957,6 +1043,7 @@ ALTER TABLE `valori`
   ADD CONSTRAINT `valori_ibfk_2` FOREIGN KEY (`id_opzione`) REFERENCES `opzioni` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `valori_ibfk_3` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `valori_ibfk_4` FOREIGN KEY (`id_filtro`) REFERENCES `filtri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
