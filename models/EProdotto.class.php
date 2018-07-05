@@ -4,9 +4,9 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EProdotto{
+class EProdotto extends Entity{
 	//Attributi
-  private $id=0;
+    private $id;
 	private $nome="";
 	private $info="";
 	private $descrizione="";
@@ -14,7 +14,8 @@ class EProdotto{
 	private $prezzo;
 	private $tag=array();
 	//Costruttori
-	public function __construct(string $nome, ECategoria $cat, EMoney $price){
+	public function __construct(int $id, string $nome, ECategoria $cat, EMoney $price){
+        $this->id = $id;
 		$this->nome = $nome;
 		$this->sottocategoria = $cat;
 		$this->prezzo = $price;

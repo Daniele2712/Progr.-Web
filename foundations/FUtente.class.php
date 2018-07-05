@@ -9,10 +9,8 @@ abstract class FUtente extends FDatiAnagrafici{
 
     public static function login($user,$pw){
         $DB = Singleton::DB();
-        $p = $DB->prepare("
-            SELECT id, id_datianagrafici, tipo_utente, email
-            FROM utenti
-            WHERE username = ? AND password = ?");
+        $sql = "SELECT id, id_datianagrafici, tipo_utente, email FROM utenti WHERE username = ? AND password = ?";
+        $p = $DB->prepare($sql);
         $p->bind_param("ss",$user,$pw);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);

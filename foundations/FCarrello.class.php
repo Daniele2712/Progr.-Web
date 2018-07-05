@@ -7,18 +7,6 @@ if(!defined("EXEC")){
 class FCarrello extends Foundation{
     protected static $table = "carrelli";
 
-    public static function getCarrelloByUserId(int $Id): ECarrello{
-        $DB = Singleton::DB();
-        $sql = "SELECT * FROM ".self::$table." ";                   //TODO: modificare query in base all'id
-        $p = $DB->prepare($sql);
-        $money=$carrello->getTotale();
-        $p->bind_param("ds", $money->getPrezzo(), $money->getValuta());
-        if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
-        $p->close();
-        return $DB->lastId();
-    }
-
     public static function update(Entity $carrello){
         $DB = Singleton::DB();
         $sql = "UPDATE ".self::$table." SET totale=?, valuta=? WHERE id = ?";
@@ -49,7 +37,7 @@ class FCarrello extends Foundation{
         $r = new ECarrello($obj["id"]);
         $items = FItem::getCarrelloItems($obj["id"]);
         foreach($items as $item)
-            $carrello->addItem($item);
+            $r->addItem($item);
         return $r;
     }
 }
