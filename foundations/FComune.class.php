@@ -5,15 +5,18 @@ if(!defined("EXEC")){
 }
 
 class FComune extends Foundation{
-  protected static $table = "comuni";
+    protected static $table = "comuni";
 
-  public static function getComuneByid(int $id){
-    $result = Singleton::DB()->query("SELECT CAP, nome, provincia FROM comuni WHERE id=".$id);
-    if($result){
-      $row = $result->fetch_array(MYSQLI_ASSOC);
-      $com = new EComune($row["nome"], $row["CAP"], $row["provincia"]);
+    public static function create(array $obj): Entity{
+        return new EComune($obj["id"], $obj["nome"], $obj["CAP"], $obj["provincia"]);
     }
-    return $com;
-  }
+
+    public static function insert(Entity $obj): bool{
+
+    }
+
+    public static function update(Entity $obj): bool{
+
+    }
 }
 ?>

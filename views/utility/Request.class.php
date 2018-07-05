@@ -10,6 +10,7 @@ class Request{
     private $params = array();
     private $rest = false;
     private $method;
+    private $globals = array();
 
     public function __construct(){
         global $config;
@@ -32,6 +33,14 @@ class Request{
         elseif(count($params)>0 && $params[0]!=="")
             $this->action = array_shift($params);
         $this->params = $params;
+
+        $array = array('_SESSION', '_POST', '_GET', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES');
+        foreach ($GLOBALS as $key=>$value)
+            if(array_search($key,$array,TRUE)!==FALSE)
+                $this->globals[$key] = $value;
+        foreach ($GLOBALS as $key=>$value)
+            if(array_search($key,$array,TRUE)!==FALSE)
+                unset($GLOBALS[$key]);
     }
 
     public function getMethod():string{
@@ -50,23 +59,23 @@ class Request{
         return $this->rest;
     }
 
-    public function getInt($name='',$default=NULL,$method='REQUEST'){
+    public function getInt($name='',$default=NULL,$method='GET'){
         return $this->getParam($name,'int',$default,$method);
     }
 
-    public function getFloat($name='',$default=NULL,$method='REQUEST'){
+    public function getFloat($name='',$default=NULL,$method='GET'){
         return $this->getParam($name,'float',$default,$method);
     }
 
-    public function getString($name='',$default=NULL,$method='REQUEST'){
+    public function getString($name='',$default=NULL,$method='GET'){
         return $this->getParam($name,'string',$default,$method);
     }
 
-    public function getJSON($name='',$default=NULL,$method='REQUEST'){
+    public function getJSON($name='',$default=NULL,$method='GET'){
         return $this->getParam($name,'json',$default,$method);
     }
 
-    public function getParam($name='',$filter='All',$default=NULL,$method='REQUEST'){
+    public function getParam($name='',$filter='All',$default=NULL,$method='GET'){
         $filter=strtolower($filter);
 		if($default==NULL)
 			switch($filter){
@@ -102,42 +111,42 @@ class Request{
 		if($name!=''&&strtolower($filter)!="json"){
 			switch($method){
 				case 'POST':
-					if(isset($GLOBALS['_POST'][$name])&&$GLOBALS['_POST'][$name]!='undefined')
-						$tmp=$GLOBALS['_POST'][$name];
+					if(isset($this->globals['_POST'][$name])&&$this->globals['_POST'][$name]!='undefined')
+						$tmp=$this->globals['_POST'][$name];
 					else
 						return $default;
 					break;
 				case 'GET':
                     if(is_int($name) && count($this->param) > $name)
                         $tmp = $this->param[$name];
-					elseif(isset($GLOBALS['_GET'][$name])&&$GLOBALS['_GET'][$name]!='undefined')
-						$tmp=$GLOBALS['_GET'][$name];
+					elseif(isset($this->globals['_GET'][$name])&&$this->globals['_GET'][$name]!='undefined')
+						$tmp=$this->globals['_GET'][$name];
 					else
 						return $default;
 					break;
 				case 'REQUEST':
                     if(is_int($name) && count($this->param) > $name)
                         $tmp = $this->param[$name];
-					else if(isset($GLOBALS['_REQUEST'][$name])&&$GLOBALS['_REQUEST'][$name]!='undefined')
-						$tmp=$GLOBALS['_REQUEST'][$name];
+					elseif(isset($this->globals['_REQUEST'][$name])&&$this->globals['_REQUEST'][$name]!='undefined')
+						$tmp=$this->globals['_REQUEST'][$name];
 					else
 						return $default;
 					break;
 				case 'FILE':
-					if(isset($GLOBALS['_FILE'][$name])&&$GLOBALS['_FILE']!='undefined')
-						$tmp=$GLOBALS['_FILE'][$name];
+					if(isset($this->globals['_FILE'][$name])&&$this->globals['_FILE']!='undefined')
+						$tmp=$this->globals['_FILE'][$name];
 					else
 						return $default;
 					break;
 				case 'COOKIE':
-					if(isset($GLOBALS['_COOKIE'][$name])&&$GLOBALS['_COOKIE']!='undefined')
-						$tmp=$GLOBALS['_COOKIE'][$name];
+					if(isset($this->globals['_COOKIE'][$name])&&$this->globals['_COOKIE']!='undefined')
+						$tmp=$this->globals['_COOKIE'][$name];
 					else
 						return $default;
 					break;
 				case 'SERVER':
-					if(isset($GLOBALS['_SERVER'][$name])&&$GLOBALS['_SERVER']!='undefined')
-						$tmp=$GLOBALS['_SERVER'][$name];
+					if(isset($this->globals['_SERVER'][$name])&&$this->globals['_SERVER']!='undefined')
+						$tmp=$this->globals['_SERVER'][$name];
 					else
 						return $default;
 					break;

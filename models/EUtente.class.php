@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-abstract class EUtente{
+abstract class EUtente extends Entity{
     private $idUtente;
     private $email;
     private $username;

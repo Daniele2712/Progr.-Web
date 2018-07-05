@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EDatiAnagrafici{
+class EDatiAnagrafici extends Entity{
     private $idDatiAnagrafici;
     private $nome;
     private $cognome;

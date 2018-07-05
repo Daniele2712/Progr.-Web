@@ -7,10 +7,10 @@ if(!defined("EXEC")){
 abstract class FUtente extends FDatiAnagrafici{
     protected static $table = "utenti";
 
-    public static function Login($user,$pw){
+    public static function login($user,$pw){
         $DB = Singleton::DB();
         $p = $DB->prepare("
-            SELECT id, id_datianagrafici, tipoUtente, email
+            SELECT id, id_datianagrafici, tipo_utente, email
             FROM utenti
             WHERE username = ? AND password = ?");
         if(!$p){
@@ -30,13 +30,14 @@ abstract class FUtente extends FDatiAnagrafici{
         return $r;
     }
 
-    public static function create($obj){
+    public static function create(array $obj): Entity{
         $DB = Singleton::DB();
         $dati_anagrafici = FDatiAnagrafici::find($obj["dati"]);
         $Fname = "F".$obj["tipo"];
         if(class_exists($Fname) && (new ReflectionClass($Fname))->isSubclassOf("FUtente"))
             return $Fname::load($obj["id"], $dati_anagrafici, $obj["email"], $obj["username"]);
-        return null;
+        throw new \Exception("Error User Type not found", 1);
+
     }
 
     protected abstract static function load(int $id, EDatiAnagrafici $dati_anagrafici, string $email, string $username);

@@ -7,7 +7,7 @@ if(!defined("EXEC")){
 class FUtenteRegistrato extends FUtente{
     protected static $table = "utenti_registrati";
 
-    public static function load(int $id_utente, EDatiAnagrafici $dati_anagrafici, string $email, string $username)
+    public static function load(int $id_utente, EDatiAnagrafici $dati_anagrafici, string $email, string $username){
         $p = Singleton::DB()->prepare("
             SELECT id, punti
             FROM ".self::$table."
@@ -20,9 +20,9 @@ class FUtenteRegistrato extends FUtente{
             die("Error fetching utente registrato");
         $p->close();
 
-        
+        $indirizzi = FIndirizzo::getIndirizziByUserId($id_utente);
 
-        $r = new EUtenteRegistrato($id_utente, $dati_anagrafici, $email, $username, $id, $punti, );
+        $r = new EUtenteRegistrato($id_utente, $dati_anagrafici, $email, $username, $id, $punti, array(), $indirizzi, 1);
         return $r;
     }
 }
