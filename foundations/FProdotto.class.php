@@ -25,5 +25,72 @@ class FProdotto extends Foundation{
             return $pro;
         }
     }
+
+    public static function find(int $id){
+        $DB = Singleton::DB();
+        $p = $DB->prepare("
+        SELECT *
+        FROM prodotti
+        WHERE prodotti.id = ?");
+        if(!$p){
+            var_dump($p);
+            echo $DB->error();
+            die();
+        }
+        $p->bind_param("i",$id);
+        $p->execute();
+        $p->bind_result($id, $nome, $info, $descrizione, $id_categoria, $valuta, $prezzo);
+        $r = null;
+        if($p->fetch()){
+            $p->close();
+            $r = new EProdotto($nome,NULL , new EMoney($prezzo, $valuta));
+            $r->setInfo($info);
+            $r->setDescrizione($descrizione);
+        }else
+        $p->close();
+        return $r;
+    }
+
+    public static function create(EProdotto $prodotto):int{
+        $DB = Singleton::DB();
+        $p = $DB->prepare("
+        INSERTO INTO categorie
+        VALUES(NULL, ?, ?, ?, ? ,? ,?)");
+        if(!$p){
+            var_dump($p);
+            echo $DB->error();
+            die();
+        }
+        $money=$prodotto->getPrezzo();
+        $categoriaid=$prodotto->getCategoriaId();
+        $p->bind_param("sssiis", $prodotto->getNome(), $prodotto->getInfo(), $prodotto->getDesrizione(), $categoriaid , $money->getPrezzo(), $money->getValuta());
+        $r = 0;
+        if($p->execute())
+        $r = $DB->lastId();
+        $p->close();
+        return $r;
+    }
+
+    public static function store(EProdotto $prodotto){
+        $DB = Singleton::DB();
+        $p = $DB->prepare("
+        UPDATE prodotti
+        SET nome=?, info=?, descrizione=?, id_categoria=?, prezzo=?, valuta=?
+        WHERE prodotti.id = ?");
+        if(!$p){
+            var_dump($p);
+            echo $DB->error();
+            die();
+        }
+        $money=$prodotto->getPrezzo();
+        $categoriaid=$prodotto->getCategoriaId();
+        $p->bind_param("sssiis", $prodotto->getNome(), $prodotto->getInfo(), $prodotto->getDesrizione(), $categoriaid , $money->getPrezzo(), $money->getValuta());
+        $r=$p->execute();
+        $p->close();
+        if(!$r)
+            return $r;
+        }
+        return true;
+    }
 }
 ?>
