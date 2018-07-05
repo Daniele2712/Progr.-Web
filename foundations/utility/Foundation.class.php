@@ -6,8 +6,8 @@ if(!defined("EXEC")){
 
 abstract class Foundation{
     protected static $table;
-    public abstract static function insert(Entity $object): bool;
-    public abstract static function update(Entity $object): bool;
+    public abstract static function insert(Entity $object): int;
+    public abstract static function update(Entity $object);
     public abstract static function create(array $object): Entity;
 
     public static function all(): array{

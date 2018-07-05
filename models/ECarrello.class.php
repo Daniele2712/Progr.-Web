@@ -4,15 +4,15 @@ if(!defined("EXEC")){
 	return;
 }
 
-class ECarrello{
+class ECarrello extends Entity{
     //Attributi
 	private $id=0;
 	private $prodotti=array();
 	private $totale;
 	//Costruttori
 	public function __construct(int $i){
-		$this->id=$i;
-		$this->totale=new EMoney(0,'Euro');
+		$this->id = $i;
+		$this->totale = new EMoney(0,'Euro');
 	}
 	//Metodi
 	public function addProdotto(EProdotto $pro, int $q){

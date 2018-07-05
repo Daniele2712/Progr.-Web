@@ -11,7 +11,7 @@ class EUtenteRegistrato extends EUtente{
     private $indirizzi = array();
     private $carrello;
 
-    public function __construct($idUtente, $datiAnagrafici, $email, $username, int $idRegistrato=0, int $punti = 0, array $pagamenti=array(), array $indirizzi=array(), int $carrello){
+    public function __construct($idUtente, $datiAnagrafici, $email, $username, int $idRegistrato=0, int $punti = 0, array $pagamenti=array(), array $indirizzi=array(), ECarrello $carrello){
         parent::__construct($idUtente, $datiAnagrafici, $email, $username);
         $this->idRegistrato = $idRegistrato;
         $this->punti = $punti;
@@ -21,7 +21,7 @@ class EUtenteRegistrato extends EUtente{
         foreach($indirizzi as $i){
             $this->indirizzi[] = clone $i;
         }
-        $this->carrello = $carrello;
+        $this->carrello = clone $carrello;
         $this->email = $email;
     }
 }

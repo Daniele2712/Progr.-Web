@@ -13,13 +13,9 @@ abstract class FUtente extends FDatiAnagrafici{
             SELECT id, id_datianagrafici, tipo_utente, email
             FROM utenti
             WHERE username = ? AND password = ?");
-        if(!$p){
-            var_dump($p);
-            echo $DB->error();
-            die();
-        }
         $p->bind_param("ss",$user,$pw);
-        $p->execute();
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
         $p->bind_result($id, $dati, $tipo, $email);
         $r = null;
         if($p->fetch()){
@@ -35,11 +31,10 @@ abstract class FUtente extends FDatiAnagrafici{
         $dati_anagrafici = FDatiAnagrafici::find($obj["dati"]);
         $Fname = "F".$obj["tipo"];
         if(class_exists($Fname) && (new ReflectionClass($Fname))->isSubclassOf("FUtente"))
-            return $Fname::load($obj["id"], $dati_anagrafici, $obj["email"], $obj["username"]);
+            return $Fname::create_user($obj["id"], $dati_anagrafici, $obj["email"], $obj["username"]);
         throw new \Exception("Error User Type not found", 1);
-
     }
 
-    protected abstract static function load(int $id, EDatiAnagrafici $dati_anagrafici, string $email, string $username);
+    protected abstract static function create_user(int $id, EDatiAnagrafici $dati_anagrafici, string $email, string $username);
 }
 ?>

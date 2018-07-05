@@ -12,11 +12,11 @@ class FIndirizzo extends Foundation{
         return new EIndirizzo($obj["id"], $comune, $obj["via"], $obj["civico"], $obj["note"]);
     }
 
-    public static function insert(Entity $obj): bool{
+    public static function insert(Entity $obj): int{
 
     }
 
-    public static function update(Entity $obj): bool{
+    public static function update(Entity $obj){
 
     }
 
