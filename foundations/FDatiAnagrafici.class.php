@@ -17,7 +17,7 @@ class FDatiAnagrafici extends Foundation{
             $p = $DB->prepare($sql);
             $p->bind_param("ssss", $dati_anagrafici->getNome(), $dati_anagrafici->getCognome(), $dati_anagrafici->getTelefono(), $dati_anagrafici->getDataNascita());
             if(!$p->execute())
-                throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
             $p->close();
     }
 

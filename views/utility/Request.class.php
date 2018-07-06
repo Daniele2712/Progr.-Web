@@ -34,7 +34,7 @@ class Request{
             $this->action = array_shift($params);
         $this->params = $params;
 
-        $array = array('_SESSION', '_POST', '_GET', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES');
+        $array = array('_POST', '_GET', '_REQUEST', '_SERVER', '_ENV', '_FILES');
         foreach ($GLOBALS as $key=>$value)
             if(array_search($key,$array,TRUE)!==FALSE)
                 $this->globals[$key] = $value;

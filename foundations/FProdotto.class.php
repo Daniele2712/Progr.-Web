@@ -19,7 +19,7 @@ class FProdotto extends Foundation{
         $categoriaid=$prodotto->getCategoriaId();
         $p->bind_param("sssiis", $prodotto->getNome(), $prodotto->getInfo(), $prodotto->getDesrizione(), $categoriaid , $money->getPrezzo(), $money->getValuta());
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
     }
 
@@ -31,7 +31,7 @@ class FProdotto extends Foundation{
         $categoriaid=$prodotto->getCategoriaId();
         $p->bind_param("sssiis", $prodotto->getNome(), $prodotto->getInfo(), $prodotto->getDesrizione(), $categoriaid , $money->getPrezzo(), $money->getValuta());
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
         return $DB->lastId();
     }

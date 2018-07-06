@@ -12,11 +12,13 @@ class FUtenteRegistrato extends FUtente{
         $p = Singleton::DB()->prepare($sql);
         $p->bind_param("i",$id_utente);
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->bind_result($id, $punti, $id_carrello);
-        $r = null;
-        if(!$p->fetch())
-            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 1);
+        $r = $p->fetch();
+        if($r === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+        elseif($r === NULL)
+            throw new \EntityException("Entity Not Found", __CLASS__, array("id"=>$id_utente), 0);
         $p->close();
 
         $indirizzi = FIndirizzo::getIndirizziByUserId($id_utente);

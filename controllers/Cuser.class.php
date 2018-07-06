@@ -7,17 +7,37 @@ if(!defined("EXEC")){
 
 class Cuser{
     public function getIndirizzi($req){
-
-        $v = new VHome();
-        $v->render();
+        $sessione = Singleton::Session();
+        if(!$sessione->isLogged())
+            echo "non loggato";
+        $user = $sessione->getUser();
+        if(get_class($user)==="EUtenteRegistrato"){
+            echo "<pre>";
+            print_r($user->getIndirizzi());
+            echo "</pre>";
+        }
+        //$v = new VHome();
+        //$v->render();
     }
 
     public function login($req){
         $user = $req->getString("username");
         $pw = $req->getString("password");
-        $user = Singleton::Session()->login($user,$pw);
-        echo "<pre>";
-        print_r($user);
-        echo "</pre>";
+        try{
+            Singleton::Session()->login($user,$pw);
+            $user = Singleton::Session()->getUser();
+            echo "<pre>";
+            print_r($user);
+            echo "</pre>";
+        }catch(EntityException $e){
+            echo "<pre>";
+            echo str_replace("\n", "<br>", $e);
+            echo "</pre>";
+        }
+    }
+
+    public function logout($req){
+        Singleton::Session()->logout();
+        echo "logged out";
     }
 }

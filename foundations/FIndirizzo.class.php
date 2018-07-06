@@ -28,7 +28,7 @@ class FIndirizzo extends Foundation{
             WHERE id_utente_r = ?");
         $p->bind_param("i",$id);
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $res = $p->get_result();
         $p->close();
         $r = array();

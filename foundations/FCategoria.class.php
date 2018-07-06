@@ -18,7 +18,7 @@ class FCategoria extends Foundation{
         $money=$carrello->getTotale();
         $p->bind_param("si", $categoria->getCategoria(), $categoria->getPadreid());
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
         return $DB->lastId();
     }
@@ -30,7 +30,7 @@ class FCategoria extends Foundation{
         $money = $carrello->getTotale();
         $p->bind_param("sii", $categoria->getCategoria(), $categoria->getPadreid(), $categoria->getid());
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
     }
 }

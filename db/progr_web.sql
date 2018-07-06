@@ -491,7 +491,7 @@ CREATE TABLE `utenti` (
 --
 
 INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`) VALUES
-(1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', 'xyz');
+(1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af');
 
 -- --------------------------------------------------------
 

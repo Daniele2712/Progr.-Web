@@ -14,7 +14,7 @@ class FCarrello extends Foundation{
         $money = $carrello->getTotale();
         $p->bind_param("dsi", $money->getPrezzo(), $money->getValuta(), $carrello->getId());
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
         foreach($carrello->getProdotti() as $item){
             $r = FItem::save($item);
@@ -28,7 +28,7 @@ class FCarrello extends Foundation{
         $money=$carrello->getTotale();
         $p->bind_param("ds", $money->getPrezzo(), $money->getValuta());
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
         return $DB->lastId();
     }

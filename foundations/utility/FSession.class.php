@@ -6,23 +6,28 @@ if(!defined("EXEC")){
 
 
 class FSession{
-    private $user;
-    private $logged = false;
-
     public function __construct(){
         session_start();
     }
 
     public function login($username,$password){
         if($username !== NULL && $username !== '' && $password !== NULL && $password !== ''){
-            $this->user = FUtente::login($username,$password);
-            return $this->user;
-        }else{
+            $_SESSION["userId"] = FUtente::login($username,$password);
+            return $_SESSION["userId"];
+        }else
             return false;
-        }
+    }
+
+    public function logout(){
+        session_unset();
+        session_destroy();
+    }
+
+    public function getUser(): EUtente{
+        return FUtente::find($_SESSION["userId"]);
     }
 
     public function isLogged(){
-        return $this->user!=NULL;
+        return $_SESSION["userId"]!==NULL;
     }
 }

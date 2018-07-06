@@ -1,8 +1,8 @@
 <?php
 class FDatabase{
-	//Attributi
-	 private $connection;
-    //Costruttori
+
+	private $connection;
+
     public function __construct() {
 
         global $config;
@@ -11,12 +11,11 @@ class FDatabase{
                         $config['mysql']['password'],
                         $config['mysql']['database'] );
     }
-    //Metodi
-    private function connect($host, $user, $password, $database ){
+
+    private function connect($host, $user, $password, $database){
         $this->connection = new mysqli($host,$user,$password,$database);
-        if ($this->connection->connect_errno)
-            echo "Failed to connect to MySQL: (" . $this->connection->connect_errno . ") " . $this->connection->connect_error;
-        return true;
+        if($this->connection->connect_errno)
+            throw new \SQLException("Error Connecting", $this->connection->connect_errno, $this->connection->connect_error);
     }
 
     public function close(){
@@ -24,15 +23,15 @@ class FDatabase{
     }
 
     public function query($query){
-        if($this->connection)
-            return $this->connection->query($query);
-        return false;
+        if(!$this->connection)
+            throw new \SQLException("Error Not Connected", $query, "", 1);
+        return $this->connection->query($query);
     }
 
     public function lastId(){
-        if($this->connection)
-            return $this->connection->insert_id;
-        return 0;
+        if(!$this->connection)
+            throw new \SQLException("Error Not Connected", $query, "", 1);
+        return $this->connection->insert_id;
     }
 
     public function prepare($query){
@@ -40,7 +39,7 @@ class FDatabase{
             throw new \SQLException("Error Not Connected", $query, "", 1);
         $r = $this->connection->prepare($query);
         if(!$r)
-            throw new \SQLException("Error Prepared Statement", $query, $this->error(), 1);
+            throw new \SQLException("Error Prepared Statement", $query, $this->error(), 2);
         return $r;
     }
 

@@ -17,7 +17,7 @@ abstract class Foundation{
         $sql = "SELECT * FROM ".static::$table;
         $res = $DB->query($sql);
         if(!$res)
-            throw new \SQLException("Error Executing Query", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Query", $sql, $p->error, 4);
         $r = array();
         while($row = $res->fetch_assoc())
             $r[] = static::create($row);
@@ -32,7 +32,7 @@ abstract class Foundation{
         $p = $DB->prepare($sql);
         $p->bind_param("i",$id);
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $res = $p->get_result();
         $p->close();
         $r = null;
@@ -49,7 +49,7 @@ abstract class Foundation{
         $p = $DB->prepare($sql);
         $p->bind_param("i",$id);
         if(!$p->execute())
-            throw new \SQLException("Error Executing Statement", $sql, $p->error, 1);
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
     }
 

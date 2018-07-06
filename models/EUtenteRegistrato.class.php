@@ -24,4 +24,12 @@ class EUtenteRegistrato extends EUtente{
         $this->carrello = clone $carrello;
         $this->email = $email;
     }
+
+    public function getIndirizzi(): array{
+        $r = array();
+        foreach($this->indirizzi as $i){
+            $r[] = clone $i;
+        }
+        return $r;
+    }
 }

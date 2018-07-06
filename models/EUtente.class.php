@@ -16,4 +16,8 @@ abstract class EUtente extends Entity{
         $this->email = $email;
         $this->username = $username;
     }
+
+    public function getId(): int{
+        return $this->idUtente;
+    }
 }
