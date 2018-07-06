@@ -5,4 +5,4 @@ define('EXEC', true);
 require_once(ROOT.DS.'includes'.DS.'config.inc.php');
 require_once(ROOT.DS.'includes'.DS.'autoload.inc.php');
 
-new CFrontController(new Request());
+new Controllers\FrontController(new Views\Request());

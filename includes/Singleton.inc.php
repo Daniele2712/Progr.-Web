@@ -11,7 +11,7 @@ class Singleton{
 
     public static function DB(){
         if(!self::$DB_handler)
-            self::$DB_handler = new FDatabase();
+            self::$DB_handler = new Foundations\Database();
         return self::$DB_handler;
     }
 
@@ -30,7 +30,7 @@ class Singleton{
 
     public static function Session(){
         if(!self::$session_handelr)
-            self::$session_handelr = new FSession();
+            self::$session_handelr = new Foundations\Session();
         return self::$session_handelr;
     }
 }
