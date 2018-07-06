@@ -1,12 +1,13 @@
 <?php
+namespace Controllers;
 if(!defined("EXEC")){
     header("location: /index.php");
 	return;
 }
 
-class Cspesa{
-    public function __constructor(){}
-    public function startspesa(){}    
+class spesa{
+    public function __construct(){}
+    public function startspesa(){}
     public function addCarrello(){}
     public function completaordine(){}
     public function selezionapagamento(){}
