@@ -7,29 +7,21 @@ if(!defined("EXEC")){
 class FOffertaSconto extends FOfferta{
     protected static $table = "offerte_sconti";
 
-    protected static function load(int $idOfferta, string $tipo, DateTime $inizio, DateTime $fine){
-        $p = Singleton::DB()->prepare("
-            SELECT id, id_prodotto, prezzo, valuta
-            FROM ".self::$table."
-            WHERE id_offerta = ?");
+    protected static function load(int $idOfferta, string $tipo, DateTime $inizio, DateTime $fine): EOffertaSconto{
+        $sql = "SELECT id, id_prodotto, prezzo, valuta FROM ".self::$table." WHERE id_offerta = ?";
+        $p = Singleton::DB()->prepare($sql);
         $p->bind_param("i",$idOfferta);
-        $p->execute();
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->bind_result($id, $idProdotto, $prezzo, $valuta);
-        $r = null;
-        if($p->fetch()){
-            $p->close();
-            $r = new EOffertaSconto($id, $tipo, $inizio, $fine, $id, $idProdotto, $prezzo, $valuta);
-        }else
-            $p->close();
-        return $r;
-    }
-
-    public static function store($obj){
-
-    }
-
-    public static function all(){
-
+        $f = $p->fetch();
+        $p->close();
+        if($f === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+        elseif($f === NULL)
+            throw new \EntityException("Entity Not Found", __CLASS__, array("username"=>$user, "password"=>$pw), 0);
+        else
+            return new EOffertaSconto($id, $tipo, $inizio, $fine, $id, $idProdotto, $prezzo, $valuta);
     }
 
 }

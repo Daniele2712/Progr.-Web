@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-abstract class EOfferta{
+abstract class EOfferta extends Entity{
 	//Attributi
     protected $idOfferta;
     protected $tipo;

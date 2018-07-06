@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EItem{
+class EItem extends Entity{
     //Attributi
 	private $prodotto;
 	private $quantità=0;

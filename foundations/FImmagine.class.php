@@ -7,55 +7,24 @@ if(!defined("EXEC")){
 class FImmagini extends Foundation{
     protected static $table = "immagini";
 
-    public static function getImmaginiProdotto($id){
+    public static function getImmaginiProdotto(int $id): array{
         $DB = Singleton::DB();
-        $p = $DB->prepare("
-        SELECT id_immagine
-        FROM immagini_prodotti
-        WHERE immagini_prodotti.id_prodotto = ?");
-        if(!$p){
-            var_dump($p);
-            echo $DB->error();
-            die();
-        }
+        $sql = "SELECT id_immagine FROM immagini_prodotti WHERE id_prodotto = ?";
+        $p = $DB->prepare($sql);
         $p->bind_param("i",$id);
-        $p->execute();
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->bind_result($id_immagine);
         $r = array();
-        if($p->fetch()){
-            $p->close();
-            foreach($id_immagine as $id)
-            $r[] = FImmagine::getImmagineByid($id);
-        }else
+        $f = $p->fetch();
         $p->close();
-        return $r;
-    }
-
-    public static function getImmagineByid($id){
-        $DB = Singleton::DB();
-        $p = $DB->prepare("
-        SELECT nome, size, type, immagine
-        FROM immagini
-        WHERE immagini.id = ?");
-        if(!$p){
-            var_dump($p);
-            echo $DB->error();
-            die();
-        }
-        $p->bind_param("i",$id);
-        $p->execute();
-        $p->bind_result($nome, $size, $type, $img);
-        $r = array();
-        if($p->fetch()){
-            $p->close();
-            $r[
-                'nome' => $nome,
-                'size' => $size,
-                'type' => $type,
-                'img' => $img
-            ];
-        }else
-        $p->close();
+        if($f === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+        elseif($f === NULL)
+            throw new \EntityException("Entity Not Found", __CLASS__, array("id_prodotto"=>$id), 0);
+        else
+            foreach($id_immagine as $id)                    //TODO: questa non funziona usare get_result e ciclare
+                $r[] = FImmagine::find($id);
         return $r;
     }
 }

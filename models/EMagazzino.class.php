@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EMagazzino{
+class EMagazzino extends Entity{
     private $indirizzo;
     private $gestore;
     private $items = array();
