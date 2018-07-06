@@ -4,7 +4,7 @@ if(!defined("EXEC")){
     return;
 }
 
-class ECategoria{
+class ECategoria extends Entity{
 	//Attributi
     private $id;
     private $categoria;

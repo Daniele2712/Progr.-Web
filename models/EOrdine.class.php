@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EOrdine{
+class EOrdine extends Entity{
 	//Attributi
     private $prodotti= array();
     private $metodoPagamento;

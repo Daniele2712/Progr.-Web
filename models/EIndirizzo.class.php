@@ -4,13 +4,15 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EIndirizzo{
+class EIndirizzo extends Entity{
+    private $id;
     private $comune;
     private $via;
     private $civico;
     private $note;
 
-    public function __construct(EComune $comune=null, string $via="", int $civico=0, string $note=""){
+    public function __construct(int $id, EComune $comune=null, string $via="", int $civico=0, string $note=""){
+        $this->id = $id;
         if($comune === null)
             $this->comune = new EComune();
         else

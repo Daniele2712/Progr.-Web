@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
--- https://www.phpmyadmin.net/
+-- version 4.6.0
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Creato il: Lug 03, 2018 alle 15:36
--- Versione del server: 10.1.30-MariaDB
--- Versione PHP: 7.2.2
+-- Host: localhost
+-- Creato il: Lug 05, 2018 alle 14:08
+-- Versione del server: 5.7.22-0ubuntu0.16.04.1
+-- Versione PHP: 7.0.30-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -411,8 +409,8 @@ CREATE TABLE `opzioni` (
 --
 
 INSERT INTO `opzioni` (`id`, `valore`, `id_filtro`) VALUES
-(1, '23\"', 1),
-(2, '40\"', 1);
+(1, '23"', 1),
+(2, '40"', 1);
 
 -- --------------------------------------------------------
 
@@ -482,6 +480,7 @@ INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `pr
 CREATE TABLE `utenti` (
   `id` int(11) NOT NULL,
   `id_datianagrafici` int(11) NOT NULL,
+  `tipo_utente` enum('Gestore','UtenteRegistrato','Corriere') NOT NULL,
   `email` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL
@@ -491,8 +490,8 @@ CREATE TABLE `utenti` (
 -- Dump dei dati per la tabella `utenti`
 --
 
-INSERT INTO `utenti` (`id`, `id_datianagrafici`, `email`, `username`, `password`) VALUES
-(1, 1, 'mariorossi@gmail.com', '', 'xyz');
+INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`) VALUES
+(1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af');
 
 -- --------------------------------------------------------
 
@@ -506,6 +505,13 @@ CREATE TABLE `utenti_registrati` (
   `punti` int(11) NOT NULL,
   `id_carrello` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `utenti_registrati`
+--
+
+INSERT INTO `utenti_registrati` (`id`, `id_utente`, `punti`, `id_carrello`) VALUES
+(1, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -738,163 +744,136 @@ ALTER TABLE `valori`
 --
 ALTER TABLE `carrelli`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `carte`
 --
 ALTER TABLE `carte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `categorie`
 --
 ALTER TABLE `categorie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT per la tabella `comuni`
 --
 ALTER TABLE `comuni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `dati_anagrafici`
 --
 ALTER TABLE `dati_anagrafici`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT per la tabella `filtri`
 --
 ALTER TABLE `filtri`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `gestori`
 --
 ALTER TABLE `gestori`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `immagini`
 --
 ALTER TABLE `immagini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `immagini_prodotti`
 --
 ALTER TABLE `immagini_prodotti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT per la tabella `indirizzi_preferiti`
 --
 ALTER TABLE `indirizzi_preferiti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `items_magazzino`
 --
 ALTER TABLE `items_magazzino`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `items_ordine`
 --
 ALTER TABLE `items_ordine`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `magazzini`
 --
 ALTER TABLE `magazzini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte`
 --
 ALTER TABLE `offerte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte_mxn`
 --
 ALTER TABLE `offerte_mxn`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte_omaggi`
 --
 ALTER TABLE `offerte_omaggi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte_omaggi_condizioni`
 --
 ALTER TABLE `offerte_omaggi_condizioni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte_sconti`
 --
 ALTER TABLE `offerte_sconti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `offerte_tipi`
 --
 ALTER TABLE `offerte_tipi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT per la tabella `opzioni`
 --
 ALTER TABLE `opzioni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT per la tabella `ordini`
 --
 ALTER TABLE `ordini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT per la tabella `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `utenti`
 --
 ALTER TABLE `utenti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT per la tabella `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT per la tabella `valori`
 --
 ALTER TABLE `valori`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- Limiti per le tabelle scaricate
 --
@@ -1043,7 +1022,6 @@ ALTER TABLE `valori`
   ADD CONSTRAINT `valori_ibfk_2` FOREIGN KEY (`id_opzione`) REFERENCES `opzioni` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `valori_ibfk_3` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `valori_ibfk_4` FOREIGN KEY (`id_filtro`) REFERENCES `filtri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EFiltro{
+class EFiltro extends Entity{
 	//Attributi
 	private $nome="";
 	private $sottocategoria;
@@ -19,6 +19,6 @@ class EFiltro{
 		return $t=$this->nome;
 	}
 	public function setValori(array $v){
-		
+
 	}
 }

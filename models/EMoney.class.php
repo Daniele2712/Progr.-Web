@@ -4,7 +4,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EMoney{
+class EMoney extends Entity{
 	//Attributi
 	private $prezzo=0.0;
 	private $valuta='';

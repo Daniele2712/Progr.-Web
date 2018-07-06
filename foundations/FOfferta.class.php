@@ -6,38 +6,32 @@ if(!defined("EXEC")){
 
 abstract class FOfferta extends Foundation{
 
-    public static function find(int $id){
+    public static function find(int $id): EOfferta{
         $DB = Singleton::DB();
-        $p = $DB->prepare("
-            SELECT tipo, data_inizio, data_fine
-            FROM offerte
-            LEFT JOIN offerte_tipi AS t ON t.id = id_tipo
-            WHERE offerte.id = ?");
-        if(!$p){
-            var_dump($p);
-            echo $DB->error();
-            die();
-        }
+        $sql = "SELECT tipo, data_inizio, data_fine FROM offerte LEFT JOIN offerte_tipi AS t ON t.id = id_tipo WHERE offerte.id = ?";
+        $p = $DB->prepare($sql);
         $p->bind_param("i",$id);
-        $p->execute();
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->bind_result($tipo, $inizio, $fine);
-        $r = null;
-        if($p->fetch()){
-            $p->close();
-            $r = self::create(array("id"=>$id, "tipo"=>$tipo, "inizio"=>new DateTime($inizio), "fine"=>new DateTime($fine)));
-        }else
-            $p->close();
-        return $r;
+        $f = $p->fetch();
+        $p->close();
+        if($f === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+        elseif($f === NULL)
+            throw new \EntityException("Entity Not Found", __CLASS__, array("id"=>$id), 0);
+        else
+            return self::create(array("id"=>$id, "tipo"=>$tipo, "inizio"=>new DateTime($inizio), "fine"=>new DateTime($fine)));
     }
 
-    public static function create($obj){
+    public static function create($obj): EOfferta{
         $Fname = "FOfferta".$obj["tipo"];
         if(class_exists($Fname) && (new ReflectionClass($Fname))->isSubclassOf("FOfferta"))
             return $Fname::load($obj["id"], $obj["tipo"], $obj["inizio"], $obj["fine"]);
-        return null;
+        throw new \Exception("Error Offerta Type not found", 3);
     }
 
-    protected abstract static function load(int $id, string $tipo, DateTime $inizio, DateTime $fine);
+    protected abstract static function load(int $id, string $tipo, DateTime $inizio, DateTime $fine): EOfferta;
 
 }
 ?>

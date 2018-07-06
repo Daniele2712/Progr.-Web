@@ -7,7 +7,7 @@ if(!defined("EXEC")){
 //  chi e' che crea l-ordine, e chi se se lo ricorda??? il cestino?? il cliente??
 
 
-interface EMetodoPagamento{
+interface EMetodoPagamento extends Entity{
 
     privare $valuta=euro;
 
