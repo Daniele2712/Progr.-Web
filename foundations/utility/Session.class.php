@@ -57,6 +57,6 @@ class Session{
      * @return    boolean    TRUE se è già loggato, FALSE altrimenti
      */
     public function isLogged(){
-        return $_SESSION["userId"]!==NULL;
+        return isset($_SESSION["userId"]) && $_SESSION["userId"]!==NULL;
     }
 }

@@ -98,7 +98,7 @@ class Request{
      * @param     string        $superGlobal    array superglobale in cui cercare il parametro
      * @return    int                           il parametro richiesto
      */
-    public function getInt($name='',?int $default=NULL,string $superGlobal='GET'): int{
+    public function getInt($name='',int $default=NULL,string $superGlobal='GET'): int{
         return $this->getParam($name,'int',$default,$superGlobal);
     }
 
@@ -110,7 +110,7 @@ class Request{
      * @param     string        $superGlobal    array superglobale in cui cercare il parametro
      * @return    float                         il parametro richiesto
      */
-    public function getFloat($name='',?float $default=NULL,string $superGlobal='GET'): float{
+    public function getFloat($name='',float $default=NULL,string $superGlobal='GET'): float{
         return $this->getParam($name,'float',$default,$superGlobal);
     }
 
@@ -122,7 +122,7 @@ class Request{
      * @param     string        $superGlobal    array superglobale in cui cercare il parametro
      * @return    string                        il parametro richiesto
      */
-    public function getString(string $name='',?string $default=NULL,string $superGlobal='GET'): string{
+    public function getString(string $name='',string $default=NULL,string $superGlobal='GET'): string{
         return $this->getParam($name,'string',$default,$superGlobal);
     }
 

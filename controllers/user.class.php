@@ -8,8 +8,10 @@ if(!defined("EXEC")){
 class user{
     public function getIndirizzi($req){
         $sessione = \Singleton::Session();
-        if(!$sessione->isLogged())
+        if(!$sessione->isLogged()){
             echo "non loggato";
+            die();
+        }
         $user = $sessione->getUser();
         if(get_class($user)==="\\Models\\UtenteRegistrato"){
             echo "<pre>";
