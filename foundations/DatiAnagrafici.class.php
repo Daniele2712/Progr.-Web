@@ -27,4 +27,3 @@ class DatiAnagrafici extends Foundation{
         return new \Models\DatiAnagrafici($object["id"], $object["nome"], $object["cognome"], $object["telefono"], new \DateTime($object["data_nascita"]));
     }
 }
-?>

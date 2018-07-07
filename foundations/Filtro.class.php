@@ -10,4 +10,3 @@ class FIltro extends Foundation{
     protected static $table = "filtri";
 
 }
-?>

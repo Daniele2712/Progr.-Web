@@ -57,8 +57,11 @@ class Request{
             $this->rest = true;
             array_shift($params);
             $this->controller = "Controllers\\Api\\".array_shift($params);
-        }elseif(count($params)>0 && $params[0]!=="")
+            $this->action = "default";
+        }elseif(count($params)>0 && $params[0]!==""){
             $this->controller = "Controllers\\".array_shift($params);
+            $this->action = "default";
+        }
         if($this->rest)
             $this->action = strtolower($this->method);
         elseif(count($params)>0 && $params[0]!=="")

@@ -39,4 +39,3 @@ abstract class Utente extends DatiAnagrafici{
 
     protected abstract static function create_user(int $id, \Models\DatiAnagrafici $dati_anagrafici, string $email, string $username);
 }
-?>

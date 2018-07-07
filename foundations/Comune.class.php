@@ -21,4 +21,3 @@ class Comune extends Foundation{
         return new \Models\Comune($obj["id"], $obj["nome"], $obj["CAP"], $obj["provincia"]);
     }
 }
-?>

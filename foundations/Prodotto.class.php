@@ -38,4 +38,3 @@ class Prodotto extends Foundation{
         return $DB->lastId();
     }
 }
-?>

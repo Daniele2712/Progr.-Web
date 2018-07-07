@@ -1,17 +1,18 @@
 <?php
 namespace Controllers;
+use \Views\Request as Request;
 if(!defined("EXEC")){
     header("location: /index.php");
 	return;
 }
 
 class shop{
-    public function home($req){
+    public function home(Request $req){
         $v = new Views\Home();
         $v->render();
     }
 
-    public function spesaSenzaLogin($req){
+    public function spesaSenzaLogin(Request $req){
         $v = new Views\Spesa();
         $arrayDiProdotti = array();//$ecommerce->getArrayDiProdotti();   //ANDREI: questo lo devi prendere dai modelli
 
@@ -22,13 +23,13 @@ class shop{
         $v->render();
     }
 
-    public function spesaConLogin($req){
+    public function spesaConLogin(Request $req){
         $v = new Views\Spesa();
         $v->setSpesa();
         $v->render();
     }
 
-    public function submit($req){
+    public function submit(Request $req){
         echo("non dovrei arrivare qui");
         // submitting a guestbook entry
         $this->mungeFormData($_POST);
@@ -40,6 +41,10 @@ class shop{
             $guestbook->displayForm($_POST);
 
         }
+    }
+
+    public function default(Request $req){
+        return $this->home($req);
     }
 
     //ANDREI: queste sono funzioni che terrei nel controller, ma private. Poi vedi te

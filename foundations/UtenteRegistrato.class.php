@@ -28,4 +28,3 @@ class UtenteRegistrato extends Utente{
         return new \Models\UtenteRegistrato($id_utente, $dati_anagrafici, $email, $username, $id, $punti, array(), $indirizzi, $carrello);
     }
 }
-?>

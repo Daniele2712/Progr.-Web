@@ -6,7 +6,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class spesa{
+class spesa implements Controller{
     public function __construct(){}
 
     /**
@@ -78,5 +78,12 @@ class spesa{
     public function completaordine(){}
     public function selezionapagamento(){}
     public function conferma(){}
+
+    /**
+     * azione di default
+     */
+    public function default(Request $req){
+        return $this->inizia($req);
+    }
 }
 ?>

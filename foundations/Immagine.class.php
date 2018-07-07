@@ -30,4 +30,3 @@ class Immagini extends Foundation{
         return $r;
     }
 }
-?>

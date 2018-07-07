@@ -39,4 +39,3 @@ class Indirizzo extends Foundation{
         return $r;
     }
 }
-?>

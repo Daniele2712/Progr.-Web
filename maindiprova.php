@@ -22,4 +22,3 @@ print_r($car);
 //$ind=array();
 //$ind=FIndirizzo::getIndirizzoByid(1);
 //print_r($ind);
-?>

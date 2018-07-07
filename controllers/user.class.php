@@ -1,12 +1,13 @@
 <?php
 namespace Controllers;
+use \Views\Request as Request;
 if(!defined("EXEC")){
     header("location: /index.php");
 	return;
 }
 
-class user{
-    public function getIndirizzi($req){
+class user implements Controller{
+    public function getIndirizzi(Request $req){
         $sessione = \Singleton::Session();
         if(!$sessione->isLogged()){
             echo "non loggato";
@@ -22,7 +23,7 @@ class user{
         //$v->render();
     }
 
-    public function login($req){
+    public function login(Request $req){
         $user = $req->getString("username");
         $pw = $req->getString("password");
         try{
@@ -38,8 +39,12 @@ class user{
         }
     }
 
-    public function logout($req){
+    public function logout(Request $req){
         \Singleton::Session()->logout();
         echo "logged out";
+    }
+
+    public function default(Request $req){
+        return $this->login($req);
     }
 }

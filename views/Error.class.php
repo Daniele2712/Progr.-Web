@@ -38,7 +38,7 @@ class Error implements View{
      * @param     int           $n        numero dell'errore
      * @param     string|null   $error    messaggio d'errore
      */
-    public function error(int $n, ?string $error = NULL){
+    public function error(int $n, string $error = NULL){
         $this->message["errorn"] = $n;
         if($error === null && array_key_exists($this->commonErrors, $n))
             $this->message["error"] = $this->commonErrors($n);

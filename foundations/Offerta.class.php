@@ -36,4 +36,3 @@ abstract class Offerta extends Foundation{
     protected abstract static function load(int $id, string $tipo, \DateTime $inizio, \DateTime $fine): \Models\Offerta;
 
 }
-?>

@@ -23,4 +23,3 @@ class Magazzino extends Foundation{
       return $mag;
     }
 }
-?>

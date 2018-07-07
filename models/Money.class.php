@@ -28,4 +28,3 @@ class Money extends Model{
 		return $val=$this->valuta;
 	}
 }
-?>

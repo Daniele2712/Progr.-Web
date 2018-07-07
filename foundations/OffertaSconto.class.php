@@ -27,4 +27,3 @@ class OffertaSconto extends FOfferta{
     }
 
 }
-?>
