@@ -20,4 +20,19 @@ class Comune extends Foundation{
     public static function create(array $obj): Model{
         return new \Models\Comune($obj["id"], $obj["nome"], $obj["CAP"], $obj["provincia"]);
     }
+
+    public static function search(string $comune, int $CAP, string $provincia):\Models\Comune{
+        $DB = \Singleton::DB();
+        $sql = "SELECT * FROM ".self::$table." WHERE nome = ? AND CAP = ? AND provincia = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param("sis", $comune, $CAP, $provincia);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $p->close();
+        $r = null;
+        if($res)
+            $r = self::create($res->fetch_assoc());
+        return $r;
+    }
 }

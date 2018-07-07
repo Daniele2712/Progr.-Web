@@ -16,7 +16,7 @@ class Carrello extends Model{
 	}
 
 	//Metodi
-	public function addItem(Prodotto $pro, int $q){
+	public function addProdotto(Prodotto $pro, int $q){
 		$pre = $pro.getPrezzo();
 		$pre.setPrezzo($pre.getPrezzo()*$q);
 		$i=new Item($pro, $pre, $q);

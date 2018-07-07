@@ -183,7 +183,7 @@ class Request{
 					$default=NULL;
 					break;
 			}
-		if($name!=''&&strtolower($filter)!="json"){
+		if($name!==''&&strtolower($filter)!="json"){
 			switch($superGlobal){
 				case 'POST':
 					if(isset($this->globals['_POST'][$name])&&$this->globals['_POST'][$name]!='undefined')
@@ -192,16 +192,16 @@ class Request{
 						return $default;
 					break;
 				case 'GET':
-                    if(is_int($name) && count($this->param) > $name)
-                        $tmp = $this->param[$name];
+                    if(is_int($name) && count($this->params) > $name)
+                        $tmp = $this->params[$name];
 					elseif(isset($this->globals['_GET'][$name])&&$this->globals['_GET'][$name]!='undefined')
 						$tmp=$this->globals['_GET'][$name];
 					else
 						return $default;
 					break;
 				case 'REQUEST':
-                    if(is_int($name) && count($this->param) > $name)
-                        $tmp = $this->param[$name];
+                    if(is_int($name) && count($this->params) > $name)
+                        $tmp = $this->params[$name];
 					elseif(isset($this->globals['_REQUEST'][$name])&&$this->globals['_REQUEST'][$name]!='undefined')
 						$tmp=$this->globals['_REQUEST'][$name];
 					else
