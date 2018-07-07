@@ -104,9 +104,9 @@ abstract class Foundation{
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $res = $p->get_result();
         $p->close();
-        $r = null;
-        if($res)
-            $r = static::create($res->fetch_assoc());
+        $r = array();
+        while($row = $res->fetch_assoc())
+            $r[] = static::create($row);
         return $r;
     }
 
