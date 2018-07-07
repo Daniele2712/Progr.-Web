@@ -8,12 +8,12 @@ if(!defined("EXEC")){
 
 class shop{
     public function home(Request $req){
-        $v = new Views\Home();
+        $v = new \Views\Home();
         $v->render();
     }
 
     public function spesaSenzaLogin(Request $req){
-        $v = new Views\Spesa();
+        $v = new \Views\Spesa();
         $arrayDiProdotti = array();//$ecommerce->getArrayDiProdotti();   //ANDREI: questo lo devi prendere dai modelli
 
         //l-Array di prodotti che mi ritorna, e' fatto da tanti item quanti gli item del negozio
@@ -24,7 +24,7 @@ class shop{
     }
 
     public function spesaConLogin(Request $req){
-        $v = new Views\Spesa();
+        $v = new \Views\Spesa();
         $v->setSpesa();
         $v->render();
     }

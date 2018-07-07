@@ -50,7 +50,7 @@ class Error implements View{
     /**
      * metodo per inviare in output il messaggio d'errore sia per richieste Restfull che in HTML
      */
-    private function render(){
+    public function render(){
         header('HTTP/1.1 '.$this->message["errorn"].' '.$this->message["error"]);
         if($this->rest){
             echo json_encode($this->message);
