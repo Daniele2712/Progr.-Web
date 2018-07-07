@@ -13,7 +13,7 @@ class user{
             die();
         }
         $user = $sessione->getUser();
-        if(get_class($user)==="\\Models\\UtenteRegistrato"){
+        if(get_class($user)==="Models\\UtenteRegistrato"){
             echo "<pre>";
             print_r($user->getIndirizzi());
             echo "</pre>";
