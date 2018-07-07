@@ -86,6 +86,31 @@ abstract class Foundation{
     }
 
     /**
+     * funzione per cercare un insieme di Model nel DB a partire dai loro id
+     *
+     * @param   array    $id    array di id dei Model da cercare
+     * @throws  Exception       se il nome della tabella non è stato impostato
+     * @throws  SQLException    in caso di errore di esecuzione dello statement
+     * @return  array           array di Model cercati
+     */
+    public static function findMany(array $ids): array{
+        if(!static::$table)
+            throw new \Exception("Error Table Name not set in".get_called_class(), 1);
+        $DB = \Singleton::DB();
+        $sql = "SELECT * FROM ".static::$table." WHERE id IN (?)";
+        $p = $DB->prepare($sql);
+        $p->bind_param("s",implode(", ",$ids));
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $p->close();
+        $r = null;
+        if($res)
+            $r = static::create($res->fetch_assoc());
+        return $r;
+    }
+
+    /**
      * funzione per cancellare un Model dal DB in base al suo id
      *
      * @param   int    $id      id del Model da cancellare
