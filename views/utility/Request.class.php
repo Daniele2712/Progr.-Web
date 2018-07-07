@@ -45,7 +45,7 @@ class Request{
      */
     public function __construct(){
         global $config;
-        $this->controller = $config['default']['controller'];
+        $this->controller = "Controllers\\".$config['default']['controller'];
         $this->action = $config['default']['action'];
         $this->method = $_SERVER['REQUEST_METHOD'];
         $uri = $_SERVER['REQUEST_URI'];
