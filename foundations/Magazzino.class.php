@@ -22,4 +22,8 @@ class Magazzino extends Foundation{
       }
       return $mag;
     }
+
+    public static function findClosestTo($addr){
+        
+    }
 }

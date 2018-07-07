@@ -75,9 +75,38 @@ class spesa implements Controller{
         //aggiorna carrello
     }
 
-    public function completaordine(){}
-    public function selezionapagamento(){}
-    public function conferma(){}
+    public function completaordine(Request $req){
+        $session = \Singleton::Sessione();
+        $cart = $session->getCart();
+        $cart->CompletaOrdine()
+        //.......
+    }
+
+    public function userpayment(Request $req){
+        $session = \Singleton::Sessione();
+        if(!$session->isLogged())
+            die("errore");
+        $id = $req->getInt("id", NULL);
+        if($id === NULL)
+            die("errore2");
+        $session->setUserPayment($id);
+    //ok
+
+    }
+
+    public function guestpayment(Request $req){
+        $session = \Singleton::Sessione();
+        if($session->isLogged())
+            die("errore");
+        $id = $req->getInt("id", NULL);
+        if($id === NULL)
+            die("errore2");
+        ...
+        $session->setGuestPayment(new \Models\Pagamento(...));
+        //ok
+    }
+
+    public function conferma(Request $req){}
 
     /**
      * azione di default
