@@ -23,7 +23,23 @@ class Magazzino extends Model{
 	public function setQuantita(int $qnt){
 
 	}
-  public function setGestore(Gestore $ges){
-    $this->gestore = clone $ges;
-  }
+
+    public function setGestore(Gestore $ges){
+        $this->gestore = clone $ges;
+    }
+
+    public function getItems():array{
+        $r = array();
+        foreach ($this->items as $item)
+            $r[] = $item;
+        return $r;
+    }
+
+    public function getAvailableItems():array{
+        $r = array();
+        foreach ($this->items as $item)
+            if($item->getQta()>0)
+                $r[] = $item;
+        return $r;
+    }
 }

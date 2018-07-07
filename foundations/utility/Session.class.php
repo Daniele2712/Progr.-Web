@@ -9,6 +9,11 @@ if(!defined("EXEC")){
  * classe Foundation che gestisce la sessione
  */
 class Session{
+    private $cart;
+    private $guestAddress;
+    private $addressId;
+    private $guestPayment;
+    private $paymentId;
     /**
      * inizializza la sessione
      */
@@ -60,8 +65,38 @@ class Session{
         return isset($_SESSION["userId"]) && $_SESSION["userId"]!==NULL;
     }
 
-    public function setGuestAddress(){}
-    public function setUserAddress(){}
-    public function setGuestPayment(){}
-    public function setUserPayment(){}
+    public function getCart():\Models\Carrello{
+        if($this->cart)
+            return Carrello::find($this->cart);
+        throw new \Exception("Error Cart not set", 1);
+    }
+
+    public function getAddr():\Models\Indirizzo{
+        if($this->addressId)
+            return Indirizzo::find($this->addressId);
+        elseif($this->guestAddress)
+            return clone $this->guestAddress;
+        throw new \Exception("Error Address not set", 1);
+
+    }
+
+    public function setGuestAddress(\Models\Indirizzo $addr){
+        $this->addressId = NULL;
+        $this->guestAddress = clone $addr;
+    }
+
+    public function setUserAddress(int $id){
+        $this->guestAddress = NULL;
+        $this->addressId = $id;
+    }
+
+    public function setGuestPayment(\Models\Pagamento $payment){
+        $this->paymentId = NULL;
+        $this->guestPayment = clone $payment;
+    }
+
+    public function setUserPayment(int $id){
+        $this->guestPayment = NULL;
+        $this->paymentId = $id;
+    }
 }

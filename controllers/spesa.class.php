@@ -57,9 +57,9 @@ class spesa implements Controller{
     public function catalogo(Request $req){
         $session = \Singleton::Sessione();
         $cart = $session->getCart();
-        $addr = $session->getIndirizzo();
+        $addr = $session->getAddr();
         $magazzino = \Foundations\Magazzino::findClosestTo($addr);
-        $items = $magazzino->getItems();
+        $items = $magazzino->getAvailableItems();
         //mostra gli items
     }
 
