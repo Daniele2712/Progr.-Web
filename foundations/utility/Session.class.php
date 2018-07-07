@@ -59,4 +59,9 @@ class Session{
     public function isLogged(){
         return isset($_SESSION["userId"]) && $_SESSION["userId"]!==NULL;
     }
+
+    public function setGuestAddress(){}
+    public function setUserAddress(){}
+    public function setGuestPayment(){}
+    public function setUserPayment(){}
 }
