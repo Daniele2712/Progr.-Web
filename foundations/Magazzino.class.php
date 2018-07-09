@@ -30,10 +30,8 @@ class Magazzino extends Foundation{
         $id=array();
         $result = \Singleton::DB()->query("SELECT id_indirizzo FROM magazzini");
         if($result){
-            while($result){
-                $row = $result->fetch_array(MYSQLI_ASSOC);
-                $id = $row["id_indirizzo"];
-                print_r($id);
+            while($row = $result->fetch_array(MYSQLI_ASSOC)){
+                $id[] = $row["id_indirizzo"];
             }
             $mag_arr=self::findMany($id);
             //print_r($mag_arr);
@@ -54,7 +52,13 @@ class Magazzino extends Foundation{
         }
         return $mag_fin;
     }
-    public static function insert(Model $magazzino): int{}
-    public static function update(Model $magazzino){}
-    public static function create(array $magazzino): Model{}
+    public static function insert(Model $obj): int{}
+    public static function update(Model $obj){}
+    public static function create(array $obj): Model{
+        $ind = Indirizzo::find($obj["id_indirizzo"]);
+        $items = Item::getMagazzinoItems($obj["id"]);
+        $ges = Gestore::find($obj["id_gestore"]);
+        $r = new \Models\Magazzino($ind, $ges, $items);
+        return $r;
+    }
 }

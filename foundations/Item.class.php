@@ -25,7 +25,7 @@ class Item extends Foundation{
 
     public static function getMagazzinoItems(int $id){
         $ret=array();
-        $result = \Singleton::DB()->query("SELECT id_prodotto, totale, valuta, quantita FROM items_magazzino WHERE id_magazzino=".$id);
+        $result = \Singleton::DB()->query("SELECT id_prodotto, quantita FROM items_magazzino WHERE id_magazzino=".$id);
         if($result){
             while($row = $result->fetch_array(MYSQLI_ASSOC)){
                 $pro = Prodotto::getProdottoByid($row["id_prodotto"]);

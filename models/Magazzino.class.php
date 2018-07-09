@@ -10,11 +10,15 @@ class Magazzino extends Model{
     private $gestore;
     private $items = array();
 
-    public function __construct(Indirizzo $indirizzo=null, array $items=array()){
+    public function __construct(Indirizzo $indirizzo=null, Gestore $gestore=NULL, array $items=array()){
         if($indirizzo === null)
             $this->indirizzo = new Indirizzo();
         else
             $this->indirizzo = clone $indirizzo;
+        if($gestore === null)
+            $this->gestore = new Gestore();
+        else
+            $this->gestore = clone $gestore;
         foreach($items as $i){
             $this->items[] = clone $i;
         }
