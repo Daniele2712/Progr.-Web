@@ -35,7 +35,7 @@ class Magazzino extends Foundation{
                 $id = $row["id_indirizzo"];
                 print_r($id);
             }
-            $mag_arr=findMany($id);
+            $mag_arr=self::findMany($id);
             //print_r($mag_arr);
             for($i=0;$i<count($mag_arr);$i++){
                 $ind = $mag_arr[$i]->getIndirizzo();
