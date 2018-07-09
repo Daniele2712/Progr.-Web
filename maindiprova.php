@@ -21,6 +21,5 @@ require_once(ROOT.DS.'includes'.DS.'autoload.inc.php');
 //print_r($com);
 $ind=array();
 $ind=Foundations\Indirizzo::find(2);
-print_r($ind);
 $mag=Foundations\Magazzino::findClosestTo($ind);
 print_r($mag);
