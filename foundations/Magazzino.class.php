@@ -27,15 +27,18 @@ class Magazzino extends Foundation{
         $dis="0 km";
         $arr=array();
         $mag_arr=array();
+        $id=array();
         $result = \Singleton::DB()->query("SELECT id_indirizzo FROM magazzini");
         if($result){
             while($result){
                 $row = $result->fetch_array(MYSQLI_ASSOC);
-                $id[] = $row["id"];
+                $id = $row["id_indirizzo"];
+                print_r($id);
             }
-            $mag_arr=Self->findMany($id);
-            while($mag_arr){
-                $ind = $mag_arr[]->getIndirizzo();
+            $mag_arr=findMany($id);
+            //print_r($mag_arr);
+            for($i=0;$i<count($mag_arr);$i++){
+                $ind = $mag_arr[$i]->getIndirizzo();
                 $url='https://maps.googleapis.com/maps/api/distancematrix/json?origins='
                     .urlencode($addr->getVia()).','.urlencode($addr->getComune()->getNome()).
                     ',Italia&destinations='
@@ -46,9 +49,12 @@ class Magazzino extends Foundation{
                 $ret = $arr["rows"][0]["elements"][0]["distance"]["text"];
                 if($dis="0 km" || $ret<$dis)
                    $dis=$ret;
-                   $mag_fin=$mag_arr[];
+                   $mag_fin=$mag_arr[$i];
             }
         }
         return $mag_fin;
     }
+    public static function insert(Model $magazzino): int{}
+    public static function update(Model $magazzino){}
+    public static function create(array $magazzino): Model{}
 }
