@@ -1,37 +1,17 @@
 {* Smarty *}
-
-<!DOCTYPE html>
-<html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <link rel="stylesheet" href="/templates/css/style_main_page.css">
-
-        <script src="/templates/js/libs/jquery.js"></script>
-
-    </head>
-
-    <body>
-        <div class="wrapper">
-
-            <div class="header">
-                <div id="imglogo">
-                </div>
-                <div id="namelogo">
-                </div>
-                <div id="buttonsdiv">
-                    <ul id="buttons">
-                        <li id="registerbutton">REGISTER </li>
-                        <li id="loginbutton">LOGIN</li>
-                    </ul>
-
-                </div>
-            </div>
-
+<div id="topleft">
+    
+<div id="loginAndRegister">
+    <ul>
+        <li id="registerbutton">REGISTER</li>
+        <li id="loginbutton">LOGIN</li>
+    </ul>
+    
+</div>
 
 
                                         <div id="loginbox">
-                                            <form class="login"  action="/shop/spesaConLogin" method="post">
+                                            <form class="login"  action="/user/login" method="post">
 
                                                 <div><label for="username">Username</label>
                                                   <input type="text" name="username" id="username"></div>
@@ -46,7 +26,7 @@
 
 
                                         <div id="registerbox">
-                                        <form class="login"  action="{$SCRIPT_NAME}?action=registrazione" method="post">
+                                        <form class="login"  action="" method="post">
                                             <div><label for="nome">Nome</label>
                                               <input type="text" name="nome" id="nome"></div>
                                               <div><label for="cognome">Cognome</label>
@@ -65,82 +45,4 @@
                                             </div>
                                         </form>
                                     </div>
-
-
-
-            <div id="main">
-
-
-                <div id="locator">
-                    <p>Selezione il tuo inzirizzo di spedizione</p>
-                    <div id="selectlocation">
-                        <form class="login"  action="/shop/spesaSenzaLogin" method="post">
-
-                            <div><label for="citta">Citta'</label>
-                              <input type="text" name="citta" id="citta"></div>
-                            <div><label>Via</label>
-                              <input type="text" name="via" id="via"></div>
-                            <div><label>Numero</label>
-                              <input type="text" name="numero" id="numero"></div>
-                            <div><label>Interno</label>
-                              <input type="text" name="interno" id="interno"></div>
-                            <div class="actions" id='inizialaspesa'>
-                              <input type="submit" name="inizialaspesa" value="Inizia la spesa!">
-                            </div>
-                        </form>
-                    </div>
-
-               </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div class="footer">
-            </div>
-        </div>
-        <script src="/templates/js/myscripts.js"></script>
-        </div>
-    </body>
-
-</html>
+</div>

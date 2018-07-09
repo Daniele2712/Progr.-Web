@@ -469,8 +469,14 @@ CREATE TABLE `prodotti` (
 --
 
 INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `valuta`) VALUES
-(1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 'EUR');
-
+(1, 'nomeProdotto1', 'info1', 'descrizione1', 3, 1.29, 'EUR'),
+(2, 'nomeProdotto2', 'info2', 'descrizione22222', 1, 2.29, 'EUR'),
+(3, 'nomeProdotto3', 'info3', 'descrizione3333', 2, 33, 'EUR'),
+(4, 'nomeProdotto4', 'info4', 'descrizione4', 2, 33.9, 'EUR'),
+(5, 'nomeProdotto5', 'info5', 'descrizione5', 1, 1.29, 'EUR'),
+(6, 'nomeProdotto6', 'info6', 'descrizione6', 2, 1229, 'EUR'),
+(7, 'nomeProdotto7', 'info77', 'descrizione7', 3, 229, 'EUR'),
+(8, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 'EUR');
 -- --------------------------------------------------------
 
 --

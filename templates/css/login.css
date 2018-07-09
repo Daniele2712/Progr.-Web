@@ -1,0 +1,56 @@
+#topleft{
+    width:100%;
+    position:relative;
+}
+
+#loginAndRegister{
+    width:100%;
+}
+
+
+#registerbutton{
+ grid-area: uno;   
+ cursor:pointer;
+}
+#loginbutton{
+ grid-area: due;
+ cursor:pointer;
+ 
+}
+
+#loginAndRegister ul{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+           "uno due";
+    align-items: center;
+  align-self: center;
+  list-style-type: none; 
+  justify-items:center;
+}
+
+#loginbox{
+    display:none;
+    position:absolute;
+    top:150px;
+    right:50px;
+    background-color: rgba(191, 216, 227, .4);
+    border: 1px solid rgba(191, 216, 227, .8);
+    border-radius:8px;
+    width:150%;         /*metto 150 percent xke se no prende la posizione del padre, e diventa troppo piccolo*/
+}
+
+#registerbox{
+    display:none;
+    position:absolute;
+    top:150px;
+    right:50px;
+    background-color: rgba(191, 216, 227, .4);
+    border: 1px solid rgba(191, 216, 227, .8);
+    border-radius:8px;
+    width:150%;
+}
+
+
+
+

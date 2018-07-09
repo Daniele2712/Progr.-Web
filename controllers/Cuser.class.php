@@ -21,8 +21,14 @@ class Cuser{
     }
 
     public function login($req){
-        $user = $req->getString("username");
+        echo "nas";
+        $user = $req->getString("username"); 
         $pw = $req->getString("password");
+        echo "nas";
+        echo "<pre>";
+        var_dump($req);
+        var_dump($pw);
+        echo "</pre>";
         try{
             Singleton::Session()->login($user,$pw);
             $user = Singleton::Session()->getUser();

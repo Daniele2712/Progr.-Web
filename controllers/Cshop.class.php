@@ -5,83 +5,49 @@ if(!defined("EXEC")){
 }
 
 
-class Cshop{
+class Cshop{    
     public function home($req){
-        $v = new VHome();
+        
+        $headIncludes='<link rel="stylesheet" type="text/css" href="/templates/css/login.css"/> <link rel="stylesheet" type="text/css" href="/templates/css/home.css"/>';
+        $loginOrUserIncludes='login.tpl';
+        $contentIncludes='home.tpl';
+        $v = new VHome($headIncludes, $loginOrUserIncludes, $contentIncludes);
         $v->render();
     }
-
-    public function spesaSenzaLogin($req){
+    
+     public function spesaSenzaLogin($req){
+        $IDmagazzino=1;
+        $nome='Mario Rossi';
+        $categorie=FCategoria::allCategories();
+        $filtri=FFiltro::allFilters(); 
+        $items=FMagazzino::allItems($IDmagazzino);
+        $carrello=FCarrello::getCarrelloItems(); 
+        
+        
         $v = new VSpesa();
-        $arrayDiProdotti = array();//$ecommerce->getArrayDiProdotti();   //ANDREI: questo lo devi prendere dalle entity
-
-        //l-Array di prodotti che mi ritorna, e' fatto da tanti item quanti gli item del negozio
-        // e ogni item del array a sua volta e un oggetto con tante coppie attributo valre
-        // quante sono le colonne della tabella (le attributi sono i nomi delle colonne)
-        $v->setSpesa($arrayDiProdotti);
+        $divs=$v->createDivs($categorie, $filtri, $items, $carrello);
+        
         $v->render();
+         
     }
-
+    
+    
     public function spesaConLogin($req){
+        
+        $nome='Mario Rossi';
+        $categorie=array('Cat1','Cat2','Cat3','Cat4','Cat5');
+        $filtri='login.tpl';            /* Devo trovare un modo per mostrare gli array*/
+        $carrello='home.tpl';           /* Ma seondo me json e la cosa piu giusta???*/   
+        
         $v = new VSpesa();
-        $v->setSpesa();
+        $v->setSpesa();   
         $v->render();
     }
-
-    public function submit($req){
-        echo("non dovrei arrivare qui");
-        // submitting a guestbook entry
-        $this->mungeFormData($_POST);
-        if($this->isValidForm($_POST)){
-            $guestbook->addEntry($_POST);
-            $guestbook->displayBook($guestbook->getEntries());
-        } else {
-             echo var_dump($_POST);
-            $guestbook->displayForm($_POST);
-
-        }
-    }
-
-    //ANDREI: queste sono funzioni che terrei nel controller, ma private. Poi vedi te
-
-    /**
-    * fix up form data if necessary
-    *
-    * @param array $formvars the form variables
-    */
-    private function mungeFormData(&$formvars) {  // attenzioneee questa trim ti elimina gli spazi solo alla fine e al inizio della stringa!
-
-
-      // trim off excess whitespace
-      $formvars['Name'] = trim($formvars['Name']);
-      $formvars['Comment'] = trim($formvars['Comment']);
-
-    }
-
-    /**
-    * test if form information is valid
-    *
-    * @param array $formvars the form variables
-    */
-    private function isValidForm($formvars) {
-
-      // reset error message
-      $this->error = null;
-
-      // test if "Name" is empty
-      if(strlen($formvars['Name']) == 0) {
-        $this->error = 'name_empty';
-        return false;
-      }
-
-      // test if "Comment" is empty
-      if(strlen($formvars['Comment']) == 0) {
-        $this->error = 'comment_empty';
-        return false;
-      }
-
-      // form passed validation
-      return true;
+    
+    public function gestore($req){
+      
+        $v = new VGestore('nadaaaa');
+        $v->render();
     }
 
 }

@@ -2,13 +2,12 @@
 
 {*
 Le cose che ricevero in ingresso qui sono
-1) una lista degli item che sono in vendita             $item_offerte
-2) una lista dei prodotti che stanno nel carello        $item_carello
-3) una lista di filtri da displayare sulla sinistra     $filtri
-3)il nome di chi sta facendo la spesa????               $nome
+1) una lista degli item che sono in vendita         $prodotti_for_tpl
+2) una lista dei prodotti che stanno nel carello    $prodotti_for_carello
+3)il nome di chi sta facendo la spesa???? forse...
 *}
 
-        <div class="spesaContent">
+        <div class="wrapper">
             <div id="logo"><img id ="imglogo" src="/templates/img/logo.png"/></div>
 
             <div id="search">
@@ -159,5 +158,9 @@ Le cose che ricevero in ingresso qui sono
                     </div>
 
                 </div>
-
+<script src="/templates/js/myscripts.js"></script>
             </div>
+
+
+
+             

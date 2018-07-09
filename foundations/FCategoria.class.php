@@ -33,5 +33,19 @@ class FCategoria extends Foundation{
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
     }
+    
+    public static function allCategories(){
+        echo "F-Categorie";
+        $rows = array();
+        $DB = Singleton::DB();
+        $sql = "SELECT * from categorie";
+        $result = $DB->query($sql);
+        while($r = mysqli_fetch_assoc($result)) {
+            $rows[] = $r;
+        }
+        return json_encode($rows);
+        
+        }
+
 }
 ?>

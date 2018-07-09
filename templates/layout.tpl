@@ -1,39 +1,36 @@
+{* Smarty *}  
+{* forse gli dovro passare un array di info cpsi lui sa che info deve displayare *}
+
 <html>
+    
     <head>
+        <meta charset="utf-8"/>
         <link rel="stylesheet" type="text/css" href="/templates/css/layout.css"/>
+        <link rel="stylesheet" type="text/css" href="/templates/css/footer.css"/>
         <script type="text/javascript" src="/templates/js/libs/jquery.js"></script>
-        <title>{$title}</title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        {$templateHeadIncludes}
+        <title>Online Shopping</title>
+    </head>
+    
     <body>
         <div id="header">
-            <div class="content">
-                <p style="margin:0;">header</p>
-            </div>
+           
+                <img id ="logoimg" src="/templates/img/logo.png"/>
+                <img id ="logowriting" src="/templates/img/OnlineShopping.png"/>
+                {include file=$templateLoginOrUserIncludes}
         </div>
-        <div id="nav">
-            <div class="content">
-                <div id="logo_container" class="button">
-                    <a id="logo_link" href="/{$default.controller}/{$default.action}">
-                        <img id="logo" src="{$logo_path}" alt="Logo"/>
-                    </a>
-                </div>
-                <div id="menu_container" class="button">
-                </div>
-                <div id="cart_container" class="button">
-                </div>
-                <div id="user_container" class="button">
-                </div>
-            </div>
+        
+        
+        <div class="content">
+            {include file=$templateContentIncludes}
         </div>
-        <div id="container">
-            <div class="content">
-                {* body of template goes here, the $content variable is replaced with a value eg 'list.tpl' *}
-                {include file="contents/$content"}
-            </div>
-        </div>
+        
+                
         <div id="footer">
-            <div class="content">
-                <p style="margin:0;">footer</p>
-            </div>
+            {include file='footer.tpl'}
         </div>
+        
     </body>
 </html>

@@ -3,7 +3,7 @@
     margin:0;
     padding:0;
 }
-.wrapper{
+.spesaContent{
     display:grid;
     grid-template-columns:2fr 4fr 3fr 2fr;
     grid-template-rows: 120px 1fr 8fr 1fr;
@@ -13,17 +13,7 @@
     "filters items items basket"
     "footer footer footer footer";
 }
-#logo{
-    grid-area:logo;
-    background-color:lightblue;
-     display:grid; align-items: center; justify-items: center;
-    
-}
-#imglogo{
-    
-    height:80%;
-    
-}
+
 
 #search{
     font-size:1.3em;

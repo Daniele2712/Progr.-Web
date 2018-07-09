@@ -5,7 +5,7 @@ if(!defined("EXEC")){
 }
 
 class FCarrello extends Foundation{
-    protected static $table = "carrelli";
+    protected static $table = "carrelli";       /* forse e  melgio items_carrello.....vediamo se dovra essere cmabito o no...*/
 
     public static function update(Entity $carrello){
         $DB = Singleton::DB();
@@ -40,5 +40,20 @@ class FCarrello extends Foundation{
             $r->addItem($item);
         return $r;
     }
+    
+    public static function getCarrelloItems($IDcarrello){
+         echo "F-Carrello";
+        $rows = array();
+        $DB = Singleton::DB();
+        $sql = "SELECT * from items_carrello where id_carrello=$IDcarrello";
+        $result = $DB->query($sql);
+        while($r = mysqli_fetch_assoc($result)) {
+            $rows[] = $r;
+        }
+        return json_encode($rows);
+        
+        
+    }
+    
 }
 ?>

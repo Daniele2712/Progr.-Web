@@ -1,0 +1,28 @@
+#gestoreContent{ /* THE WHOLE CONTAINTER*/
+    display:grid;
+    justify-items:center;
+  
+}
+
+
+#insertProduct{     /*   The div that contains the form*/
+    width:60%;
+}
+
+
+.insertImage{   /*   The form itself*/
+    display:grid;
+    
+    
+    
+}
+
+.insertImage div{   /*   The form itself*/
+    display:grid;
+    grid-template-columns:2fr 3fr;
+    padding:10px;
+    
+    
+    
+    
+}

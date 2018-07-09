@@ -12,11 +12,11 @@ class Request{
     private $method;
     private $globals = array();
 
-    public function __construct(){
+    public function __construct(){  
         global $config;
-        $this->controller = $config['default']['controller'];
-        $this->action = $config['default']['action'];
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->controller = $config['default']['controller'];   /* default e' Cshop*/
+        $this->action = $config['default']['action'];           /* default e' home*/
+        $this->method = $_SERVER['REQUEST_METHOD']; 
         $uri = $_SERVER['REQUEST_URI'];
         $pos = strpos($uri,'?');
         $params = explode("/",$pos===FALSE?$uri:substr($uri,0,$pos));
@@ -101,9 +101,9 @@ class Request{
 				case 'date':
 					$default=new Date();
 					break;
-                case 'json':
-                    $default=false;
-                    break;
+                                case 'json':
+                                    $default=false;
+                                    break;
 				default:
 					$default=NULL;
 					break;
@@ -210,7 +210,7 @@ class Request{
 				elseif(empty($tmp))
 					return $default;
 				break;
-            case 'json':
+                        case 'json':
 				$tmp=file_get_contents("php://input");
 				if(is_string($tmp)){
 					$ret=json_decode($tmp,true);
@@ -222,8 +222,8 @@ class Request{
 						return $ret;
 				}else
 					return $default;
-                break;
-			default:
+                                        break;
+                                default:
 				return $default;
 				break;
 		}
