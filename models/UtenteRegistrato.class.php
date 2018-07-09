@@ -35,6 +35,6 @@ class UtenteRegistrato extends Utente{
     }
 
     public function getCarrello(): \Models\Carrello{
-        return clone $this->carrello;
+        return $this->carrello;
     }
 }

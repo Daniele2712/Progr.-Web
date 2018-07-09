@@ -17,10 +17,20 @@ class Carrello extends Model{
 
 	//Metodi
 	public function addProdotto(Prodotto $pro, int $q){
-		$pre = $pro->getPrezzo();
-		$pre->setPrezzo($pre->getPrezzo() * $q);
-		$i=new Item($pro, $pre, $q);
-		$this->prodotti[]=$i;
+        $f = FALSE;
+        $id = $pro->getId();
+        foreach($this->prodotti as $k=>$item)
+            if($item->getProdotto()->getId() === $id){
+                $f = TRUE;
+                $this->prodotti[$k]->add($q);
+                break;
+            }
+        if(!$f){
+    		$pre = $pro->getPrezzo();
+    		$pre->setPrezzo($pre->getPrezzo() * $q);
+    		$i=new Item($pro, $pre, $q);
+    		$this->prodotti[]=$i;
+        }
 		$this->AggiornaPrezzi();
 		$this->CalcolaTotale();
 	}
@@ -44,7 +54,16 @@ class Carrello extends Model{
 	}
 
 	public function addItem(Item $item){
-		$this->prodotti[] = clone $item;
+        $f = FALSE;
+        $id = $item->getProdotto()->getId();
+        foreach($this->prodotti as $k=>$i)
+            if($i->getProdotto()->getId() === $id){
+                $f = TRUE;
+                $this->prodotti[$k]->add($item->getQuantita());
+                break;
+            }
+        if(!$f)
+		      $this->prodotti[] = clone $item;
         $this->AggiornaPrezzi();
         $this->CalcolaTotale();
 	}

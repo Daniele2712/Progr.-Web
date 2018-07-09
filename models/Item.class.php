@@ -17,10 +17,21 @@ class Item extends Model{
 		$this->quantità=$q;
 		$this->prezzo=$m;
 	}
+    public function getProdotto(){
+        return clone $this->prodotto;
+    }
 	public function getPrezzo(){
 		return $m=$this->prezzo;
 	}
 	public function getQuantita(){
 		return $q=$this->quantità;
 	}
+    public function add(int $qta){
+        $this->quantità += $qta;
+        $this->prezzo->setPrezzo($this->prodotto->getPrezzo()->getPrezzo()*$qta);
+    }
+    public function __clone(){
+        $this->prodotto = clone $this->prodotto;
+        $this->prezzo = clone $this->prezzo;
+    }
 }

@@ -64,7 +64,7 @@ class Session{
         if($_SESSION["cartId"])
             return Carrello::find($_SESSION["cartId"]);
         elseif($_SESSION["guestCart"])
-            return clone $_SESSION["guestCart"];
+            return $_SESSION["guestCart"];
         elseif($_SESSION["userId"]){
             $cart = self::getUser()->getCarrello();
             $_SESSION["cartId"] = $cart->getId();
