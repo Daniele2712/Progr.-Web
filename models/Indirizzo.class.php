@@ -25,4 +25,20 @@ class Indirizzo extends Model{
     public function __clone(){
         $this->comune = clone $this->comune;
     }
+
+    public function getComune():\Models\Comune{
+        return clone $this->comune;
+    }
+
+    public function getVia():string{
+        return $this->via;
+    }
+
+    public function getCivico():int{
+        return $this->civico;
+    }
+
+    public function getNote():string{
+        return $this->note;
+    }
 }

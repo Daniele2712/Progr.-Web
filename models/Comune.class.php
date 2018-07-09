@@ -16,4 +16,16 @@ class Comune extends Model{
         $this->CAP = $CAP;
         $this->provincia = $provincia;
     }
+
+    public function getNome():string{
+        return $this->comune;
+    }
+
+    public function getCAP():int{
+        return $this->CAP;
+    }
+
+    public function getProvincia():string{
+        return $this->provincia;
+    }
 }

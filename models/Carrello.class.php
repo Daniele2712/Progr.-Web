@@ -17,8 +17,8 @@ class Carrello extends Model{
 
 	//Metodi
 	public function addProdotto(Prodotto $pro, int $q){
-		$pre = $pro.getPrezzo();
-		$pre.setPrezzo($pre.getPrezzo()*$q);
+		$pre = $pro->getPrezzo();
+		$pre->setPrezzo($pre->getPrezzo() * $q);
 		$i=new Item($pro, $pre, $q);
 		$this->prodotti[]=$i;
 		$this->AggiornaPrezzi();

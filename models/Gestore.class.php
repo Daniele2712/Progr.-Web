@@ -6,8 +6,10 @@ if(!defined("EXEC")){
 }
 
 class Gestore extends Utente{
+    private $idGestore;
 
-    public function __construct($nome, $cognome, $telefono, $nascita){
-        parent::__construct($nome, $cognome, $telefono, $nascita);
+    public function __construct($idUtente, $datiAnagrafici, $email, $username, int $idGestore=0){
+        parent::__construct($idUtente, $datiAnagrafici, $email, $username);
+        $this->idGestore = $idGestore;
     }
 }

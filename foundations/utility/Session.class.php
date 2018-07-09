@@ -61,9 +61,18 @@ class Session{
     }
 
     public function getCart():\Models\Carrello{
-        if($_SESSION["cart"])
-            return Carrello::find($_SESSION["cart"]);
-        throw new \Exception("Error Cart not set", 1);
+        if($_SESSION["cartId"])
+            return Carrello::find($_SESSION["cartId"]);
+        elseif($_SESSION["guestCart"])
+            return clone $_SESSION["guestCart"];
+        elseif($_SESSION["userId"]){
+            $cart = self::getUser()->getCarrello();
+            $_SESSION["cartId"] = $cart->getId();
+            return $cart;
+        }else{
+            $_SESSION["guestCart"] = new \Models\Carrello(0);
+            return $_SESSION["guestCart"];
+        }
     }
 
     public function getAddr():\Models\Indirizzo{
@@ -83,6 +92,16 @@ class Session{
     public function setUserAddress(int $id){
         $_SESSION["guestAddress"] = NULL;
         $_SESSION["addressId"] = $id;
+    }
+
+    public function setGuestCart(\Models\Carrello $addr){
+        $_SESSION["cartId"] = NULL;
+        $_SESSION["guestCart"] = clone $addr;
+    }
+
+    public function setUserCart(int $id){
+        $_SESSION["guestCart"] = NULL;
+        $_SESSION["cartId"] = $id;
     }
 
     public function setGuestPayment(\Models\Pagamento $payment){

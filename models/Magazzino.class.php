@@ -10,23 +10,18 @@ class Magazzino extends Model{
     private $gestore;
     private $items = array();
 
-    public function __construct(Indirizzo $indirizzo=null, array $items=array()){
-        if($indirizzo === null)
-            $this->indirizzo = new Indirizzo();
-        else
-            $this->indirizzo = clone $indirizzo;
+    public function __construct(int $id, Indirizzo $indirizzo, array $items=array(), Gestore $gestore){
+        $this->id = $id;
+        $this->indirizzo = clone $indirizzo;
         foreach($items as $i){
             $this->items[] = clone $i;
         }
+        $this->gestore = clone $gestore;
     }
 
 	public function setQuantita(int $qnt){
 
 	}
-
-    public function setGestore(Gestore $ges){
-        $this->gestore = clone $ges;
-    }
 
     public function getItems():array{
         $r = array();
@@ -41,5 +36,9 @@ class Magazzino extends Model{
             if($item->getQta()>0)
                 $r[] = $item;
         return $r;
+    }
+
+    public function getIndirizzo():\Models\Indirizzo{
+        return clone $this->indirizzo;
     }
 }

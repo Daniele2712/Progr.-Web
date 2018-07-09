@@ -31,7 +31,7 @@ class Prodotto extends Model{
         $this->tag = array($t);
 	}
 	public function getPrezzo(){
-		return $m = $this->prezzo;
+		return $this->prezzo;
 	}
     public function getInfo(){return $this->info;}
     public function getDescrizione(){return $this->Descrizione;}

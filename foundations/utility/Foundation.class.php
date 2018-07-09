@@ -99,7 +99,8 @@ abstract class Foundation{
         $DB = \Singleton::DB();
         $sql = "SELECT * FROM ".static::$table." WHERE id IN (?)";
         $p = $DB->prepare($sql);
-        $p->bind_param("s",implode(", ",$ids));
+        $ids_str = implode(", ",$ids);
+        $p->bind_param("s", $ids_str);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $res = $p->get_result();

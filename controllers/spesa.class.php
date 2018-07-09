@@ -82,7 +82,6 @@ class spesa implements Controller{
      */
     public function catalogo(Request $req){
         $session = \Singleton::Session();
-            print_r($_SESSION);
         $cart = $session->getCart();
         $addr = $session->getAddr();
         $magazzino = \Foundations\Magazzino::findClosestTo($addr);
@@ -101,8 +100,15 @@ class spesa implements Controller{
         $cart = $session->getCart();
         $id = $req->getInt("id");
         $qta = $req->getInt("qta");
-        $cart->addItem(new \Models\Item(\Foundations\Prodotto::find($id), $qta));
+        echo "<pre>";
+        print_r($cart);
+        echo "</pre><br>";
+        $prodotto = \Foundations\Prodotto::find($id);
+        $cart->addProdotto($prodotto, $qta);
         //aggiorna carrello
+        echo "<pre>";
+        print_r($cart);
+        echo "</pre>";
     }
 
     public function completaordine(Request $req){
