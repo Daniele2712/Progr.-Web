@@ -142,7 +142,7 @@ class Request{
     }
 
     /**
-     * restituisce un parametro eventalmente effettuando un filtro sul tipo
+     * restituisce un parametro eventualmente effettuando un filtro sul tipo
      *
      * @param     string|int    $name           il nome o la posizione del parametro
      * @param     string        $filter         il tipo di filtro da applicare

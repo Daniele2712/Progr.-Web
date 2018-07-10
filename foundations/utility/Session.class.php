@@ -61,11 +61,11 @@ class Session{
     }
 
     public function getCart():\Models\Carrello{
-        if($_SESSION["cartId"])
+        if(isset($_SESSION["cartId"]))
             return Carrello::find($_SESSION["cartId"]);
-        elseif($_SESSION["guestCart"])
+        elseif(isset($_SESSION["guestCart"]))
             return $_SESSION["guestCart"];
-        elseif($_SESSION["userId"]){
+        elseif(isset($_SESSION["userId"])){
             $cart = self::getUser()->getCarrello();
             $_SESSION["cartId"] = $cart->getId();
             return $cart;
