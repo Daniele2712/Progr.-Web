@@ -48,7 +48,6 @@ class Session{
      * @return    \Models\Utente    utente loggato
      */
     public function getUser(): \Models\Utente{
-
         return Utente::find($_SESSION["userId"]);
     }
 
@@ -62,7 +61,6 @@ class Session{
     }
 
     public function getCart():\Models\Carrello{
-
         if(isset($_SESSION["cartId"]))
             return Carrello::find($_SESSION["cartId"]);
         elseif(isset($_SESSION["guestCart"]))
