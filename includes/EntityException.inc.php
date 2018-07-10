@@ -4,18 +4,21 @@ if(!defined("EXEC")){
 	return;
 }
 
-class EntityException extends Exception{
-    protected $entity;
+/**
+ * eccezione relativa ai Models
+ */
+class ModelException extends Exception{
+    protected $model;
     protected $params;
 
-    public function __construct(string $message = null,string $entity = "Entity",array $params = array(),int $code = 0, Exception $previous = null){
+    public function __construct(string $message = null,string $model = "Model",array $params = array(),int $code = 0, Exception $previous = null){
         parent::__construct($message, $code, $previous);
-        $this->entity = $entity;
+        $this->model = $model;
         $this->params = $params;
     }
 
-    public function getEntity(){
-        return $this->entity;
+    public function getModel(){
+        return $this->model;
     }
 
     public function getParams(){
@@ -23,6 +26,6 @@ class EntityException extends Exception{
     }
 
     public function __toString(){
-        return "$this->message in $this->file:$this->line\nEntity: $this->entity\nParams: " . print_r($this->params, true). "\n" . $this->getTraceAsString();
+        return "$this->message in $this->file:$this->line\nModel: $this->model\nParams: " . print_r($this->params, true). "\n" . $this->getTraceAsString();
     }
 }

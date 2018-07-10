@@ -4,6 +4,9 @@ if(!defined("EXEC")){
 	return;
 }
 
+/**
+ * eccezione relativa a SQL
+ */
 class SQLException extends Exception{
     protected $sql;
     protected $sql_error;
