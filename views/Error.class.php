@@ -56,8 +56,9 @@ class Error implements View{
             echo json_encode($this->message);
         }else{
             $smarty = \Singleton::Smarty();
+            $smarty->assign("content","error/message.tpl");
             $smarty->assign("message",$this->message);
-            $smarty->display("error.tpl");
+            $smarty->display("layout.tpl");
         }
     }
 }

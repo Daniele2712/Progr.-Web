@@ -18,7 +18,11 @@ abstract class HTMLView implements View{
      * nome del layout da usare
      * @var    string
      */
+<<<<<<< HEAD
     protected $layout = "defaultt";
+=======
+    protected $layout = "default";
+>>>>>>> bdb7c65b1cb79b0a810bcd14e613228cb35ce8b3
     /**
      * contenuto da mostrare nel layout
      * @var    string
@@ -36,7 +40,13 @@ abstract class HTMLView implements View{
      * invia in output la pagina HTML
      */
     public function render(){
+<<<<<<< HEAD
         $this->smarty->display("layout.tpl");
+=======
+        $this->smarty->assign("content",$this->content.".tpl");
+        $this->HTMLRender();
+        $this->smarty->display($this->layout.".tpl");
+>>>>>>> bdb7c65b1cb79b0a810bcd14e613228cb35ce8b3
     }
     
 

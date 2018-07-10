@@ -40,15 +40,23 @@ class Request{
      */
     private $globals = array();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> bdb7c65b1cb79b0a810bcd14e613228cb35ce8b3
     /**
      * analizza la richiesta e setta i parametri
      */
     public function __construct(){
        
         global $config;
+<<<<<<< HEAD
         $this->controller = "Controllers\\".$config['default']['controller'];   /* default e' Cshop ma dovrebbe esseere solo shop!!!*/
         $this->action = $config['default']['action'];                           /* default e' home*/    
+=======
+        $this->controller = "Controllers\\".$config['default']['controller'];
+        $this->action = $config['default']['action'];
+>>>>>>> bdb7c65b1cb79b0a810bcd14e613228cb35ce8b3
         $this->method = $_SERVER['REQUEST_METHOD'];
         $uri = $_SERVER['REQUEST_URI'];
         $pos = strpos($uri,'?');
@@ -147,7 +155,11 @@ class Request{
     }
 
     /**
+<<<<<<< HEAD
      * restituisce un parametro eventalmente effettuando un filtro sul tipo
+=======
+     * restituisce un parametro eventualmente effettuando un filtro sul tipo
+>>>>>>> bdb7c65b1cb79b0a810bcd14e613228cb35ce8b3
      *
      * @param     string|int    $name           il nome o la posizione del parametro
      * @param     string        $filter         il tipo di filtro da applicare

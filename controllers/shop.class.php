@@ -6,63 +6,49 @@ if(!defined("EXEC")){
 	return;
 }
 
-
-class Shop{
-    
-    public function home($req){
-        $headIncludes='<link rel="stylesheet" type="text/css" href="/templates/css/login.css"/> <link rel="stylesheet" type="text/css" href="/templates/css/home.css"/>';
-        $loginOrUserIncludes='login.tpl';
-        $contentIncludes='home.tpl';
-        $v = new \Views\Home($headIncludes, $loginOrUserIncludes, $contentIncludes);
+class shop{
+    public function home(Request $req){
+        $v = new \Views\Home();
         $v->render();
-        
     }
-    
-     public function spesaSenzaLogin($req){
-        $IDmagazzino=1;
-        $nome='Mario Rossi';
-        $categorie=FCategoria::allCategories();
-        $filtri=FFiltro::allFilters(); 
-        $items=FMagazzino::allItems($IDmagazzino);
-        $carrello=FCarrello::getCarrelloItems(); 
-        
-        
-        $v = new \Views\Spesa();
-        $divs=$v->createDivs($categorie, $filtri, $items, $carrello);
-     }
 
+    public function spesaSenzaLogin(Request $req){
+        $v = new \Views\Spesa();
+        $arrayDiProdotti = array();//$ecommerce->getArrayDiProdotti();   //ANDREI: questo lo devi prendere dai modelli
+
+        //l-Array di prodotti che mi ritorna, e' fatto da tanti item quanti gli item del negozio
+        // e ogni item del array a sua volta e un oggetto con tante coppie attributo valre
+        // quante sono le colonne della tabella (le attributi sono i nomi delle colonne)
+        $v->setSpesa($arrayDiProdotti);
+        $v->render();
+    }
 
     public function spesaConLogin(Request $req){
-    
-    /*
-
-      La mia spesa con login era cosi:
-     
-        $nome='Mario Rossi';
-        $categorie=array('Cat1','Cat2','Cat3','Cat4','Cat5');
-        $filtri='login.tpl';             Devo trovare un modo per mostrare gli array
-        $carrello='home.tpl';            Ma seondo me json e la cosa piu giusta???   
-        
-        $v = new VSpesa();
-        $v->setSpesa();   
-        $v->render();
-        */
         $v = new \Views\Spesa();
         $v->setSpesa();
         $v->render();
     }
-    
-     public function gestore($req){
-        $v = new VGestore('nadaaaa');
-        $v->render();
-     }
 
+    public function submit(Request $req){
+        echo("non dovrei arrivare qui");
+        // submitting a guestbook entry
+        $this->mungeFormData($_POST);
+        if($this->isValidForm($_POST)){
+            $guestbook->addEntry($_POST);
+            $guestbook->displayBook($guestbook->getEntries());
+        } else {
+             echo var_dump($_POST);
+            $guestbook->displayForm($_POST);
+
+        }
+    }
 
     public function default(Request $req){
         return $this->home($req);
     }
 
-    
+    //ANDREI: queste sono funzioni che terrei nel controller, ma private. Poi vedi te
+
     /**
     * fix up form data if necessary
     *

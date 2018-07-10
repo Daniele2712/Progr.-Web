@@ -24,20 +24,17 @@ class User implements Controller{
     }
 
     public function login(Request $req){
+
         $user = $req->getString("username", NULL, "POST");
         $pw = $req->getString("password", NULL, "POST");
         try{
+            \Singleton::Session()->login($user,$pw);
             $user = \Singleton::Session()->getUser();
-            echo "<pre> kkk";
-            echo var_dump($req);
+            echo "<pre>";
             print_r($user);
             echo "</pre>";
-            echo "e da qui in poi ti do la pagina di spesa";
-            
             //header('Location: '.$newURL);
         }catch(\ModelException $e){         // c-e errore con questo model, che cosa e??
-            echo "NADAAAA";
-            echo "asddasd";
             echo "<pre>";
             echo str_replace("\n", "<br>", $e);
             echo "</pre>";
