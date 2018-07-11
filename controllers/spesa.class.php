@@ -6,19 +6,15 @@ if(!defined("EXEC")){
 	return;
 }
 
-class Spesa implements Controller{
-    public function __construct(){
-        parent::__construct();
-    $this->layout = "layout";
-    $this->content = "s";
-    //$this->smarty->assign('templateContentIncludes', 'home.tpl');
-    $this->smarty->assign('templateLoginOrUserIncludes', 'login.tpl');
-    $this->addCSS("home.css");
-    $this->addCSS("login.css");
-        
-        
-        
-    }
+class spesa implements Controller{
+    /*public function __construct(){                NON È UNA VISTA!!!!!
+        $this->layout = "layout";
+        $this->content = "s";
+        //$this->smarty->assign('templateContentIncludes', 'home.tpl');
+        $this->smarty->assign('templateLoginOrUserIncludes', 'login.tpl');
+        $this->addCSS("home.css");
+        $this->addCSS("login.css");
+    }*/
 
     /**
      * metodo per selezionare o aggiungere l'indirizzo a cui spedire

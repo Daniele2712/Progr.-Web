@@ -41,16 +41,16 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
     /**
      * invia in output la pagina HTML
      */
-    public function render(){   
+    public function render(){
         $this->HTMLRender();
 
         $this->smarty->assign("templateContentIncludes",$this->content.".tpl");
-        
+
         $resources_str = "";
-        foreach ($this->resources["js"] as $file)
-            $resources_str .= "<script type='text/javascript' src='templates/js/$file'></script>";
-        foreach ($this->resources["css"] as $file)
-            $resources_str .= "<link rel='stylesheet' type='text/css' href='templates/css/$file'/>";
+        foreach($this->resources["css"] as $file)
+            $resources_str .= "<link rel='stylesheet' type='text/css' href='/templates/css/$file'/>";
+        foreach($this->resources["js"] as $file)
+            $resources_str .= "<script type='text/javascript' src='/templates/js/$file'></script>";
         $this->smarty->assign("templateHeadIncludes", $resources_str);
         $this->smarty->display($this->layout.".tpl");
     }
