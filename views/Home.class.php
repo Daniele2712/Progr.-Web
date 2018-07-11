@@ -10,12 +10,12 @@ class Home extends HTMLView{
     public function __construct(){
     parent::__construct();
     $this->layout = "layout";
-    $this->content = "home";
-    $this->addCSS("home.css");
-    
+    $this->content = "home/home";
+    $this->addCSS("home/css/home.css");
+
     $this->smarty->assign('templateLoginOrProfileIncludes', 'login.tpl');
-    $this->addCSS("login.css");
-    $this->addJS("login.js");
-    
+    $this->addCSS("login/css/login.css");
+    $this->addJS("login/js/login.js");
+
     }
 }

@@ -48,9 +48,9 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
 
         $resources_str = "";
         foreach($this->resources["css"] as $file)
-            $resources_str .= "<link rel='stylesheet' type='text/css' href='/templates/css/$file'/>";
+            $resources_str .= "<link rel='stylesheet' type='text/css' href='/templates/contents/$file'/>";
         foreach($this->resources["js"] as $file)
-            $resources_str .= "<script type='text/javascript' src='/templates/js/$file'></script>";
+            $resources_str .= "<script type='text/javascript' src='/templates/contents/$file'></script>";
         $this->smarty->assign("templateHeadIncludes", $resources_str);
         $this->smarty->display($this->layout.".tpl");
     }
