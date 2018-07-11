@@ -6,5 +6,6 @@ if(!defined("EXEC")){
 }
 
 class Home extends HTMLView{
-    protected $layout = "index";
+    protected $layout = "layout";
+    protected $content = "index";
 }

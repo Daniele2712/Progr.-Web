@@ -1,8 +1,8 @@
-{* Smarty *}  
+{* Smarty *}
 {* forse gli dovro passare un array di info cpsi lui sa che info deve displayare *}
 
 <html>
-    
+
     <head>
         <meta charset="utf-8"/>
         <link rel="stylesheet" type="text/css" href="/templates/css/layout.css"/>
@@ -13,24 +13,24 @@
         {$templateHeadIncludes}
         <title>Online Shopping</title>
     </head>
-    
+
     <body>
         <div id="header">
-           
+
                 <img id ="logoimg" src="/templates/img/logo.png"/>
                 <img id ="logowriting" src="/templates/img/OnlineShopping.png"/>
-                {include file=$templateLoginOrUserIncludes}
+                {*include file="contents/$templateLoginOrUserIncludes"*}
         </div>
-        
-        
+
+
         <div class="content">
-            {include file=$templateContentIncludes}
+            {include file="contents/$templateContentIncludes"}
         </div>
-        
-                
+
+
         <div id="footer">
             {include file='footer.tpl'}
         </div>
-        
+
     </body>
 </html>

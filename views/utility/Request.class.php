@@ -43,7 +43,7 @@ class Request{
      * analizza la richiesta e setta i parametri
      */
     public function __construct(){
-       
+
         global $config;
 
         $this->controller = "Controllers\\".$config['default']['controller'];
@@ -53,7 +53,7 @@ class Request{
         $pos = strpos($uri,'?');
         $params = explode("/",$pos===FALSE?$uri:substr($uri,0,$pos));
         array_shift($params);
-        
+
         if(count($params)>0 && $params[0]=="api"){
             $this->rest = true;
             array_shift($params);
@@ -76,9 +76,8 @@ class Request{
         foreach ($GLOBALS as $key=>$value)
             if(array_search($key,$array,TRUE)!==FALSE)
                 unset($GLOBALS[$key]);
-            
-            echo "CONTROLLER: $this->controller   ACTION: $this->action   METHOD: $this->method ";
-             
+
+        //echo "CONTROLLER: $this->controller   ACTION: $this->action   METHOD: $this->method ";  //TODO:rimuovere
     }
 
     public function getMethod():string{
@@ -146,15 +145,7 @@ class Request{
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * restituisce un parametro eventalmente effettuando un filtro sul tipo
-=======
      * restituisce un parametro eventualmente effettuando un filtro sul tipo
->>>>>>> bdb7c65b1cb79b0a810bcd14e613228cb35ce8b3
-=======
-     * restituisce un parametro eventualmente effettuando un filtro sul tipo
->>>>>>> bdb7c65b1cb79b0a810bcd14e613228cb35ce8b3
      *
      * @param     string|int    $name           il nome o la posizione del parametro
      * @param     string        $filter         il tipo di filtro da applicare

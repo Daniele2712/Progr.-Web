@@ -1,12 +1,14 @@
 <?php
+namespace Views;
 if(!defined("EXEC")){
     header("location: /index.php");
 	return;
 }
 
-class VGestore extends HTMLView{
-    
+class Gestore extends HTMLView{
+
     public function __construct($sessione='non puo essere nullo,,,penso,,,dovro mettere una sessone'){ /* Sessione da cui io ricevo il nome del gestore, e poi li faccio la view che deve vedere*/
+        //ANDREI: in realtà non ti passo la sessione ma un \Models\Utente
         parent::__construct();
         //$profile=$this.createProfile($sessione);
         //$content=createContent();
@@ -17,19 +19,19 @@ class VGestore extends HTMLView{
     }
 
     public function HTMLRender(){
-        
+
     }
-    
+
     public function createProfile($sessione){
         return "aaa";
     }
-    
+
     public function createContent(){
        return "aaa";
-        
+
     }
-    
-    
-    
-    
+
+
+
+
 }

@@ -1,5 +1,5 @@
 {* Smarty *}
-    
+
         <div class="wrapper">
 
             <div class="header">
@@ -34,7 +34,7 @@
 
 
                                         <div id="registerbox">
-                                        <form class="login"  action="{$SCRIPT_NAME}?action=registrazione" method="post">
+                                        <form class="login"  action="/user/register" method="post">
                                             <div><label for="nome">Nome</label>
                                               <input type="text" name="nome" id="nome"></div>
                                               <div><label for="cognome">Cognome</label>
@@ -80,5 +80,5 @@
 
                </div>
             </div>
-                
+
         </div>
