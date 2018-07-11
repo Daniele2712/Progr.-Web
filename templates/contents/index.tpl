@@ -1,5 +1,7 @@
 {* Smarty *}
 
+da cancellare
+
         <div class="wrapper">
 
             <div class="header">

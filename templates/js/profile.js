@@ -1,5 +1,6 @@
-$("#bars").click(function(){
-        $('#dropdownMenu').slideToggle('slow');
-    });
+$(document).ready(function(){
+        $("#bars").click(function(){
+        $('#dropdownMenu').slideToggle('slow'); })
+   });
     
 

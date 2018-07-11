@@ -14,7 +14,7 @@ class Gestore extends HTMLView{
         //$content=createContent();
         $this->smarty->assign('username', 'Gestor Mario');
         $this->smarty->assign('templateHeadIncludes', '<link rel="stylesheet" type="text/css" href="/templates/css/profile.css"/> <link rel="stylesheet" type="text/css" href="/templates/css/gestore.css"/>');                   /* Deve essere formato <link rel="stylesheet" type="text/css" href="...>*/
-        $this->smarty->assign('templateLoginOrUserIncludes', 'profile.tpl');     /* Deve essere un template   */
+        $this->smarty->assign('templateLoginOrProfileIncludes', 'profile.tpl');     /* Deve essere un template   */
         $this->smarty->assign('templateContentIncludes', 'gestore.tpl');             /* Deve essere un template*/
     }
 

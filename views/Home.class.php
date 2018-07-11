@@ -6,6 +6,16 @@ if(!defined("EXEC")){
 }
 
 class Home extends HTMLView{
-    protected $layout = "layout";
-    protected $content = "index";
+
+    public function __construct(){
+    parent::__construct();
+    $this->layout = "layout";
+    $this->content = "home";
+    $this->addCSS("home.css");
+    
+    $this->smarty->assign('templateLoginOrProfileIncludes', 'login.tpl');
+    $this->addCSS("login.css");
+    $this->addJS("login.js");
+    
+    }
 }

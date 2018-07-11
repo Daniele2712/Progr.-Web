@@ -14,12 +14,6 @@ class shop{
 
     public function spesaSenzaLogin(Request $req){
         $v = new \Views\Spesa();
-        $arrayDiProdotti = array();//$ecommerce->getArrayDiProdotti();   //ANDREI: questo lo devi prendere dai modelli
-
-        //l-Array di prodotti che mi ritorna, e' fatto da tanti item quanti gli item del negozio
-        // e ogni item del array a sua volta e un oggetto con tante coppie attributo valre
-        // quante sono le colonne della tabella (le attributi sono i nomi delle colonne)
-        $v->setSpesa($arrayDiProdotti);
         $v->render();
     }
 

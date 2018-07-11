@@ -35,6 +35,7 @@ class User implements Controller{
             echo "</pre>";
             //header('Location: '.$newURL);
         }catch(\ModelException $e){         // c-e errore con questo model, che cosa e??
+            \Singleton::Session()->logout();
             echo "<pre>";
             echo str_replace("\n", "<br>", $e);
             echo "</pre>";

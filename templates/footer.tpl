@@ -56,5 +56,4 @@
 				</div>
 
 			</div>
- <script type="text/javascript" src="/templates/js/myscripts.js"></script>
                 </div>

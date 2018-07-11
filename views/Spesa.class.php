@@ -6,10 +6,18 @@ if(!defined("EXEC")){
 }
 
 class Spesa extends HTMLView{
-    protected $layout = "layout";
-    protected $content = "spesa";
-
-    public function setSpesa($prodotti=array()){
-        $this->smarty->assign('prodotti_for_tpl', $prodotti);
-    }
+    
+    public function __construct(){
+    parent::__construct();
+    $this->layout = "layout";       // NB se c-era scritto solo $layout = layout, in reala ti creava una nuova variabile , non sovrascriveva va vecchia, che e $this->layout
+    $this->content = "spesa";
+    $this->addCSS("spesa.css");
+   
+    $this->smarty->assign('username', 'Marcello');     /* IL tpl profile ha bisogno di una variablile $username*/
+    $this->smarty->assign('templateLoginOrProfileIncludes', 'profile.tpl');
+    $this->addCSS("profile.css");
+    $this->addJS("profile.js");
 }
+        
+
+    }

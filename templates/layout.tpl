@@ -19,7 +19,7 @@
 
                 <img id ="logoimg" src="/templates/img/logo.png"/>
                 <img id ="logowriting" src="/templates/img/OnlineShopping.png"/>
-                {*include file="contents/$templateLoginOrUserIncludes"*}
+                {include file="contents/$templateLoginOrProfileIncludes"}
         </div>
 
 
