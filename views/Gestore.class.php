@@ -12,10 +12,18 @@ class Gestore extends HTMLView{
         parent::__construct();
         //$profile=$this.createProfile($sessione);
         //$content=createContent();
-        $this->smarty->assign('username', 'Gestor Mario');
+        $this->layout = "layout";       
+        $this->content = "gestore/gestore";
         $this->smarty->assign('templateHeadIncludes', '<link rel="stylesheet" type="text/css" href="/templates/css/profile.css"/> <link rel="stylesheet" type="text/css" href="/templates/css/gestore.css"/>');                   /* Deve essere formato <link rel="stylesheet" type="text/css" href="...>*/
-        $this->smarty->assign('templateLoginOrProfileIncludes', 'profile.tpl');     /* Deve essere un template   */
-        $this->smarty->assign('templateContentIncludes', 'gestore.tpl');             /* Deve essere un template*/
+        
+        $this->smarty->assign('username', 'Gestor Mario');
+        $this->smarty->assign('templateLoginOrProfileIncludes', '/profile/profile.tpl');     /* Deve essere un template   */
+        $this->addJS("profile/js/profile.js");
+        $this->addCSS("profile/css/profile.css");
+        
+        $this->smarty->assign('templateContentIncludes', 'contents/gestore/gestore.tpl');             /* Deve essere un template*/
+        $this->addCSS('gestore/css/gestore.css');
+        
     }
 
     public function HTMLRender(){

@@ -95,6 +95,22 @@ class Request{
     public function isRest():bool{
         return $this->rest;
     }
+    
+    public function getImgLocation(){
+        return $this->globals['_FILES']['image']['tmp_name'];
+    }
+    
+     public function getImgSize(){
+        return $this->globals['_FILES']['image']['size'];
+    }
+    
+    public function getImgType(){
+        return $this->globals['_FILES']['image']['type'];
+    }
+    
+    public function getImgName(){
+        return $this->globals['_FILES']['image']['name'];
+    }
 
     /**
      * restituisce un parametro di tipo intero

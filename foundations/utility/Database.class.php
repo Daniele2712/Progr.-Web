@@ -61,7 +61,7 @@ class Database{
      * @throws    SQLException        se l'esecuzione della query fallisce
      * @return    mysqli_result       oggetto contenente il risultato della query
      */
-    public function query(string $query): mysqli_result{
+    public function query(string $query){       // ho tolto : mysqli_result xke altrimenti non potevo fare una insert , xke ritoranava bool e mi diceva che si aspettava mysqli_result
         if(!$this->connection)
             throw new \SQLException("Error Not Connected", "", "", 1);
         $r = $this->connection->query($query);

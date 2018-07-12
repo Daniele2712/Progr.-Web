@@ -124,8 +124,11 @@ CREATE TABLE `dati_anagrafici` (
 --
 
 INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascita`) VALUES
-(1, 'mario', 'rossi', '33312345678', '1970-01-01'),
-(2, 'luigi', 'verdi', '33387654321', '1980-02-02');
+(1, 'Mario', 'Rossi', '33312345678', '1970-01-01'),
+(2, 'Luigi', 'Verdi', '33387654321', '1980-02-02'),
+(1, 'Andrei', 'Balaban', '11122245678', '1940-01-04'),
+(1, 'Alfredo', 'Alfonso', '33333345678', '1988-02-02'),
+(1, 'Alessandro', 'Manzoni', '33212345678', '1990-01-03');
 
 -- --------------------------------------------------------
 
@@ -163,7 +166,8 @@ CREATE TABLE `gestori` (
 --
 
 INSERT INTO `gestori` (`id`, `id_utente`) VALUES
-(1, 2);
+(1, 4),
+(2, 3);
 
 -- --------------------------------------------------------
 
@@ -176,7 +180,7 @@ CREATE TABLE `immagini` (
   `nome` varchar(50) NOT NULL DEFAULT '',
   `size` varchar(25) NOT NULL DEFAULT '',
   `type` varchar(25) NOT NULL DEFAULT '',
-  `immagine` blob NOT NULL
+  `immagine` mediumblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -507,7 +511,9 @@ CREATE TABLE `utenti` (
 
 INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`) VALUES
 (1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af'),
-(2, 2, 'Gestore', 'luigiverdi@gmail.com', 'luiver', 'abcdefghilmnopqr');
+(2, 1, 'UtenteRegistrato', 'alessandromanzoni@gmail.com', 'aleman', 'a39bb4d6e7f7036c1e5a7192adc56ed0'),
+(3, 1, 'Gestore', 'andreibal@yahoo.com', 'andrei', 'b2d09b73eb5ad0228f9cb2e51485a45f'),
+(4, 2, 'Gestore', 'luigiverdi@gmail.com', 'luiver', 'e0c96a15bd424cc0b7a81e498603b17d');
 
 -- --------------------------------------------------------
 

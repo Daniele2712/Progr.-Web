@@ -17,4 +17,21 @@ class Spesa extends HTMLView{
         $this->addCSS("profile/css/profile.css");
         $this->addJS("profile/js/profile.js");
     }
+    
+    public function fillCategories($categories){
+         $this->smarty->assign('categorie_for_tpl' , $categories);
+    }
+    
+    public function fillFilters($filters){
+         $this->smarty->assign('categorie_for_tpl' , $categories);
+    }
+    
+    public function fillItems($items){
+         $this->smarty->assign('items_for_tpl' , $items);
+    }
+    public function fillBasket($items){
+         $this->smarty->assign('categorie_for_tpl' , $categories);
+    }
+    
+    
 }

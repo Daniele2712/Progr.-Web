@@ -3,48 +3,23 @@
     margin:0;
     padding:0;
 }
-.spesaContent{
+.wrapper{
     display:grid;
-    grid-template-columns:2fr 4fr 3fr 2fr;
-    grid-template-rows: 120px 1fr 8fr 1fr;
+    grid-template-columns:1fr 4fr 1fr;
+    grid-template-rows: 1fr 8fr;
     grid-template-areas:
-    "logo search profile profile"
-    "categories categories categories categories"
-    "filters items items basket"
-    "footer footer footer footer";
+    "categories categories categories"
+    "filters items basket"
 }
 
 
-#search{
-    font-size:1.3em;
-    color:darkblue;
-    grid-area:search;
-    display:grid; align-items: center; justify-items: center;
-    background-color:lightblue;
-    
-    
-}
-
-#profile{
-    grid-area:profile;
-    background-color:lightblue;
-    display:grid; align-items: center; justify-items: center;
-    grid-template-columns:minmax(min-content,33%) minmax(min-content,33%) minmax(max-content, 60%);
-}
-#shoppingbasketimg{
-    cursor:pointer;
-}
-#listimg{
-    cursor:pointer;
-}
-#profileimg{
-    cursor:pointer;
-}
+/*              CATEGORIES              */
 
 #categories{
+    min-width:100%;
     grid-area:categories;
-    min-height:100px;
-    background: linear-gradient(lightblue, white);
+    height:100px;
+    background: linear-gradient(lightgrey, white);
     display:grid; align-items: center; justify-items: center;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     
@@ -70,6 +45,9 @@
   box-shadow: 0px 5px 6px;
 }
 
+/*          END FO CATEGORIES              */
+
+/*          FILTERS              */
 
 #filters{
     padding:10px;
@@ -108,16 +86,20 @@
     
 }
 
+/*          END OF FILTERS              */
 
+/*          ITEMS              */
 
 
 #items{
     grid-area:items;
     display:grid;
     grid-template-columns: 1fr 1fr;
+    justify-items:center;
     grid-gap:1em;
     margin:3em;
 }
+
 .item{
 display:grid;
 grid-template-columns: 1fr 2fr;
@@ -130,6 +112,8 @@ align-items:center;
 justify-items:center;
 grid-gap:1em;
 border-bottom:1px lightgrey solid;
+max-height: 300px;
+max-width: 300px;
 }
 
 
@@ -166,10 +150,9 @@ border-bottom:1px lightgrey solid;
     
 }
 
-#cart_total{
-    height:30px;
-}
+/*          END  OF ITEMS       */
 
+/*          BASKET              */
 
 
 #basket{
@@ -178,6 +161,9 @@ border-bottom:1px lightgrey solid;
     justify-items: center;
 }
 
+#cart_total{
+    height:30px;
+}
 
 
 #basked_wrapper{

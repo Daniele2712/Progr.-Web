@@ -14,6 +14,24 @@ class shop{
 
     public function spesaSenzaLogin(Request $req){
         $v = new \Views\Spesa();
+        
+        $cat=\Singleton::DB()->query("SELECT nome FROM `categorie`;");
+        $catFetched=array();
+        while($row = mysqli_fetch_array($cat)) $catFetched[]=$row["nome"];   
+        $v->fillCategories($catFetched);
+        
+        /*      DEVO TROVARE l-ID DEL MAGAZZINO DA CUI FACCIO LA SPESA      */
+        $idMagazzino=1;
+        $item=\Singleton::DB()->query("SELECT prodotti.*, items_magazzino.quantita FROM `prodotti`, items_magazzino WHERE prodotti.id=items_magazzino.id_prodotto AND items_magazzino.id_prodotto=$idMagazzino;");
+        $itemFetched=array();
+        
+        while($row = mysqli_fetch_array($cat)) $catFetched[]=$row;   
+        /*echo "<pre>";
+        echo var_dump($itemFetched);
+        echo "</pre>";*/
+        $v->fillItems($itemFetched);
+        
+        
         $v->render();
     }
 
@@ -21,6 +39,13 @@ class shop{
         $v = new \Views\Spesa();
         $v->setSpesa();
         $v->render();
+    }
+    
+    
+    public function gestore(Request $req){
+        $v = new \Views\Gestore();
+        $v->render();
+        
     }
 
     public function submit(Request $req){
