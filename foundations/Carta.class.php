@@ -7,5 +7,5 @@ if(!defined("EXEC")){
 }
 
 class Carta{
-
+    protected static $table = "carte";
 }

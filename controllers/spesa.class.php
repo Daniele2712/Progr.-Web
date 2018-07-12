@@ -135,7 +135,9 @@ class spesa implements Controller{
         if($id === NULL)
             die("errore2");
         $session->setUserPayment($id);
+        $pag = \Foundations\Pagamento::find($id);
         $ord = $session->getOrder();
+        $ord->setPagamento($pag);
         //bisogna finire i metodi di pagamento cosi possono essere aggiunti all'ordine
 
     }
@@ -148,7 +150,7 @@ class spesa implements Controller{
         $id = $req->getInt("id", NULL);
         if($id === NULL)
             die("errore2");
-        //$session->setGuestPayment(new \Models\Pagamento(...));
+        //$session->setGuestPayment(new \Models\Pagamento());
         //ok
     }
 

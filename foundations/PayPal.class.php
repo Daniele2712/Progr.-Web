@@ -7,5 +7,5 @@ if(!defined("EXEC")){
 }
 
 class PayPal{
-
+    protected static $table = "paypal";
 }
