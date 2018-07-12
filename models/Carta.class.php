@@ -6,23 +6,25 @@ if(!defined("EXEC")){
 
 class Carta implements MetodoPagamento
 {
-
+    private $idCarta;
     private $numeroCarta;
-    private $nuemro3Cifre;
+    private $cvv;
     private $nome;
     private $cognome;
-    private $giornoNascita;
-    private $meseNascita;
-    private $annoNascita;
-    private $dataScadenza;
+    private $dataScadenza
 
-  public function __construct(){
-    prende le ocse dalle form e le mette dentro alle variabili
-    }
+  public function __construct(int $idPagamento, int $idCarta, string $numCarta, int $cvv,
+  string $nome, string $cognome, DateTime $dataScadenza){
+      parent::__construct($idPagamento);
+      $this->$idCarta;
+      $this->numeroCarta = $numCarta;
+      $this->cvv = $cvv;
+      $this->nome = $nome;
+      $this->cognome = $cognome;
+      $this->dataScadenza = $dataScadenza;
+      }
 
     private function verificaScadenza(){
-
-
 
     }
 

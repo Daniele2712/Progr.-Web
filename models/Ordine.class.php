@@ -8,7 +8,7 @@ if(!defined("EXEC")){
 class Ordine extends Model{
 	//Attributi
     private $prodotti= array();
-    private $metodoPagamento;
+    private $Pagamento;
     private $indirizzo;
 	private $utente;
     //Costruttori
@@ -21,8 +21,8 @@ class Ordine extends Model{
 	public function setProdotti(array $prodotti){
 		$this->prodotti =  $prodotti;
 	}
-	public function setMetodoPagamento(MetodoPagamento $metodopagamento){
-		$this->metodopagamento =  $metodopagamento;
+	public function setPagamento(Pagamento $pagamento){
+		$this->pagamento =  $pagamento;
 	}
 	public function setIndirizzo(Indirizzo $indirizzo){
 		$this->indirizzo =  $indirizzo;

@@ -5,7 +5,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class Paypal implements MetodoPagamento
+class Paypal implements Pagamento
 {
 
     private $pagato = false;
