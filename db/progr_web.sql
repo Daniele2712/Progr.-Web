@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Lug 09, 2018 alle 18:56
+-- Creato il: Lug 12, 2018 alle 18:34
 -- Versione del server: 10.1.30-MariaDB
 -- Versione PHP: 7.2.2
 
@@ -49,6 +49,7 @@ INSERT INTO `carrelli` (`id`, `totale`, `valuta`) VALUES
 
 CREATE TABLE `carte` (
   `id` int(11) NOT NULL,
+  `id_pagamento` int(11) NOT NULL,
   `numero` int(20) NOT NULL,
   `cvv` int(5) NOT NULL,
   `nome` varchar(100) NOT NULL,
@@ -60,8 +61,8 @@ CREATE TABLE `carte` (
 -- Dump dei dati per la tabella `carte`
 --
 
-INSERT INTO `carte` (`id`, `numero`, `cvv`, `nome`, `cognome`, `data_scadenza`) VALUES
-(1, 1, 0, 'mario', 'rossi', '1970-01-01');
+INSERT INTO `carte` (`id`, `id_pagamento`, `numero`, `cvv`, `nome`, `cognome`, `data_scadenza`) VALUES
+(1, 1, 1, 0, 'mario', 'rossi', '1970-01-01');
 
 -- --------------------------------------------------------
 
@@ -440,22 +441,32 @@ CREATE TABLE `ordini` (
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `pagamenti`
+--
+
+CREATE TABLE `pagamenti` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `pagamenti`
+--
+
+INSERT INTO `pagamenti` (`id`, `tipo`) VALUES
+(1, 'carta');
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `pagamenti_preferiti`
 --
 
 CREATE TABLE `pagamenti_preferiti` (
   `id` int(11) NOT NULL,
   `id_utente_r` int(11) NOT NULL,
-  `tipo` enum('Carta','Paypal','Bitcoin','') NOT NULL,
-  `id_m_pagamento` int(11) NOT NULL
+  `id_pagamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `pagamenti_preferiti`
---
-
-INSERT INTO `pagamenti_preferiti` (`id`, `id_utente_r`, `tipo`, `id_m_pagamento`) VALUES
-(1, 1, 'Carta', 1);
 
 -- --------------------------------------------------------
 
@@ -478,14 +489,8 @@ CREATE TABLE `prodotti` (
 --
 
 INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `valuta`) VALUES
-(1, 'nomeProdotto1', 'info1', 'descrizione1', 3, 1.29, 'EUR'),
-(2, 'nomeProdotto2', 'info2', 'descrizione22222', 1, 2.29, 'EUR'),
-(3, 'nomeProdotto3', 'info3', 'descrizione3333', 2, 33, 'EUR'),
-(4, 'nomeProdotto4', 'info4', 'descrizione4', 2, 33.9, 'EUR'),
-(5, 'nomeProdotto5', 'info5', 'descrizione5', 1, 1.29, 'EUR'),
-(6, 'nomeProdotto6', 'info6', 'descrizione6', 2, 1229, 'EUR'),
-(7, 'nomeProdotto7', 'info77', 'descrizione7', 3, 229, 'EUR'),
-(8, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 'EUR');
+(1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 'EUR');
+
 -- --------------------------------------------------------
 
 --
@@ -557,7 +562,8 @@ ALTER TABLE `carrelli`
 -- Indici per le tabelle `carte`
 --
 ALTER TABLE `carte`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pagamento` (`id_pagamento`);
 
 --
 -- Indici per le tabelle `categorie`
@@ -714,11 +720,19 @@ ALTER TABLE `ordini`
   ADD KEY `id_dati_anagrafici` (`id_dati_anagrafici`);
 
 --
+-- Indici per le tabelle `pagamenti`
+--
+ALTER TABLE `pagamenti`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id-tipo` (`tipo`);
+
+--
 -- Indici per le tabelle `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_utente_r` (`id_utente_r`);
+  ADD KEY `id_utente_r` (`id_utente_r`),
+  ADD KEY `id_pagamento` (`id_pagamento`);
 
 --
 -- Indici per le tabelle `prodotti`
@@ -888,6 +902,12 @@ ALTER TABLE `ordini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT per la tabella `pagamenti`
+--
+ALTER TABLE `pagamenti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT per la tabella `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
@@ -920,6 +940,12 @@ ALTER TABLE `valori`
 --
 -- Limiti per le tabelle scaricate
 --
+
+--
+-- Limiti per la tabella `carte`
+--
+ALTER TABLE `carte`
+  ADD CONSTRAINT `carte_ibfk_1` FOREIGN KEY (`id_pagamento`) REFERENCES `pagamenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `categorie`
@@ -1038,7 +1064,8 @@ ALTER TABLE `ordini`
 -- Limiti per la tabella `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
-  ADD CONSTRAINT `pagamenti_preferiti_ibfk_1` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `pagamenti_preferiti_ibfk_1` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pagamenti_preferiti_ibfk_2` FOREIGN KEY (`id_pagamento`) REFERENCES `pagamenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `prodotti`
