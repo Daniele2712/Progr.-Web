@@ -13,7 +13,7 @@ class Home extends HTMLView{
     $this->content = "home/home";
     $this->addCSS("home/css/home.css");
 
-    $this->smarty->assign('templateLoginOrProfileIncludes', 'login.tpl');
+    $this->smarty->assign('templateLoginOrProfileIncludes', 'login/login.tpl');
     $this->addCSS("login/css/login.css");
     $this->addJS("login/js/login.js");
 
