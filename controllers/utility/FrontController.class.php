@@ -24,7 +24,7 @@ class FrontController{
                 $real_controller = new $controller();
                 $real_controller->$action($request);
             }else{
-                
+
                 $c = new Error();
                 if($request->isRest())
                     $c->Error405($request);
