@@ -84,6 +84,11 @@ class Session{
 
     }
 
+    public function getOrder():\Models\Ordine{
+        if(isset($_SESSION["orderId"]))
+            return Ordine::find($_SESSION["orderId"]);
+    }
+
     public function setGuestAddress(\Models\Indirizzo $addr){
         $_SESSION["addressId"] = NULL;
         $_SESSION["guestAddress"] = clone $addr;
@@ -113,4 +118,10 @@ class Session{
         $_SESSION["guestPayment"] = NULL;
         $_SESSION["paymentId"] = $id;
     }
+
+    public function setOrder(int $id){
+        $_SESSION["orderId"] = $id;
+    }
+
+
 }

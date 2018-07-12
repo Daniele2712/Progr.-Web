@@ -121,8 +121,10 @@ class spesa implements Controller{
     public function completaordine(Request $req){
         $session = \Singleton::Session();
         $cart = $session->getCart();
-        $cart->CompletaOrdine();
-        //.......
+        $ord = $cart->CompletaOrdine();
+        $session->setOrder($ord->getId());
+        /*deve chiamare la vista che crea la pagina di riepilogo,
+        visualizza l'ordine e fa inserire il metodo di pagamento*/
     }
 
     public function userpayment(Request $req){
@@ -133,12 +135,14 @@ class spesa implements Controller{
         if($id === NULL)
             die("errore2");
         $session->setUserPayment($id);
-    //ok
+        $ord = $session->getOrder();
+        //bisogna finire i metodi di pagamento cosi possono essere aggiunti all'ordine
 
     }
 
     public function guestpayment(Request $req){
         $session = \Singleton::Session();
+
         if($session->isLogged())
             die("errore");
         $id = $req->getInt("id", NULL);
@@ -148,7 +152,11 @@ class spesa implements Controller{
         //ok
     }
 
-    public function conferma(Request $req){}
+    public function conferma(Request $req){
+        $session = \Singleton::Session();
+        $ord = $session->getOrder();
+        //chiama la vista che crea il riepilogo finale dell'ordine
+    }
 
     /**
      * azione di default
