@@ -23,6 +23,7 @@ class Gestore extends HTMLView{
         
         $this->smarty->assign('templateContentIncludes', 'contents/gestore/gestore.tpl');             /* Deve essere un template*/
         $this->addCSS('gestore/css/gestore.css');
+        $this->addJS('gestore/js/gestore.js');
         
     }
 

@@ -1,28 +1,90 @@
 #gestoreContent{ /* THE WHOLE CONTAINTER*/
     display:grid;
     justify-items:center;
+    grid-template-columns:1fr 4fr;
+    grid-template-areas:"selector action";
   
 }
 
+/*      CATEGORIES      */
+#categories{
+    grid-area:selector;
+    width:100%;
+    background: linear-gradient(lightgrey, white);
+    display:grid; align-items: center; justify-items: center;
+    grid-template-columns:1fr;
+    grid-template-rows:repeat(auto-fill, 100px);
+    
+    
+}
+
+.categoryclass{
+    
+    border-bottom: grey 3px solid;
+    border-left: lightgrey 3px solid;
+    border-right: lightgrey 3px solid;
+    cursor:pointer;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:5px;
+    height:50px;
+    min-width: 150px;
+    text-align: center;
+    display:grid; align-items: center;
+    margin:30px;
+    
+}
+.categoryclass:active { /*Clicked and held*/
+  box-shadow: 0px 5px 6px;
+}
+/*      END OF  CATEGORIES      */
+
+
+#action{
+    grid-area:action;
+}
+/*          INSERT PRODUCT          */
 
 #insertProduct{     /*   The div that contains the form*/
-    width:60%;
+    
+}
+#insertProduct h1{     
+    padding:20px;
 }
 
 
-.insertImage{   /*   The form itself*/
+#insertImage{   /*   The form itself*/
     display:grid;
-    
-    
-    
 }
 
-.insertImage div{   /*   The form itself*/
+#insertImage div{   /*   The form itself*/
     display:grid;
     grid-template-columns:2fr 3fr;
     padding:10px;
+}
+/*      END OF  INSERT PRODUCT          */
+
+
+
+
+
+/*          INSERT CATEGORIES          */
+
+#inserisciCategoriaDiv{
+    display:none;
     
+}
+
+/*        END OF   INSERT CATEGORIES          */
+
+
+#updateProdottoDiv{
+    display:none;
     
-    
+}
+
+#updateOfferteDiv{
+    display:none;
     
 }

@@ -8,6 +8,7 @@ if(!defined("EXEC")){
 
 
 class upload{
+    /*          DEVI FILTRARE GLI INPUT X EVITARE SQL INJECTION E ROBA SIMILE*/
     public function uploadProduct(Request $req){
         
         /*  DEVO ANCHE FILTRARE STI VALORI x VEDERE SE VANNO BENE!  */
@@ -99,4 +100,27 @@ if ($uploadOk == 0) {
 }
 
     }
+    
+     public function uploadCategory(Request $req){
+         $DB=\Singleton::DB();
+         $categoria=$req->getString('categoria' , NULL , 'POST');
+         $padre=$req->getString('padre' , NULL , 'POST');
+         
+     if(strtolower($padre)=='null')
+     {
+          if($DB->query("INSERT INTO `categorie` (`nome`, `padre`) VALUES ('$categoria' , NULL);")) echo " Categoria $categoria aggiornata!";
+          else " Non e possibile aggiungere la categoria ";
+     }
+     else{
+         $esistePadre=mysqli_fetch_array($DB->query("SELECT count(*) FROM `categorie` WHERE nome='$padre';"))[0];
+         if($esistePadre!=0){
+            $idPadre=mysqli_fetch_array($DB->query("SELECT id FROM `categorie` WHERE nome='$padre';"))[0];
+           if($DB->query("INSERT INTO `categorie` (`nome`, `padre`) VALUES ('$categoria' , '$idPadre');")) echo " Categoria aggiornata!";
+            else " Non e possibile aggiungere la categoria ";
+         }
+         else{ echo "PADRE NON ESISTE! </br> Se desideri aggiungere una categoria senza padre, aggiungi il valore 'NULL' nel riquadro padre";}
+        }
+     }
+    
+    
 }

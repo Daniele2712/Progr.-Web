@@ -59,36 +59,31 @@
 
             <div id="items">
                 
-              {*foreach from=$items_for_tpl item="prodotto"*}
+              {foreach from=$items_for_tpl item="prodotto"}
 
                 <div class="item">
-                    <img class="item_img" src="/templates/img/jung.jpg">
-                    <p class="item_price">
-                        {*QUESTA PARTE ANDRA SOSTITUITA XKE VOGLIO PASSARLI UN PROOTTO FOR TPN CON GIA DENTRO IL CODICE HTML PER LA VALUTA*}
-                   {* {if $prodotto.valuta eq 'EUR'}
-                        &#8364;
-                    {elseif $prodotto.valuta eq 'USD'}
-                        &#36;
-                    {elseif $prodotto.valuta eq 'GPB'}
-                        &#163;
-                    {elseif $prodotto.valuta eq 'BTC'}
-                        Ƀ
-                    {elseif $prodotto.valuta eq 'JPY'}
-                        &#65509;
-                    {else}
-                        ???
-                    {/if}{$prodotto.prezzo}</span>*}
-                    <p class="item_description">{*$prodotto.nome*}</p>
-                    <p class="item_more" onclick="showInfo(this)">Dettagli <i class="fas fa-info-circle"></i></p>
+                    <img class="item_img" src="/templates/img/jung.jpg">        {* Qui ci andra il blob  *}
+                    <p class="item_price">{$prodotto.valuta} {$prodotto.prezzo}</p>
+                    <div class="item_info"> <h4>{$prodotto.nome} </h4> {$prodotto.info} </div>
+                    <a class="item_more" onclick="popupToggle({$prodotto.id})">Dettagli <i class="fas fa-info-circle"></i></a>
                     <div class="add_to_cart">
                         <i class="far fa-2x fa-minus-square" onclick="subtractOne(this)"></i>
                         <input type="input" size="1" name="quantity" id="item_quantity">
                         <i class="far fa-2x fa-plus-square" onclick="addOne(this)"></i>
                         <i class="fas fa-2x fa-cart-plus" onclick="addToCart(this)"></i>
                     </div>
+                    <div class="moreabout" id="moreabout{$prodotto.id}">
+                    
+                        <h2>Details</h2>
+                        <a class="close" onclick="popupToggle({$prodotto.id})">&times;</a>
+                        <div class="contentofdescription">
+			{$prodotto.descrizione}
+                        </div>
+	
+                    </div>
                 </div>
 
-            {*/foreach*}
+            {/foreach}
 
             </div>
 
@@ -97,22 +92,21 @@
                  <div id="basked_wrapper">
                     <div id="basket-fa">
                         <i id="imgCarello" class="fas fa-4x fa-cart-plus"></i>
-                        <span class="nameOfCart">Carrello Default  <i class="fas fa-info-circle"></i></span>
+                        <span class="nameOfCart">Carrello Default</span>
                     </div>
 
-                    {* <div class="cartList">
+                     <div class="cartList">
                             {foreach from=$prodotti_for_carello item="prodotto"}
 
                                 <div class="inListProduct">
-                                    <span>{$prodotti_for_carello.numero}</span>
+                                    <span>{$prodotto.quantita}</span>
                                     <span> x </span>
-                                    <span>{$prodotti_for_carello.nome}</span>
-                                    <span class="prezzo">
-                                        {$prodotti_for_carello.valuta_html}
-                                        {$prodotti_for_carello.prezzo}</span>
+                                    <span>{$prodotto.nome}</span>
+                                    <span class="prezzo">{$prodotto.valuta}  {$prodotto.totale}</span>
                                 </div>
+                      
 
-                            {/foreach}*}
+                            {/foreach}
 
 
 
@@ -149,5 +143,7 @@
                     </div>
 
                 </div>
+                            
+                            </div>
 
 
