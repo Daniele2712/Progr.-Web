@@ -56,8 +56,8 @@ class Request{
 
         if(count($params)>0 && $params[0]=="api"){
             $this->rest = true;
-            array_shift($params);
-            $this->controller = "Controllers\\Api\\".array_shift($params);
+            array_shift($params);   //cosi mi sbarazzo del capo "api"
+            $this->controller = "Controllers\\ApiController";
             $this->action = "default";
         }elseif(count($params)>0 && $params[0]!==""){
             $this->controller = "Controllers\\".array_shift($params);
@@ -80,6 +80,10 @@ class Request{
         //echo "CONTROLLER: $this->controller   ACTION: $this->action   METHOD: $this->method ";  //TODO:rimuovere
     }
 
+    public function getOtherParams(){
+        return $this->params;
+    }
+    
     public function getMethod():string{
         return $this->method;
     }
@@ -111,6 +115,8 @@ class Request{
     public function getImgName(){
         return $this->globals['_FILES']['image']['name'];
     }
+    
+   
 
     /**
      * restituisce un parametro di tipo intero

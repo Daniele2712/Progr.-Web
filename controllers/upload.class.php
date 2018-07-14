@@ -21,22 +21,30 @@ class upload{
         $id_categoria=$req->getString('categoria', NULL, 'POST');
         $prezzo=$req->getFloat('prezzo', NULL, 'POST');
         $valuta=$req->getString('valuta', NULL, 'POST');
-        $quantita=$req->getInt('quantita', NULL, 'POST'); /*  Con sta cosa della quantita, in realta devo modificare la tabbella che dice il nr di prodotti in un determinato magazzino*/
+        $quantita=$req->getInt('quantita', NULL, 'POST'); 
+        $magazzino=1;   /*  Devo usare la sessione per impostare il magazzino dentro cui inserire i prodotti*/
+        $tuttoOK=TRUE;  // in caso qualcosa vada male lo imposto a FALSE e non faccio nemmeno i prossimi passi.
+        
+        
+        if(!$this->category_exists(intval($id_categoria))) {$tuttoOK=false; echo "Category $id_categoria do not exists.";}
         
       /*            Inserimento prodotto        */
-        
+        if($tuttoOK)
+        {
         $DB = \Singleton::DB();
         $querry = $DB->prepare("INSERT INTO `prodotti` (`nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `valuta`) VALUES  (?, ?, ?,?,?,?)");
         $querry->bind_param("sssids", $nome, $info, $descrizione, $id_categoria,$prezzo,$valuta);
-        if($querry->execute()) echo "Upload of $nome into table 'prodotti' successful </br>";
-        else echo "Error uploading prodotto";
-        
+        if($querry->execute()) {$last_prodotto = $DB->lastId(); echo "SUCCESS inserting product $nome (id $last_prodotto) into table 'prodotti'</br>";}
+        else {echo "ERROR uploading prodotto $nome"; $tuttoOK=FALSE;}
+        }
         /*  devo metter un contorllo che fa in modo che se l-inserimento del prodotto oppure del immagine non va a buon fine, NON deve essere fatto nemmeno  */
         /*  l'inserimento nella tabbella imamgini_prodotti, che puo essere comunque fatta, a prescindere dal esito delle prime due, ma darebbe risultati sbagliati */
         /*  cioe collega un prodotto alla foto sbagliata  */
         
-         /*         Inserimento immagine        */
         
+         /*         Inserimento immagine        */
+        if($tuttoOK)
+        {
         $file_location=$req->getImgLocation();  // mezza specie di controllo x vedere se riesce a capire che qualcuno ha messo un immagine
         if(isset($file_location))
         {
@@ -45,21 +53,29 @@ class upload{
         $mediumBlob=file_get_contents($file_location);
         $querry = $DB->prepare("INSERT INTO `immagini` (`id`,`nome`, `size`, `type`, `immagine`) VALUES  (NULL, ?, 'img size', ?,?)");
         $querry->bind_param("sss", $imgName, $imgType, $mediumBlob);
-        if($querry->execute()) echo "Upload of $imgName into table 'immagini' successful</br>";
-        else echo "Error uploading of $imgName into table 'immagini'";
+        
+        if($querry->execute()) {$last_image = $DB->lastId(); echo "SUCCESS inserting image $imgName (id $last_image) into table 'immagini'</br>";}
+        else {echo "ERROR uploading $imgName into table 'immagini'</br>"; $tuttoOK=FALSE;}
         }
-        else {echo "Non trovo l'immagine! </br>";}
+        else {echo "ERROR finding the image! </br>"; $tuttoOK=FALSE;}
+        }
+        
         
         /*          Inserimento in immagini_prodotti        */
-        $dbresponse=$DB->query("SELECT COUNT(*) FROM `immagini`;"); // prendo l'ultimo id inserito nella tabbella immagini
-        $id_immagine=mysqli_fetch_array($dbresponse)[0];    // la risposta , dopo essere fetchata, sara un array di un solo elemento, qindi prendo il 1o elemento
+        if($tuttoOK)
+        { 
+        if($dbresponse=$DB->query("INSERT INTO `immagini_prodotti` (`id`, `id_immagine`, `id_prodotto`)  VALUES (NULL, $last_image, $last_prodotto);")) echo " SUCCESS linking image $imgName (id $last_image) and prouct $nome (id $last_prodotto) inside 'immagini_prodotti'!</br>";
+        else {" immagini_prodotto NON inserito con successo! ";  $tuttoOK=FALSE;} 
+        }
         
-        $dbresponse=$DB->query("SELECT COUNT(*) FROM `prodotti`;"); // prendo l'ultimo id inserito nella tabbella prodotti
-        $id_prodotto=mysqli_fetch_array($dbresponse)[0];    // la risposta , dopo essere fetchata, sara un array di un solo elemento, qindi prendo il 1o elemento
-        //$id_prodotto=$DB->query("SELECT count(*) FROM 'prodptti;");
-        
-        if($dbresponse=$DB->query("INSERT INTO `immagini_prodotti` (`id`, `id_immagine`, `id_prodotto`)  VALUES (NULL, $id_immagine, $id_prodotto);")) echo " immagini_prodotti aggiornata!";
-        else " immagini_prodotto NON inserito con successo! ";   
+        /*  Ora devo collegare il prodotto appena inserito con la tabbella che sa in che */
+        if($tuttoOK)
+        {
+        $querry = $DB->prepare("INSERT INTO `items_magazzino` (`id_magazzino`, `id_prodotto`, `quantita`) VALUES  (?, ?, ?)");
+        $querry->bind_param("iii", $magazzino, $last_prodotto, $quantita);
+        if($querry->execute()) echo "SUCCESS linking product $nome (id $last_prodotto) and magazzino with id $magazzino inside 'items_magazzino'</br>";
+        else {echo "Error Linking $nome(id $last_prodotto) into to magazzino $magazzino)"; $tuttoOK=FALSE;}
+        }
     }
     
     public function saveProduct(Request $req){
@@ -122,5 +138,11 @@ if ($uploadOk == 0) {
         }
      }
     
-    
+    private function category_exists($id){
+        $dbresponse=\Singleton::DB()->query("SELECT COUNT(*) as result FROM `categorie` WHERE id=$id;");
+        while($r = mysqli_fetch_assoc($dbresponse)) {$rows[] = $r; }
+        $categoriesFound=$rows[0]['result'];
+        if($categoriesFound!=0) return true;
+        else return false; 
+    }
 }
