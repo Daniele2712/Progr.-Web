@@ -127,9 +127,9 @@ CREATE TABLE `dati_anagrafici` (
 INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascita`) VALUES
 (1, 'Mario', 'Rossi', '33312345678', '1970-01-01'),
 (2, 'Luigi', 'Verdi', '33387654321', '1980-02-02'),
-(1, 'Andrei', 'Balaban', '11122245678', '1940-01-04'),
-(1, 'Alfredo', 'Alfonso', '33333345678', '1988-02-02'),
-(1, 'Alessandro', 'Manzoni', '33212345678', '1990-01-03');
+(3, 'Andrei', 'Balaban', '11122245678', '1940-01-04'),
+(4, 'Alfredo', 'Alfonso', '33333345678', '1988-02-02'),
+(5, 'Alessandro', 'Manzoni', '33212345678', '1990-01-03');
 
 -- --------------------------------------------------------
 
@@ -1078,6 +1078,19 @@ ALTER TABLE `pagamenti_preferiti`
 --
 ALTER TABLE `prodotti`
   ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- I seguenti de trigger servono per far in modo che quando qualcuno cancella un prodotto, viene cancellata anche al sua foto dalla tabbella immagini e il collegameno tra i due nella tabbella immagini_prodotti
+-- L.ordine di questi due trigger e molto molto importante, perche se prima canncelli il link immagine_prodott, poi non puoi piu trovare l immagine da can
+
+
+CREATE TRIGGER `delete_immagine` AFTER DELETE ON `prodotti`
+ FOR EACH ROW DELETE FROM immagini WHERE EXISTS
+(SELECT * FROM immagini_prodotti WHERE immagini.id=immagini_prodotti.id_immagine AND immagini_prodotti.id_prodotto=OLD.id);
+
+CREATE TRIGGER `delete_link_immaini_prodotti` AFTER DELETE ON `prodotti`
+ FOR EACH ROW DELETE FROM immagini_prodotti WHERE id_prodotto = OLD.id;
+
 
 --
 -- Limiti per la tabella `utenti`
