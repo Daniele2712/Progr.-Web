@@ -17,5 +17,4 @@ class Pagamento{
         throw new \Exception("Error User Type not found", 2);
     }
 
-    public abstract static function create_payment(int $id_pagamento);
 }

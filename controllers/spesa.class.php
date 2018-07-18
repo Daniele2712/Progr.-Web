@@ -150,8 +150,23 @@ class spesa implements Controller{
         $id = $req->getInt("id", NULL);
         if($id === NULL)
             die("errore2");
-        //$session->setGuestPayment(new \Models\Pagamento());
-        //ok
+        $pay = self::create_payment($req);
+        $session->setGuestPayment($pay);
+        //
+    }
+
+    public static function create_payment(Request $req){
+        $tipo = $req->getString("tipo",NULL,"POST");
+        if ($tipo == "carta"){
+            $numCarta     = $req->getString("numero",NULL,"POST");
+            $cvv          = $req->getInt("cvv",NULL,"POST");
+            $nome         = $req->getString("nome",NULL,"POST");
+            $cognome      = $req->getString("cognome",NULL,"POST");
+            $dataScadenza = new DateTime($req->getString("data_scadenza",NULL,"POST"));
+            $r = new \Models\Carta(0, 0, $numcarta, $cvv, $nome, $cognome, $dataScadenza);}
+        elseif ($tipo == "paypal"){}
+        elseif ($tipo == "bitcoin"){}
+        return $r;
     }
 
     public function conferma(Request $req){
