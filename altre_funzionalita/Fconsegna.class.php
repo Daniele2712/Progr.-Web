@@ -6,7 +6,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class Consegna{
+class Consegna extends Foundation{
     protected static $table = "consegne";
 }
 ?>

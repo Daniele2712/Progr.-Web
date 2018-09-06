@@ -6,7 +6,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class Amministratore{
+class Amministratore extends Foundation{
     protected static $table = "amministratori";
 }
 ?>

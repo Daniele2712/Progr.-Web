@@ -6,7 +6,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class Corriere{
+class Corriere extends Foundation{
     protected static $table = "corrieri";
 }
 ?>
