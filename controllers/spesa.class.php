@@ -7,14 +7,6 @@ if(!defined("EXEC")){
 }
 
 class spesa implements Controller{
-    /*public function __construct(){                NON È UNA VISTA!!!!!
-        $this->layout = "layout";
-        $this->content = "s";
-        //$this->smarty->assign('templateContentIncludes', 'home.tpl');
-        $this->smarty->assign('templateLoginOrUserIncludes', 'login.tpl');
-        $this->addCSS("home.css");
-        $this->addCSS("login.css");
-    }*/
 
     /**
      * metodo per selezionare o aggiungere l'indirizzo a cui spedire

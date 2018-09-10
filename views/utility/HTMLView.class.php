@@ -32,6 +32,13 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
     private $resources = array("js"=>array(),"css"=>array());
 
     /**
+     * modello Utente da settare se loggato
+     *
+     * @var    \Models\Utente
+     */
+    protected $user = FALSE;
+
+    /**
      * acquisisce un riferimento all'istanza di Smarty
      */
     public function __construct(){
@@ -43,6 +50,13 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      */
     public function render(){
         $this->HTMLRender();
+
+        if(!$this->user){
+            $this->smarty->assign('logged', 'false');
+            $this->smarty->assign('templateLoginOrProfileIncludes', 'login/login.tpl');
+            $this->addCSS("login/css/login.css");
+            $this->addJS("login/js/login.js");
+        }
 
         $this->smarty->assign("templateContentIncludes",$this->content.".tpl");
 
@@ -73,6 +87,21 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
     public function addCSS(string $filename){
         if(array_search($filename, $this->resources["css"]) == FALSE)
             $this->resources["css"][] = $filename;
+    }
+
+    /**
+     * metodo per settare l'utente
+     *
+     * @param    \Models\Utente    $user    modello dell'utente
+     */
+    public function setUser(\Models\Utente $user){
+        $this->user = $user;
+        if(is_subclass_of($user,"\Models\UtenteRegistrato")){
+            $this->smarty->assign('logged', 'utente');
+            $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
+            $this->addCSS("profile/css/profile.css");
+            $this->addJS("profile/js/profile.js");
+        }
     }
 
     /**

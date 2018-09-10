@@ -1,91 +1,88 @@
 /*      LOCATOR          */
 
 .content{
-height:800px;   /* sovrascrive l altezza del content, e lo fa piu corto, tanto nella schermata di home non abbiamo tante cose*/
+    height:800px;   /* sovrascrive l altezza del content, e lo fa piu corto, tanto nella schermata di home non abbiamo tante cose*/
 }
 
 #homeContent{
-background-image: url(../img/banner.jpg);
-background-repeat: no-repeat;
-background-size: 100%;
+    background-image: url(../img/banner.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
-#locator{
+#dialog{
     width:500px;
     margin-left:10%;
     margin-top:10%;
+    border-radius: 5px;
+    border: 1px solid rgb(191, 216, 227);
+    background-color: rgba(191, 216, 227, .4);
+    overflow: hidden;
 }
 
-    .login {
-      grid-column-end: span 2;
-      width: auto;
-    }
-    .login > div {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      align-items: center;
-    }
-    .login > div.actions {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-   
-    .contact {
-      padding: 0 0 0 10px;
-      width: auto;
-    }
-    input[type="submit"] {
-      grid-column: 2;
-    }
-    .actions a {
-      justify-self: end;
-    }
-  
-
-
-h1 {
-  background-color: rgba(191, 216, 227, 0.6);
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  padding: 10px;
-  font-size: 24px;
-  line-height: 1.4;
-  text-align:center;
+#dialog h1{
+    border-bottom: 1px solid rgb(191, 216, 227);
+    background-color: rgba(191, 216, 227, 0.6);
+    padding: 10px;
+    font-size: 24px;
+    line-height: 1.4;
+    text-align:center;
 }
 
-.login {
-  background-color: rgba(191, 216, 227, .4);
-  border: 1px solid rgba(191, 216, 227, .8);
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  padding: 10px;
- 
-  
+#dialog input[type="submit"]{
+    border: 1px solid rgba(191, 216, 227, .8);
+    border-radius: 5px;
+    color: #fff;
+    background-color: rgb(54, 134, 169);
+    font-size: 110%;
+    cursor: pointer;
 }
 
-.login > div {
-  padding: 5px;
+#dialog input[type="text"],
+#dialog input[type="password"]{
+    border: 1px solid rgba(191, 216, 227, .8);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 110%;
+    width: 100%;
 }
 
-input[type="submit"] {
-  border: 1px solid rgba(191, 216, 227, .8);
-  border-radius: 5px;
-  color: #fff;
-  background-color: rgb(54, 134, 169);
-  font-size: 110%;
-  cursor: pointer;
+#dialog input[type="submit"]{
+    grid-column: 2;
 }
 
-input[type="text"],
-input[type="password"] {
-  border: 1px solid rgba(191, 216, 227, .8);
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 110%;
-  width: 100%;
+#dialog .actions a{
+    justify-self: end;
+    font-size: 80%;
 }
 
-.actions a {
-  font-size: 80%;
+#dialog #start{
+    width: 500px;
+    cursor: pointer;
+}
+
+#dialog #guest_address{
+    display: none;
+}
+
+#add_location{
+    grid-column-end: span 2;
+    width: auto;
+    padding: 10px;
+}
+
+#add_location div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    padding: 5px;
+}
+
+#add_location div.actions {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#dialog #user_address{
+    display: none;
 }
  /* END OF LOCATOR   */
- 

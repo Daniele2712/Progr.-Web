@@ -35,4 +35,21 @@ class Comune extends Foundation{
             $r = self::create($res->fetch_assoc());
         return $r;
     }
+
+    public static function searchByName(string $comune):array{
+        $DB = \Singleton::DB();
+        $sql = "SELECT * FROM ".self::$table." WHERE nome LIKE ? ";
+        $p = $DB->prepare($sql);
+        $comune = "%".$comune."%";
+        $p->bind_param("s", $comune);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $p->close();
+        $rows = array();
+        while($r = mysqli_fetch_assoc($res)){
+            $rows[] = self::create($r);
+        }
+        return $rows;
+    }
 }

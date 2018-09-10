@@ -57,7 +57,7 @@ class Request{
         if(count($params)>0 && $params[0]=="api"){
             $this->rest = true;
             array_shift($params);   //cosi mi sbarazzo del capo "api"
-            $this->controller = "Controllers\\ApiController";
+            $this->controller = "Controllers\\Api\\".array_shift($params);
             $this->action = "default";
         }elseif(count($params)>0 && $params[0]!==""){
             $this->controller = "Controllers\\".array_shift($params);
@@ -77,13 +77,13 @@ class Request{
             if(array_search($key,$array,TRUE)!==FALSE)
                 unset($GLOBALS[$key]);
 
-        //echo "CONTROLLER: $this->controller   ACTION: $this->action   METHOD: $this->method ";  //TODO:rimuovere
+        //echo "CONTROLLER: $this->controller   ACTION: $this->action   METHOD: $this->method ";
     }
 
     public function getOtherParams(){
         return $this->params;
     }
-    
+
     public function getMethod():string{
         return $this->method;
     }
@@ -99,24 +99,24 @@ class Request{
     public function isRest():bool{
         return $this->rest;
     }
-    
+
     public function getImgLocation(){
         return $this->globals['_FILES']['image']['tmp_name'];
     }
-    
+
      public function getImgSize(){
         return $this->globals['_FILES']['image']['size'];
     }
-    
+
     public function getImgType(){
         return $this->globals['_FILES']['image']['type'];
     }
-    
+
     public function getImgName(){
         return $this->globals['_FILES']['image']['name'];
     }
-    
-   
+
+
 
     /**
      * restituisce un parametro di tipo intero
@@ -150,7 +150,7 @@ class Request{
      * @param     string        $superGlobal    array superglobale in cui cercare il parametro
      * @return    string                        il parametro richiesto
      */
-    public function getString(string $name='',string $default=NULL,string $superGlobal='GET'): string{
+    public function getString($name='',string $default=NULL,string $superGlobal='GET'): string{
         return $this->getParam($name,'string',$default,$superGlobal);
     }
 
