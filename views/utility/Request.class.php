@@ -116,6 +116,10 @@ class Request{
         return $this->globals['_FILES']['image']['name'];
     }
     
+    public function getServerName(){
+        return $this->globals['_SERVER']['SERVER_NAME'];
+    }
+    
    
 
     /**

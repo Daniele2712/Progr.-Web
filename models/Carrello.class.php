@@ -7,11 +7,11 @@ if(!defined("EXEC")){
 
 class Carrello extends Model{
     //Attributi
-	private $prodotti=array();
-	private $totale;
+	private $prodotti=array();  // e' un array di ITEM , a differenza di quello che puo sembrare
+	private $totale;            // e' un Money
 	//Costruttori
 	public function __construct(int $i){
-		$this->id = $i;
+		$this->id = $i;                                 // quindi quando nasce un carrello ha un ID, un totale, (0, EURO) e un array vuoto
 		$this->totale = new Money(0,'Euro');
 	}
 
@@ -69,7 +69,7 @@ class Carrello extends Model{
 	}
 
     public function getTotale(){
-        return $mon=$this->totale;
+        return $this->totale;
     }
 
     public function getProdotti(){

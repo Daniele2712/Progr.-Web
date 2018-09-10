@@ -3,14 +3,6 @@
         <div class="wrapper">
 
             <div id="categories">
-                <div class="categoryclass">elettrodomestici</div>
-                <div class="categoryclass"> televisori</div>
-                <div class="categoryclass">telefoni</div>
-                <div class="categoryclass">portatili</div>
-                
-                
-                
-                
                  {foreach from=$categorie_for_tpl item="cat"}   
                     <div class="categoryclass">{$cat}</div>
                 {/foreach}
@@ -62,7 +54,7 @@
               {foreach from=$items_for_tpl item="prodotto"}
 
                 <div class="item">
-                    <img class="item_img" src="/templates/img/jung.jpg">        {* Qui ci andra il blob  *}
+                    <img src="{$prodotto.imgsrc}"/>
                     <p class="item_price">{$prodotto.valuta} {$prodotto.prezzo}</p>
                     <div class="item_info"> <h4>{$prodotto.nome} </h4> {$prodotto.info} </div>
                     <a class="item_more" onclick="popupToggle({$prodotto.id})">Dettagli <i class="fas fa-info-circle"></i></a>
@@ -78,6 +70,7 @@
                         <a class="close" onclick="popupToggle({$prodotto.id})">&times;</a>
                         <div class="contentofdescription">
 			{$prodotto.descrizione}
+                        Sono disponibili {$prodotto.supply} pezzi.
                         </div>
 	
                     </div>
@@ -107,33 +100,11 @@
                       
 
                             {/foreach}
-
-
-
-                                <div class="inListProduct">
-                                    <span>15</span>
-                                    <span> x </span>
-                                    <span> Miele </span>
-                                    <span class="prezzo"> &#8364; 13,50 </span>
-                                </div>
-
-                                <div class="inListProduct">
-                                    <span>15</span>
-                                    <span> x </span>
-                                    <span class="inListName" title="Mieledsadasdsad asdasd"> Mieledsadasdsad asdasd </span>
-                                    <span class="prezzo"> &#8364; 13,50 </span>
-                                </div>
-
-                                <div class="inListProduct">
-                                    <span>15</span>
-                                    <span> x </span>
-                                    <span> dsdsdsdsds </span>
-                                    <span class="prezzo"> &#8364; 13,50 </span>
-                                </div>
-
+                            
+                            
                                 <div id="cart_total">
                                     <span id="totale_nome"> TOTALE </span>
-                                    <span class="prezzo_totale"> &#8364; 132,50 </span>
+                                    <span class="prezzo_totale"> &#8364; {$total_for_carrello} </span>
                                 </div>
 
 

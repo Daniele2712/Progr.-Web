@@ -18,13 +18,13 @@ class Money extends Model{
 	public function setPrezzo(float $pre){
 		$this->prezzo=$pre;
 	}
-	public function setMoneta(string $val){
+	public function setValuta(string $val){
 		$this->valuta=$val;
 	}
 	public function getPrezzo(){
-		return $pre=$this->prezzo;
+		return $this->prezzo;
 	}
 	public function getValuta(){
-		return $val=$this->valuta;
+		return $this->valuta;
 	}
 }

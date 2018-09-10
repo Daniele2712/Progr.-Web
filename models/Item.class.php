@@ -7,9 +7,9 @@ if(!defined("EXEC")){
 
 class Item extends Model{
     //Attributi
-	private $prodotto;
-	private $quantità=0;
-	private $prezzo;
+	private $prodotto;      // e' un prodotto
+	private $quantità=0;    // e' un intero
+	private $prezzo;        // e' un MONEY
 	//Costruttori
 	public function __construct(Prodotto $p, Money $m, int $q)
 	{
@@ -21,10 +21,10 @@ class Item extends Model{
         return clone $this->prodotto;
     }
 	public function getPrezzo(){
-		return $m=$this->prezzo;
+		return $this->prezzo;
 	}
 	public function getQuantita(){
-		return $q=$this->quantità;
+		return $this->quantità;
 	}
     public function add(int $qta){
         $this->quantità += $qta;

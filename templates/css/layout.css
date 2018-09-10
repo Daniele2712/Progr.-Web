@@ -124,10 +124,4 @@ justify-self:center;
     align-items: center;
     
 }
-
-
-
-.content{
-grid-area:content;
-}  
 }

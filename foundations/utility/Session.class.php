@@ -30,8 +30,8 @@ class Session{
             throw new \InvalidArgumentException("username input was empty");
         if($password === '')
             throw new \InvalidArgumentException("password input was empty");
-        $_SESSION["userId"] = Utente::login($username,$password);
-        return $_SESSION["userId"];
+        $_SESSION["userId"] = Utente::login($username,$password);       //dice al /foundation/utente di eseguira la funzione login(), che restituisce l-id della persona loggata
+        return $_SESSION["userId"];     
     }
 
     /**
@@ -65,7 +65,7 @@ class Session{
             return Carrello::find($_SESSION["cartId"]);
         elseif(isset($_SESSION["guestCart"]))
             return $_SESSION["guestCart"];
-        elseif(isset($_SESSION["userId"])){
+        elseif(isset($_SESSION["userId"])){             // lo userId ce l-hanno solo gli utenti registrati, i quali hanno anche un carrello come attributo, e la funzione getCarrello
             $cart = self::getUser()->getCarrello();
             $_SESSION["cartId"] = $cart->getId();
             return $cart;

@@ -296,7 +296,7 @@ CREATE TABLE `items_ordine` (
 CREATE TABLE `magazzini` (
   `id` int(11) NOT NULL,
   `id_gestore` int(11) DEFAULT NULL,
-  `id_indirizzo` int(11) NOT NULL
+  `id_indirizzo` int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1017,7 +1017,7 @@ ALTER TABLE `items_ordine`
 --
 ALTER TABLE `magazzini`
   ADD CONSTRAINT `magazzini_ibfk_1` FOREIGN KEY (`id_gestore`) REFERENCES `gestori` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `magazzini_ibfk_2` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `magazzini_ibfk_2` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `offerte`
@@ -1089,8 +1089,8 @@ ALTER TABLE `utenti`
 -- Limiti per la tabella `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
-  ADD CONSTRAINT `utenti_registrati_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
+  ADD CONSTRAINT `utenti_registrati_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `carrelli` FOREIGN KEY (`id_carrello`) REFERENCES `carrelli` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 --
 -- Limiti per la tabella `valori`
 --

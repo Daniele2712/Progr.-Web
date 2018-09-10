@@ -18,6 +18,11 @@ abstract class Utente extends Model{
         $this->username = $username;
     }
 
+    
+    public function getUsername(){
+        return $this->username;
+    }
+    
     public function getId(): int{
         return $this->idUtente;
     }

@@ -28,7 +28,7 @@ class Item extends Foundation{
         $result = \Singleton::DB()->query("SELECT id_prodotto, quantita FROM items_magazzino WHERE id_magazzino=".$id);
         if($result){
             while($row = $result->fetch_array(MYSQLI_ASSOC)){
-                $pro = Prodotto::getProdottoByid($row["id_prodotto"]);
+                $pro = Prodotto::find($row["id_prodotto"]);
                 $pre = $pro->getPrezzo();
                 $pre->setPrezzo($pre->getPrezzo() * $row["quantita"]);
                 $item = new \Models\Item($pro, $pre, $row["quantita"]);

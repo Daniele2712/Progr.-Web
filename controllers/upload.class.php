@@ -26,14 +26,14 @@ class upload{
         $tuttoOK=TRUE;  // in caso qualcosa vada male lo imposto a FALSE e non faccio nemmeno i prossimi passi.
         
         
-        if(!$this->category_exists(intval($id_categoria))) {$tuttoOK=false; echo "Category $id_categoria do not exists.";}
+        if(!$this->category_exists(intval($id_categoria)) && $id_categoria!='NULL') {$tuttoOK=false; echo "Category $id_categoria do not exists.";}
         
       /*            Inserimento prodotto        */
         if($tuttoOK)
         {
         $DB = \Singleton::DB();
-        $querry = $DB->prepare("INSERT INTO `prodotti` (`nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `valuta`) VALUES  (?, ?, ?,?,?,?)");
-        $querry->bind_param("sssids", $nome, $info, $descrizione, $id_categoria,$prezzo,$valuta);
+        if($id_categoria!='NULL') $id_categoria!="'".$id_categoria."'";
+        $querry = $DB->prepare("INSERT INTO `prodotti` (`nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `valuta`) VALUES ('$nome', '$info', '$descrizione',$id_categoria,'$prezzo','$valuta')");
         if($querry->execute()) {$last_prodotto = $DB->lastId(); echo "SUCCESS inserting product $nome (id $last_prodotto) into table 'prodotti'</br>";}
         else {echo "ERROR uploading prodotto $nome"; $tuttoOK=FALSE;}
         }
