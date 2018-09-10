@@ -8,6 +8,14 @@ if(!defined("EXEC")){
 class UtenteRegistrato extends Utente{
     protected static $table = "utenti_registrati";
 
+    public static function insert(Model $obj): int{
+
+    }
+
+    public static function update(Model $obj){
+
+    }
+
     public static function create_user(int $id_utente, \Models\DatiAnagrafici $dati_anagrafici, string $email, string $username): \Models\UtenteRegistrato{
         $sql = "SELECT id, punti, id_carrello FROM ".self::$table." WHERE id_utente = ?";
         $p = \Singleton::DB()->prepare($sql);

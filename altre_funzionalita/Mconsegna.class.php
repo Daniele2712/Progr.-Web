@@ -6,19 +6,19 @@ if(!defined("EXEC")){
 }
 class Consegna extends Model{
     //Attributi
-    private $idConsegna;
+    private $id;
     private $ordine;
     private $stato;
     private $coda;
     //Costruttori
-    public function __construct(int $idConsegna = 0, Ordine $ordine, string $stato = '', int $coda = 0){
-        $this->$idConsegna = $idConsegna;
+    public function __construct(int $id = 0, Ordine $ordine, string $stato = '', int $coda = 0){
+        $this->$id = $id;
         $this->$ordine = clone $ordine;
         $this->stato = $stato;
         $this->coda = $coda;
     }
     //Metodi
-    public function getId(){return $this->idConsegna;}
+    public function getId(){return $this->id;}
 
     public function getOrdine(){return $this->ordine;}
 
