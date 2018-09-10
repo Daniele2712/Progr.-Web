@@ -46,8 +46,11 @@ class Session{
      * funzione che restituisce l'utente usato per il login
      *
      * @return    \Models\Utente    utente loggato
+     * @throws    Exception         se l'utente non è loggato
      */
     public function getUser(): \Models\Utente{
+        if(!isset($_SESSION["userId"]) || !is_int($_SESSION["userId"]))
+            throw new \Exception("User not Found", 5);
         return Utente::find($_SESSION["userId"]);
     }
 

@@ -9,5 +9,11 @@ if(!defined("EXEC")){
 class Ordine extends Foundation{
     protected static $table = "ordini";
 
+    public static function insert(Model $user): int{
 
+    }
+
+    public static function update(Model $user){
+
+    }
 }

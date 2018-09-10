@@ -9,17 +9,26 @@ if(!defined("EXEC")){
 class shop{
     public function home(Request $req){
         $v = new \Views\Home();
+        $session = \Singleton::Session();
+        if($session->isLogged())
+            $v->setUser($session->getUser());
         $v->render();
     }
 
     public function spesaSenzaLogin(Request $req){
+<<<<<<< HEAD
         
         $v = new \Views\SpesaSenzaLogin();
         
+=======
+        $v = new \Views\Spesa();
+
+>>>>>>> 4a9efcbea50546520961ae4e63ebbdd1dfc1d21d
         $cat=\Singleton::DB()->query("SELECT nome FROM `categorie`;");
         $catFetched=array();
-        while($row = mysqli_fetch_array($cat)) $catFetched[]=$row["nome"];   
+        while($row = mysqli_fetch_array($cat)) $catFetched[]=$row["nome"];
         $v->fillCategories($catFetched);
+<<<<<<< HEAD
         
         
         /*      DEVO TROVARE l-ID DEL MAGAZZINO DA CUI FACCIO LA SPESA      */
@@ -37,6 +46,25 @@ class shop{
         $cartItemsWithSymbols=$this->valutaToHtml($cartItems);
         $v->fillBasket($cartItemsWithSymbols);
         $v->totalBasket($ModelCarrello->getTotale()->getPrezzo());    // il totale, nel template ci ho messo come valuta l-euro.
+=======
+
+        /*      DEVO TROVARE l-ID DEL MAGAZZINO DA CUI FACCIO LA SPESA      */
+        $idMagazzino=1;
+        $item=\Singleton::DB()->query("SELECT prodotti.*, items_magazzino.quantita FROM `prodotti`, items_magazzino WHERE prodotti.id=items_magazzino.id_prodotto AND items_magazzino.id_magazzino=$idMagazzino;");
+        $itemFetched=array();
+
+        while($row = mysqli_fetch_array($item)) $itemFetched[]=$row;
+        $v->fillItems($this->valutaToHtml($itemFetched));   //l-array che  li passo ha gia trasformato la valuta nel html giusto per essere visualizzata
+
+        /*      Trovare i prodotti del Basket       */
+        /*  In qualche modo devo prendere l-id del utente loggato....oppure dalla sessione prendo qualcosa  */
+        $idBakset=1;
+        $itemBasket=\Singleton::DB()->query("SELECT prodotti.nome, totale, items_carrello.valuta, quantita FROM `items_carrello`,prodotti WHERE id_carrello=$idBakset AND prodotti.id=items_carrello.id_prodotto;");
+        $itemBasketFetched=array();
+
+        while($row = mysqli_fetch_array($itemBasket)) $itemBasketFetched[]=$row;
+        $v->fillBasket($this->valutaToHtml($itemBasketFetched));
+>>>>>>> 4a9efcbea50546520961ae4e63ebbdd1dfc1d21d
         $v->render();
     }
     
@@ -96,11 +124,10 @@ class shop{
         \Singleton::Session()->logout();
     }
     
-    
     public function gestore(Request $req){
         $v = new \Views\Gestore();
         $v->render();
-        
+
     }
 
     public function valutaToHtml($var){ 
@@ -127,10 +154,11 @@ class shop{
                     $x['valuta']='???';
                     break;
             }
-        $itemBasketFetchedHtml[]=$x; 
+        $itemBasketFetchedHtml[]=$x;
         }
         return $itemBasketFetchedHtml;
     }
+<<<<<<< HEAD
     
     public function prepareForSale($arrayItems,$serverName){    
         
@@ -157,6 +185,9 @@ class shop{
      * Ti carica nei prodotti solo i prodotti del magazzino che rispetta le condizioni
      */
         }
+=======
+
+>>>>>>> 4a9efcbea50546520961ae4e63ebbdd1dfc1d21d
     public function submit(Request $req){
         echo("non dovrei arrivare qui");
         // submitting a guestbook entry

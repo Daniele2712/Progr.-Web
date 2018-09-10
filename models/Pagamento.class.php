@@ -16,6 +16,8 @@ abstract class Pagamento extends Model{
         $this->idPagamento = $idPagamento;
     }
 
+    public abstract function createPayment();
+
     public function getId(): int{
         return $this->idPagamento;
     }

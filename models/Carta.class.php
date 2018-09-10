@@ -16,13 +16,14 @@ class Carta implements MetodoPagamento
   public function __construct(int $idPagamento, int $idCarta, string $numCarta, int $cvv,
   string $nome, string $cognome, DateTime $dataScadenza){
       parent::__construct($idPagamento);
-      $this->$idCarta;
+      $this->$idCarta = $idCarta;
       $this->numeroCarta = $numCarta;
       $this->cvv = $cvv;
       $this->nome = $nome;
       $this->cognome = $cognome;
       $this->dataScadenza = $dataScadenza;
       }
+
 
     private function verificaScadenza(){
 
