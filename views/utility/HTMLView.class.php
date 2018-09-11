@@ -50,8 +50,9 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      */
     public function render(){
         $this->HTMLRender();
-
+        
         if(!$this->user){
+           
             $this->smarty->assign('logged', 'false');
             $this->smarty->assign('templateLoginOrProfileIncludes', 'login/login.tpl');
             $this->addCSS("login/css/login.css");
@@ -96,11 +97,12 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      */
     public function setUser(\Models\Utente $user){
         $this->user = $user;
-        if(is_subclass_of($user,"\Models\UtenteRegistrato")){
+        if(is_subclass_of($user,"\Models\UtenteRegistrato") || is_a($user, '\Models\UtenteRegistrato')){   //non solo se e una sottoclasse, ma anche se e' un utente registrato deve cmq entrare nel ciclo
             $this->smarty->assign('logged', 'utente');
             $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
             $this->addCSS("profile/css/profile.css");
             $this->addJS("profile/js/profile.js");
+            $this->smarty->assign('username', $user->getUsername());  // ricordo che  $user= \Singleton::Session()->getUser()
         }
     }
 

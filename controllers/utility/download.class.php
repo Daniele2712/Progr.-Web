@@ -30,7 +30,7 @@ class download implements Controller{
         
         //poi la mostro dal file
         header('Content-Type: image/png');
-        readfile("image_for_product_$idProdotto");
+        readfile("./temp/image_for_product_$idProdotto");   //le immagini si trovano nel folder temp. Non ancora implemento il fatto che si deve svuotare di tanto in tanto...
         //header("Content-Length: " . sizeof($img));
         //$response="<img src=data:image/gif;base64," . $this->base64encodeImages($img)."></img>";
         //echo($img);

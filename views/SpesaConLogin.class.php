@@ -38,9 +38,9 @@ class SpesaConLogin extends HTMLView{
          $this->smarty->assign('total_for_carrello' , $totalPrice);
     }
     
-    public function setUsername($name){
+  /*  public function setUsername($name){
         $this->smarty->assign('username', $name);  
     }
-    
+   */ 
     
 }

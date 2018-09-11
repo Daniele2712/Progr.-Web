@@ -7,7 +7,7 @@
         <div id="guest_address">
             <h1>Selezione il tuo indirizzo di spedizione</h1>
             <div id="add_location">
-                <form class="login"  action="/spesa/guestAddress" method="post">
+                <form class="login"  action="/shop/SpesaSenzaLogin" method="post">
                     <div><label for="citta">Citt&agrave;</label>
                       <input type="text" name="comune" class="autoload_comune">
                       <input type="hidden" name="comuneId" class="autoload_comune_id"></div>

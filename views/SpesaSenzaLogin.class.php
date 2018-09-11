@@ -14,10 +14,6 @@ class SpesaSenzaLogin extends HTMLView{
         $this->addJS("spesa/js/spesa.js");
         
 
-       
-        $this->smarty->assign('templateLoginOrProfileIncludes', 'login/login.tpl');
-        $this->addCSS("login/css/login.css");
-        $this->addJS("login/js/login.js");
     }
     
     public function fillCategories($categories){

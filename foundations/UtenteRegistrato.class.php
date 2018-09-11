@@ -8,11 +8,11 @@ if(!defined("EXEC")){
 class UtenteRegistrato extends Utente{
     protected static $table = "utenti_registrati";
 
-    public static function insert(Model $obj): int{
+    public static function insert(\Models\Model $obj): int{
 
     }
 
-    public static function update(Model $obj){
+    public static function update(\Models\Model $obj){
 
     }
 
