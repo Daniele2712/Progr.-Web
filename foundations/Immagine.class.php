@@ -6,7 +6,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class Immagini extends Foundation{
+class Immagine extends Foundation{
     protected static $table = "immagini";
 
     public static function getImmaginiProdotto(int $id): array{
@@ -24,9 +24,23 @@ class Immagini extends Foundation{
             throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
         elseif($f === NULL)
             throw new \ModelException("Model Not Found", __CLASS__, array("id_prodotto"=>$id), 0);
-        else
-            foreach($id_immagine as $id)                    //TODO: questa non funziona usare get_result e ciclare
-                $r[] = Immagine::find($id);
+        else{
+            $res = $p->get_result();
+            while ($row = $result->fetch_array(MYSQLI_NUM))
+                $r[] = Immagine::find($row[0]);
+        }
         return $r;
+    }
+
+    public static function create(array $obj): Model{
+        return new \Models\Immagine($obj["id"], $obj["nome"], $obj["size"], $obj["type"], $obj["immagine"]);
+    }
+
+    public static function insert(Model $obj): int{
+
+    }
+
+    public static function update(Model $obj){
+
     }
 }

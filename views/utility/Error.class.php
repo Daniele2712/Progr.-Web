@@ -24,7 +24,7 @@ class Error implements View{
      * @var    array
      */
     private $commonErrors = array(
-        404 => "File Not Found",
+        404 => "Resource Not Found",
         405 => "Method Not Allowed"
     );
 

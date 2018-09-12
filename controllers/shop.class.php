@@ -9,36 +9,36 @@ if(!defined("EXEC")){
 class shop{
     public function home(Request $req){
         $v = new \Views\Home();
-        
-            $session = \Singleton::Session();
-            if($session->isLogged())
-                $v->setUser($session->getUser());
-               
+
+        $session = \Singleton::Session();
+        if($session->isLogged())
+            $v->setUser($session->getUser());
+
         $v->render();
     }
 
     public function spesaSenzaLogin(Request $req){
 
-        
+
         $v = new \Views\SpesaSenzaLogin();
 
         $cat=\Singleton::DB()->query("SELECT nome FROM `categorie`;");
         $catFetched=array();
         while($row = mysqli_fetch_array($cat)) $catFetched[]=$row["nome"];
         $v->fillCategories($catFetched);
-        
-        
+
+
         /*      DEVO TROVARE l-ID DEL MAGAZZINO DA CUI FACCIO LA SPESA      */
         $idMagazzino=1;
         $items= \Foundations\Magazzino::find($idMagazzino)->getItems();
         $itemsForHtml = $this->prepareForSale($items,$req->getServerName());
-        $v->fillItems($itemsForHtml); 
-     
-        
+        $v->fillItems($itemsForHtml);
+
+
         /*      Trovare i prodotti del Basket       */
         /*  In qualche modo devo prendere l-id del utente loggato....oppure dalla sessione prendo qualcosa  */
         $ModelCarrello=\Singleton::Session()->getCart();        // restituisce un Models Carrello
-       
+
         $cartItems=$this->makeItemsForCart($ModelCarrello);  //mette dentro al $cartItems gli item nella forma giusta per essere letti dal template
         $cartItemsWithSymbols=$this->valutaToHtml($cartItems);
         $v->fillBasket($cartItemsWithSymbols);
@@ -46,73 +46,73 @@ class shop{
 
         $v->render();
     }
-   
-    
+
+
 
     public function spesaConLogin(Request $req){
         $v = new \Views\SpesaConLogin();
         // Prima di fare il render devi riempire tutte le variabili di smarty
-        
-       
+
+
         $v->setUser(\Singleton::Session()->getUser());
-        
+
         $cat=\Singleton::DB()->query("SELECT nome FROM `categorie`;");
         $catFetched=array();
-        while($row = mysqli_fetch_array($cat)) $catFetched[]=$row["nome"];   
+        while($row = mysqli_fetch_array($cat)) $catFetched[]=$row["nome"];
         $v->fillCategories($catFetched);
-        
+
         /*      DEVO TROVARE l-ID DEL MAGAZZINO DA CUI FACCIO LA SPESA      */
         $idMagazzino=1;
         $items= \Foundations\Magazzino::find($idMagazzino)->getItems();
         $itemsForHtml = $this->prepareForSale($items,$req->getServerName());
-        $v->fillItems($itemsForHtml); 
-        
+        $v->fillItems($itemsForHtml);
+
 
        /*      Trovare i prodotti del Basket       */
         /*  In qualche modo devo prendere l-id del utente loggato....oppure dalla sessione prendo qualcosa  */
         $ModelCarrello=\Singleton::Session()->getCart();        // restituisce un Models Carrello
-       
+
         $cartItems=$this->makeItemsForCart($ModelCarrello);  //mette dentro al $cartItems gli item nella forma giusta per essere letti dal template
         $cartItemsWithSymbols=$this->valutaToHtml($cartItems);
         $v->fillBasket($cartItemsWithSymbols);
         $v->totalBasket($ModelCarrello->getTotale()->getPrezzo());    // il totale, nel template ci ho messo come valuta l-euro.
         $v->render();
     }
-    
+
     public function logout(Request $req){
-       
-        
+
+
         \Singleton::Session()->logout();
         $this->home($req);
     }
-    
+
     public function gestore(Request $req){
         $v = new \Views\Gestore();
         $v->render();
 
     }
-    
-    
-     
+
+
+
     private function makeItemsForCart($carrello){
-        
+
         $items=$carrello->getProdotti();    //in realta restituisce items, non prodotti come suggerisce il nome
-          
+
         $toReturn=array();
-        
+
         foreach($items as $x){
             $y['nome']=$x->getProdotto()->getNome();
             $y['quantita']=$x->getQuantita();
-            $y['valuta']=$x->getPrezzo()->getValuta();    
+            $y['valuta']=$x->getPrezzo()->getValuta();
             $y['totale']=$x->getPrezzo()->getPrezzo();    // perche il primo get prezzo ti rida un MONEY
-            
+
             $toReturn[]=$y;
-            
+
         }
         return $toReturn;
     }
 
-    public function valutaToHtml($var){ 
+    public function valutaToHtml($var){
         /* ha bisogno di un array fatto di array, e in questo secondo array ci deve essere una chiave [valuta]*/
         $itemBasketFetchedHtml=array(); /* ATTENZIONE il solo valore cambiato sara quello con chiave valuta!  */
         foreach($var as $x){
@@ -140,11 +140,11 @@ class shop{
         }
         return $itemBasketFetchedHtml;
     }
-    
-    public function prepareForSale($arrayItems,$serverName){    
-        
+
+    public function prepareForSale($arrayItems,$serverName){
+
         $arrayPerTemplate=array();
-        
+
         foreach($arrayItems as $x){ //$x e' un item
             $y['imgsrc']='http://' . $serverName . '/download/image/' . $x->getProdotto()->getId();
             $y['id']=$x->getProdotto()->getId();
@@ -154,14 +154,14 @@ class shop{
             $y['valuta']=$x->getProdotto()->getPrezzo()->getValuta();
             $y['info']=$x->getProdotto()->getInfo();
             $y['descrizione']=$x->getProdotto()->getDescrizione();
-            
+
             $arrayPerTemplate[]=$y;
         }
         return $this->valutaToHtml($arrayPerTemplate);  // prima di ritornargli l-array, cambio tutti gli eur, gbp, btc, nei loro rispettivi simboli
     }
-    
+
     public function ricercaFiltrata(){
-        
+
     /*
      * Ti carica nei prodotti solo i prodotti del magazzino che rispetta le condizioni
      */

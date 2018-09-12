@@ -80,8 +80,13 @@ abstract class Foundation{
         $res = $p->get_result();
         $p->close();
         $r = null;
-        if($res)
-            $r = static::create($res->fetch_assoc());
+        if($res){
+            if($res->num_rows)
+                $r = static::create($res->fetch_assoc());
+            else
+                throw new \SQLException("Empty Result", $sql, 0, 8);
+        }
+
         return $r;
     }
 

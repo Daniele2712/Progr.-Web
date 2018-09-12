@@ -7,22 +7,32 @@ if(!defined("EXEC")){
 }
 
 class Error implements Controller{
+    public function Error404(Request $req){
+        $v = new \Views\Error();
+        $v->isRest($req->isRest());
+        $v->error(404);
+        die();
+    }
+
     public function Error405(Request $req){
         $v = new \Views\Error();
         $v->isRest($req->isRest());
         $v->error(405);
+        die();
     }
 
     public function ErrorController(Request $req){
         $v = new \Views\Error();
         $v->isRest($req->isRest());
         $v->error(404, "Controller Not Found");
+        die();
     }
 
     public function ErrorAction(Request $req){
         $v = new \Views\Error();
         $v->isRest($req->isRest());
         $v->error(404, "Action Not Found");
+        die();
     }
 
     /**
@@ -32,6 +42,7 @@ class Error implements Controller{
         $v = new \Views\Error();
         $v->isRest($req->isRest());
         $v->error(500, "Uknown Server Error");
+        die();
     }
 
     /**
