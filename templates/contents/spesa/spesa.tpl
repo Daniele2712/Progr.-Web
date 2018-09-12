@@ -3,14 +3,14 @@
         <div class="wrapper">
 
             <div id="categories">
-                 {foreach from=$categorie_for_tpl item="cat"}   
+                 {foreach from=$categorie_for_tpl item="cat"}
                     <div class="categoryclass">{$cat}</div>
                 {/foreach}
-            
-            
+
+
             </div>
 
-            
+
             <div id="filters">
                 <form id="filterform" action="altert('sended')">
 
@@ -50,11 +50,11 @@
             </div>
 
             <div id="items">
-                
+
               {foreach from=$items_for_tpl item="prodotto"}
 
                 <div class="item">
-                    <img src="{$prodotto.imgsrc}"/>
+                    <img src="/download/image/{$prodotto.imgId}"/>
                     <p class="item_price">{$prodotto.valuta} {$prodotto.prezzo}</p>
                     <div class="item_info"> <h4>{$prodotto.nome} </h4> {$prodotto.info} </div>
                     <a class="item_more" onclick="popupToggle({$prodotto.id})">Dettagli <i class="fas fa-info-circle"></i></a>
@@ -65,14 +65,14 @@
                         <i class="fas fa-2x fa-cart-plus" onclick="addToCart(this)"></i>
                     </div>
                     <div class="moreabout" id="moreabout{$prodotto.id}">
-                    
+
                         <h2>Details</h2>
                         <a class="close" onclick="popupToggle({$prodotto.id})">&times;</a>
                         <div class="contentofdescription">
 			{$prodotto.descrizione}
                         Sono disponibili {$prodotto.supply} pezzi.
                         </div>
-	
+
                     </div>
                 </div>
 
@@ -97,11 +97,11 @@
                                     <span>{$prodotto.nome}</span>
                                     <span class="prezzo">{$prodotto.valuta}  {$prodotto.totale}</span>
                                 </div>
-                      
+
 
                             {/foreach}
-                            
-                            
+
+
                                 <div id="cart_total">
                                     <span id="totale_nome"> TOTALE </span>
                                     <span class="prezzo_totale"> &#8364; {$total_for_carrello} </span>
@@ -114,7 +114,5 @@
                     </div>
 
                 </div>
-                            
+
                             </div>
-
-

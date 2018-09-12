@@ -146,7 +146,7 @@ class shop{
         $arrayPerTemplate=array();
 
         foreach($arrayItems as $x){ //$x e' un item
-            $y['imgsrc']='http://' . $serverName . '/download/image/' . $x->getProdotto()->getId();
+            $y['imgId'] = $x->getProdotto()->getImmaginePreferita()->getId();
             $y['id']=$x->getProdotto()->getId();
             $y['nome']=$x->getProdotto()->getNome();
             $y['supply']=$x->getQuantita();
