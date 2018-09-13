@@ -1,19 +1,30 @@
 <?php
-namespace Controllers;
+namespace Controllers\Api;
 use \Views\Request as Request;
 
 class ApiController{
     
     /*          API URLs
         GET
-    /api/   ├── indirizzi                                   mostra indirizzi e ID di tutti i magazzini
-            ├── categorie                                   mostra tutte le categorie
-            ├── magazzini/  ├──                             mostra tutti gli item di tutti i magazzini
+    /api/   ├── indirizzi                                   mostra indirizzi e ID di tutti i magazzini       ritorna qualcosa tipo: {"id_magazzino":"1","citta":"l'aquila","provincia":"AQ","cap":"67100","via":"viale croce rossa","civico":"2"}
+            ├── categorie                                   mostra tutte le categorie                        ritorna qualcosa tipo: {"id":"1","nome_categoria":"alimentari","id_padre":null}
+            ├── prodotti/  ├──                              mostra tutti gli item di tutti i magazzini
                             ├── id/$int ├──                 mosstra tutti gli item del magazzino con ID $int
                                         ├──categoria/$cat   mostra tutti gli item del magazzino con ID $int aventi categoria $cat
                             ├── categoria/$cat              mostra tutti gli item di tuti i magazzini con categoria $cat      
-     
-      
+    
+     * i filtri per i prodotti sono : 
+     * nome(non serve il nome completo, basta anche una sottostringa del nome)
+     * magazzino
+     * categoria
+     * prezzo_min
+     * prezzo_max 
+     * i filtri x i prodotti si possono concatenare in qualunque orodine
+     * 
+      //non e' molto intuitivo...il fatto e; che puoi ottenere i prodotti chiamando magazzini....
+     faccio un altra cosa..con prodotti...
+     * tipo 
+     * /api/prodotti/magazzino/2/categoria/elettro/pricemin/13,2/pricemax/44/nome/abc
      
         DELETE
     /api/   ├── indirizzo/$id                               si puo cancellare soltanto se non e associato a nessun magazzino    
@@ -38,14 +49,12 @@ class ApiController{
         $params=$params->getOtherParams();
                    
         switch (array_shift($params)){
-    case 'magazzini':
-        if(sizeof($params)==0 or $params[0]=='' ) $this->showAll();     
-        else
-            {
+    case 'prodotti':
+        
             $ok=TRUE;   // se l-utente sbaglia a scrivere salto molti controlli
-            if(in_array("id", $params) && $ok)
+            if(in_array("magazzino", $params) && $ok)
                 {
-                $indexId=array_search('id', $params);
+                $indexId=array_search('magazzino', $params);
                     if(isset($params[$indexId+1])){$id_magazzino=$params[$indexId+1];}
                     else {$ok=FALSE; $this->setError("expected_index");}
                 };
@@ -53,17 +62,36 @@ class ApiController{
             if(in_array("categoria", $params) && $ok)
                 {
                 $indexCategoria=array_search('categoria', $params);
-                    if(isset($params[$indexCategoria+1])){if($this->existsCategoria($params[$indexCategoria+1], 'any')) {$categoria_magazzino=$params[$indexCategoria+1];}
+                    if(isset($params[$indexCategoria+1])){if($this->existsCategoria($params[$indexCategoria+1], 'any')) {$categoria=$params[$indexCategoria+1];}
                                                           else {$ok=FALSE; $this->setError("categoria_not_exists",$params[$indexCategoria+1]);}
                     }
                     else {$ok=FALSE; $this->setError("expected_categoria");}
                 };
-                if($ok) {
-                    if(!isset($id_magazzino)) $id_magazzino=NULL;
-                    if(!isset($categoria_magazzino)) $categoria_magazzino=NULL;
-                    if($ok) $this->showProdotti($id_magazzino, $categoria_magazzino);}
-                    
-            }
+                
+            if(in_array("nome", $params) && $ok)
+                {
+                $indexId=array_search('nome', $params);
+        
+                    if(isset($params[$indexId+1])){$nome=$params[$indexId+1];}
+                    else {$ok=FALSE; $this->setError("expected_index");}
+                };
+                
+            if(in_array("prezzo_min", $params) && $ok)
+                {
+                $indexId=array_search('prezzo_min', $params);
+                    if(isset($params[$indexId+1])){$prezzo_min=$params[$indexId+1];}
+                    else {$ok=FALSE; $this->setError("expected_index");}
+                };
+                
+            if(in_array("prezzo_max", $params) && $ok)
+                {
+                $indexId=array_search('prezzo_max', $params);
+                    if(isset($params[$indexId+1])){$iprezzo_max=$params[$indexId+1];}
+                    else {$ok=FALSE; $this->setError("expected_index");}
+                };
+                 
+            if($ok) $this->showProdotti($id_magazzino, $categoria, $nome, $prezzo_min, $prezzo_max);
+            
         
         break;
     
@@ -77,7 +105,11 @@ class ApiController{
         if(sizeof($params)==0 or $params[0]=='' )     $this->showCategorie();
          else $this->setError("no_parameters_after_categorie");
          break;
-    default:
+   
+    
+    
+    
+     default:
         $this->setError("wrong_url");
         break;
     }
@@ -489,52 +521,36 @@ class ApiController{
     
     
     private function showIndirizzi(){
-                    $Magazzini=\Singleton::DB()->query("SELECT comuni.nome as citta,comuni.provincia as provincia, comuni.CAP as cap, indirizzi.via, indirizzi.civico FROM `magazzini`,comuni,indirizzi WHERE magazzini.id_indirizzo=indirizzi.id AND indirizzi.id_comune=comuni.id;");
+                    $Magazzini=\Singleton::DB()->query("SELECT indirizzi.id as id_magazzino, comuni.nome as citta,comuni.provincia as provincia, comuni.CAP as cap, indirizzi.via, indirizzi.civico FROM `magazzini`,comuni,indirizzi WHERE magazzini.id_indirizzo=indirizzi.id AND indirizzi.id_comune=comuni.id;");
                     while($r = mysqli_fetch_assoc($Magazzini)) {$rows[] = $r; }
                     if(isset($rows))echo json_encode($rows);  
                     else $this->setSuccess("empty"); 
     }
     
-    private function showAll(){
-                    $items=\Singleton::DB()->query("SELECT prodotti.nome as nome_prodotto,prodotti.info, prodotti.descrizione, categorie.nome as nome_categoria, prodotti.prezzo, prodotti.valuta FROM prodotti,categorie WHERE prodotti.id_categoria=categorie.id UNION SELECT prodotti.nome as nome_prodotto,prodotti.info, prodotti.descrizione, prodotti.id_categoria as nome_categoria, prodotti.prezzo, prodotti.valuta FROM prodotti WHERE prodotti.id_categoria IS NULL;");
-                    while($r = mysqli_fetch_assoc($items)) {$rows[] = $r; }
-                    if(isset($rows))echo json_encode($rows);  
-                    else $this->setSuccess("empty");
-                }
+   
                 
-     private function showProdotti($id_magazzino, $categoria_magazzino){
-         if(is_numeric(intval($id_magazzino))) $id_magazzino=intval($id_magazzino);
-         if($id_magazzino!=NULL){   /*      MAGAZZINO SETTATO   */
-             if($categoria_magazzino!=NULL)
-             {      /*      MAGAZZINO E CATEGORIA SETTATI*/
-                 $items=\Singleton::DB()->query("SELECT prodotti.nome as nome_prodotto,prodotti.info, prodotti.descrizione, prodotti.prezzo, prodotti.valuta, items_magazzino.quantita FROM prodotti,categorie,items_magazzino WHERE prodotti.id_categoria=categorie.id AND categorie.nome='$categoria_magazzino' AND items_magazzino.id_magazzino=$id_magazzino AND prodotti.id=items_magazzino.id_prodotto;");
-                    while($r = mysqli_fetch_assoc($items)) {$rows[] = $r; }
-                    if(isset($rows)) echo json_encode($rows);  
-                    else $this->setSuccess("empty");
-                    
-             }
-             else{  /*      MAGAZZINO SETTATA E CATEGORIA NULL*/
-                    $items=\Singleton::DB()->query("SELECT prodotti.nome as nome_prodotto,prodotti.info, prodotti.descrizione, categorie.nome as categoria, prodotti.prezzo, prodotti.valuta, items_magazzino.quantita FROM prodotti,categorie,items_magazzino WHERE items_magazzino.id_magazzino=$id_magazzino AND items_magazzino.id_prodotto=prodotti.id AND categorie.id=prodotti.id_categoria;");
-                    while($r = mysqli_fetch_assoc($items)) {$rows[] = $r; }
-                    if(isset($rows)) echo json_encode($rows);  
-                    else $this->setSuccess("empty");
-             }
-             
-         }
-         else{      /*      MAGAZZINO NON SETTATO       */
-                if($categoria_magazzino!=NULL)
-                {      /*      MAGAZZINO NON SETTATO E CATEGORIA SETTATI*/
-                    $items=\Singleton::DB()->query("SELECT prodotti.id, prodotti.nome as nome_prodotto,prodotti.info, prodotti.descrizione, prodotti.prezzo, prodotti.valuta, items_magazzino.quantita, items_magazzino.id_magazzino FROM prodotti,categorie,items_magazzino WHERE prodotti.id_categoria=categorie.id AND categorie.nome='$categoria_magazzino' AND items_magazzino.id_prodotto=prodotti.id");
-                       while($r = mysqli_fetch_assoc($items)) {$rows[] = $r; }
-                       if(isset($rows)) echo json_encode($rows);  
-                       else $this->setSuccess("empty");
+     private function showProdotti($id_magazzino, $categoria, $nome, $prezzo_min, $prezzo_max){
+        //aggiungere eventuali controlli sul tipo di variabile che gli viene passato e possibili sql injection
+        if(!isset($id_magazzino)) $sql_id_magazzino="id_magazzino LIKE '%'";
+        else $sql_id_magazzino="id_magazzino=$id_magazzino";        //possiible che devo trasformare il id in un nnumero??? con intval? Oppure i singoli apici....
+        
+        if(!isset($categoria)) $sql_nome_categoria="categorie.nome LIKE '%'";
+        else $sql_nome_categoria="categorie.nome='$categoria'";
 
-                }
-                else{  /*      NIENTE SETTATO       */
-                       
-                       $this->setError("wrong_url");
-                }
-                }
+        if(!isset($nome)) $sql_nome_prodotto="prodotti.nome LIKE '%'";
+        else $sql_nome_prodotto= "prodotti.nome LIKE '%$nome%'";
+        
+        if(!isset($prezzo_min)) $sql_prezzo_min="prodotti.prezzo > -1";
+        else $sql_prezzo_min = "prodotti.prezzo > $prezzo_min";
+        
+        if(!isset($prezzo_max)) $sql_prezzo_max="prodotti.prezzo < 999999999";
+        else $sql_prezzo_max="prodotti.prezzo < $prezzo_max";
+        
+         
+         $items=\Singleton::DB()->query("SELECT DISTINCT prodotti.id as id_prodotto , prodotti.nome as nome_prodotto,  prodotti.descrizione as descrizione_prodotto, prodotti.info as info_prodotto, prodotti.prezzo as prezzo_prodotto, prodotti.valuta as valuta_prodotto, items_magazzino.quantita as quantita_prodotto , categorie.id as id_categoria, categorie.nome as nome_categoria, items_magazzino.id_magazzino as id_magazzino, comuni.nome as comune_magazzino, comuni.provincia as provincia_magazzino, comuni.CAP as cap_magazzino, indirizzi.via as via_magazzino, indirizzi.civico as civico_magazzino FROM prodotti,categorie,items_magazzino,magazzini, indirizzi, comuni WHERE $sql_id_magazzino AND items_magazzino.id_prodotto=prodotti.id AND prodotti.id_categoria=categorie.id AND $sql_nome_categoria AND $sql_nome_prodotto AND $sql_prezzo_min AND $sql_prezzo_max AND id_magazzino=magazzini.id AND magazzini.id_indirizzo=indirizzi.id AND indirizzi.id_comune=comuni.id ;");
+         while($r = mysqli_fetch_assoc($items)) {$rows[] = $r; }
+                    if(isset($rows)) echo json_encode($rows);  
+                    else $this->setSuccess("empty"); 
             }
     
     private function showCategorie(){

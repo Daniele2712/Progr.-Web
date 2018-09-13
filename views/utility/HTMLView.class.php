@@ -97,12 +97,31 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      */
     public function setUser(\Models\Utente $user){
         $this->user = $user;
-        if(is_subclass_of($user,"\Models\UtenteRegistrato") || is_a($user, '\Models\UtenteRegistrato')){   //non solo se e una sottoclasse, ma anche se e' un utente registrato deve cmq entrare nel ciclo
-            $this->smarty->assign('logged', 'utente');
+        switch(get_class($user)) // ricordo che  $user= \Singleton::Session()->getUser()
+        {
+            
+            case "Models\UtenteRegistrato":        // non so se serve aggiungere anche  || is_subclass_of($user,"\Models\UtenteRegistrato")
+            $this->smarty->assign('logged', 'UtenteRegistrato');
             $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
             $this->addCSS("profile/css/profile.css");
             $this->addJS("profile/js/profile.js");
-            $this->smarty->assign('username', $user->getUsername());  // ricordo che  $user= \Singleton::Session()->getUser()
+            $this->smarty->assign('username', $user->getUsername());
+            break;
+        
+        
+        
+            case "Models\Gestore":
+            $this->smarty->assign('logged', 'Gestore');
+            $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
+            $this->addCSS("profile/css/profile.css");
+            $this->addJS("profile/js/profile.js");
+            $this->smarty->assign('username', $user->getUsername());    
+            break;
+        
+            defalut:
+              
+                
+               
         }
     }
 

@@ -14,9 +14,9 @@
                                             <form class="login"  action="/user/login" method="post">
 
                                                 <div><label for="username">Username</label>
-                                                  <input type="text" name="username" id="username"></div>
+                                                  <input type="text" name="username" id="loginUsername"></div>
                                                 <div><label for="password">Password</label>
-                                                  <input type="password" name="password" id="password"></div>
+                                                  <input type="password" name="password" id="loginPassword"></div>
 
                                                 <div class="actions">
                                                   <input type="submit" name="login" value="Login"> <a href="/forgot">I forgot my password</a>
@@ -34,9 +34,9 @@
                                               <div><label for="indirizzo">Indirizzo</label>
                                               <input type="text" name="indirizzo" id="indirizzo"></div>
                                               <div><label for="username">Username</label>
-                                              <input type="text" name="username" id="username"></div>
+                                              <input type="text" name="username" id="registerUsername"></div>
                                               <div><label for="password">Password</label>
-                                              <input type="password" name="password" id="password"></div>
+                                              <input type="password" name="password" id="registerPassword"></div>
                                               <div><label for="confermaPassword">Conferma Password</label>
                                               <input type="password" name="confermaPassword" id="confermaPassword"></div>
 

@@ -31,7 +31,7 @@ class FrontController{
                     $c->ErrorAction($request);
             }
         }else{
-            
+            echo "yolo";
             $c = new Error();
             $c->ErrorController($request);
         }

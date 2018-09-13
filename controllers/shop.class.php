@@ -87,9 +87,15 @@ class shop{
     }
     
     public function gestore(Request $req){
-        $v = new \Views\Gestore();
-        $v->render();
-
+        
+         $session = \Singleton::Session();
+            if($session->isLogged())            //nel caso l-utente abbia digitato direttamente l-indirizzo senza essersi loggato, lo mando alla home
+            {
+                $v = new \Views\Gestore();
+                $v->setUser($session->getUser());
+                $v->render();
+            }
+            else header('Location: '."http://".$req->getServerName());
     }
     
     

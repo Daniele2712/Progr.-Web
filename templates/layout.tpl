@@ -13,7 +13,7 @@
         <script type="text/javascript" src="/libs/jquery-ui/jquery-ui.min.js"></script>
         <script type="text/javascript" src="/templates/js/layout.js"></script>
         {$templateHeadIncludes}
-        <script type="text/javascript"> logged={$logged}</script>
+        <script type="text/javascript"> var logged="{$logged}"</script>
         <title>Online Shopping</title>
     </head>
 
