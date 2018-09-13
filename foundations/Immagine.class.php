@@ -6,10 +6,10 @@ if(!defined("EXEC")){
 	return;
 }
 
-class Immagini extends Foundation{
+class Immagine extends Foundation{
     protected static $table = "immagini";
 
-    public static function getImmaginiProdotto(int $id): array{
+    public static function findByProduct(int $id): array{
         $DB = \Singleton::DB();
         $sql = "SELECT id_immagine FROM immagini_prodotti WHERE id_prodotto = ?";
         $p = $DB->prepare($sql);
@@ -18,15 +18,49 @@ class Immagini extends Foundation{
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->bind_result($id_immagine);
         $r = array();
-        $f = $p->fetch();
+        $res = $p->get_result();
         $p->close();
-        if($f === FALSE)
+        if($res === FALSE)
             throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
-        elseif($f === NULL)
-            throw new \ModelException("Model Not Found", __CLASS__, array("id_prodotto"=>$id), 0);
         else
-            foreach($id_immagine as $id)                    //TODO: questa non funziona usare get_result e ciclare
-                $r[] = Immagine::find($id);
+            while ($row = $res->fetch_array(MYSQLI_NUM))
+                $r[] = Immagine::find($row[0]);
         return $r;
+    }
+
+    public static function findFavouriteByProduct(int $id): \Models\Immagine{
+        $DB = \Singleton::DB();
+        $sql = "SELECT id_immagine FROM immagini_prodotti WHERE id_prodotto = ? AND preferita = 1";
+        $p = $DB->prepare($sql);
+        $p->bind_param("i",$id);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $p->close();
+        if($res === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+        else{
+            if($res->num_rows==0)
+                throw new \SQLException("Empty Result", $sql, 0, 8);
+            elseif($res->num_rows>1)
+                throw new \SQLException("Too Much Results", $sql, $res->num_rows, 9);
+            else{
+                $row = $res->fetch_array(MYSQLI_NUM);
+                $r = Immagine::find($row[0]);
+            }
+        }
+        return $r;
+    }
+
+    public static function create(array $obj): Model{
+        return new \Models\Immagine($obj["id"], $obj["nome"], $obj["size"], $obj["type"], $obj["immagine"]);
+    }
+
+    public static function insert(Model $obj): int{
+
+    }
+
+    public static function update(Model $obj){
+
     }
 }
