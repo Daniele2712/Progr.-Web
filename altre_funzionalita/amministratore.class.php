@@ -6,7 +6,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class ges_dipendenti implements Controller{
-    
+class amministratore implements Controller{
+
 }
 ?>
