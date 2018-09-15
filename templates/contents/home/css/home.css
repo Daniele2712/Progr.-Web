@@ -5,7 +5,7 @@
 }
 
 #homeContent{
-    background-image: url(../img/banner.jpg);
+    background-image: url(/download/background);
     background-repeat: no-repeat;
     background-size: 100%;
 }

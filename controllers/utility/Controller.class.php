@@ -13,5 +13,5 @@ interface Controller{
     /**
      * azione di default del controller
      */
-    public function default(Request $req);
+    public static function default(Request $req);
 }

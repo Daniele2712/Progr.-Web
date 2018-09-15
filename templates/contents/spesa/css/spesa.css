@@ -1,8 +1,3 @@
-
-*{
-    margin:0px;
-    padding:0px;
-}
 .wrapper{
     display:grid;
     grid-template-columns:1fr 4fr 1fr;
@@ -22,11 +17,11 @@
     background: linear-gradient(lightgrey, white);
     display:grid; align-items: center; justify-items: center;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    
+
 }
 
 .categoryclass{
-    
+
     border-bottom: grey 3px solid;
     border-left: lightgrey 3px solid;
     border-right: lightgrey 3px solid;
@@ -39,7 +34,7 @@
     min-width: 150px;
     text-align: center;
     display:grid; align-items: center;
-    
+
 }
 .categoryclass:active { /*Clicked and held*/
   box-shadow: 0px 5px 6px;
@@ -58,32 +53,32 @@
 .divfiltri{
     margin-top:1em;
     margin-bottom:1em;
-    
+
 }
 #filterform{
     padding:10px;
-    
+
 }
 #price-min, #price-max{
     width: 50px;
 }
 #pricefilters{
     display:grid;
-    grid-template-columns:3fr 2fr 1fr; 
+    grid-template-columns:3fr 2fr 1fr;
     align-items:center;
     justify-items:center;
-    size:.5em;	
+    size:.5em;
 }
 #ingredienti{
     display:grid;
     grid-template-columns:auto auto;
     grid-template-rows:minmax(1em, 2em);
-    
+
     align-items:center;
     justify-items:center;
     grid-row-gap:0.5em;
     align-items:center;
-    
+
 }
 
 /*          END OF FILTERS              */
@@ -92,14 +87,14 @@
 
 
 #items{
-    
+
     display:grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat( auto-fit, minmax(300px, 400px) );
     justify-items:center;
     grid-gap:1em;
     margin:3em;
-    
+
 }
 
 .item{
@@ -130,7 +125,7 @@ max-width: 300px;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-items:center;
-    cursor:pointer; 
+    cursor:pointer;
 }
 .item_description{
     grid-area:info;
@@ -142,7 +137,7 @@ max-width: 300px;
 .item_more{
     grid-area:more;
     cursor:pointer;
-    
+
 }
 .item_more_div{
     grid-area:more;
@@ -151,7 +146,7 @@ max-width: 300px;
     top:0;
     left:0;
     background-color: red;
-    
+
 }
 
 
@@ -164,7 +159,7 @@ max-width: 300px;
     background: lightgrey;
     display:none;
     border-radius:10px;
-    
+
 }
 
 
@@ -182,7 +177,7 @@ max-width: 300px;
   position: absolute;
   top:10px;
   right:10px;
-  
+
   transition: all 200ms;
   font-size: 30px;
   font-weight: bold;
@@ -224,17 +219,17 @@ max-width: 300px;
     display:grid;
     grid-template-rows: 200px auto;
     height:700px;
-    
-    
+
+
 }
 #basket-fa{
     display:grid;
     grid-template-rows:3fr 1fr;
-    justify-items:center;   
-   
+    justify-items:center;
+
 }
 #imgCarello{
-    align-self:center;   
+    align-self:center;
 }
 
 
@@ -254,7 +249,7 @@ max-width: 300px;
     margin :3px 1px;
     display:grid;
     grid-template-columns:1fr 1fr 4fr 3fr;
-    
+
 }
 
 
@@ -286,4 +281,3 @@ max-width: 300px;
 #footer{
     grid-area:footer;
 }
-

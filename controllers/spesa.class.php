@@ -11,7 +11,7 @@ class spesa implements Controller{
     /**
      * metodo per selezionare o aggiungere l'indirizzo a cui spedire
      */
-    public function inizia(Request $req){
+    public static function inizia(Request $req){
         $session = \Singleton::Session();
         if($session->isLogged()){
             $addr = $session->getUser()->getIndirizzi();
@@ -38,7 +38,7 @@ class spesa implements Controller{
     /**
      * metodo per selezionare un indirizzo dell'utente
      */
-    public function userAddress(Request $req){
+    public static function userAddress(Request $req){
         $session = \Singleton::Session();
         if(!$session->isLogged())
             die("errore");
@@ -54,7 +54,7 @@ class spesa implements Controller{
     /**
      * metodo pre creare un indirizzo temporaneo per l'ospite
      */
-    public function guestAddress(Request $req){
+    public static function guestAddress(Request $req){
         $session = \Singleton::Session();
         if($session->isLogged())
             die("errore");
@@ -79,7 +79,7 @@ class spesa implements Controller{
     /**
      * mostra il catalogo contenente i prodotti del magazzino più vicino all'indirizzo desiderato
      */
-    public function catalogo(Request $req){
+    public static function catalogo(Request $req){
         $session = \Singleton::Session();
         $cart = $session->getCart();
         $addr = $session->getAddr();
@@ -94,7 +94,7 @@ class spesa implements Controller{
     /**
      * aggiunge un item al carello in base all' id del prodotto selezionato e la sua quantità
      */
-    public function addCarrello(Request $req){
+    public static function addCarrello(Request $req){
         $session = \Singleton::Session();
         $cart = $session->getCart();
         $id = $req->getInt("id");
@@ -110,7 +110,7 @@ class spesa implements Controller{
         echo "</pre>";
     }
 
-    public function completaordine(Request $req){
+    public static function completaordine(Request $req){
         $session = \Singleton::Session();
         $cart = $session->getCart();
         $ord = $cart->CompletaOrdine();
@@ -119,7 +119,7 @@ class spesa implements Controller{
         visualizza l'ordine e fa inserire il metodo di pagamento*/
     }
 
-    public function userpayment(Request $req){
+    public static function userpayment(Request $req){
         $session = \Singleton::Session();
         if(!$session->isLogged())
             die("errore");
@@ -134,7 +134,7 @@ class spesa implements Controller{
 
     }
 
-    public function guestpayment(Request $req){
+    public static function guestpayment(Request $req){
         $session = \Singleton::Session();
 
         if($session->isLogged())
@@ -161,7 +161,7 @@ class spesa implements Controller{
         return $r;
     }
 
-    public function conferma(Request $req){
+    public static function conferma(Request $req){
         $session = \Singleton::Session();
         $ord = $session->getOrder();
         //chiama la vista che crea il riepilogo finale dell'ordine
@@ -170,8 +170,8 @@ class spesa implements Controller{
     /**
      * azione di default
      */
-    public function default(Request $req){
-        return $this->inizia($req);
+    public static function default(Request $req){
+        return self::inizia($req);
     }
 }
 ?>

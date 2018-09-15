@@ -7,7 +7,7 @@ if(!defined("EXEC")){
 }
 
 class User implements Controller{
-    public function getIndirizzi(Request $req){
+    public static function getIndirizzi(Request $req){
         $sessione = \Singleton::Session();
         if(!$sessione->isLogged()){
             echo "non loggato";
@@ -23,7 +23,7 @@ class User implements Controller{
         //$v->render();
     }
 
-    public function login(Request $req){
+    public static function login(Request $req){
 
         $user = $req->getString("username", NULL, "POST");
         $pw = $req->getString("password", NULL, "POST");
@@ -31,10 +31,10 @@ class User implements Controller{
             /*  controllare se si tratta di un gestore o di un utente */
             \Singleton::Session()->login($user,$pw);
             $user = \Singleton::Session()->getUser();   /* questo e' un MODELS Utente, quindi ha la funzione getId()*/
-           
-            if($this->isGestore($user->getId())) header('Location: '. '../shop/gestore');
+
+            if(self::isGestore($user->getId())) header('Location: '. '../shop/gestore');
                     else header('Location: '."../shop/spesaConLogin");
-            
+
         }catch(\ModelException $e){         // c-e errore con questo model, che cosa e??
             \Singleton::Session()->logout();
             echo "<pre>";
@@ -43,7 +43,7 @@ class User implements Controller{
         }
     }
 
-    public function logout(Request $req){
+    public static function logout(Request $req){
         \Singleton::Session()->logout();
         echo "logged out";
     }
@@ -58,10 +58,10 @@ class User implements Controller{
         if($num==0) return false;
         else return true;
     }
-    
-    public function default(Request $req){
-        return $this->login($req);
+
+    public static function default(Request $req){
+        return self::login($req);
     }
-    
-    
+
+
 }

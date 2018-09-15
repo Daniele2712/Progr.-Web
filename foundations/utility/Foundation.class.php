@@ -14,6 +14,7 @@ abstract class Foundation{
      * @var string $table variabile contenente il nome della tabella su cui effettuare le operazioni
      */
     protected static $table;
+    protected static $ID = array("name"=>"id","type"=>"i");
 
 
     /**
@@ -72,9 +73,9 @@ abstract class Foundation{
         if(!static::$table)
             throw new \Exception("Error Table Name not set in".get_called_class(), 1);
         $DB = \Singleton::DB();
-        $sql = "SELECT * FROM ".static::$table." WHERE id = ?";
+        $sql = "SELECT * FROM ".static::$table." WHERE ".static::$ID["name"]." = ?";
         $p = $DB->prepare($sql);
-        $p->bind_param("i",$id);
+        $p->bind_param(static::$ID["type"],$id);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $res = $p->get_result();
@@ -102,7 +103,7 @@ abstract class Foundation{
         if(!static::$table)
             throw new \Exception("Error Table Name not set in".get_called_class(), 1);
         $DB = \Singleton::DB();
-        $sql = "SELECT * FROM ".static::$table." WHERE id IN (?)";
+        $sql = "SELECT * FROM ".static::$table." WHERE ".static::$ID["name"]." IN (?)";
         $p = $DB->prepare($sql);
         $ids_str = implode(", ",$ids);
         $p->bind_param("s", $ids_str);
@@ -127,9 +128,9 @@ abstract class Foundation{
         if(!static::$table)
             throw new \Exception("Error Table Name not set in".get_called_class(), 1);
         $DB = \Singleton::DB();
-        $sql = "DELETE FROM ".static::$table." WHERE id = ?";
+        $sql = "DELETE FROM ".static::$table." WHERE ".static::$ID["name"]." = ?";
         $p = $DB->prepare($sql);
-        $p->bind_param("i",$id);
+        $p->bind_param(static::$ID["type"],$id);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();

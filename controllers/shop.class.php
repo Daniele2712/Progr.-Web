@@ -7,9 +7,9 @@ if(!defined("EXEC")){
 }
 
 class shop{
-    public function home(Request $req){
+    public static function home(Request $req){
         $v = new \Views\Home();
-
+        //throw new \Exception("Error Processing Request", 1);
         $session = \Singleton::Session();
         if($session->isLogged())
             $v->setUser($session->getUser());
@@ -17,7 +17,7 @@ class shop{
         $v->render();
     }
 
-    public function spesaSenzaLogin(Request $req){
+    public static function spesaSenzaLogin(Request $req){
 
 
         $v = new \Views\SpesaSenzaLogin();
@@ -31,7 +31,7 @@ class shop{
         /*      DEVO TROVARE l-ID DEL MAGAZZINO DA CUI FACCIO LA SPESA      */
         $idMagazzino=1;
         $items= \Foundations\Magazzino::find($idMagazzino)->getItems();
-        $itemsForHtml = $this->prepareForSale($items,$req->getServerName());
+        $itemsForHtml = self::prepareForSale($items,$req->getServerName());
         $v->fillItems($itemsForHtml);
 
 
@@ -39,8 +39,8 @@ class shop{
         /*  In qualche modo devo prendere l-id del utente loggato....oppure dalla sessione prendo qualcosa  */
         $ModelCarrello=\Singleton::Session()->getCart();        // restituisce un Models Carrello
 
-        $cartItems=$this->makeItemsForCart($ModelCarrello);  //mette dentro al $cartItems gli item nella forma giusta per essere letti dal template
-        $cartItemsWithSymbols=$this->valutaToHtml($cartItems);
+        $cartItems=self::makeItemsForCart($ModelCarrello);  //mette dentro al $cartItems gli item nella forma giusta per essere letti dal template
+        $cartItemsWithSymbols=self::valutaToHtml($cartItems);
         $v->fillBasket($cartItemsWithSymbols);
         $v->totalBasket($ModelCarrello->getTotale()->getPrezzo());    // il totale, nel template ci ho messo come valuta l-euro.
 
@@ -49,7 +49,7 @@ class shop{
 
 
 
-    public function spesaConLogin(Request $req){
+    public static function spesaConLogin(Request $req){
         $v = new \Views\SpesaConLogin();
         // Prima di fare il render devi riempire tutte le variabili di smarty
 
@@ -64,7 +64,7 @@ class shop{
         /*      DEVO TROVARE l-ID DEL MAGAZZINO DA CUI FACCIO LA SPESA      */
         $idMagazzino=1;
         $items= \Foundations\Magazzino::find($idMagazzino)->getItems();
-        $itemsForHtml = $this->prepareForSale($items,$req->getServerName());
+        $itemsForHtml = self::prepareForSale($items,$req->getServerName());
         $v->fillItems($itemsForHtml);
 
 
@@ -72,22 +72,22 @@ class shop{
         /*  In qualche modo devo prendere l-id del utente loggato....oppure dalla sessione prendo qualcosa  */
         $ModelCarrello=\Singleton::Session()->getCart();        // restituisce un Models Carrello
 
-        $cartItems=$this->makeItemsForCart($ModelCarrello);  //mette dentro al $cartItems gli item nella forma giusta per essere letti dal template
-        $cartItemsWithSymbols=$this->valutaToHtml($cartItems);
+        $cartItems=self::makeItemsForCart($ModelCarrello);  //mette dentro al $cartItems gli item nella forma giusta per essere letti dal template
+        $cartItemsWithSymbols=self::valutaToHtml($cartItems);
         $v->fillBasket($cartItemsWithSymbols);
         $v->totalBasket($ModelCarrello->getTotale()->getPrezzo());    // il totale, nel template ci ho messo come valuta l-euro.
         $v->render();
     }
 
-    public function logout(Request $req){
+    public static function logout(Request $req){
 
 
         \Singleton::Session()->logout();
-        $this->home($req);
+        self::home($req);
     }
 
-    public function gestore(Request $req){
-        
+    public static function gestore(Request $req){
+
          $session = \Singleton::Session();
             if($session->isLogged())            //nel caso l-utente abbia digitato direttamente l-indirizzo senza essersi loggato, lo mando alla home
             {
@@ -100,7 +100,7 @@ class shop{
 
 
 
-    private function makeItemsForCart($carrello){
+    private static function makeItemsForCart($carrello){
 
         $items=$carrello->getProdotti();    //in realta restituisce items, non prodotti come suggerisce il nome
 
@@ -118,7 +118,7 @@ class shop{
         return $toReturn;
     }
 
-    public function valutaToHtml($var){
+    public static function valutaToHtml($var){
         /* ha bisogno di un array fatto di array, e in questo secondo array ci deve essere una chiave [valuta]*/
         $itemBasketFetchedHtml=array(); /* ATTENZIONE il solo valore cambiato sara quello con chiave valuta!  */
         foreach($var as $x){
@@ -147,7 +147,7 @@ class shop{
         return $itemBasketFetchedHtml;
     }
 
-    public function prepareForSale($arrayItems,$serverName){
+    public static function prepareForSale($arrayItems,$serverName){
 
         $arrayPerTemplate=array();
 
@@ -163,20 +163,20 @@ class shop{
 
             $arrayPerTemplate[]=$y;
         }
-        return $this->valutaToHtml($arrayPerTemplate);  // prima di ritornargli l-array, cambio tutti gli eur, gbp, btc, nei loro rispettivi simboli
+        return self::valutaToHtml($arrayPerTemplate);  // prima di ritornargli l-array, cambio tutti gli eur, gbp, btc, nei loro rispettivi simboli
     }
 
-    public function ricercaFiltrata(){
+    public static function ricercaFiltrata(){
 
     /*
      * Ti carica nei prodotti solo i prodotti del magazzino che rispetta le condizioni
      */
         }
-    public function submit(Request $req){
+    public static function submit(Request $req){
         echo("non dovrei arrivare qui");
         // submitting a guestbook entry
-        $this->mungeFormData($_POST);
-        if($this->isValidForm($_POST)){
+        self::mungeFormData($_POST);
+        if(self::isValidForm($_POST)){
             $guestbook->addEntry($_POST);
             $guestbook->displayBook($guestbook->getEntries());
         } else {
@@ -186,8 +186,8 @@ class shop{
         }
     }
 
-    public function default(Request $req){
-        return $this->home($req);
+    public static function default(Request $req){
+        return self::home($req);
     }
 
     //ANDREI: queste sono funzioni che terrei nel controller, ma private. Poi vedi te
@@ -197,7 +197,7 @@ class shop{
     *
     * @param array $formvars the form variables
     */
-    private function mungeFormData(&$formvars) {  // attenzioneee questa trim ti elimina gli spazi solo alla fine e al inizio della stringa!
+    private static function mungeFormData(&$formvars) {  // attenzioneee questa trim ti elimina gli spazi solo alla fine e al inizio della stringa!
 
 
       // trim off excess whitespace
@@ -211,20 +211,20 @@ class shop{
     *
     * @param array $formvars the form variables
     */
-    private function isValidForm($formvars) {
+    private static function isValidForm($formvars) {
 
       // reset error message
-      $this->error = null;
+      $error = null;
 
       // test if "Name" is empty
       if(strlen($formvars['Name']) == 0) {
-        $this->error = 'name_empty';
+        $error = 'name_empty';
         return false;
       }
 
       // test if "Comment" is empty
       if(strlen($formvars['Comment']) == 0) {
-        $this->error = 'comment_empty';
+        $error = 'comment_empty';
         return false;
       }
 
