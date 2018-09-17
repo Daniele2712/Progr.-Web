@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Creato il: Set 15, 2018 alle 02:36
+-- Creato il: Set 17, 2018 alle 23:48
 -- Versione del server: 5.7.23-0ubuntu0.16.04.1
 -- Versione PHP: 7.0.30-0ubuntu0.16.04.1
 
@@ -133,6 +133,31 @@ INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascit
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `dipendenti`
+--
+
+CREATE TABLE `dipendenti` (
+  `id` int(11) NOT NULL,
+  `id_utente` int(11) NOT NULL,
+  `ruolo` enum('Corriere','Amministratore') NOT NULL,
+  `tipo_contratto` enum('tempo indeterminato','tempo determinato','part-time','chiamata') NOT NULL,
+  `data_assunzione` date NOT NULL,
+  `ore_settimanali` int(11) NOT NULL,
+  `prezzo` float NOT NULL,
+  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `dipendenti`
+--
+
+INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_assunzione`, `ore_settimanali`, `prezzo`, `valuta`) VALUES
+(1, 4, 'Amministratore', 'tempo indeterminato', '2018-08-08', 0, 0, 'EUR'),
+(2, 3, 'Corriere', 'tempo indeterminato', '2018-08-08', 0, 0, 'EUR');
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `filtri`
 --
 
@@ -149,25 +174,6 @@ CREATE TABLE `filtri` (
 
 INSERT INTO `filtri` (`id`, `nome`, `filtrabile`, `id_categoria`) VALUES
 (1, 'display', 1, 4);
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `gestori`
---
-
-CREATE TABLE `gestori` (
-  `id` int(11) NOT NULL,
-  `id_utente` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `gestori`
---
-
-INSERT INTO `gestori` (`id`, `id_utente`) VALUES
-(2, 3),
-(1, 4);
 
 -- --------------------------------------------------------
 
@@ -540,13 +546,28 @@ INSERT INTO `settings` (`k`, `v`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `turni`
+--
+
+CREATE TABLE `turni` (
+  `id` int(11) NOT NULL,
+  `id_dipendente` int(11) NOT NULL,
+  `giorno_inizio` int(11) NOT NULL,
+  `ora_inizio` time NOT NULL,
+  `giorno_fine` int(11) NOT NULL,
+  `data_fine` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `utenti`
 --
 
 CREATE TABLE `utenti` (
   `id` int(11) NOT NULL,
   `id_datianagrafici` int(11) NOT NULL,
-  `tipo_utente` enum('Gestore','UtenteRegistrato','Corriere') NOT NULL,
+  `tipo_utente` enum('Dipendente','UtenteRegistrato') NOT NULL,
   `email` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL
@@ -559,8 +580,8 @@ CREATE TABLE `utenti` (
 INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`) VALUES
 (1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af'),
 (2, 1, 'UtenteRegistrato', 'alessandromanzoni@gmail.com', 'aleman', 'a39bb4d6e7f7036c1e5a7192adc56ed0'),
-(3, 1, 'Gestore', 'andreibal@yahoo.com', 'andrei', 'b2d09b73eb5ad0228f9cb2e51485a45f'),
-(4, 2, 'Gestore', 'luigiverdi@gmail.com', 'luiver', 'e0c96a15bd424cc0b7a81e498603b17d');
+(3, 1, 'Dipendente', 'andreibal@yahoo.com', 'andrei', 'b2d09b73eb5ad0228f9cb2e51485a45f'),
+(4, 2, 'Dipendente', 'luigiverdi@gmail.com', 'luiver', 'e0c96a15bd424cc0b7a81e498603b17d');
 
 -- --------------------------------------------------------
 
@@ -633,18 +654,18 @@ ALTER TABLE `dati_anagrafici`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indici per le tabelle `dipendenti`
+--
+ALTER TABLE `dipendenti`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_datianagrafici` (`id_utente`);
+
+--
 -- Indici per le tabelle `filtri`
 --
 ALTER TABLE `filtri`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_categoria` (`id_categoria`);
-
---
--- Indici per le tabelle `gestori`
---
-ALTER TABLE `gestori`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_datianagrafici` (`id_utente`);
 
 --
 -- Indici per le tabelle `immagini`
@@ -796,6 +817,13 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`k`);
 
 --
+-- Indici per le tabelle `turni`
+--
+ALTER TABLE `turni`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_dipendente` (`id_dipendente`);
+
+--
 -- Indici per le tabelle `utenti`
 --
 ALTER TABLE `utenti`
@@ -849,15 +877,15 @@ ALTER TABLE `comuni`
 ALTER TABLE `dati_anagrafici`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT per la tabella `dipendenti`
+--
+ALTER TABLE `dipendenti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT per la tabella `filtri`
 --
 ALTER TABLE `filtri`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `gestori`
---
-ALTER TABLE `gestori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT per la tabella `immagini`
 --
@@ -980,16 +1008,16 @@ ALTER TABLE `categorie`
   ADD CONSTRAINT `categorie_ibfk_1` FOREIGN KEY (`padre`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Limiti per la tabella `dipendenti`
+--
+ALTER TABLE `dipendenti`
+  ADD CONSTRAINT `dipendenti_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Limiti per la tabella `filtri`
 --
 ALTER TABLE `filtri`
   ADD CONSTRAINT `filtri_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Limiti per la tabella `gestori`
---
-ALTER TABLE `gestori`
-  ADD CONSTRAINT `gestori_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `immagini_prodotti`
@@ -1036,7 +1064,7 @@ ALTER TABLE `items_ordine`
 -- Limiti per la tabella `magazzini`
 --
 ALTER TABLE `magazzini`
-  ADD CONSTRAINT `magazzini_ibfk_1` FOREIGN KEY (`id_gestore`) REFERENCES `gestori` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `magazzini_ibfk_1` FOREIGN KEY (`id_gestore`) REFERENCES `dipendenti` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `magazzini_ibfk_2` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -1098,6 +1126,12 @@ ALTER TABLE `pagamenti_preferiti`
 --
 ALTER TABLE `prodotti`
   ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `turni`
+--
+ALTER TABLE `turni`
+  ADD CONSTRAINT `turni_ibfk_1` FOREIGN KEY (`id_dipendente`) REFERENCES `dipendenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti`

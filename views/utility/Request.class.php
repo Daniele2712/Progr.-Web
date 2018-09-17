@@ -116,12 +116,12 @@ class Request{
         return $this->globals['_FILES']['image']['name'];
     }
 
-    
+
     public function getServerName(){
         return $this->globals['_SERVER']['SERVER_NAME'];
     }
-    
-   
+
+
 
     /**
      * restituisce un parametro di tipo intero
@@ -206,9 +206,9 @@ class Request{
 				case 'date':
 					$default=new \DateTime();
 					break;
-                                case 'json':
-                                    $default=false;
-                                    break;
+                case 'json':
+                    $default=false;
+                    break;
 				default:
 					$default=NULL;
 					break;
@@ -315,7 +315,7 @@ class Request{
 				elseif(empty($tmp))
 					return $default;
 				break;
-                        case 'json':
+            case 'json':
 				$tmp=file_get_contents("php://input");
 				if(is_string($tmp)){
 					$ret=json_decode($tmp,true);
@@ -327,8 +327,8 @@ class Request{
 						return $ret;
 				}else
 					return $default;
-                                        break;
-                                default:
+                break;
+            default:
 				return $default;
 				break;
 		}

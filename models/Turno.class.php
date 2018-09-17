@@ -6,13 +6,12 @@ if(!defined("EXEC")){
 }
 
 class Turno extends Model{
-    private $id;
     private $inizio;
     private $fine;
     private $giornoinizio;
     private $giornofine;
 
-    public function __construct(int $id = 0, DateTime $inizio = new DateTime(), DateTime $fine = new DateTime(), int $giornoinizio = 0, int $giornofine = 0){
+    public function __construct(int $id = 0, int $giornoinizio = 0, DateTime $inizio = new DateTime(), int $giornofine = 0, DateTime $fine = new DateTime()){
         $this->id = $id;
         $this->inizio = $inizio;
         $this->fine = $fine;

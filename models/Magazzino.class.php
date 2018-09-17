@@ -12,7 +12,7 @@ class Magazzino extends Model{
     private $dipendenti = array();
 
 
-    public function __construct(int $id, Indirizzo $indirizzo, array $items=array(), Responsabile $responsabile, array $dipendenti = array()){
+    public function __construct(int $id, Indirizzo $indirizzo, array $items=array(), Dipendente $responsabile, array $dipendenti = array()){
         $this->id = $id;
         $this->indirizzo = clone $indirizzo;
         foreach($items as $i){

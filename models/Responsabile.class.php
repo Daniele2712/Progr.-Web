@@ -5,7 +5,7 @@ if(!defined("EXEC")){
 	return;
 }
 
-class Responsabile extends Utente{
+class Responsabile extends Dipendente{
     private $idResponsabile;
 
     public function __construct($idUtente, $datiAnagrafici, $email, $username, int $idResponsabile=0){

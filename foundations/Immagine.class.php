@@ -24,8 +24,8 @@ class Immagine extends Foundation{
             throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
         else
             while ($row = $res->fetch_array(MYSQLI_NUM))
-                $r[] = Immagine::find($row[0]);
-        return $r;
+                $r[] = $row[0];
+        return Immagine::findMany($r);
     }
 
     public static function findFavouriteByProduct(int $id): \Models\Immagine{

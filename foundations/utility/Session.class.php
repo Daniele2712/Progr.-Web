@@ -31,7 +31,7 @@ class Session{
         if($password === '')
             throw new \InvalidArgumentException("password input was empty");
         $_SESSION["userId"] = Utente::login($username,$password);       //dice al /foundation/utente di eseguira la funzione login(), che restituisce l-id della persona loggata
-        return $_SESSION["userId"];     
+        return $_SESSION["userId"];
     }
 
     /**
@@ -51,7 +51,9 @@ class Session{
     public function getUser(): \Models\Utente{
         if(!isset($_SESSION["userId"]) || !is_int($_SESSION["userId"]))
             throw new \Exception("User not Found", 5);
-        return Utente::find($_SESSION["userId"]);
+        $user = Utente::find($_SESSION["userId"]);
+        $_SESSION["cartId"] = $user->getCarrello()->getId();
+        return $user;
     }
 
     /**

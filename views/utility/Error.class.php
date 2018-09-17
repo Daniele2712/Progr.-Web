@@ -53,8 +53,8 @@ class Error implements View{
      */
     public function error(int $n, string $error = NULL){
         $this->message["errorn"] = $n;
-        if($error === null && array_key_exists($this->commonErrors, $n))
-            $this->message["error"] = $this->commonErrors($n);
+        if($error === null && array_key_exists($n, $this->commonErrors))
+            $this->message["error"] = $this->commonErrors[$n];
         elseif($error != null)
             $this->message["error"] = $error;
         $this->render();
@@ -84,7 +84,6 @@ class Error implements View{
             foreach($this->resources["js"] as $file)
                 $resources_str .= "<script type='text/javascript' src='/templates/contents/$file'></script>";
             $smarty->assign("templateHeadIncludes", $resources_str);
-            $smarty->assign("templateLoginOrProfileIncludes","login/login.tpl");  //TODO: sistemare il profile/login
             $smarty->assign("templateContentIncludes","error/message.tpl");
             $smarty->assign("message",$this->message);
             try{
@@ -121,20 +120,21 @@ class Error implements View{
      */
     public function setUser(\Models\Utente $user){
         $this->user = $user;
+        $smarty = \Singleton::Smarty();
         switch(get_class($user)){ // ricordo che  $user= \Singleton::Session()->getUser()
             case "Models\UtenteRegistrato":        // non so se serve aggiungere anche  || is_subclass_of($user,"\Models\UtenteRegistrato")
-                $this->smarty->assign('logged', 'UtenteRegistrato');
-                $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
+                $smarty->assign('logged', 'UtenteRegistrato');
+                $smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
                 $this->addCSS("profile/css/profile.css");
                 $this->addJS("profile/js/profile.js");
-                $this->smarty->assign('username', $user->getUsername());
+                $smarty->assign('username', $user->getUsername());
                 break;
-            case "Models\Gestore":
-                $this->smarty->assign('logged', 'Gestore');
-                $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
+            case "Models\Dipendente":
+                $smarty->assign('logged', 'Gestore');
+                $smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
                 $this->addCSS("profile/css/profile.css");
                 $this->addJS("profile/js/profile.js");
-                $this->smarty->assign('username', $user->getUsername());
+                $smarty->assign('username', $user->getUsername());
                 break;
         }
     }

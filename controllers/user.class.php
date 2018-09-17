@@ -43,6 +43,29 @@ class User implements Controller{
         }
     }
 
+    public static function login2(Request $req){
+        $user = $req->getString("username",NULL,"POST");
+        $pw = $req->getString("password",NULL,"POST");
+        $session = \Singleton::Session();
+        $tmp = array("r"=>404);
+        try{
+            /*  controllare se si tratta di un gestore o di un utente */
+            $session->login($user,$pw);
+            $tmp["r"] = 200;
+            $user = \Singleton::Session()->getUser();
+            if(is_subclass_of($user,"\\Models\\Dipendente"))
+                $tmp["type"] = "dipendente";
+            else
+                $tmp["type"] = "cliente";
+            (new \Views\JSONView($tmp))->render();
+        }catch(\ModelException $e){             //utente non trovato
+            /*$v = new \Views\Error;            //Non so se inviare un json con scritto 404 o una pagina d'errore 404
+            $v->isRest(TRUE);
+            $v->error(404);*/
+            (new \Views\JSONView($tmp))->render();
+        }
+    }
+
     public static function logout(Request $req){
         \Singleton::Session()->logout();
         echo "logged out";

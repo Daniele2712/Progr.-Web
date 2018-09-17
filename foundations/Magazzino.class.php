@@ -14,8 +14,8 @@ class Magazzino extends Foundation{
       $result = \Singleton::DB()->query("SELECT id_gestore, id_indirizzo FROM magazzini WHERE id=".$id);
       if($result){
         $row = $result->fetch_array(MYSQLI_ASSOC);
-        $ges = Gestore::getGestoreByid($row["id_gestore"]);
-        $ind = Indirizzo::getIndirizzoByid($row["id_indirizzo"]);
+        $ges = Dipendente::find($row["id_gestore"]);
+        $ind = Indirizzo::find($row["id_indirizzo"]);
         $items = Items::getMagazzinoItems($id);
         $mag = new \Models\Magazzino($ind, $items);
         $mag->setGestore($ges);
@@ -59,7 +59,7 @@ class Magazzino extends Foundation{
     public static function create(array $obj):Model{
         $ind = Indirizzo::find($obj["id_indirizzo"]);
         $items = Item::getMagazzinoItems($obj["id"]);
-        $ges = Gestore::find($obj["id_gestore"]);
+        $ges = Dipendente::find($obj["id_gestore"]);
         return new \Models\Magazzino($obj["id"], $ind, $items, $ges);
     }
 }

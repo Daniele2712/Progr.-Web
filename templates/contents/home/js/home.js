@@ -20,7 +20,23 @@ function user_shop(){
         success:function(data){
             $("#dialog #start").hide();
             $("#dialog #user_address").show();
-            
+
+        },
+        error:function(req, text, error){
+            ajax_error(req, text, error);
+        }
+    })
+}
+
+
+function login(){
+    $.ajax({
+        url:"/user/login2",
+        method:"POST",
+        data:"username=rossi&password=rossi",
+        dataType:"json",
+        success:function(data){
+            console.log(data);
         },
         error:function(req, text, error){
             ajax_error(req, text, error);

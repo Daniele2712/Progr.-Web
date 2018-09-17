@@ -53,9 +53,7 @@ class shop{
         $v = new \Views\SpesaConLogin();
         // Prima di fare il render devi riempire tutte le variabili di smarty
 
-
         $v->setUser(\Singleton::Session()->getUser());
-
         $cat=\Singleton::DB()->query("SELECT nome FROM `categorie`;");
         $catFetched=array();
         while($row = mysqli_fetch_array($cat)) $catFetched[]=$row["nome"];
