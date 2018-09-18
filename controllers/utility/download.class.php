@@ -7,7 +7,7 @@ if(!defined("EXEC")){
 }
 
 class download implements Controller{
-    public function image(Request $req){
+    public static function image(Request $req){
         $id = $req->getInt(0);
         try{
             $image = \Foundations\Immagine::find($id);
@@ -20,8 +20,21 @@ class download implements Controller{
         $v->render();
     }
 
-    public function default(Request $req){
-        return image($req);
+    public static function background(Request $req){
+        $id = \Models\Settings::getBackground();
+        try{
+            $image = \Foundations\Immagine::find($id);
+        }catch(\SQLException $e){
+            $c = new Error();
+            $c->error404($req);
+        }
+        $v = new \Views\Image();
+        $v->setImage($image);
+        $v->render();
+    }
+
+    public static function default(Request $req){
+        return self::image($req);
     }
 }
 ?>

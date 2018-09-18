@@ -16,24 +16,22 @@ class FrontController{
      *
      * @param    \Views\Request    $request    oggetto che rappresenta la richiesta del client
      */
-    public function __construct(\Views\Request $request){
+    public static function route(\Views\Request $request){
         $controller = $request->getController();
         $action = $request->getAction();
         if(class_exists($controller)){
-            if(method_exists($controller, $action)){
-                $real_controller = new $controller();
-                $real_controller->$action($request);
-            }else{
-                $c = new Error();
+            if(method_exists($controller, $action))
+                try{
+                    $controller::$action($request);
+                }catch(\Exception $e){
+                    Error::ErrorException($request, $e);
+                }
+            else
                 if($request->isRest())
-                    $c->Error405($request);
+                    Error::Error405($request);
                 else
-                    $c->ErrorAction($request);
-            }
-        }else{
-            echo "yolo";
-            $c = new Error();
-            $c->ErrorController($request);
-        }
+                    Error::ErrorAction($request);
+        }else
+            Error::ErrorController($request);
     }
 }

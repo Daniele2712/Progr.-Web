@@ -58,28 +58,30 @@ class ApiController{
         if($sessione->isLogged()){
         $idCarrello=$sessione->getCart()->getId();
         $db=\Singleton::DB();
-        
         // prima richiesta al db x scoprire tutti gli item del carrello con id del utente loggato, e i loro prezzi
-        $tizioPreparato=$db->prepare('SELECT DISTINCT items_carrello.id, prodotti.nome, items_carrello.quantita, items_carrello.totale as item_prezzo, items_carrello.valuta as item_valuta FROM prodotti, items_carrello WHERE prodotti.id=items_carrello.id_prodotto AND items_carrello.id_carrello=?;');
+        $tizioPreparato=$db->prepare('SELECT DISTINCT items_carrello.id, prodotti.nome, items_carrello.quantita, items_carrello.totale , items_carrello.id_valuta FROM prodotti, items_carrello WHERE prodotti.id=items_carrello.id_prodotto AND items_carrello.id_carrello=?;');
         $tizioPreparato->bind_param("i", $idCarrello);
         $tizioPreparato->execute();
-        $tizioPreparato->bind_result($useless, $row['nome'],$row['quantita'],$row['item_prezzo'],$row['item_valuta'] );     //la cosa con useless l-ho scelta cosi mi prende risultati veramente distinti, quindi alla querry dovevo aggiungere l-id della tabbella items_carrello, e di conseguenza dovevo anche bindarlo
-        //$tizioPreparato->bind_results();  non devo bindare nietne xke ho fatto la querri con le as tattiche di modo da avere i valori che mi interessano come nomi delle variabili
+        $tizioPreparato->bind_result($useless, $nome, $quantita,$prezzo,$idValuta);     //la cosa con useless l-ho scelta cosi mi prende risultati veramente distinti, quindi alla querry dovevo aggiungere l-id della tabbella items_carrello, e di conseguenza dovevo anche bindarlo
+        
         while($tizioPreparato->fetch()){   // fevi fetchare tutti i risultati, xke se non liberi lo spazio x ricevere la risposta non puoi fare un altra prepare, dice qualcosa tipo: le 2 richeiste non sono in sync
-           
+           //da fare modifiche x la parte valuta
+            $a=$idValuta;
+            $valuta=\Foundations\Valuta::find($a)[2];
             $oggettoDaRitornare['inListProducts'][]=array(
-                                                        "nome" => $row['nome'],
-                                                        "quantita" => $row['quantita'],
-                                                        "item_prezzo" => $row['item_prezzo'],
-                                                        "item_valuta" => $row['item_valuta'],             
+                                                        "nome" => $nome,
+                                                        "quantita" => $quantita,
+                                                        "item_prezzo" => $prezzo,
+                                                        "item_valuta" => $valuta,             
                                                     );
         };
-        
+        echo "qui non arrivo";
         // segue la richiesta x scoprire il totale(prezzo e valuta) di TUTTO il carrello
-        $tizioPreparato=$db->prepare('SELECT carrelli.totale as totale_prezzo, carrelli.valuta as totale_valuta FROM carrelli WHERE id=?;');
+        $tizioPreparato=$db->prepare('SELECT carrelli.totale, carrelli.id_valuta FROM carrelli WHERE id=?;');
         $tizioPreparato->bind_param("i", $idCarrello);
         $tizioPreparato->execute();
-        $tizioPreparato->bind_result($totPrezzo, $totValuta);
+        $tizioPreparato->bind_result($totPrezzo, $totIdValuta);
+        $totValuta=\Foundations\Valuta::find($totIdValuta)[2];
         $tizioPreparato->fetch();
         $oggettoDaRitornare['totale_prezzo']=$totPrezzo;
         $oggettoDaRitornare['totale_valuta']=$totValuta;
@@ -234,13 +236,13 @@ class ApiController{
             $prodotto= \Foundations\Prodotto::find($idProdotto);        // e; un model
             if($prodotto!=null)
             {
-                $valuta=$prodotto->getPrezzo()->getValuta();
+                $idValuta=$prodotto->getPrezzo()->getValuta();
                 $quantita=$request->getParam('quantity', 'ALL', NULL, 'POST');
                 if(is_numeric($quantita) && $quantita>0)
                     {
                     $totale=$prodotto->getPrezzo()->getPrezzo()*$quantita;
                     $idCarrello=$sessione->getCart()->getId();
-                    $lastId=\Foundations\Carrello::insertItems_Carrello($idCarrello,$idProdotto, $totale, $valuta, $quantita);
+                    $lastId=\Foundations\Carrello::insertItems_Carrello($idCarrello,$idProdotto, $totale, $idValuta, $quantita);
                     $this->SetSuccess('created');
                     }
                 else

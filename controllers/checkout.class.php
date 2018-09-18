@@ -7,16 +7,16 @@ if(!defined("EXEC")){
 }
 
 class checkout implements Controller{
-    
-public function displayCheckout(Request $req){
+
+public static function displayCheckout(Request $req){
         $v = new \Views\Checkout();
         $v->render();
     }
-    
- public function default(Request $req){
+
+ public static function default(Request $req){
      echo "azione di defaiult del controllore checkout";
  }
 }
-    
-   
+
+
 ?>

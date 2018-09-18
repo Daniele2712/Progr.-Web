@@ -11,9 +11,11 @@ class upload{
     /*          DEVI FILTRARE GLI INPUT X EVITARE SQL INJECTION E ROBA SIMILE*/
     public function uploadProduct(Request $req){                //DA aggiornare l-upload, per prendere in considerazione la parte dell-immagine preferita, e del size, e altre cose
         
+    public static function uploadProduct(Request $req){
+
         /*  DEVO ANCHE FILTRARE STI VALORI x VEDERE SE VANNO BENE!  */
-        /*  LO FARO IN SEGUITO                                      */            
-        
+        /*  LO FARO IN SEGUITO                                      */
+
         /* req conosce i parametri della PSOT, li prendo per poi usarli per aggiungere tutto nel DB */
         $nome=$req->getString('nome', NULL, 'POST');
         $descrizione=$req->getString('descrizione', NULL, 'POST');
@@ -21,13 +23,13 @@ class upload{
         $id_categoria=$req->getString('categoria', NULL, 'POST');
         $prezzo=$req->getFloat('prezzo', NULL, 'POST');
         $valuta=$req->getString('valuta', NULL, 'POST');
-        $quantita=$req->getInt('quantita', NULL, 'POST'); 
+        $quantita=$req->getInt('quantita', NULL, 'POST');
         $magazzino=1;   /*  Devo usare la sessione per impostare il magazzino dentro cui inserire i prodotti*/
         $tuttoOK=TRUE;  // in caso qualcosa vada male lo imposto a FALSE e non faccio nemmeno i prossimi passi.
-        
-        
-        if(!$this->category_exists(intval($id_categoria)) && $id_categoria!='NULL') {$tuttoOK=false; echo "Category $id_categoria do not exists.";}
-        
+
+
+        if(!self::category_exists(intval($id_categoria)) && $id_categoria!='NULL') {$tuttoOK=false; echo "Category $id_categoria do not exists.";}
+
       /*            Inserimento prodotto        */
         if($tuttoOK)
         {
@@ -40,8 +42,8 @@ class upload{
         /*  devo metter un contorllo che fa in modo che se l-inserimento del prodotto oppure del immagine non va a buon fine, NON deve essere fatto nemmeno  */
         /*  l'inserimento nella tabbella imamgini_prodotti, che puo essere comunque fatta, a prescindere dal esito delle prime due, ma darebbe risultati sbagliati */
         /*  cioe collega un prodotto alla foto sbagliata  */
-        
-        
+
+
          /*         Inserimento immagine        */
         if($tuttoOK)
         {
@@ -53,21 +55,21 @@ class upload{
         $mediumBlob=file_get_contents($file_location);
         $querry = $DB->prepare("INSERT INTO `immagini` (`id`,`nome`, `size`, `type`, `immagine`) VALUES  (NULL, ?, 'img size', ?,?)");
         $querry->bind_param("sss", $imgName, $imgType, $mediumBlob);
-        
+
         if($querry->execute()) {$last_image = $DB->lastId(); echo "SUCCESS inserting image $imgName (id $last_image) into table 'immagini'</br>";}
         else {echo "ERROR uploading $imgName into table 'immagini'</br>"; $tuttoOK=FALSE;}
         }
         else {echo "ERROR finding the image! </br>"; $tuttoOK=FALSE;}
         }
-        
-        
+
+
         /*          Inserimento in immagini_prodotti        */
         if($tuttoOK)
-        { 
+        {
         if($dbresponse=$DB->query("INSERT INTO `immagini_prodotti` (`id`, `id_immagine`, `id_prodotto`)  VALUES (NULL, $last_image, $last_prodotto);")) echo " SUCCESS linking image $imgName (id $last_image) and prouct $nome (id $last_prodotto) inside 'immagini_prodotti'!</br>";
-        else {" immagini_prodotto NON inserito con successo! ";  $tuttoOK=FALSE;} 
+        else {" immagini_prodotto NON inserito con successo! ";  $tuttoOK=FALSE;}
         }
-        
+
         /*  Ora devo collegare il prodotto appena inserito con la tabbella che sa in che */
         if($tuttoOK)
         {
@@ -77,11 +79,11 @@ class upload{
         else {echo "Error Linking $nome(id $last_prodotto) into to magazzino $magazzino)"; $tuttoOK=FALSE;}
         }
     }
-    
-    public function saveProduct(Request $req){
-        
+
+    public static function saveProduct(Request $req){
+
         /*  Per ora non serve, ma se in un futuro dovremmo salvare dei file sul server (quindi non nel database) questa ci puo essere utile  */
-       
+
 $target_dir = "/tmp/phptemp/";
 $file_name=$req->getImgName();
 $target_file = $target_dir.$file_name;
@@ -116,12 +118,12 @@ if ($uploadOk == 0) {
 }
 
     }
-    
-     public function uploadCategory(Request $req){
+
+     public static function uploadCategory(Request $req){
          $DB=\Singleton::DB();
          $categoria=$req->getString('categoria' , NULL , 'POST');
          $padre=$req->getString('padre' , NULL , 'POST');
-         
+
      if(strtolower($padre)=='null')
      {
           if($DB->query("INSERT INTO `categorie` (`nome`, `padre`) VALUES ('$categoria' , NULL);")) echo " Categoria $categoria aggiornata!";
@@ -137,12 +139,12 @@ if ($uploadOk == 0) {
          else{ echo "PADRE NON ESISTE! </br> Se desideri aggiungere una categoria senza padre, aggiungi il valore 'NULL' nel riquadro padre";}
         }
      }
-    
+
     private function category_exists($id){
         $dbresponse=\Singleton::DB()->query("SELECT COUNT(*) as result FROM `categorie` WHERE id=$id;");
         while($r = mysqli_fetch_assoc($dbresponse)) {$rows[] = $r; }
         $categoriesFound=$rows[0]['result'];
         if($categoriesFound!=0) return true;
-        else return false; 
+        else return false;
     }
 }

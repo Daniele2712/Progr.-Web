@@ -10,7 +10,7 @@ class OffertaSconto extends FOfferta{
     protected static $table = "offerte_sconti";
 
     protected static function load(int $idOfferta, string $tipo, \DateTime $inizio, \DateTime $fine): \Models\OffertaSconto{
-        $sql = "SELECT id, id_prodotto, prezzo, valuta FROM ".self::$table." WHERE id_offerta = ?";
+        $sql = "SELECT id, id_prodotto, prezzo, id_valuta FROM ".self::$table." WHERE id_offerta = ?";
         $p = \Singleton::DB()->prepare($sql);
         $p->bind_param("i",$idOfferta);
         if(!$p->execute())

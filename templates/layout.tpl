@@ -15,7 +15,7 @@
         <script type="text/javascript" src="/templates/js/layout.js"></script>
         {$templateHeadIncludes}
         <script type="text/javascript"> var logged="{$logged}"</script>
-        <title>Online Shopping</title>
+        <title>{$siteTitle}</title>
     </head>
 
     <body>

@@ -50,15 +50,17 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      */
     public function render(){
         $this->HTMLRender();
-        
+
         if(!$this->user){
-           
+
             $this->smarty->assign('logged', 'false');
             $this->smarty->assign('templateLoginOrProfileIncludes', 'login/login.tpl');
             $this->addCSS("login/css/login.css");
             $this->addJS("login/js/login.js");
         }
 
+        //$this->smarty->assign("siteBackground",\Models\Settings::getBackground());
+        $this->smarty->assign("siteTitle",\Models\Settings::getSiteName());
         $this->smarty->assign("templateContentIncludes",$this->content.".tpl");
 
         $resources_str = "";
@@ -97,31 +99,21 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      */
     public function setUser(\Models\Utente $user){
         $this->user = $user;
-        switch(get_class($user)) // ricordo che  $user= \Singleton::Session()->getUser()
-        {
-            
+        switch(get_class($user)){ // ricordo che  $user= \Singleton::Session()->getUser()
             case "Models\UtenteRegistrato":        // non so se serve aggiungere anche  || is_subclass_of($user,"\Models\UtenteRegistrato")
-            $this->smarty->assign('logged', 'UtenteRegistrato');
-            $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
-            $this->addCSS("profile/css/profile.css");
-            $this->addJS("profile/js/profile.js");
-            $this->smarty->assign('username', $user->getUsername());
-            break;
-        
-        
-        
+                $this->smarty->assign('logged', 'UtenteRegistrato');
+                $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
+                $this->addCSS("profile/css/profile.css");
+                $this->addJS("profile/js/profile.js");
+                $this->smarty->assign('username', $user->getUsername());
+                break;
             case "Models\Gestore":
-            $this->smarty->assign('logged', 'Gestore');
-            $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
-            $this->addCSS("profile/css/profile.css");
-            $this->addJS("profile/js/profile.js");
-            $this->smarty->assign('username', $user->getUsername());    
-            break;
-        
-            defalut:
-              
-                
-               
+                $this->smarty->assign('logged', 'Gestore');
+                $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
+                $this->addCSS("profile/css/profile.css");
+                $this->addJS("profile/js/profile.js");
+                $this->smarty->assign('username', $user->getUsername());
+                break;
         }
     }
 
