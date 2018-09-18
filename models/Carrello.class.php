@@ -12,7 +12,7 @@ class Carrello extends Model{
 	//Costruttori
 	public function __construct(int $i){
 		$this->id = $i;                                 // quindi quando nasce un carrello ha un ID, un totale, (0, EURO) e un array vuoto
-		$this->totale = new Money(0,'Euro');
+		$this->totale = new Money(0,1);
 	}
 
 	//Metodi

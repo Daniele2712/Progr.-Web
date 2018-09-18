@@ -11,7 +11,7 @@ class Carrello extends Foundation{
 
     public static function update(Model $carrello){
         $DB = \Singleton::DB();
-        $sql = "UPDATE ".self::$table." SET totale=?, valuta=? WHERE id = ?";
+        $sql = "UPDATE ".self::$table." SET totale=?, id_valuta=? WHERE id = ?";
         $p = $DB->prepare($sql);
         $money = $carrello->getTotale();
         $p->bind_param("dsi", $money->getPrezzo(), $money->getValuta(), $carrello->getId());
@@ -27,7 +27,7 @@ class Carrello extends Foundation{
         $DB = \Singleton::DB();
         $sql = "INSERTO INTO ".self::$table." VALUES(NULL, ?, ?)";
         $p = $DB->prepare($sql);
-        $money=$carrello->getTotale();
+        $money = $carrello->getTotale();
         $p->bind_param("ds", $money->getPrezzo(), $money->getValuta());
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);

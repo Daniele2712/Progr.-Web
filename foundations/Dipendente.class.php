@@ -8,6 +8,8 @@ if(!defined("EXEC")){
 
 class Dipendente extends Utente{
     protected static $table = "dipendenti";
+    private static $ruoli = array();
+    private static $contratti = array();
 
     public static function insert(Model $obj): int{
 
@@ -23,21 +25,21 @@ class Dipendente extends Utente{
         $p->bind_param("i",$id_utente);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
-        $p->bind_result($id_utente, $id_dipendente, $ruolo, $tipoContratto, $dataAssunzione, $oreSettimanali, $prezzo, $valuta);
+        $p->bind_result($id_utente, $id_dipendente, $idRuolo, $tipoContratto, $dataAssunzione, $oreSettimanali, $prezzo, $valuta);
         $r = $p->fetch();
         if($r === FALSE)
             throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
         elseif($r === NULL)
             throw new \ModelException("Model Not Found", __CLASS__, array("id"=>$id_utente), 0);
         $p->close();
-
+        $ruolo = self::getRuolo($idRuolo);
         $turni = Turno::findByDipendente($id_dipendente);
+        $Fname = "Foundations\\".$ruolo;
 
         if($ruolo==="Amministratore")
-            return self::create_dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, $tipoContratto, new \DateTime($dataAssunzione), $oreSettimanali, new \Models\Money($prezzo,$valuta), $turni);
+            return self::create_dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, self::getContratto($tipoContratto), new \DateTime($dataAssunzione), $oreSettimanali, new \Models\Money($prezzo,$valuta), $turni);
         elseif(class_exists($Fname) && (new \ReflectionClass($Fname))->isSubclassOf("\\Foundations\\Dipendente")){
-            $Fname = "Foundations\\".$ruolo;
-            return $Fname::create_dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, $tipoContratto, new \DateTime($dataAssunzione), $oreSettimanali, new \Models\Money($prezzo,$valuta), $turni);
+            return $Fname::create_dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, self::getContratto($tipoContratto), new \DateTime($dataAssunzione), $oreSettimanali, new \Models\Money($prezzo,$valuta), $turni);
         }
         throw new \Exception("Error Dipendente Type not found", 2);
     }
@@ -52,8 +54,46 @@ class Dipendente extends Utente{
         if($dataAssunzione === NULL)
             $dataAssunzione = new \DateTime();
         if($stipendioOrario === NULL)
-            $stipendioOrario = \Models\Money(0,'EUR');
+            $stipendioOrario = \Models\Money(0,1);
         return new \Models\Dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, $tipoContratto, $dataAssunzione, $oreSettimanali, $stipendioOrario, $turni);
+    }
+
+    private static function getRuolo($id_ruolo){
+        if(!isset(self::$ruoli[$id_ruolo])){
+            $sql = "SELECT ruolo FROM dipendenti_ruoli WHERE id = ?";
+            $p = \Singleton::DB()->prepare($sql);
+            $p->bind_param("i",$id_ruolo);
+            if(!$p->execute())
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+            $p->bind_result($nome);
+            $r = $p->fetch();
+            if($r === FALSE)
+                throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+            elseif($r === NULL)
+                throw new \SQLException("Empty Result", $sql, 0, 8);
+            $p->close();
+            self::$ruoli[$id_ruolo] = $nome;
+        }
+        return self::$ruoli[$id_ruolo];
+    }
+
+    private static function getContratto($id_contratto){
+        if(!isset(self::$contratti[$id_contratto])){
+            $sql = "SELECT contratto FROM dipendenti_contratti WHERE id = ?";
+            $p = \Singleton::DB()->prepare($sql);
+            $p->bind_param("i",$id_contratto);
+            if(!$p->execute())
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+            $p->bind_result($nome);
+            $r = $p->fetch();
+            if($r === FALSE)
+                throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+            elseif($r === NULL)
+                throw new \SQLException("Empty Result", $sql, 0, 8);
+            $p->close();
+            self::$contratti[$id_contratto] = $nome;
+        }
+        return self::$contratti[$id_contratto];
     }
 }
 ?>

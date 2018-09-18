@@ -17,7 +17,7 @@ class Dipendente extends Utente{
         if($dataAssunzione === NULL)
             $dataAssunzione = new \DateTime();
         if($stipendioOrario === NULL)
-            $stipendioOrario = new Money(0,'EUR');
+            $stipendioOrario = new Money(0,1);
         parent::__construct($idUtente, $datiAnagrafici, $email, $username);
         $this->id = $id;
         $this->ruolo = $ruolo;

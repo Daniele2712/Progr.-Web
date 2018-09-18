@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Creato il: Set 17, 2018 alle 23:48
+-- Creato il: Set 18, 2018 alle 18:19
 -- Versione del server: 5.7.23-0ubuntu0.16.04.1
 -- Versione PHP: 7.0.30-0ubuntu0.16.04.1
 
@@ -29,15 +29,15 @@ SET time_zone = "+00:00";
 CREATE TABLE `carrelli` (
   `id` int(11) NOT NULL,
   `totale` float NOT NULL,
-  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
+  `id_valuta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `carrelli`
 --
 
-INSERT INTO `carrelli` (`id`, `totale`, `valuta`) VALUES
-(1, 0, 'EUR');
+INSERT INTO `carrelli` (`id`, `totale`, `id_valuta`) VALUES
+(1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -139,21 +139,62 @@ INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascit
 CREATE TABLE `dipendenti` (
   `id` int(11) NOT NULL,
   `id_utente` int(11) NOT NULL,
-  `ruolo` enum('Corriere','Amministratore') NOT NULL,
-  `tipo_contratto` enum('tempo indeterminato','tempo determinato','part-time','chiamata') NOT NULL,
+  `ruolo` int(11) NOT NULL,
+  `tipo_contratto` int(11) NOT NULL,
   `data_assunzione` date NOT NULL,
   `ore_settimanali` int(11) NOT NULL,
   `prezzo` float NOT NULL,
-  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
+  `id_valuta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `dipendenti`
 --
 
-INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_assunzione`, `ore_settimanali`, `prezzo`, `valuta`) VALUES
-(1, 4, 'Amministratore', 'tempo indeterminato', '2018-08-08', 0, 0, 'EUR'),
-(2, 3, 'Corriere', 'tempo indeterminato', '2018-08-08', 0, 0, 'EUR');
+INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_assunzione`, `ore_settimanali`, `prezzo`, `id_valuta`) VALUES
+(1, 4, 2, 1, '2018-08-08', 0, 0, 1),
+(2, 3, 1, 1, '2018-08-08', 0, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `dipendenti_contratti`
+--
+
+CREATE TABLE `dipendenti_contratti` (
+  `id` int(11) NOT NULL,
+  `contratto` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `dipendenti_contratti`
+--
+
+INSERT INTO `dipendenti_contratti` (`id`, `contratto`) VALUES
+(1, 'tempo indeterminato'),
+(2, 'tempo determinato'),
+(3, 'part-time'),
+(4, 'chiamata');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `dipendenti_ruoli`
+--
+
+CREATE TABLE `dipendenti_ruoli` (
+  `id` int(11) NOT NULL,
+  `ruolo` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `dipendenti_ruoli`
+--
+
+INSERT INTO `dipendenti_ruoli` (`id`, `ruolo`) VALUES
+(1, 'Amministratore'),
+(2, 'Corriere'),
+(3, 'Gestore');
 
 -- --------------------------------------------------------
 
@@ -270,7 +311,7 @@ CREATE TABLE `items_carrello` (
   `id_carrello` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `totale` float NOT NULL,
-  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL,
+  `id_valuta` int(11) NOT NULL,
   `quantita` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -278,8 +319,8 @@ CREATE TABLE `items_carrello` (
 -- Dump dei dati per la tabella `items_carrello`
 --
 
-INSERT INTO `items_carrello` (`id`, `id_carrello`, `id_prodotto`, `totale`, `valuta`, `quantita`) VALUES
-(1, 1, 1, 3.87, 'EUR', 3);
+INSERT INTO `items_carrello` (`id`, `id_carrello`, `id_prodotto`, `totale`, `id_valuta`, `quantita`) VALUES
+(1, 1, 1, 3.87, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -312,7 +353,7 @@ CREATE TABLE `items_ordine` (
   `id_ordine` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `prezzo` float NOT NULL,
-  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL,
+  `id_valuta` int(11) NOT NULL,
   `quantita` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -405,15 +446,15 @@ CREATE TABLE `offerte_sconti` (
   `id_offerta` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `prezzo` float NOT NULL,
-  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
+  `id_valuta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `offerte_sconti`
 --
 
-INSERT INTO `offerte_sconti` (`id`, `id_offerta`, `id_prodotto`, `prezzo`, `valuta`) VALUES
-(1, 1, 1, 0.25, 'EUR');
+INSERT INTO `offerte_sconti` (`id`, `id_offerta`, `id_prodotto`, `prezzo`, `id_valuta`) VALUES
+(1, 1, 1, 0.25, 1);
 
 -- --------------------------------------------------------
 
@@ -514,15 +555,15 @@ CREATE TABLE `prodotti` (
   `descrizione` text NOT NULL,
   `id_categoria` int(11) DEFAULT NULL,
   `prezzo` float NOT NULL,
-  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
+  `id_valuta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `prodotti`
 --
 
-INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `valuta`) VALUES
-(1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 'EUR');
+INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `id_valuta`) VALUES
+(1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 1);
 
 -- --------------------------------------------------------
 
@@ -617,6 +658,30 @@ CREATE TABLE `valori` (
   `id_filtro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `valute`
+--
+
+CREATE TABLE `valute` (
+  `id` int(11) NOT NULL,
+  `sigla` varchar(15) NOT NULL,
+  `nome` varchar(20) NOT NULL,
+  `simbolo` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `valute`
+--
+
+INSERT INTO `valute` (`id`, `sigla`, `nome`, `simbolo`) VALUES
+(1, 'EUR', 'Euro', '€'),
+(2, 'USD', 'Dollari', '$'),
+(3, 'GBP', 'Sterline', '£'),
+(4, 'BTC', 'Bitcoins', 'BTC'),
+(5, 'JPY', 'Yen', '¥');
+
 --
 -- Indici per le tabelle scaricate
 --
@@ -625,7 +690,8 @@ CREATE TABLE `valori` (
 -- Indici per le tabelle `carrelli`
 --
 ALTER TABLE `carrelli`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_valuta` (`id_valuta`);
 
 --
 -- Indici per le tabelle `carte`
@@ -658,7 +724,22 @@ ALTER TABLE `dati_anagrafici`
 --
 ALTER TABLE `dipendenti`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_datianagrafici` (`id_utente`);
+  ADD KEY `id_datianagrafici` (`id_utente`),
+  ADD KEY `ruolo` (`ruolo`),
+  ADD KEY `tipo_contratto` (`tipo_contratto`),
+  ADD KEY `id_valuta` (`id_valuta`);
+
+--
+-- Indici per le tabelle `dipendenti_contratti`
+--
+ALTER TABLE `dipendenti_contratti`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `dipendenti_ruoli`
+--
+ALTER TABLE `dipendenti_ruoli`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indici per le tabelle `filtri`
@@ -702,7 +783,8 @@ ALTER TABLE `indirizzi_preferiti`
 ALTER TABLE `items_carrello`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_prodotto` (`id_prodotto`),
-  ADD KEY `id_carrello` (`id_carrello`);
+  ADD KEY `id_carrello` (`id_carrello`),
+  ADD KEY `id_valuta` (`id_valuta`);
 
 --
 -- Indici per le tabelle `items_magazzino`
@@ -718,7 +800,8 @@ ALTER TABLE `items_magazzino`
 ALTER TABLE `items_ordine`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_ordine` (`id_ordine`),
-  ADD KEY `id_prodotto` (`id_prodotto`);
+  ADD KEY `id_prodotto` (`id_prodotto`),
+  ADD KEY `id_valuta` (`id_valuta`);
 
 --
 -- Indici per le tabelle `magazzini`
@@ -765,7 +848,8 @@ ALTER TABLE `offerte_omaggi_condizioni`
 ALTER TABLE `offerte_sconti`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_offerta` (`id_offerta`),
-  ADD KEY `id_prodotto` (`id_prodotto`);
+  ADD KEY `id_prodotto` (`id_prodotto`),
+  ADD KEY `id_valuta` (`id_valuta`);
 
 --
 -- Indici per le tabelle `offerte_tipi`
@@ -808,7 +892,8 @@ ALTER TABLE `pagamenti_preferiti`
 --
 ALTER TABLE `prodotti`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_categoria` (`id_categoria`);
+  ADD KEY `id_categoria` (`id_categoria`),
+  ADD KEY `id_valuta` (`id_valuta`);
 
 --
 -- Indici per le tabelle `settings`
@@ -848,6 +933,12 @@ ALTER TABLE `valori`
   ADD KEY `id_filtro` (`id_filtro`);
 
 --
+-- Indici per le tabelle `valute`
+--
+ALTER TABLE `valute`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT per le tabelle scaricate
 --
 
@@ -881,6 +972,16 @@ ALTER TABLE `dati_anagrafici`
 --
 ALTER TABLE `dipendenti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT per la tabella `dipendenti_contratti`
+--
+ALTER TABLE `dipendenti_contratti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT per la tabella `dipendenti_ruoli`
+--
+ALTER TABLE `dipendenti_ruoli`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT per la tabella `filtri`
 --
@@ -992,8 +1093,19 @@ ALTER TABLE `utenti_registrati`
 ALTER TABLE `valori`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT per la tabella `valute`
+--
+ALTER TABLE `valute`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- Limiti per le tabelle scaricate
 --
+
+--
+-- Limiti per la tabella `carrelli`
+--
+ALTER TABLE `carrelli`
+  ADD CONSTRAINT `carrelli_ibfk_1` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `carte`
@@ -1011,7 +1123,10 @@ ALTER TABLE `categorie`
 -- Limiti per la tabella `dipendenti`
 --
 ALTER TABLE `dipendenti`
-  ADD CONSTRAINT `dipendenti_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `dipendenti_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `dipendenti_ibfk_2` FOREIGN KEY (`ruolo`) REFERENCES `dipendenti_ruoli` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `dipendenti_ibfk_3` FOREIGN KEY (`tipo_contratto`) REFERENCES `dipendenti_contratti` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `dipendenti_ibfk_4` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `filtri`
@@ -1044,7 +1159,8 @@ ALTER TABLE `indirizzi_preferiti`
 --
 ALTER TABLE `items_carrello`
   ADD CONSTRAINT `items_carrello_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `items_carrello_ibfk_2` FOREIGN KEY (`id_carrello`) REFERENCES `carrelli` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `items_carrello_ibfk_2` FOREIGN KEY (`id_carrello`) REFERENCES `carrelli` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `items_carrello_ibfk_3` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `items_magazzino`
@@ -1058,7 +1174,8 @@ ALTER TABLE `items_magazzino`
 --
 ALTER TABLE `items_ordine`
   ADD CONSTRAINT `items_ordine_ibfk_1` FOREIGN KEY (`id_ordine`) REFERENCES `ordini` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `items_ordine_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `items_ordine_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `items_ordine_ibfk_3` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `magazzini`
@@ -1099,7 +1216,8 @@ ALTER TABLE `offerte_omaggi_condizioni`
 --
 ALTER TABLE `offerte_sconti`
   ADD CONSTRAINT `offerte_sconti_ibfk_1` FOREIGN KEY (`id_offerta`) REFERENCES `offerte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `offerte_sconti_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `offerte_sconti_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `offerte_sconti_ibfk_3` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `opzioni`
@@ -1125,7 +1243,8 @@ ALTER TABLE `pagamenti_preferiti`
 -- Limiti per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
-  ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `prodotti_ibfk_2` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `turni`

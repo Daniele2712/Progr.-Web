@@ -10,12 +10,12 @@ class Prodotto extends Foundation{
     protected static $table = "prodotti";
 
     public static function create(array $obj): Model{
-        return new \Models\Prodotto($obj["id"], $obj["nome"], Categoria::find($obj["id_categoria"]), new \Models\Money($obj["prezzo"], $obj["valuta"]));
+        return new \Models\Prodotto($obj["id"], $obj["nome"], Categoria::find($obj["id_categoria"]), new \Models\Money($obj["prezzo"], $obj["id_valuta"]));
     }
 
     public static function update(Model $prodotto){
         $DB = \Singleton::DB();
-        $sql = "UPDATE prodotti SET nome=?, info=?, descrizione=?, id_categoria=?, prezzo=?, valuta=? WHERE id = ?";
+        $sql = "UPDATE prodotti SET nome=?, info=?, descrizione=?, id_categoria=?, prezzo=?, id_valuta=? WHERE id = ?";
         $p = $DB->prepare($sql);
         $money=$prodotto->getPrezzo();
         $categoriaid=$prodotto->getCategoriaId();

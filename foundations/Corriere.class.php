@@ -18,7 +18,7 @@ class Corriere extends Dipendente{
     }
 
     //TODO: aggiornare
-    /*public static function create_dipendente(int $id_utente, \Models\DatiAnagrafici $dati_anagrafici, string $email, string $username, int $id_dipendente, string $ruolo, string $tipoContratto = '', DateTime $dataAssunzioni = new DateTime(), int $oreSettimanali = 0, Money $stipendioOrario = new Money(0,'EUR'), array $turni = array()): \Models\Corriere{
+    /*public static function create_dipendente(int $id_utente, \Models\DatiAnagrafici $dati_anagrafici, string $email, string $username, int $id_dipendente, string $ruolo, string $tipoContratto = '', DateTime $dataAssunzioni = new DateTime(), int $oreSettimanali = 0, Money $stipendioOrario = new Money(0,1), array $turni = array()): \Models\Corriere{
         $sql = "SELECT id FROM ".self::$table." WHERE id_dipendente = ?";
         $p = \Singleton::DB()->prepare($sql);
         $p->bind_param("i",$id_dipendente);
