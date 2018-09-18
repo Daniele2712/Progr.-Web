@@ -52,7 +52,6 @@
             <div id="items">
 
               {foreach from=$items_for_tpl item="prodotto"}
-
                 <div class="item">
                     <img src="/download/image/{$prodotto.imgId}"/>
                     <p class="item_price">{$prodotto.valuta} {$prodotto.prezzo}</p>
@@ -60,9 +59,9 @@
                     <a class="item_more" onclick="popupToggle({$prodotto.id})">Dettagli <i class="fas fa-info-circle"></i></a>
                     <div class="add_to_cart">
                         <i class="far fa-2x fa-minus-square" onclick="subtractOne(this)"></i>
-                        <input type="input" size="1" name="quantity" id="item_quantity">
+                        <input type="input" size="1" id="quantityOfProduct{$prodotto.id}">
                         <i class="far fa-2x fa-plus-square" onclick="addOne(this)"></i>
-                        <i class="fas fa-2x fa-cart-plus" onclick="addToCart(this)"></i>
+                        <i class="fas fa-2x fa-cart-plus" onclick='addToCart(this)'></i>
                     </div>
                     <div class="moreabout" id="moreabout{$prodotto.id}">
 
@@ -75,7 +74,6 @@
 
                     </div>
                 </div>
-
             {/foreach}
 
             </div>
@@ -85,30 +83,10 @@
                  <div id="basked_wrapper">
                     <div id="basket-fa">
                         <i id="imgCarello" class="fas fa-4x fa-cart-plus"></i>
-                        <span class="nameOfCart">Carrello Default</span>
                     </div>
 
                      <div class="cartList">
-                            {foreach from=$prodotti_for_carello item="prodotto"}
-
-                                <div class="inListProduct">
-                                    <span>{$prodotto.quantita}</span>
-                                    <span> x </span>
-                                    <span>{$prodotto.nome}</span>
-                                    <span class="prezzo">{$prodotto.valuta}  {$prodotto.totale}</span>
-                                </div>
-
-
-                            {/foreach}
-
-
-                                <div id="cart_total">
-                                    <span id="totale_nome"> TOTALE </span>
-                                    <span class="prezzo_totale"> &#8364; {$total_for_carrello} </span>
-                                </div>
-
-
-                        </div>
+                     </div>
 
 
                     </div>

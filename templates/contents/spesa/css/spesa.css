@@ -229,7 +229,6 @@ max-width: 300px;
 }
 #basket-fa{
     display:grid;
-    grid-template-rows:3fr 1fr;
     justify-items:center;   
    
 }
@@ -237,10 +236,6 @@ max-width: 300px;
     align-self:center;   
 }
 
-
-.nameOfCart{
-    cursor:pointer;
-}
 
 .cartList{
     display:grid;

@@ -52,15 +52,15 @@ class Item extends Foundation{
         return $ret;
     }
 
-    public static function insert(Model $item): int{
+    public static function insert(Model $item): int{    //unzione per inserire un Model nel DB...ma dove nel db dato che ci sono 3 tabbelle per gli item?
 
     }
 
-    public static function update(Model $item){
+    public static function update(Model $item){ //funzione pre aggiornare un Model nel DB ...ma dove nel db dato che ci sono 3 tabbelle per gli item?
 
     }
 
-    public static function create(array $obj): Model{
+    public static function create(array $obj): Model{ //funzione che genera il Model a partire da un array associativo
         $pro = Prodotto::getProdottoByid($obj["id_prodotto"]);
         $pre = new \Models\Money($obj["totale"], $obj["valuta"]);
         return new \Mdels\Item($pro, $pre, $obj["quantita"]);

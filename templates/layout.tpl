@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
         <script type="text/javascript" src="/templates/js/libs/jquery.js"></script>
         <script type="text/javascript" src="/libs/jquery-ui/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/libs/jquery-cookie/src/jquery_cookie.js" ></script>
         <script type="text/javascript" src="/templates/js/layout.js"></script>
         {$templateHeadIncludes}
         <script type="text/javascript"> var logged="{$logged}"</script>

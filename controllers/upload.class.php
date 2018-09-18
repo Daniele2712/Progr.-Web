@@ -9,7 +9,7 @@ if(!defined("EXEC")){
 
 class upload{
     /*          DEVI FILTRARE GLI INPUT X EVITARE SQL INJECTION E ROBA SIMILE*/
-    public function uploadProduct(Request $req){
+    public function uploadProduct(Request $req){                //DA aggiornare l-upload, per prendere in considerazione la parte dell-immagine preferita, e del size, e altre cose
         
         /*  DEVO ANCHE FILTRARE STI VALORI x VEDERE SE VANNO BENE!  */
         /*  LO FARO IN SEGUITO                                      */            

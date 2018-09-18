@@ -80,7 +80,7 @@ $("#impostazioni").click(function(){
             jQuery.each( categorie, function( i, categoria ) {
                 if(categoria['padre']!=null) var padre='[Padre: '+categoria['padre']+']';
                 else var padre='';
-                var cat= '<option>ID '+categoria['id']+' :   '+categoria['nome_categoria']+padre+'</option>';
+                var cat= '<option value='+categoria['id']+'>ID '+categoria['id']+' :   '+categoria['nome_categoria']+padre+'</option>';
                 $( ".ListaCategorie" ).append(cat);
               });
             

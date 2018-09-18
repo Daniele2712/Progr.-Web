@@ -122,6 +122,8 @@ class Request{
     }
     
    
+    
+   
 
     /**
      * restituisce un parametro di tipo intero

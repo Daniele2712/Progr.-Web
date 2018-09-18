@@ -802,6 +802,8 @@ ALTER TABLE `valori`
 ALTER TABLE `carrelli`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+ALTER TABLE `items_carrello`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 -- AUTO_INCREMENT per la tabella `carte`
 --
 ALTER TABLE `carte`

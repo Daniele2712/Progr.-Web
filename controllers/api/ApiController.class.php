@@ -41,14 +41,54 @@ class ApiController{
             OPTIONS
      /ANY URL
      */
-    public function get($params){
+    public function get($request){  // dovrebbe essere una richiesta quello che get riceve
         
         header('Content-type: application/json');
         
         /*      Magari metti i metodi x vedere se esistono le categorie e i magazzini richiesti     */
-        $params=$params->getOtherParams();
+        $params=$request->getOtherParams();
                    
         switch (array_shift($params)){
+            
+            
+    
+        
+    case 'carrello':
+        $sessione= \Singleton::Session();
+        if($sessione->isLogged()){
+        $idCarrello=$sessione->getCart()->getId();
+        $db=\Singleton::DB();
+        
+        // prima richiesta al db x scoprire tutti gli item del carrello con id del utente loggato, e i loro prezzi
+        $tizioPreparato=$db->prepare('SELECT DISTINCT items_carrello.id, prodotti.nome, items_carrello.quantita, items_carrello.totale as item_prezzo, items_carrello.valuta as item_valuta FROM prodotti, items_carrello WHERE prodotti.id=items_carrello.id_prodotto AND items_carrello.id_carrello=?;');
+        $tizioPreparato->bind_param("i", $idCarrello);
+        $tizioPreparato->execute();
+        $tizioPreparato->bind_result($useless, $row['nome'],$row['quantita'],$row['item_prezzo'],$row['item_valuta'] );     //la cosa con useless l-ho scelta cosi mi prende risultati veramente distinti, quindi alla querry dovevo aggiungere l-id della tabbella items_carrello, e di conseguenza dovevo anche bindarlo
+        //$tizioPreparato->bind_results();  non devo bindare nietne xke ho fatto la querri con le as tattiche di modo da avere i valori che mi interessano come nomi delle variabili
+        while($tizioPreparato->fetch()){   // fevi fetchare tutti i risultati, xke se non liberi lo spazio x ricevere la risposta non puoi fare un altra prepare, dice qualcosa tipo: le 2 richeiste non sono in sync
+           
+            $oggettoDaRitornare['inListProducts'][]=array(
+                                                        "nome" => $row['nome'],
+                                                        "quantita" => $row['quantita'],
+                                                        "item_prezzo" => $row['item_prezzo'],
+                                                        "item_valuta" => $row['item_valuta'],             
+                                                    );
+        };
+        
+        // segue la richiesta x scoprire il totale(prezzo e valuta) di TUTTO il carrello
+        $tizioPreparato=$db->prepare('SELECT carrelli.totale as totale_prezzo, carrelli.valuta as totale_valuta FROM carrelli WHERE id=?;');
+        $tizioPreparato->bind_param("i", $idCarrello);
+        $tizioPreparato->execute();
+        $tizioPreparato->bind_result($totPrezzo, $totValuta);
+        $tizioPreparato->fetch();
+        $oggettoDaRitornare['totale_prezzo']=$totPrezzo;
+        $oggettoDaRitornare['totale_valuta']=$totValuta;
+        
+        echo json_encode($oggettoDaRitornare);
+        }
+        else $this->setError("non_loggato");
+        break;
+        
     case 'prodotti':
         
             $ok=TRUE;   // se l-utente sbaglia a scrivere salto molti controlli
@@ -118,13 +158,13 @@ class ApiController{
     }
     
     
-    public function delete($params){
+    public function delete($request){
         
         header('Content-type: application/json');
         /*  MAGARI aggiungere anche cancellare la foto dle prodotto e il collegamento, non solo il prodotto*/
     
         /*      Magari metti i metodi x vedere se esistono le categorie e i magazzini richiesti     */
-        $params=$params->getOtherParams();
+        $params=$request->getOtherParams();
         if(sizeof($params)<2) $this->setError("delete_more_params");
         elseif(sizeof($params)>2)   $this->setError("delete_less_params");
         elseif($params[1]=="") $this->setError("delete_more_params");   
@@ -173,15 +213,49 @@ class ApiController{
     
     }
         
-    public function post($params){
+    public function post($request){
         
+       
         header('Content-type: application/json');
-        $params=$params->getOtherParams();
+        $params=$request->getOtherParams();
         if(sizeof($params)!=1) $this->setError("only_one_parameter");
         else{
             
             
         switch (array_shift($params)){
+            
+            
+    case 'aggiungiProdotto':
+        $allOk=TRUE;
+        $sessione= \Singleton::Session();
+        if($sessione->isLogged()){
+            
+            $idProdotto=$request->getParam('productId', 'ALL', NULL, 'POST');
+            $prodotto= \Foundations\Prodotto::find($idProdotto);        // e; un model
+            if($prodotto!=null)
+            {
+                $valuta=$prodotto->getPrezzo()->getValuta();
+                $quantita=$request->getParam('quantity', 'ALL', NULL, 'POST');
+                if(is_numeric($quantita) && $quantita>0)
+                    {
+                    $totale=$prodotto->getPrezzo()->getPrezzo()*$quantita;
+                    $idCarrello=$sessione->getCart()->getId();
+                    $lastId=\Foundations\Carrello::insertItems_Carrello($idCarrello,$idProdotto, $totale, $valuta, $quantita);
+                    $this->SetSuccess('created');
+                    }
+                else
+                {
+                  $this->setError("quantita_prodotto_errata", $idProdotto);      
+                }
+            }
+            else{
+                $this->setError("prodotto_not_exists", $idProdotto);
+            }
+        }
+        else $this->setError("non_loggato");
+        
+        break;
+        
     case 'prodotto':
         $rawData = file_get_contents("php://input");
         //echo var_dump($rawData)."</br>";
@@ -308,7 +382,7 @@ class ApiController{
         
         
     default:
-        echo"ERROR Wrong URL";
+        $this->setError("wrong_url");
         break;
     }
     }
@@ -561,10 +635,13 @@ class ApiController{
     }
 /*          END FUNCTIONS FOR GET       */
     
+    private function utenteLoggato(){
+        return true;
+    }
     
 
 
-    private function setSuccess($success){
+    private function setSuccess($success){  //valido solo x post, get che non ritornano niente  o delete, negli altri casi gli devo stampare il json con le info giuste
         switch($success){
             
     case 'created':
@@ -667,6 +744,14 @@ class ApiController{
         http_response_code(400);
         echo '{
             "message":"Product with id '.$other.' does not exist",
+            "tip":"For help use the OPTIONS request"
+            }';
+        break;
+    
+    case 'quantita_prodotto_errata':
+        http_response_code(400);
+        echo '{
+            "message":"The quantity of product with id'.$other.' is invalid (negative, zero, or we don-t have enought products in the store).",
             "tip":"For help use the OPTIONS request"
             }';
         break;
@@ -827,6 +912,14 @@ class ApiController{
             "tip":"For help use the OPTIONS request"
             }';
         break;
+    
+    case 'non_loggato':
+        http_response_code(400);
+        echo '{
+            "message":"You must log in to do the operation requested"
+            }';
+        break;
+        
     
     
     
