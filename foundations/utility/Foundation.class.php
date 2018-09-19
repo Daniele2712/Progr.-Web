@@ -18,7 +18,7 @@ abstract class Foundation{
 
 
     /**
-     * funzione per inserire un Model nel DB
+     * metodo per inserire un Model nel DB
      *
      * @param   \Models\Model   $object     il Model da inserire
      * @return  int                         l'id del Model inserito
@@ -27,7 +27,7 @@ abstract class Foundation{
 
 
     /**
-     * funzione pre aggiornare un Model nel DB
+     * metodo pre aggiornare un Model nel DB
      *
      * @param   \Models\Model  $object     il Model da aggiornare
      */
@@ -35,7 +35,7 @@ abstract class Foundation{
 
 
     /**
-     * funzione che genera il Model a partire da un array associativo
+     * metodo che genera il Model a partire da un array associativo
      *
      * @param   array   $object     array associativo, le chiavi sono i nomi delle colonne della tabella
      * @return  \Models\Model       il Model creato
@@ -43,7 +43,7 @@ abstract class Foundation{
     public abstract static function create(array $object): Model;
 
     /**
-     * funzione che ritorna tutte i Model dal DB
+     * metodo che ritorna tutte i Model dal DB
      *
      * @throws  Exception se il nome della tabella non è stato impostato
      * @throws  SQLException in caso di errore di esecuzione della query
@@ -62,7 +62,26 @@ abstract class Foundation{
     }
 
     /**
-     * funzione per cercare un Model nel DB a partire dal suo id
+     * metodo che ritorna tutte le tuple dalla tabella
+     *
+     * @throws  Exception se il nome della tabella non è stato impostato
+     * @throws  SQLException in caso di errore di esecuzione della query
+     * @return  array   array di tuple
+     */
+    public static function loadAll(): array{
+        if(!static::$table)
+            throw new \Exception("Error Table Name not set in".get_called_class(), 1);
+        $DB = \Singleton::DB();
+        $sql = "SELECT * FROM ".static::$table;
+        $res = $DB->query($sql);
+        $r = array();
+        while($row = $res->fetch_assoc())
+            $r[] = $row;
+        return $r;
+    }
+
+    /**
+     * metodo per cercare un Model nel DB a partire dal suo id
      *
      * @param   int    $id      id del Model da cercare
      * @throws  Exception       se il nome della tabella non è stato impostato
@@ -87,12 +106,40 @@ abstract class Foundation{
             else
                 throw new \SQLException("Empty Result", $sql, 0, 8);
         }
-
         return $r;
     }
 
     /**
-     * funzione per cercare un insieme di Model nel DB a partire dai loro id
+     * metodo per cercare una tupla nel DB a partire dal suo id
+     *
+     * @param   int    $id      id del Model da cercare
+     * @throws  Exception       se il nome della tabella non è stato impostato
+     * @throws  SQLException    in caso di errore di esecuzione dello statement
+     * @return  array           tupla cercata
+     */
+    public static function load(int $id): Model{
+        if(!static::$table)
+            throw new \Exception("Error Table Name not set in".get_called_class(), 1);
+        $DB = \Singleton::DB();
+        $sql = "SELECT * FROM ".static::$table." WHERE ".static::$ID["name"]." = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param(static::$ID["type"],$id);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $p->close();
+        $r = null;
+        if($res){
+            if($res->num_rows)
+                $r = $res->fetch_assoc();
+            else
+                throw new \SQLException("Empty Result", $sql, 0, 8);
+        }
+        return $r;
+    }
+
+    /**
+     * metodo per cercare un insieme di Model nel DB a partire dai loro id
      *
      * @param   array    $id    array di id dei Model da cercare
      * @throws  Exception       se il nome della tabella non è stato impostato
@@ -118,7 +165,7 @@ abstract class Foundation{
     }
 
     /**
-     * funzione per cancellare un Model dal DB in base al suo id
+     * metodo per cancellare un Model dal DB in base al suo id
      *
      * @param   int    $id      id del Model da cancellare
      * @throws  Exception       se il nome della tabella non è stato impostato
@@ -137,7 +184,7 @@ abstract class Foundation{
     }
 
     /**
-     * funzione per modificare o inserire un Model sul DB
+     * metodo per modificare o inserire un Model sul DB
      *
      * @param    \Models\Model   $obj  il Model da salvare
      * @return   int|null              l'eventuale id del nuovo Model

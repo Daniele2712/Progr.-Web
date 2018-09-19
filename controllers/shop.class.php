@@ -18,8 +18,6 @@ class shop{
     }
 
     public static function spesaSenzaLogin(Request $req){
-
-
         $v = new \Views\SpesaSenzaLogin();
 
         $cat=\Singleton::DB()->query("SELECT nome FROM `categorie`;");
@@ -117,7 +115,7 @@ class shop{
         return $toReturn;
     }
 
-  
+
 
     public static function prepareForSale($arrayItems,$serverName){
 

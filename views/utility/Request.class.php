@@ -73,9 +73,10 @@ class Request{
         foreach ($GLOBALS as $key=>$value)
             if(array_search($key,$array,TRUE)!==FALSE)
                 $this->globals[$key] = $value;
+        $this->globals["_COOKIE"] = $GLOBALS["_COOKIE"];  //Non posso cancellare i cookie altrimenti le sessioni non funzionano
         foreach ($GLOBALS as $key=>$value)
             if(array_search($key,$array,TRUE)!==FALSE)
-                unset($GLOBALS[$key]);
+                unset($GLOBALS[$key]);                    //Gli altri li cancello, così non ci si può accedere direttamente
 
         //echo "CONTROLLER: $this->controller   ACTION: $this->action   METHOD: $this->method ";
     }
@@ -166,6 +167,15 @@ class Request{
      */
     public function getJSON($name='',$default=NULL,string $superGlobal='GET'){
         return $this->getParam($name,'json',$default,$superGlobal);
+    }
+
+    /**
+     * metodo che restituisce il token CSRF preso dai cookie del client
+     *
+     * @return    string    token CSRF
+     */
+    public function getCSRF():string{
+        return $this->getParam("CSRF", "string", "", "COOKIE");
     }
 
     /**

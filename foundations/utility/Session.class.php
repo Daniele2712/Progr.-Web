@@ -17,7 +17,7 @@ class Session{
     }
 
     /**
-     * funzione che esegue il login
+     * metodo che esegue il login
      *
      * @param   string    $username         stringa contentente la username
      * @param   string    $password         stringa contentente la password
@@ -30,12 +30,12 @@ class Session{
             throw new \InvalidArgumentException("username input was empty");
         if($password === '')
             throw new \InvalidArgumentException("password input was empty");
-        $_SESSION["userId"] = Utente::login($username,$password);       //dice al /foundation/utente di eseguira la funzione login(), che restituisce l-id della persona loggata
+        $_SESSION["userId"] = Utente::login($username,$password);       //dice al /foundation/utente di eseguira la metodo login(), che restituisce l-id della persona loggata
         return $_SESSION["userId"];
     }
 
     /**
-     * funzione che esegue il logout, eliminando i dati di sessione e il file di sessione
+     * metodo che esegue il logout, eliminando i dati di sessione e il file di sessione
      */
     public function logout(){
         session_unset();
@@ -43,7 +43,32 @@ class Session{
     }
 
     /**
-     * funzione che restituisce l'utente usato per il login
+     * metodo che genera un token CSRF, se non esiste, e lo restituisce
+     *
+     * @return    int    token CSRF
+     */
+    public function getCSRF():string{
+        if(empty($_SESSION['token']))
+            $_SESSION['token'] = bin2hex(random_bytes(32));
+        return $_SESSION['token'];
+    }
+
+    /**
+     * metodo che controlla la validità di un token CSRF, se è valido viene generato un nuovo token
+     *
+     * @param     int     $token    token da verificare
+     * @return    bool              TRUE se il token è valido, FALSE altrimenti
+     */
+    public function checkCSRF(string $token):bool{
+        if(hash_equals($token, $_SESSION['token'])){           //hash_equals è resistente agli attacchi time based
+            $_SESSION['token'] = bin2hex(random_bytes(32));
+            return true;
+        }else
+            return false;
+    }
+
+    /**
+     * metodo che restituisce l'utente usato per il login
      *
      * @return    \Models\Utente    utente loggato
      * @throws    Exception         se l'utente non è loggato
@@ -57,7 +82,7 @@ class Session{
     }
 
     /**
-     * funzione per controllare se l'utente si è già loggato
+     * metodo per controllare se l'utente si è già loggato
      *
      * @return    boolean    TRUE se è già loggato, FALSE altrimenti
      */
@@ -70,7 +95,7 @@ class Session{
             return Carrello::find($_SESSION["cartId"]);
         elseif(isset($_SESSION["guestCart"]))
             return $_SESSION["guestCart"];
-        elseif(isset($_SESSION["userId"])){             // lo userId ce l-hanno solo gli utenti registrati, i quali hanno anche un carrello come attributo, e la funzione getCarrello
+        elseif(isset($_SESSION["userId"])){             //lo userId ce l-hanno solo gli utenti registrati, i quali hanno anche un carrello come attributo, e la metodo getCarrello
             $cart = self::getUser()->getCarrello();
             $_SESSION["cartId"] = $cart->getId();
             return $cart;

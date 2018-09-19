@@ -59,8 +59,7 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
             $this->addJS("login/js/login.js");
         }
 
-        //$this->smarty->assign("siteBackground",\Models\Settings::getBackground());
-        $this->smarty->assign("siteTitle",\Models\Settings::getSiteName());
+        $this->smarty->assign("siteTitle",\Singleton::Settings()->getSiteName());
         $this->smarty->assign("templateContentIncludes",$this->content.".tpl");
 
         $resources_str = "";
@@ -115,6 +114,10 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
                 $this->smarty->assign('username', $user->getUsername());
                 break;
         }
+    }
+
+    public function setCSRF(string $token){
+        setcookie("CSRF", $token, 0, "/", "", FALSE, TRUE);
     }
 
     /**

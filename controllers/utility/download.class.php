@@ -21,7 +21,7 @@ class download implements Controller{
     }
 
     public static function background(Request $req){
-        $id = \Models\Settings::getBackground();
+        $id = \Singleton::Settings()->getBackground();
         try{
             $image = \Foundations\Immagine::find($id);
         }catch(\SQLException $e){
