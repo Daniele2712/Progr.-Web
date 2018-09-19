@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Creato il: Set 18, 2018 alle 18:19
+-- Creato il: Set 19, 2018 alle 02:10
 -- Versione del server: 5.7.23-0ubuntu0.16.04.1
--- Versione PHP: 7.0.30-0ubuntu0.16.04.1
+-- Versione PHP: 7.0.32-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -668,7 +668,7 @@ CREATE TABLE `valute` (
   `id` int(11) NOT NULL,
   `sigla` varchar(15) NOT NULL,
   `nome` varchar(20) NOT NULL,
-  `simbolo` varchar(5) NOT NULL
+  `simbolo` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -676,11 +676,11 @@ CREATE TABLE `valute` (
 --
 
 INSERT INTO `valute` (`id`, `sigla`, `nome`, `simbolo`) VALUES
-(1, 'EUR', 'Euro', '€'),
-(2, 'USD', 'Dollari', '$'),
-(3, 'GBP', 'Sterline', '£'),
+(1, 'EUR', 'Euro', '&euro;'),
+(2, 'USD', 'Dollari', '&dollar;'),
+(3, 'GBP', 'Sterline', '&pound;'),
 (4, 'BTC', 'Bitcoins', 'BTC'),
-(5, 'JPY', 'Yen', '¥');
+(5, 'JPY', 'Yen', '&yen;');
 
 --
 -- Indici per le tabelle scaricate
@@ -948,8 +948,6 @@ ALTER TABLE `valute`
 ALTER TABLE `carrelli`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
-ALTER TABLE `items_carrello`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 -- AUTO_INCREMENT per la tabella `carte`
 --
 ALTER TABLE `carte`
