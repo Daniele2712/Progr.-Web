@@ -8,11 +8,11 @@ if(!defined("EXEC")){
 }
 
 class comune implements Controller{
-    public function get(Request $req){
+    public static function get(Request $req){
         echo $req->getInt(0);
     }
 
-    public function search(Request $req){
+    public static function search(Request $req){
         $search = $req->getString(0);
         $comuni = \Foundations\Comune::searchByName($search);
         $v = new \Views\Api\Comuni();
@@ -23,7 +23,7 @@ class comune implements Controller{
     /**
      * azione di default
      */
-    public function default(Request $req){
-        return $this->get($req);
+    public static function default(Request $req){
+        return self::get($req);
     }
 }

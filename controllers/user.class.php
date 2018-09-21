@@ -24,26 +24,6 @@ class User implements Controller{
     }
 
     public static function login(Request $req){
-
-        $user = $req->getString("username", NULL, "POST");
-        $pw = $req->getString("password", NULL, "POST");
-        try{
-            /*  controllare se si tratta di un gestore o di un utente */
-            \Singleton::Session()->login($user,$pw);
-            $user = \Singleton::Session()->getUser();   /* questo e' un MODELS Utente, quindi ha la funzione getId()*/
-
-            if(self::isGestore($user->getId())) header('Location: '. '../shop/gestore');
-                    else header('Location: '."../shop/spesaConLogin");
-
-        }catch(\ModelException $e){         // c-e errore con questo model, che cosa e??
-            \Singleton::Session()->logout();
-            echo "<pre>";
-            echo str_replace("\n", "<br>", $e);
-            echo "</pre>";
-        }
-    }
-
-    public static function login2(Request $req){
         $user = $req->getString("username",NULL,"POST");
         $pw = $req->getString("password",NULL,"POST");
         $session = \Singleton::Session();
@@ -59,16 +39,12 @@ class User implements Controller{
                 $tmp["type"] = "cliente";
             (new \Views\JSONView($tmp))->render();
         }catch(\ModelException $e){             //utente non trovato
-            /*$v = new \Views\Error;            //Non so se inviare un json con scritto 404 o una pagina d'errore 404
-            $v->isRest(TRUE);
-            $v->error(404);*/
             (new \Views\JSONView($tmp))->render();
         }
     }
 
     public static function logout(Request $req){
         \Singleton::Session()->logout();
-        echo "logged out";
     }
 
     private function isGestore($id){

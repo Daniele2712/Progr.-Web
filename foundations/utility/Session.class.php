@@ -108,8 +108,6 @@ class Session{
     public function getAddr():\Models\Indirizzo{
         if($_SESSION["addressId"])
             return Indirizzo::find($_SESSION["addressId"]);
-        elseif($_SESSION["guestAddress"])
-            return clone $_SESSION["guestAddress"];
         throw new \Exception("Error Address not set", 1);
 
     }
@@ -119,13 +117,12 @@ class Session{
             return Ordine::find($_SESSION["orderId"]);
     }
 
-    public function setGuestAddress(\Models\Indirizzo $addr){
-        $_SESSION["addressId"] = NULL;
-        $_SESSION["guestAddress"] = clone $addr;
+    public function setGuestAddress(int $id_comune, string $via, string $civico, string $note){
+        $addr = new \Models\Indirizzo(0,\Foundations\Comune::find($id_comune), $via, $civico, $note);
+        $_SESSION["addressId"] = \Foundations\Indirizzo::save($addr);
     }
 
     public function setUserAddress(int $id){
-        $_SESSION["guestAddress"] = NULL;
         $_SESSION["addressId"] = $id;
     }
 

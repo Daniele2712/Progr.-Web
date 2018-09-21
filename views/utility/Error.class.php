@@ -24,8 +24,10 @@ class Error implements View{
      * @var    array
      */
     private $commonErrors = array(
+        400 => "Bad Request",
         404 => "Resource Not Found",
-        405 => "Method Not Allowed"
+        405 => "Method Not Allowed",
+        410 => "Gone"
     );
 
     /**
@@ -79,6 +81,8 @@ class Error implements View{
 
 
             $resources_str = "";
+            global $config;
+            $smarty->assign("homeLink","/".$config['default']['controller']."/".$config['default']['action']);
             foreach($this->resources["css"] as $file)
                 $resources_str .= "<link rel='stylesheet' type='text/css' href='/templates/contents/$file'/>";
             foreach($this->resources["js"] as $file)
@@ -87,7 +91,7 @@ class Error implements View{
             $smarty->assign("templateContentIncludes","error/message.tpl");
             $smarty->assign("message",$this->message);
             try{
-                $smarty->assign("siteTitle",\Models\Settings::getSiteName());
+                $smarty->assign("siteTitle", \Singleton::Settings()->getSiteName());
             }catch(\Exception $e){}
             $smarty->display("layout.tpl");
         }

@@ -11,6 +11,12 @@ class Ordine extends Model{
     private $Pagamento;
     private $indirizzo;
 	private $utente;
+    private $subtotale;
+    private $speseSpedizione;
+    private $totale;
+    private $idValuta;
+    private $dataOrdine;
+    private $oraConsegna
     //Costruttori
     public function __construct(array $prodotti, Indirizzo $indirizzo, Utente $utente){
     	$this->prodotti =  $prodotti;

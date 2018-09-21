@@ -38,7 +38,7 @@ class Magazzino extends Model{
     public function getAvailableItems():array{
         $r = array();
         foreach ($this->items as $item)
-            if($item->getQta()>0)
+            if($item->getQuantita()>0)
                 $r[] = $item;
         return $r;
     }

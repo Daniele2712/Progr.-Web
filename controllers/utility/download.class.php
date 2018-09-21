@@ -12,8 +12,7 @@ class download implements Controller{
         try{
             $image = \Foundations\Immagine::find($id);
         }catch(\SQLException $e){
-            $c = new Error();
-            $c->error404($req);
+            Error::error404($req);
         }
         $v = new \Views\Image();
         $v->setImage($image);
@@ -25,8 +24,7 @@ class download implements Controller{
         try{
             $image = \Foundations\Immagine::find($id);
         }catch(\SQLException $e){
-            $c = new Error();
-            $c->error404($req);
+            Error::error404($req);
         }
         $v = new \Views\Image();
         $v->setImage($image);

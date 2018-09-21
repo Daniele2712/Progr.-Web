@@ -1,18 +1,13 @@
-/*      LOCATOR          */
-
 .content{
-    height:800px;   /* sovrascrive l altezza del content, e lo fa piu corto, tanto nella schermata di home non abbiamo tante cose*/
-}
-
-#homeContent{
+    height:800px;/* sovrascrive l altezza del content, e lo fa piu corto, tanto nella schermata di home non abbiamo tante cose*/
     background-image: url(/download/background);
     background-repeat: no-repeat;
     background-size: 100%;
+    background-color: #292c2f;
 }
 
 #dialog{
     width:500px;
-    margin-left:10%;
     margin-top:10%;
     border-radius: 5px;
     border: 1px solid rgb(191, 216, 227);
@@ -71,18 +66,61 @@
     padding: 10px;
 }
 
-#add_location div {
+#add_location>div {
     display: grid;
     grid-template-columns: 1fr 2fr;
     align-items: center;
     padding: 5px;
 }
 
-#add_location div.actions {
+#add_location>div.actions {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
 #dialog #user_address{
     display: none;
 }
- /* END OF LOCATOR   */
+
+#dialog #user_address #location{
+    min-height: 40px;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+}
+
+#dialog #user_address #actions{
+    padding: 5px 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#dialog #user_addresses{
+    display: none;
+}
+
+#dialog #user_addresses #locations{
+    padding: 5px;
+}
+
+#dialog #user_addresses .location{
+    min-height: 40px;
+    padding: 5px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+#dialog #user_addresses .location:hover{
+    border: 1px solid rgb(191, 216, 227);
+    background-color: rgba(191, 216, 227, 0.6);
+    border-radius: 5px;
+}
+
+#dialog #user_addresses .button{
+    margin:5px 25.5%;
+}
+
+#dialog #new_user_address{
+    display: none;
+}

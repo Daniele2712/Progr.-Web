@@ -23,4 +23,13 @@ abstract class Model{
     public function getId(): int{
         return $this->id;
     }
+
+    /**
+     * funzione che setta l'id del Model
+     *
+     * @param    int    $id     id del Model
+     */
+    public function setId(int $id){
+        $this->id = $id;
+    }
 }

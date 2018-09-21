@@ -12,5 +12,6 @@ class Home extends HTMLView{
         $this->content = "home/home";
         $this->addJS("home/js/home.js");
         $this->addCSS("home/css/home.css");
+        $this->setCSRF(\Singleton::Session()->getCSRF());
     }
 }

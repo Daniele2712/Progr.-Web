@@ -1,4 +1,4 @@
-#topleft{
+#profile{
     display:grid;
     grid-template-columns:1fr 2fr 1fr;
     grid-template-areas:"user username bars";
@@ -6,45 +6,53 @@
     height:100%;
     justify-items:space-evenly;
     align-items:center;
-    
 }
 
-#user{
+#profile #user{
     grid-area:user;
 }
-#username{
+
+#profile #username{
     grid-area:username;
     self-align:left;
     padding-left:10px;
 }
-#bars{
+
+#profile #bars{
     grid-area:bars;
     cursor:pointer;
 }
 
-
-#dropdownMenu{
-    display:none;
+#profile #dialog_container{
     position:absolute;
-    width:200px;
-    top:120px;
-    right:0px;}
+    width: 0px;
+    height: 0px;
+}
 
-#dropdownMenu ul{
+#profile #dropdownMenu{
+    display:none;
+    position:relative;
+    width:200px;
+    top:60px;
+    right:0px;
+}
+
+#profile #dropdownMenu ul{
     display:grid;
     grid-template-columns:1fr ;
     z-intex:1;
     background-color: rgba(211,211,211);
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
-    
+
 }
 
-#dropdownMenu ul{
-    list-style-type: none; 
+#profile #dropdownMenu ul{
+    list-style-type: none;
     font-size:1.5em;
 }
-.listItem{
+
+#profile .listItem{
     cursor:pointer;
     display:grid;
     grid-template-columns:3fr 1fr ;
@@ -52,11 +60,12 @@
     align-items:center;
 }
 
-.listItem span{
+#profile .listItem span{
     align-self:left;
     padding:10px;
 }
-.listItem i{
+
+#profile .listItem i{
     align-self:right;
     padding:10px;
 }

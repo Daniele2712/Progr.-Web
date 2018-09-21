@@ -30,9 +30,33 @@ class UtenteRegistrato extends Utente{
             throw new \ModelException("Model Not Found", __CLASS__, array("id"=>$id_utente), 0);
         $p->close();
 
+        //Indirizzo preferito
+        $sql = "SELECT id_indirizzo FROM indirizzi_utenti WHERE id_utente_r = ? AND preferito = 1";
+        $p = \Singleton::DB()->prepare($sql);
+        $p->bind_param("i",$id_utente);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->bind_result($id_indirizzo_preferito);
+        $r = $p->fetch();
+        if($r === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+        elseif($r === NULL)
+            throw new \SQLException("Empty Result", $sql, 0, 8);
+        $p->close();
+
+        $indirizzo_preferito = Indirizzo::find($id_indirizzo_preferito);
         $indirizzi = Indirizzo::getIndirizziByUserId($id_utente);
         $carrello = Carrello::find($id_carrello);
 
-        return new \Models\UtenteRegistrato($id_utente, $dati_anagrafici, $email, $username, $id, $punti, array(), $indirizzi, $carrello);
+        return new \Models\UtenteRegistrato($id_utente, $dati_anagrafici, $email, $username, $id, $punti, array(), $indirizzi, $indirizzo_preferito, $carrello);
+    }
+
+    public static function addAddress(int $id_user, int $id_addr){
+        $sql = "INSERT INTO indirizzi_utenti VALUES (NULL, ?, ?, 0)";
+        $p = \Singleton::DB()->prepare($sql);
+        $p->bind_param("ii",$id_user, $id_addr);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->close();
     }
 }

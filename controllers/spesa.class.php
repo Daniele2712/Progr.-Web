@@ -9,71 +9,10 @@ if(!defined("EXEC")){
 class spesa implements Controller{
 
     /**
-     * metodo per selezionare o aggiungere l'indirizzo a cui spedire
+     * home page del sito
      */
-    public static function inizia(Request $req){
-        $session = \Singleton::Session();
-        if($session->isLogged()){
-            $addr = $session->getUser()->getIndirizzi();
-            //mostra gli indirizzi
-            echo "<pre>";
-            print_r($addr);
-            echo "</pre>";
-            echo "<a href='/spesa/userAddress/2'>userAddress 2</a><br>";
-            echo "<a href='/user/logout'>logout</a>";
-        }else{
-            //form nuovo indirizzo
-            echo "<form action='/spesa/guestAddress' method='POST'>";
-            echo "<input name='comune' placeholder='comune' value='Roma'/><br>";
-            echo "<input name='CAP' placeholder='via' value='00100'/><br>";
-            echo "<input name='provincia' placeholder='provincia' value='RM'/><br>";
-            echo "<input name='via' placeholder='via' value='XX Settembre'/><br>";
-            echo "<input name='civico' placeholder='civico' value='3'/><br>";
-            echo "<input name='note' placeholder='note' value=''/><br>";
-            echo "<input type='submit'/></form>";
-            echo "<a href='/user/login?username=rossi&password=rossi'>Login</a>";
-        }
-    }
-
-    /**
-     * metodo per selezionare un indirizzo dell'utente
-     */
-    public static function userAddress(Request $req){
-        $session = \Singleton::Session();
-        if(!$session->isLogged())
-            die("errore");
-        $id = $req->getInt(0);
-        if($id === NULL)
-            die("errore2");
-        $session->setUserAddress($id);
-        //ok
-        echo "ok<br>";
-        echo "<a href='/spesa/catalogo'>catalogo</a>";
-    }
-
-    /**
-     * metodo pre creare un indirizzo temporaneo per l'ospite
-     */
-    public static function guestAddress(Request $req){
-        $session = \Singleton::Session();
-        if($session->isLogged())
-            die("errore");
-        $id = $req->getInt("id", NULL);
-        if($id === NULL)
-            die("errore2");
-        $comune     = $req->getString("comune",NULL,"POST");
-        $CAP        = $req->getInt("CAP",NULL,"POST");
-        $provincia  = $req->getString("provincia",NULL,"POST");
-        $via        = $req->getString("via",NULL,"POST");
-        $civico     = $req->getInt("civico",NULL,"POST");
-        $note       = $req->getString("note",NULL,"POST");
-
-        $ris = \Foundations\Comune::search($comune, $CAP, $provincia);
-
-        $session->setGuestAddress(new \Models\Indirizzo(0, $ris, $via, $civico, $note));
-        //ok
-        echo "ok<br>";
-        echo "<a href='/spesa/catalogo'>catalogo</a>";
+    public static function home(Request $req){
+        (new \Views\Home())->render();
     }
 
     /**
@@ -83,11 +22,12 @@ class spesa implements Controller{
         $session = \Singleton::Session();
         $cart = $session->getCart();
         $addr = $session->getAddr();
+        echo $addr->getId();
         $magazzino = \Foundations\Magazzino::findClosestTo($addr);
         $items = $magazzino->getAvailableItems();
         //mostra gli items
-        echo "<pre>";
-        print_r($items);
+        echo "<pre>ok";
+        //print_r($items);
         echo "</pre>";
     }
 
@@ -171,7 +111,7 @@ class spesa implements Controller{
      * azione di default
      */
     public static function default(Request $req){
-        return self::inizia($req);
+        return self::home($req);
     }
 }
 ?>

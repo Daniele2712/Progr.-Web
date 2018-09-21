@@ -9,7 +9,7 @@ if(!defined("EXEC")){
 /**
  * View che mostra un elenco di comuni
  */
-class Comuni implements JSONView{
+class Comuni extends JSONView{
     public function setComuni(array $comuni){
         foreach($comuni as $comune){
             $this->data[] = array("label"=>$comune->getNome()."(".$comune->getProvincia().")","value"=>$comune->getId());

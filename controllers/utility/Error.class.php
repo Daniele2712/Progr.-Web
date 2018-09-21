@@ -8,6 +8,18 @@ if(!defined("EXEC")){
 }
 
 class Error implements Controller{
+    public static function Error400(Request $req){
+        $v = new \Views\Error();
+        if(!$req->isRest()){
+            $session = \Singleton::Session();
+            if($session->isLogged())
+                $v->setUser($session->getUser());
+        }
+        $v->isRest($req->isRest());
+        $v->error(400);
+        die();
+    }
+
     public static function Error404(Request $req){
         $v = new \Views\Error();
         if(!$req->isRest()){
@@ -29,6 +41,18 @@ class Error implements Controller{
         }
         $v->isRest($req->isRest());
         $v->error(405);
+        die();
+    }
+
+    public static function Error410(Request $req){
+        $v = new \Views\Error();
+        if(!$req->isRest()){
+            $session = \Singleton::Session();
+            if($session->isLogged())
+                $v->setUser($session->getUser());
+        }
+        $v->isRest($req->isRest());
+        $v->error(410);
         die();
     }
 

@@ -32,13 +32,6 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
     private $resources = array("js"=>array(),"css"=>array());
 
     /**
-     * modello Utente da settare se loggato
-     *
-     * @var    \Models\Utente
-     */
-    protected $user = FALSE;
-
-    /**
      * acquisisce un riferimento all'istanza di Smarty
      */
     public function __construct(){
@@ -50,16 +43,19 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      */
     public function render(){
         $this->HTMLRender();
-
-        if(!$this->user){
-
+        $settings = \Singleton::Settings();
+        $session = \Singleton::Session();
+        if($session->isLogged())
+            $this->setUser($session->getUser());
+        else{
             $this->smarty->assign('logged', 'false');
             $this->smarty->assign('templateLoginOrProfileIncludes', 'login/login.tpl');
             $this->addCSS("login/css/login.css");
             $this->addJS("login/js/login.js");
         }
-
-        $this->smarty->assign("siteTitle",\Singleton::Settings()->getSiteName());
+        $this->smarty->assign("siteTitle",$settings->getSiteName());
+        global $config;
+        $this->smarty->assign("homeLink","/".$config['default']['controller']."/".$config['default']['action']);
         $this->smarty->assign("templateContentIncludes",$this->content.".tpl");
 
         $resources_str = "";
@@ -97,7 +93,6 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      * @param    \Models\Utente    $user    modello dell'utente
      */
     public function setUser(\Models\Utente $user){
-        $this->user = $user;
         switch(get_class($user)){ // ricordo che  $user= \Singleton::Session()->getUser()
             case "Models\UtenteRegistrato":        // non so se serve aggiungere anche  || is_subclass_of($user,"\Models\UtenteRegistrato")
                 $this->smarty->assign('logged', 'UtenteRegistrato');

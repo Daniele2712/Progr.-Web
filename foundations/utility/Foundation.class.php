@@ -190,11 +190,15 @@ abstract class Foundation{
      * @return   int|null              l'eventuale id del nuovo Model
      */
     public static function save(Model $obj):int{
-        $p = self::find($obj->getId());
-        if($p)
+        try{
+            self::find($obj->getId());
             return static::update($obj);
-        else
-            return static::insert($obj);
+        }catch(\SQLException $e){
+            if($e->getCode() === 8)
+                return static::insert($obj);
+            else
+                throw $e;
+        }
     }
 
 }

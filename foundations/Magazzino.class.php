@@ -31,20 +31,12 @@ class Magazzino extends Foundation{
             $mag_arr = self::findMany($id);
             $dis = NULL;
             foreach($mag_arr as $mag){
-                $ind = $mag->getIndirizzo();
-                $url='https://maps.googleapis.com/maps/api/distancematrix/json?origins='
-                    .urlencode($addr->getVia()).','.urlencode($addr->getComune()->getNome()).
-                    ',Italia&destinations='
-                    .urlencode($ind->getVia()).','.urlencode($ind->getComune()->getNome()).
-                    ',Italia&mode=driving&language=it';
-                $data = file_get_contents($url);
-                $arr = json_decode($data, true);
-                $ret = $arr["rows"][0]["elements"][0]["distance"]["value"];
+                $ret = $addr->distance($mag->getIndirizzo());
                 if($ret < $dis || $dis === NULL){
                    $dis = $ret;
                    $mag_fin = $mag;
                }
-            }
+           }
         }
         return $mag_fin;
     }

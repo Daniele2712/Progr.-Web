@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Creato il: Set 19, 2018 alle 02:10
+-- Creato il: Set 21, 2018 alle 19:06
 -- Versione del server: 5.7.23-0ubuntu0.16.04.1
 -- Versione PHP: 7.0.32-0ubuntu0.16.04.1
 
@@ -270,35 +270,40 @@ CREATE TABLE `indirizzi` (
   `id_comune` int(11) NOT NULL,
   `via` varchar(200) NOT NULL,
   `civico` int(11) NOT NULL,
-  `note` text NOT NULL
+  `note` text NOT NULL,
+  `latitudine` double NOT NULL,
+  `longitudine` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `indirizzi`
 --
 
-INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`) VALUES
-(1, 1, 'viale croce rossa', 2, ''),
-(2, 1, 'viale aldo moro', 4, '');
+INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`, `latitudine`, `longitudine`) VALUES
+(1, 1, 'viale croce rossa', 2, '', 42.356806, 13.396409),
+(2, 1, 'viale aldo moro', 4, '', 42.360347, 13.397168),
+(3, 1, 'via dal cazzo', 8, 'asdasasdadads', 42.3506, 13.3995);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `indirizzi_preferiti`
+-- Struttura della tabella `indirizzi_utenti`
 --
 
-CREATE TABLE `indirizzi_preferiti` (
+CREATE TABLE `indirizzi_utenti` (
   `id` int(11) NOT NULL,
   `id_utente_r` int(11) NOT NULL,
-  `id_indirizzo` int(11) NOT NULL
+  `id_indirizzo` int(11) NOT NULL,
+  `preferito` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dump dei dati per la tabella `indirizzi_preferiti`
+-- Dump dei dati per la tabella `indirizzi_utenti`
 --
 
-INSERT INTO `indirizzi_preferiti` (`id`, `id_utente_r`, `id_indirizzo`) VALUES
-(1, 1, 2);
+INSERT INTO `indirizzi_utenti` (`id`, `id_utente_r`, `id_indirizzo`, `preferito`) VALUES
+(1, 1, 2, 1),
+(2, 1, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -508,8 +513,12 @@ CREATE TABLE `ordini` (
   `id_m_pagamento` int(11) DEFAULT NULL,
   `id_indirizzo` int(11) NOT NULL,
   `id_dati_anagrafici` int(11) NOT NULL,
+  `subtotale` float NOT NULL,
+  `spese_spedizione` float NOT NULL,
   `totale` float NOT NULL,
-  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL
+  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL,
+  `data_ordine` datetime NOT NULL,
+  `ora_consegna` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -770,9 +779,9 @@ ALTER TABLE `indirizzi`
   ADD KEY `id_comune` (`id_comune`);
 
 --
--- Indici per le tabelle `indirizzi_preferiti`
+-- Indici per le tabelle `indirizzi_utenti`
 --
-ALTER TABLE `indirizzi_preferiti`
+ALTER TABLE `indirizzi_utenti`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_utente_r` (`id_utente_r`),
   ADD KEY `id_indirizzo` (`id_indirizzo`);
@@ -1001,12 +1010,12 @@ ALTER TABLE `immagini_prodotti`
 -- AUTO_INCREMENT per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT per la tabella `indirizzi_utenti`
+--
+ALTER TABLE `indirizzi_utenti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT per la tabella `indirizzi_preferiti`
---
-ALTER TABLE `indirizzi_preferiti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT per la tabella `items_magazzino`
 --
@@ -1148,11 +1157,11 @@ ALTER TABLE `indirizzi`
   ADD CONSTRAINT `indirizzi_ibfk_1` FOREIGN KEY (`id_comune`) REFERENCES `comuni` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `indirizzi_preferiti`
+-- Limiti per la tabella `indirizzi_utenti`
 --
-ALTER TABLE `indirizzi_preferiti`
-  ADD CONSTRAINT `indirizzi_preferiti_ibfk_1` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `indirizzi_preferiti_ibfk_2` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `indirizzi_utenti`
+  ADD CONSTRAINT `indirizzi_utenti_ibfk_1` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `indirizzi_utenti_ibfk_2` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `items_carrello`

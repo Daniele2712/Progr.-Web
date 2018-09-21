@@ -1,128 +1,89 @@
-#topleft{
-    width:100%;
+#login{
+    width: 100%;
+    height: 100%;
+}
+
+#login #loginAndRegister{
+    width: 100%;
+    height: 100%;
+}
+
+#login #loginAndRegister>div{
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50%;
+    height: 100%;
+    cursor:pointer;
+    text-align: center;
+    padding: 50px 0;
+}
+
+#login #dialog_container{
+    position:absolute;
+    width: 0px;
+    height: 0px;
+}
+
+#login #loginbox{
+    display: none;
     position:relative;
+    top:30px;
+    right:275px;
+    background-color: rgba(191, 216, 227, .4);
+    border: 1px solid rgba(191, 216, 227, .8);
+    border-radius:8px;
+    width:450px;
+    padding: 10px;
 }
 
-#loginAndRegister{
-    width:100%;
+#login #registerbox{
+    display:none;
+    position:relative;
+    top:30px;
+    right:275px;
+    background-color: rgba(191, 216, 227, .4);
+    border: 1px solid rgba(191, 216, 227, .8);
+    border-radius:8px 8px 5px 5px;
+    padding: 10px;
+    width:450px;
 }
 
-
-#registerbutton{
- grid-area: uno;   
- cursor:pointer;
-}
-#loginbutton{
- grid-area: due;
- cursor:pointer;
- 
-}
-
-#loginAndRegister ul{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    grid-template-areas:
-           "uno due";
+#login #loginbox>div,
+#login #registerbox div{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
     align-items: center;
-  align-self: center;
-  list-style-type: none; 
-  justify-items:center;
+    padding: 5px;
 }
 
-#loginbox{
-    display:none;
-    position:absolute;
-    top:150px;
-    right:50px;
-    background-color: rgba(191, 216, 227, .4);
+#login #loginbox>div.actions,
+#login #registerbox div.actions{
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#login #loginbox>#message{
+    display: none;
+}
+
+#login input{
     border: 1px solid rgba(191, 216, 227, .8);
-    border-radius:8px;
-    width:150%;         /*metto 150 percent xke se no prende la posizione del padre, e diventa troppo piccolo*/
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 110%;
+    width: 100%;
 }
 
-#registerbox{
-    display:none;
-    position:absolute;
-    top:150px;
-    right:50px;
-    background-color: rgba(191, 216, 227, .4);
-    border: 1px solid rgba(191, 216, 227, .8);
-    border-radius:8px;
-    width:150%;
+#login #login_submit{
+    padding: 0;
+    color: #fff;
+    background-color: rgb(54, 134, 169);
+    cursor: pointer;
+    grid-column: 2;
+    height: 30px;
+    width: 100%;
 }
 
-    .login {
-      grid-column-end: span 2;
-      width: auto;
-    }
-    .login > div {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      align-items: center;
-    }
-    .login > div.actions {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-   
-    .contact {
-      padding: 0 0 0 10px;
-      width: auto;
-    }
-    input[type="submit"] {
-      grid-column: 2;
-    }
-    .actions a {
-      justify-self: end;
-    }
-  
-
-
-h1 {
-  background-color: rgba(191, 216, 227, 0.6);
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  padding: 10px;
-  font-size: 24px;
-  line-height: 1.4;
-  text-align:center;
+#login .actions a{
+    font-size: 80%;
+    justify-self: end;
 }
-
-.login {
-  background-color: rgba(191, 216, 227, .4);
-  border: 1px solid rgba(191, 216, 227, .8);
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  padding: 10px;
- 
-  
-}
-
-.login > div {
-  padding: 5px;
-}
-
-input[type="submit"] {
-  border: 1px solid rgba(191, 216, 227, .8);
-  border-radius: 5px;
-  color: #fff;
-  background-color: rgb(54, 134, 169);
-  font-size: 110%;
-  cursor: pointer;
-}
-
-input[type="text"],
-input[type="password"] {
-  border: 1px solid rgba(191, 216, 227, .8);
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 110%;
-  width: 100%;
-}
-
-.actions a {
-  font-size: 80%;
-}
-
-
-
-

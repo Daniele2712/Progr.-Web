@@ -1,8 +1,5 @@
 {* Smarty *}
-{* forse gli dovro passare un array di info cpsi lui sa che info deve displayare *}
-
 <html>
-
     <head>
         <meta charset="utf-8"/>
         <link rel="stylesheet" type="text/css" href="/templates/css/layout.css"/>
@@ -17,24 +14,29 @@
         <script type="text/javascript"> var logged="{$logged}"</script>
         <title>{$siteTitle}</title>
     </head>
-
     <body>
         <div id="header">
-
-                <img id ="logoimg" src="/templates/img/logo.png"/>
-                <img id ="logowriting" src="/templates/img/OnlineShopping.png"/>
-                {include file="contents/$templateLoginOrProfileIncludes"}
+            <div class="centralbox">
+                <div id="logobox">
+                    <a href="{$homeLink}">
+                        <img id ="logoimg" src="/templates/img/logo.png" />
+                    </a>
+                </div><div id="titlebox">
+                    <img id ="logowriting" src="/templates/img/OnlineShopping.png" />
+                </div><div id="profilebox">
+                        {include file="contents/$templateLoginOrProfileIncludes"}
+                </div>
+            </div>
         </div>
-
-
         <div class="content">
-            {include file="contents/$templateContentIncludes"}
+            <div class="centralbox">
+                {include file="contents/$templateContentIncludes"}
+            </div>
         </div>
-
-
         <div id="footer">
-            {include file='footer.tpl'}
+            <div class="centralbox">
+                {include file='footer.tpl'}
+            </div>
         </div>
-
     </body>
 </html>
