@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="content">
+        <div id="content">
             <div class="centralbox">
                 {include file="contents/$templateContentIncludes"}
             </div>

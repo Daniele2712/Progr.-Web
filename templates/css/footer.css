@@ -1,15 +1,18 @@
 #footer{
 	background-color: #292c2f;
     height: 315px;
+    overflow: hidden;
 }
 
 .footer-distributed{
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
 	box-sizing: border-box;
 	width: 100%;
+    height: 100%;
 	text-align: left;
-	font: bold 16px sans-serif;
-	padding: 55px 50px;
+	font-weight: bold;
+    font-size: 16px;
+	padding: 5px 50px;
 }
 
 .footer-distributed .footer-left,
@@ -17,18 +20,21 @@
 .footer-distributed .footer-right{
 	display: inline-block;
 	vertical-align: top;
+	box-sizing: border-box;
+    padding: 5px;
 }
 
 /* Footer left */
 
 .footer-distributed .footer-left{
 	width: 40%;
+    grid-area: title;
 }
 
 /* The company logo */
 
 #imglogofooter{
-	width:340px;
+	width:100%;
 }
 
 /* Footer links */
@@ -70,6 +76,7 @@
 	line-height: 42px;
 	margin: 10px 15px;
 	vertical-align: middle;
+    grid-area: info;
 }
 
 .footer-distributed .footer-center i.fa-envelope{
@@ -101,6 +108,7 @@
 
 .footer-distributed .footer-right{
 	width: 20%;
+    grid-area: about;
 }
 
 .footer-distributed .footer-company-about{
@@ -130,35 +138,33 @@
 	cursor: pointer;
 	background-color:  #33383b;
 	border-radius: 2px;
-
 	font-size: 20px;
 	color: #ffffff;
 	text-align: center;
 	line-height: 35px;
-
 	margin-right: 3px;
 	margin-bottom: 5px;
 }
 
 /* If you don't want the footer to be responsive, remove these media queries */
 
-@media (max-width: 880px) {
+@media screen and (min-width:800px) and (max-width:1024px){
+    #footer{
+        height: 500px;
+    }
 
 	.footer-distributed{
-		font: bold 14px sans-serif;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+            "info about"
+            "title title";
 	}
 
-	.footer-distributed .footer-left,
-	.footer-distributed .footer-center,
-	.footer-distributed .footer-right{
-		display: block;
-		width: 100%;
-		margin-bottom: 40px;
-		text-align: center;
-	}
-
-	.footer-distributed .footer-center i{
-		margin-left: 0;
-	}
-
+    .footer-distributed .footer-left,
+    .footer-distributed .footer-center,
+    .footer-distributed .footer-right{
+    	width: 100%;
+    }
 }

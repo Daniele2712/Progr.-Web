@@ -40,78 +40,60 @@ body{
     grid-template-areas: "header" "content" "footer";
 }
 
+#header{
+    background-color: rgb(211,211,211);
+}
+
+#logoimg,
+#logowriting{
+    height: 100%;
+    width: 100%;
+}
+
 @media screen and (min-width:800px) and (max-width:1024px){         /* questa categoria serve per i tablet*/
     body{
         font-size: 26px;
     }
 
-    #header{
-        background-color: rgba(45, 51, 56);
-        grid-area:header;
-        display:grid;
-        grid-template-columns:5fr 2fr;
-        grid-template-areas: "logowriting login";
-        align-items:center;
-        justify-items: center;
+    #header #logobox{
+        display: none;
     }
 
-#logoimg{
-    display: none;
-}
+    #header #titlebox{
+        width:600px;
+        height:100%;
+        display: inline-block;
+        overflow: hidden;
+        padding: 5px;
+        box-sizing: border-box;
+    }
 
-#logowriting{
-    width:600px;
-    height:80px;
-}
-#profile, #buttonsdiv{
-    grid-area:login;
-}
+    #header #profilebox{
+        width:200px;
+        display: inline-block;
+        right: 0;
+        position: absolute;
+    }
 
-#buttons>li{
-    color:red;
-    padding:15px;
-}
-#buttons{
-    align-self: center;
-    list-style-type: none;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    align-items: center;
-
-}
-
-.content{
-display:grid;
-grid-area:content;
-background-color: green;
-width:100%;
-height:1200px;
-}
+    #content{
+        display:grid;
+        width:100%;
+        min-height:600px;
+    }
 
 }
-
-
-
-
-
 
 @media screen and (min-width:1024px){   /* questa  categoria serve per i PC */
-    .content{
+    #content{
         display:grid;
-        grid-area:content;
         width:100%;
         height:1600px;
-        justify-self:center;
     }
 
     .centralbox{
         width: 1024px;
         height: 100%;
         margin: auto;
-    }
-
-    #header{
-        background-color: rgb(211,211,211);
     }
 
     #header #logobox{
@@ -123,11 +105,6 @@ height:1200px;
         box-sizing: border-box;
     }
 
-    #logoimg{
-        height: 100%;
-        width: 100%;
-    }
-
     #header #titlebox{
         width:624px;
         height:100%;
@@ -137,28 +114,9 @@ height:1200px;
         box-sizing: border-box;
     }
 
-    #logowriting{
-        height: 100%;
-        width: 100%;
-    }
-
     #header #profilebox{
         width:200px;
         display: inline-block;
         overflow: hidden;
-    }
-
-    #buttons>li{
-        color:red;
-        padding:15px;
-    }
-
-    #buttons{
-        align-self: center;
-        list-style-type: none;
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        align-items: center;
-
     }
 }

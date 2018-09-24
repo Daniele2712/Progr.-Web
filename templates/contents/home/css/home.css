@@ -1,4 +1,4 @@
-.content{
+#content{
     height:800px;/* sovrascrive l altezza del content, e lo fa piu corto, tanto nella schermata di home non abbiamo tante cose*/
     background-image: url(/download/background);
     background-repeat: no-repeat;
