@@ -38,6 +38,20 @@ class Valuta{
         elseif($r === NULL)
             throw new \ModelException("Model Not Found", __CLASS__, array("id"=>$id_utente), 0);
         $p->close();
-        return array($sigla, $nome, $simbolo);
+        return array($id, $sigla, $nome, $simbolo);
+    }
+
+    public static function exchangeRate(string $from, string $to){
+        if($from === $to)
+            return 1;
+        else{
+            $url = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=".
+                $from."&to_currency=".$to."&apikey=640XPH9OLI8AT5FI";
+            $data = file_get_contents($url);
+            $arr = json_decode($data, true);
+            if(array_key_exists("Realtime Currency Exchange Rate",$arr) && array_key_exists("5. Exchange Rate",$arr["Realtime Currency Exchange Rate"]))
+                    return $arr["Realtime Currency Exchange Rate"]["5. Exchange Rate"];
+            throw new \ModelException("Currency not found", __CLASS__, array("url"=>$url), 2);
+        }
     }
 }

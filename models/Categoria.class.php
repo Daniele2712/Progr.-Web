@@ -16,8 +16,8 @@ class Categoria extends Model{
         $this->padre = $padre;
     }
     //Metodi
-	public function getCategoria():string{
-        return $categoria;
+	public function getNome():string{
+        return $this->categoria;
 	}
     public function getPadreid(){
         $this->padre->getid();

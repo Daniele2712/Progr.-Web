@@ -20,15 +20,20 @@ class spesa implements Controller{
      */
     public static function catalogo(Request $req){
         $session = \Singleton::Session();
-        $cart = $session->getCart();
-        $addr = $session->getAddr();
-        echo $addr->getId();
-        $magazzino = \Foundations\Magazzino::findClosestTo($addr);
-        $items = $magazzino->getAvailableItems();
-        //mostra gli items
-        echo "<pre>ok";
-        //print_r($items);
-        echo "</pre>";
+        $v = new \Views\Catalogo();
+        $valuta = \Models\Money::EUR();
+        if($session->isLogged())
+            $valuta = $session->getUser()->getIdValuta();
+        $v->fillBasket($session->getCart(), $valuta);
+        try{
+            $items = \Foundations\Magazzino::findClosestTo($session->getAddr())->getAvailableItems($req->getParam(0));
+        }catch(\Exception $e){
+            if($e->getMessage() === "Error Address not set")
+                \Views\HTTPView::redirect("/spesa/home"); //quando la sessione scade perdo l'indirizzo, quindi lo rimando alla home
+        }
+        $v->fillItems($items, $valuta);
+        $v->fillCategories(\Foundations\Categoria::findMainCategories());
+        $v->render();
     }
 
     /**

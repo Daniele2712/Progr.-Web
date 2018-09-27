@@ -106,7 +106,7 @@ class Session{
     }
 
     public function getAddr():\Models\Indirizzo{
-        if($_SESSION["addressId"])
+        if(array_key_exists("addressId",$_SESSION))
             return Indirizzo::find($_SESSION["addressId"]);
         throw new \Exception("Error Address not set", 1);
 

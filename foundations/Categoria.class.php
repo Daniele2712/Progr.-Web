@@ -35,19 +35,18 @@ class Categoria extends Foundation{
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
     }
-    
-    public static function allCategories(){
-        echo "F-Categorie";
+
+    public static function findMainCategories(){
         $rows = array();
-        $DB = Singleton::DB();
-        $sql = "SELECT * from categorie";
+        $DB = \Singleton::DB();
+        $sql = "SELECT * from categorie WHERE padre IS NULL";
         $result = $DB->query($sql);
-        while($r = mysqli_fetch_assoc($result)) {
-            $rows[] = $r;
+        while($row = mysqli_fetch_assoc($result)) {
+            $rows[] = self::create($row);
         }
-        return json_encode($rows);
-        
-        }
+        return $rows;
+
+    }
 
 }
 ?>

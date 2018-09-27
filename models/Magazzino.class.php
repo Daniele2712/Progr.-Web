@@ -35,11 +35,16 @@ class Magazzino extends Model{
         return $r;
     }
 
-    public function getAvailableItems():array{
+    public function getAvailableItems(int $page = 1):array{
         $r = array();
+        $n = 50;
+        $i = 0;
         foreach ($this->items as $item)
-            if($item->getQuantita()>0)
-                $r[] = $item;
+            if($item->getQuantita()>0){
+                $i++;
+                if($i => $page*$n && $i < ($page+1)*$n)     //divido l'elenco in pagine di 50 prodotti
+                    $r[] = $item;
+            }
         return $r;
     }
 

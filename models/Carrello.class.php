@@ -72,7 +72,7 @@ class Carrello extends Model{
         return $this->totale;
     }
 
-    public function getProdotti(){
+    public function getItems(){
         $t = array();
         foreach($this->prodotti as $item)
             $t[]=clone $item;
