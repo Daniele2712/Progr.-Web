@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Creato il: Set 21, 2018 alle 19:06
+-- Creato il: Set 27, 2018 alle 16:10
 -- Versione del server: 5.7.23-0ubuntu0.16.04.1
 -- Versione PHP: 7.0.32-0ubuntu0.16.04.1
 
@@ -282,7 +282,8 @@ CREATE TABLE `indirizzi` (
 INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`, `latitudine`, `longitudine`) VALUES
 (1, 1, 'viale croce rossa', 2, '', 42.356806, 13.396409),
 (2, 1, 'viale aldo moro', 4, '', 42.360347, 13.397168),
-(3, 1, 'via dal cazzo', 8, 'asdasasdadads', 42.3506, 13.3995);
+(3, 1, 'via dal cazzo', 8, 'asdasasdadads', 42.3506, 13.3995),
+(4, 1, 'xx settembre', 1, '', 42.3544927, 13.3896686);
 
 -- --------------------------------------------------------
 
@@ -572,7 +573,7 @@ CREATE TABLE `prodotti` (
 --
 
 INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `id_valuta`) VALUES
-(1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 1);
+(1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 2);
 
 -- --------------------------------------------------------
 
@@ -620,18 +621,19 @@ CREATE TABLE `utenti` (
   `tipo_utente` enum('Dipendente','UtenteRegistrato') NOT NULL,
   `email` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(32) NOT NULL
+  `password` varchar(32) NOT NULL,
+  `idValutaDefault` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `utenti`
 --
 
-INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`) VALUES
-(1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af'),
-(2, 1, 'UtenteRegistrato', 'alessandromanzoni@gmail.com', 'aleman', 'a39bb4d6e7f7036c1e5a7192adc56ed0'),
-(3, 1, 'Dipendente', 'andreibal@yahoo.com', 'andrei', 'b2d09b73eb5ad0228f9cb2e51485a45f'),
-(4, 2, 'Dipendente', 'luigiverdi@gmail.com', 'luiver', 'e0c96a15bd424cc0b7a81e498603b17d');
+INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`, `idValutaDefault`) VALUES
+(1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af', 1),
+(2, 1, 'UtenteRegistrato', 'alessandromanzoni@gmail.com', 'aleman', 'a39bb4d6e7f7036c1e5a7192adc56ed0', 1),
+(3, 1, 'Dipendente', 'andreibal@yahoo.com', 'andrei', 'b2d09b73eb5ad0228f9cb2e51485a45f', 1),
+(4, 2, 'Dipendente', 'luigiverdi@gmail.com', 'luiver', 'e0c96a15bd424cc0b7a81e498603b17d', 1);
 
 -- --------------------------------------------------------
 
@@ -922,7 +924,8 @@ ALTER TABLE `turni`
 --
 ALTER TABLE `utenti`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_datianagrafici` (`id_datianagrafici`);
+  ADD KEY `id_datianagrafici` (`id_datianagrafici`),
+  ADD KEY `idValutaDefault` (`idValutaDefault`);
 
 --
 -- Indici per le tabelle `utenti_registrati`
@@ -1010,7 +1013,7 @@ ALTER TABLE `immagini_prodotti`
 -- AUTO_INCREMENT per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT per la tabella `indirizzi_utenti`
 --
@@ -1265,7 +1268,8 @@ ALTER TABLE `turni`
 -- Limiti per la tabella `utenti`
 --
 ALTER TABLE `utenti`
-  ADD CONSTRAINT `utenti_ibfk_1` FOREIGN KEY (`id_datianagrafici`) REFERENCES `dati_anagrafici` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `utenti_ibfk_1` FOREIGN KEY (`id_datianagrafici`) REFERENCES `dati_anagrafici` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `utenti_ibfk_2` FOREIGN KEY (`idValutaDefault`) REFERENCES `valute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti_registrati`
