@@ -42,7 +42,7 @@ class Magazzino extends Model{
         foreach ($this->items as $item)
             if($item->getQuantita()>0){
                 $i++;
-                if($i => $page*$n && $i < ($page+1)*$n)     //divido l'elenco in pagine di 50 prodotti
+                if($i >= ($page-1)*$n && $i < $page*$n)     //divido l'elenco in pagine di 50 prodotti
                     $r[] = $item;
             }
         return $r;
