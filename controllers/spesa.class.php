@@ -26,7 +26,10 @@ class spesa implements Controller{
             $valuta = $session->getUser()->getIdValuta();
         $v->fillBasket($session->getCart(), $valuta);
         try{
-            $items = \Foundations\Magazzino::findClosestTo($session->getAddr())->getAvailableItems($req->getInt(0,1));
+            $items = \Foundations\Magazzino::findClosestTo($session->getAddr())->getAvailableItems(
+                $req->getInt(0),          //id Categoria
+                $req->getInt(1,1)           //numero pagina
+            );
         }catch(\Exception $e){
             if($e->getMessage() === "Error Address not set")
                 \Views\HTTPView::redirect("/spesa/home"); //quando la sessione scade perdo l'indirizzo, quindi lo rimando alla home

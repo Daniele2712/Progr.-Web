@@ -30,7 +30,7 @@ class Item extends Foundation{
             while($row = $result->fetch_array(MYSQLI_ASSOC)){
                 $pro = Prodotto::find($row["id_prodotto"]);
                 $pre = $pro->getPrezzo();
-                $pre->setPrezzo($pre->getPrezzo() * $row["quantita"]);
+                $pre->setPrezzo($pro->getPrezzo()*$row["quantita"]);
                 $item = new \Models\Item($pro, $pre, $row["quantita"]);
                 $ret[] = $item;
             }

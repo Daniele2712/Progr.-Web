@@ -60,60 +60,46 @@ function addToCart(that){
 };
 
 function ricaricaCarrello(){
-    $('.cartList').children().remove();
-
     $.ajax({
         url:"/api/carrello",
         method:"GET",
         dataType:"json",
-        success:function(arrayDiRisposta){      //mi sa che r gia un oggetto, non e json
-            jQuery.each( arrayDiRisposta['inListProducts'], function( i, prodotto ) { //Devo fare una funzione che trasforma la valuta in elementi HTML
-               var newProduct= '<div class="inListProduct">\
-                                    <span>'+prodotto['quantita']+'</span>\
-                                    <span> x </span>\
-                                    <span>'+prodotto['nome']+'</span>\
-                                    <span class="prezzo">'+prodotto['item_valuta']+' '+prodotto['item_prezzo']+'</span>\
-                                </div>'
-                $( ".cartList" ).append(newProduct);
-              });
-        var total =    '<div id="cart_total">\
-                            <span id="totale_nome"> TOTALE </span>\
-                            <span class="prezzo_totale">'+arrayDiRisposta['totale_valuta']+' '+arrayDiRisposta['totale_prezzo'] +'</span>\
-                        </div>'
+        success:function(r){    //è gia un oggetto, non è json
+            $('.cartList').children().remove();
+            for(var i in r["items"]){    //Devo fare una funzione che trasforma la valuta in elementi HTML, ???
+                var prodotto = r["items"][i];
+                var newProduct = '<div class="inListProduct"><div>' +
+                    prodotto['quantita'] + '</div><div class="nome">' +
+                    prodotto['nome'] + '</div><div class="prezzo">' +
+                    r['valuta'] + ' ' +
+                    prodotto['prezzo'] + '</div></div>';
+                $(".cartList").append(newProduct);
+            }
+            var total = '<div id="cart_total"><span id="totale_nome"> TOTALE </span><span class="prezzo_totale">' +
+                r['valuta'] + ' ' + r['totale'] + '</span></div>';
         $('.cartList').append(total);
 
         },
         error:function(req, text, error){
             ajax_error(req, text, error);
         }
-    })
-
-
-
-
+    });
 };
 
 function convertValuta(x){
-
      switch(x){
         case 'EUR':
             return 'eeee';
-
         case 'EUR':
             return 'eeee';
         case 'EUR':
             return 'eeee';
-
         case 'EUR':
             return 'eeee';
-
         case 'EUR':
             return 'eeee';
-
         case 'EUR':
             return 'eeee';
-
-
         default: return '???';
     }
 }

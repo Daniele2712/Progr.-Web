@@ -11,8 +11,8 @@ class carrello implements Controller{
     public static function get(Request $req){
         $session = \Singleton::Session();
         if($session->isLogged() && is_a($session->getUser(),"\\Models\\UtenteRegistrato") || !$session->isLogged()){
-            $cart = $session->getCart();
-            $v = new \Views\JSONView(array("r"=>200));
+            $v = new \Views\Api\Carrello(array("r"=>200));
+            $v->setCart($session->getCart(),$session->getUser());
             $v->render();
         }else{                                                      //non autorizzato
             $v = new \Views\JSONView(array("r"=>403));

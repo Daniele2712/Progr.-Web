@@ -20,7 +20,7 @@ class Item extends Model{
     public function getProdotto(){
         return clone $this->prodotto;
     }
-	public function getPrezzo(){
+	public function getTotale(){
 		return $this->prezzo;
 	}
 	public function getQuantita(){

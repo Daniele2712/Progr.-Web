@@ -16,6 +16,14 @@ class Categoria extends Model{
         $this->padre = $padre;
     }
     //Metodi
+    public function hasCat(int $idCat){
+        if($this->id === $idCat)
+            return true;
+        elseif(isset($this->padre))
+            return $this->padre->hasCat($idCat);
+        return false;
+    }
+
 	public function getNome():string{
         return $this->categoria;
 	}

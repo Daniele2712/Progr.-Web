@@ -39,7 +39,7 @@ class Carrello extends Model{
         $c = 0;
 		for ($i = 0; $i < count($this->prodotti); $i++){
 			$t = $this->prodotti[$i];
-			$c += $t->getPrezzo()->getPrezzo();
+			$c += $t->getTotale()->getPrezzo();
 		}
         $this->totale->setPrezzo($c);
 	}

@@ -37,39 +37,53 @@ class Money extends Model{
 	}
 
     public function getValutaCode():string{
-        if(!isset(self::$valute[$this->idValuta]))
+        $valuta = self::findValuta($this->idValuta);
+        if(empty($valuta))
             new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$this->idValuta),1);
         return self::$valute[$this->idValuta][1];
     }
 
     public function getValutaName():string{
-        if(!isset(self::$valute[$this->idValuta]))
+        $valuta = self::findValuta($this->idValuta);
+        if(empty($valuta))
             new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$this->idValuta),1);
         return self::$valute[$this->idValuta][2];
     }
 
     public function getValutaSymbol():string{
-        if(!isset(self::$valute[$this->idValuta]))
+        $valuta = self::findValuta($this->idValuta);
+        if(empty($valuta))
             new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$this->idValuta),1);
         return self::$valute[$this->idValuta][3];
     }
 
+    public static function findValuta(int $id):array{
+        foreach(self::$valute as $valuta){
+            if($valuta[0] == $id)
+                return $valuta;
+        }
+        return array();
+    }
+
     public static function findValutaCode(int $id): string{
-        if(!isset(self::$valute[$id]))
+        $valuta = self::findValuta($id);
+        if(empty($valuta))
             new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$id),1);
-        return self::$valute[$id][1];
+        return $valuta[1];
     }
 
     public static function findValutaName(int $id): string{
-        if(!isset(self::$valute[$id]))
+        $valuta = self::findValuta($id);
+        if(empty($valuta))
             new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$id),1);
-        return self::$valute[$id][2];
+        return $valuta[2];
     }
 
     public static function findValutaSymbol(int $id): string{
-        if(!isset(self::$valute[$id]))
+        $valuta = self::findValuta($id);
+        if(empty($valuta))
             new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$id),1);
-        return self::$valute[$id][3];
+        return $valuta[3];
     }
 
     public static function EUR():int{

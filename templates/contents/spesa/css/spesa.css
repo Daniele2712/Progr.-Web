@@ -21,21 +21,24 @@
 }
 
 .categoryclass{
-
     border-bottom: grey 3px solid;
     border-left: lightgrey 3px solid;
     border-right: lightgrey 3px solid;
-    cursor:pointer;
+    cursor: pointer;
     box-shadow: 0px 2px 3px rgba(0,0,0,0.3);
     background: linear-gradient( white,#F4FAFB);
     background-color: white;
     border-radius:5px;
     height:50px;
+    line-height: 50px;
     min-width: 150px;
     text-align: center;
-    display:grid; align-items: center;
-
+    display: block;
+    align-items: center;
+    text-decoration: none;
+    color: black;
 }
+
 .categoryclass:active { /*Clicked and held*/
   box-shadow: 0px 5px 6px;
 }
@@ -224,8 +227,8 @@ max-width: 300px;
 }
 #basket-fa{
     display:grid;
-    justify-items:center;   
-   
+    justify-items:center;
+
     grid-template-rows:3fr 1fr;
     justify-items:center;
 }
@@ -245,15 +248,23 @@ max-width: 300px;
     border-bottom:lightgrey 1px solid;
     margin :3px 1px;
     display:grid;
-    grid-template-columns:1fr 1fr 4fr 3fr;
+    grid-template-columns:1fr 4fr 3fr;
 
 }
-
+.inListProduct>div{
+    display: inline-block;
+}
 
 
 #totale_nome{
     float:left;
     margin-left:10px;
+}
+.nome{
+    padding: 0 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .prezzo{
     text-align:right;

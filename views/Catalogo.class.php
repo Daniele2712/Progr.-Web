@@ -17,7 +17,7 @@ class Catalogo extends HTMLView{
     public function fillCategories($categories){
         $catNames = array();
         foreach($categories as $cat)
-            $catNames[] = $cat->getNome();
+            $catNames[] = array("id" => $cat->getId(), "nome" => $cat->getNome());
         $this->smarty->assign('categorie_for_tpl' , $catNames);
     }
 
@@ -49,7 +49,7 @@ class Catalogo extends HTMLView{
             $y['nome'] = $x->getProdotto()->getNome();
             $y['quantita'] = $x->getQuantita();
             $y['valuta'] = \Models\Money::findValutaSymbol($idValuta);
-            $y['totale'] = number_format($x->getPrezzo()->getPrezzo($idValuta),2);// perche il primo get prezzo ti rida un MONEY
+            $y['totale'] = number_format($x->getTotale()->getPrezzo($idValuta),2);// perche il primo get prezzo ti rida un MONEY
             $itemsBasket[] = $y;
         }
         $this->smarty->assign('prodotti_for_carello' , $itemsBasket);

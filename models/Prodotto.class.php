@@ -25,6 +25,12 @@ class Prodotto extends Model{
         $this->fotoPreferita = \Foundations\Immagine::findFavouriteByProduct($this->id);
     }
 	//Metodi
+	public function hasCat(int $idCategoria = 0){
+        if($idCategoria === 0)
+            return true;
+        else
+            return $this->sottocategoria->hasCat($idCategoria);
+    }
 
 	public function setInfo($i){
         $this->info = $i;
@@ -43,7 +49,7 @@ class Prodotto extends Model{
     }
 
 	public function getPrezzo(){
-        return $this->prezzo;
+        return clone $this->prezzo;
     }
 
     public function getInfo(){
