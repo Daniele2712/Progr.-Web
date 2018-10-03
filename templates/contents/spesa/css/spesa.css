@@ -50,7 +50,6 @@
 #filters{
     padding:10px;
     grid-area:filters;
-    display:grid;
 }
 
 .divfiltri{

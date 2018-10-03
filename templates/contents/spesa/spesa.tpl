@@ -6,9 +6,32 @@
         {/foreach}
     </div>
     <div id="filters">
-        <form id="filterform" action="altert('sended')">
+        <!--<form id="filterform" action="altert('sended')">-->
             <h1 align="center"> FILTERS </h1>
-            <div id="pricefilters" class="divfiltri">
+            {foreach from=$filtri_for_tpl item="filtro"}
+                <div class="divfiltri">
+                    {if $filtro.tipo == "checkbox"}
+                        <label>{$filtro.nome}</label><input type="checkbox" value='1' name='{$filtro.nome}'/>
+                    {elseif $filtro.tipo == "range"}
+                        <p>{$filtro.nome}</p>
+                        <label>Min</label><input name='{$filtro.nome}_min'/>
+                        <label>Max</label><input name='{$filtro.nome}_max'/>
+                    {elseif $filtro.tipo == "value"}
+                        <label>{$filtro.nome}</label><input name='{$filtro.nome}'/>
+                    {elseif $filtro.tipo == "radio"}
+                        <p>{$filtro.nome}</p>
+                        {foreach from=$filtro.opzioni item=o}
+                            <label>{$o.nome}</label><input type="radio" value="{$o.id}" name="{$filtro.nome}"/><br/>
+                        {/foreach}
+                    {elseif $filtro.tipo == "multicheckbox"}
+                        <p>{$filtro.nome}</p>
+                        {foreach from=$filtro.opzioni item=o}
+                            <label>{$o.nome}</label><input type="checkbox" value="{$o.id}" name="{$filtro.nome}"/><br/>
+                        {/foreach}
+                    {/if}
+                </div>
+            {/foreach}
+            <!--<div id="pricefilters" class="divfiltri">
                 <label for="price-min">Price min:</label>
                 <input type="input" name="price-min" id="price-min">
                 <i class="fas fa-euro-sign"></i>
@@ -17,7 +40,7 @@
                 <input type="input" name="price-max" id="price-max" placeholder="MAX">
                 <i class="fas fa-euro-sign"></i>
                 <!-- PRICE CASELLA CON PLACEHOLDER MIN - MAX-->
-            </div>
+            <!--</div>
             <div id="ingredienti" class="divfiltri">
                 <label>Senza Lattosio</label><input id="lattosio" type="checkbox">
                 <label>Senza Glutine</label><input id="glutine" type="checkbox">
@@ -31,9 +54,9 @@
                 <!--
                 FAI UNA COSA DOVE PUO SCEGLIERE LE CARATTERSITICHE< ROBA VARIA
                 -->
-            </div>
+            <!--</div>
             <input type="submit" value="Submit">
-        </form>
+        </form>-->
     </div>
     <div id="items">
         {foreach from=$items_for_tpl item="prodotto"}

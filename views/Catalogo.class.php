@@ -22,7 +22,15 @@ class Catalogo extends HTMLView{
     }
 
     public function fillFilters($filters){
-        $this->smarty->assign('categorie_for_tpl' , $categories);
+        $filtri = array();
+        foreach($filters as $filtro){
+            $filtri[] = array(
+                "nome" => $filtro->getNome(),
+                "tipo" => $filtro->getTipo(),
+                "opzioni" => $filtro->getOpzioni()
+            );
+        }
+        $this->smarty->assign('filtri_for_tpl' , $filtri);
     }
 
     public function fillItems(array $arrayItems, int $idValuta){

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Creato il: Set 27, 2018 alle 16:10
+-- Creato il: Ott 03, 2018 alle 12:46
 -- Versione del server: 5.7.23-0ubuntu0.16.04.1
 -- Versione PHP: 7.0.32-0ubuntu0.16.04.1
 
@@ -206,6 +206,7 @@ CREATE TABLE `filtri` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `filtrabile` tinyint(1) NOT NULL,
+  `tipo` enum('checkbox','range','value','radio','multicheckbox') NOT NULL,
   `id_categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -213,8 +214,11 @@ CREATE TABLE `filtri` (
 -- Dump dei dati per la tabella `filtri`
 --
 
-INSERT INTO `filtri` (`id`, `nome`, `filtrabile`, `id_categoria`) VALUES
-(1, 'display', 1, 4);
+INSERT INTO `filtri` (`id`, `nome`, `filtrabile`, `tipo`, `id_categoria`) VALUES
+(1, 'prezzo', 1, 'range', NULL),
+(2, 'display', 1, 'radio', 4),
+(3, 'ingredienti', 1, 'multicheckbox', 1),
+(4, 'scrematura', 1, 'radio', 3);
 
 -- --------------------------------------------------------
 
@@ -499,8 +503,11 @@ CREATE TABLE `opzioni` (
 --
 
 INSERT INTO `opzioni` (`id`, `valore`, `id_filtro`) VALUES
-(1, '23"', 1),
-(2, '40"', 1);
+(1, '23"', 2),
+(2, '40"', 2),
+(3, 'intero', 4),
+(4, 'parziale', 4),
+(5, 'senza glutine', 3);
 
 -- --------------------------------------------------------
 
@@ -573,7 +580,7 @@ CREATE TABLE `prodotti` (
 --
 
 INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `id_valuta`) VALUES
-(1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 2);
+(1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 1);
 
 -- --------------------------------------------------------
 
@@ -998,7 +1005,7 @@ ALTER TABLE `dipendenti_ruoli`
 -- AUTO_INCREMENT per la tabella `filtri`
 --
 ALTER TABLE `filtri`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT per la tabella `immagini`
 --
@@ -1068,7 +1075,7 @@ ALTER TABLE `offerte_tipi`
 -- AUTO_INCREMENT per la tabella `opzioni`
 --
 ALTER TABLE `opzioni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT per la tabella `ordini`
 --

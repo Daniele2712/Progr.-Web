@@ -24,6 +24,14 @@ class Categoria extends Model{
         return false;
     }
 
+    public function getAncestors(): array{
+        $r = array();
+        if($this->padre !== NULL)
+            $r = $this->padre->getAncestors();
+        $r[] = $this->id;
+        return $r;
+    }
+
 	public function getNome():string{
         return $this->categoria;
 	}

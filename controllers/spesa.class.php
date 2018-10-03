@@ -36,6 +36,7 @@ class spesa implements Controller{
         }
         $v->fillItems($items, $valuta);
         $v->fillCategories(\Foundations\Categoria::findMainCategories());
+        $v->fillFilters(\Foundations\Filtro::findInCat($req->getInt(0)));
         $v->render();
     }
 

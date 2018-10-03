@@ -7,18 +7,34 @@ if(!defined("EXEC")){
 
 class Filtro extends Model{
 	//Attributi
-	private $nome="";
-	private $sottocategoria;
-	private $valori=array();
+	private $nome = "";
+	private $sottocategoria = NULL;
+    private $filtrabile = FALSE;
+    private $tipo = "";
+	private $opzioni = array();
 	//Costruttori
-	public function __construct(string $nome="", Categoria $sottocategoria){
+	public function __construct(int $id, string $nome = "", bool $filtrabile, string $tipo, Categoria $sottocategoria = NULL, array $opzioni = array()){
+        $this->id = $id;
 		$this->nome = $nome;
-		$this->sottocategoria = $sottocategoria;
+        $this->tipo = $tipo;
+        $this->filtrabile = $filtrabile;
+        if($sottocategoria !== NULL)
+		      $this->sottocategoria = clone $sottocategoria;
+        $this->opzioni = $opzioni;
 	}
 	//Metodi
 	public function getNome(){
-		return $t=$this->nome;
+		return $this->nome;
 	}
+
+	public function getTipo(){
+		return $this->tipo;
+	}
+
+	public function getOpzioni(){
+		return $this->opzioni;
+	}
+
 	public function setValori(array $v){
 
 	}
