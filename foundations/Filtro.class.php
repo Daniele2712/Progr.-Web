@@ -9,14 +9,20 @@ if(!defined("EXEC")){
 class Filtro extends Foundation{
     protected static $table = "filtri";
 
-    public static function findInCat(int $idCat):array{
+    public static function findInCat(int $idCat = 0):array{
         $DB = \Singleton::DB();
-        $categorie = Categoria::find($idCat)->getAncestors();
-        $sql = "SELECT * FROM filtri WHERE id_categoria IS NULL OR id_categoria IN (" .
-                implode(",", array_fill(0, count($categorie), "?")) . ")";
-        $p = $DB->prepare($sql);
-        $args = array_merge(array(str_repeat("i", count($categorie))), $categorie);   // array("iiiii...", 1, 2, 3, ...)
-        call_user_func_array(array($p, 'bind_param'), self::ref($args));              // $p->bind_param(...)
+        if($idCat === 0){
+            $categorie = array();
+            $sql = "SELECT * FROM filtri WHERE id_categoria IS NULL AND filtrabile = 1";
+            $p = $DB->prepare($sql);
+        }else{
+            $categorie = Categoria::find($idCat)->getAncestors();
+            $sql = "SELECT * FROM filtri WHERE (id_categoria IS NULL OR id_categoria IN (" .
+                    implode(",", array_fill(0, count($categorie), "?")) . ")) AND filtrabile = 1";
+            $p = $DB->prepare($sql);
+            $args = array_merge(array(str_repeat("i", count($categorie))), $categorie);   // array("iiiii...", 1, 2, 3, ...)
+            call_user_func_array(array($p, 'bind_param'), self::ref($args));              // $p->bind_param(...)
+        }
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $r = array();

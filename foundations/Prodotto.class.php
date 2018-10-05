@@ -10,7 +10,30 @@ class Prodotto extends Foundation{
     protected static $table = "prodotti";
 
     public static function create(array $obj): Model{
-        return new \Models\Prodotto($obj["id"], $obj["nome"], Categoria::find($obj["id_categoria"]), new \Models\Money($obj["prezzo"], $obj["id_valuta"]));
+        $DB = \Singleton::DB();
+        $sql = "SELECT COALESCE(id_opzione,valori.valore) AS valore, filtri.nome, filtri.tipo
+            FROM valori
+            LEFT JOIN filtri ON filtri.id = id_filtro
+            WHERE id_prodotto = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param("i",$obj["id"]);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $r = array();
+        $res = $p->get_result();
+        $p->close();
+        if($res === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+        else
+            while ($row = $res->fetch_array(MYSQLI_ASSOC)){
+                if($row["tipo"] === "multicheckbox"){
+                    if(!array_key_exists($row["nome"], $r))
+                        $r[$row["nome"]] = array();
+                    $r[$row["nome"]][] = $row["valore"];
+                }else
+                    $r[$row["nome"]] = $row["valore"];
+            }
+        return new \Models\Prodotto($obj["id"], $obj["nome"], Categoria::find($obj["id_categoria"]), new \Models\Money($obj["prezzo"], $obj["id_valuta"]), $r);
     }
 
     public static function update(Model $prodotto){

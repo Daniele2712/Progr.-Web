@@ -12,6 +12,7 @@ class Filtro extends Model{
     private $filtrabile = FALSE;
     private $tipo = "";
 	private $opzioni = array();
+    private $valore;
 	//Costruttori
 	public function __construct(int $id, string $nome = "", bool $filtrabile, string $tipo, Categoria $sottocategoria = NULL, array $opzioni = array()){
         $this->id = $id;
@@ -23,6 +24,33 @@ class Filtro extends Model{
         $this->opzioni = $opzioni;
 	}
 	//Metodi
+	public function getParams(\Views\Request $req){
+        if($this->tipo == "range"){
+            $this->valore = array(
+                $req->getFloat("filter_".$this->nome."_min",0,"POST"),
+                $req->getFloat("filter_".$this->nome."_max",0,"POST")
+            );
+        }elseif($this->tipo == "multicheckbox"){
+            $this->valore = $req->getArray("filter_".$this->nome,array(),"POST");
+        }else{
+            $this->valore = $req->getString("filter_".$this->nome,"","POST");
+        }
+    }
+
+    public function filtra($valore): bool{
+        switch($this->tipo){
+            case "range":
+                return ($valore >= $this->valore[0] && $valore <= $this->valore[1]);
+            case "value":
+            case "radio":
+            case "checkbox":
+                return ($valore === $this->valore || $this->valore === "");
+            case "multicheckbox":
+                return array_intersect($this->valore, $valore) === $this->valore;
+        }
+        return FALSE;
+    }
+
 	public function getNome(){
 		return $this->nome;
 	}
@@ -35,7 +63,7 @@ class Filtro extends Model{
 		return $this->opzioni;
 	}
 
-	public function setValori(array $v){
-
-	}
+    public function getValore(){
+        return $this->valore;
+    }
 }

@@ -15,16 +15,29 @@ class Prodotto extends Model{
 	private $tag=array();
     private $foto = array();
     private $fotoPreferita = array();
+    private $valori = array();
 	//Costruttori
-	public function __construct(int $id, string $nome, Categoria $cat, Money $price){
+	public function __construct(int $id, string $nome, Categoria $cat, Money $price, array $valori){
         $this->id = $id;
 		$this->nome = $nome;
 		$this->sottocategoria = $cat;
 		$this->prezzo = $price;
         $this->foto = \Foundations\Immagine::findByProduct($this->id);
         $this->fotoPreferita = \Foundations\Immagine::findFavouriteByProduct($this->id);
+        $this->valori = $valori;
     }
 	//Metodi
+	public function filter(array $filters):bool{
+        foreach($filters as $filtro){
+            if($filtro->getNome() === "prezzo")         //questo è un filtro particolare, è hardcodato
+                $valore = $this->prezzo->getPrezzo();
+            else                                        //qui vanno i filtri normali, quelli modificabili per intenderci
+                $valore = $this->valori[$filtro->getNome()];
+            if(!$filtro->filtra($valore))
+                return FALSE;
+        }
+        return TRUE;
+    }
 	public function hasCat(int $idCategoria = 0){
         if($idCategoria === 0)
             return true;

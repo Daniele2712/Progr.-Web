@@ -27,7 +27,8 @@ class Catalogo extends HTMLView{
             $filtri[] = array(
                 "nome" => $filtro->getNome(),
                 "tipo" => $filtro->getTipo(),
-                "opzioni" => $filtro->getOpzioni()
+                "opzioni" => $filtro->getOpzioni(),
+                "valore" => $filtro->getValore()
             );
         }
         $this->smarty->assign('filtri_for_tpl' , $filtri);

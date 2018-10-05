@@ -6,27 +6,45 @@
         {/foreach}
     </div>
     <div id="filters">
-        <!--<form id="filterform" action="altert('sended')">-->
+        <form id="filterform" method="POST">
             <h1 align="center"> FILTERS </h1>
             {foreach from=$filtri_for_tpl item="filtro"}
-                <div class="divfiltri">
+                <div class="divfiltri" data-type="{$filtro.tipo}">
                     {if $filtro.tipo == "checkbox"}
-                        <label>{$filtro.nome}</label><input type="checkbox" value='1' name='{$filtro.nome}'/>
+                        <label>{$filtro.nome}</label><input type="checkbox" value='1' name='filter_{$filtro.nome}'/>
                     {elseif $filtro.tipo == "range"}
                         <p>{$filtro.nome}</p>
-                        <label>Min</label><input name='{$filtro.nome}_min'/>
-                        <label>Max</label><input name='{$filtro.nome}_max'/>
+                        <label>Min</label><input name='filter_{$filtro.nome}_min'
+                        {if isset($filtro.valore)}
+                            value="{$filtro.valore[0]}"
+                        {/if}
+                        /><label>Max</label><input name='filter_{$filtro.nome}_max'
+                        {if isset($filtro.valore)}
+                            value="{$filtro.valore[1]}"
+                        {/if}
+                        />
                     {elseif $filtro.tipo == "value"}
-                        <label>{$filtro.nome}</label><input name='{$filtro.nome}'/>
+                        <label>{$filtro.nome}</label><input name='{$filtro.nome}'
+                        {if isset($filtro.valore)}
+                            value="{$filtro.valore}"
+                        {/if}
+                        />
                     {elseif $filtro.tipo == "radio"}
                         <p>{$filtro.nome}</p>
                         {foreach from=$filtro.opzioni item=o}
-                            <label>{$o.nome}</label><input type="radio" value="{$o.id}" name="{$filtro.nome}"/><br/>
+                            <label>{$o.nome}</label><input type="radio" value="{$o.id}" name="filter_{$filtro.nome}"
+                            {if isset($filtro.valore) && $filtro.valore == $o.id}
+                                checked
+                            {/if}
+                            /><br/>
                         {/foreach}
                     {elseif $filtro.tipo == "multicheckbox"}
                         <p>{$filtro.nome}</p>
                         {foreach from=$filtro.opzioni item=o}
-                            <label>{$o.nome}</label><input type="checkbox" value="{$o.id}" name="{$filtro.nome}"/><br/>
+                            <label>{$o.nome}</label><input type="checkbox" value="{$o.id}" name="filter_{$filtro.nome}[]"
+                            {if isset($filtro.valore) && in_array($o.id,$filtro.valore)}
+                                checked
+                            {/if}/><br/>
                         {/foreach}
                     {/if}
                 </div>
@@ -54,9 +72,10 @@
                 <!--
                 FAI UNA COSA DOVE PUO SCEGLIERE LE CARATTERSITICHE< ROBA VARIA
                 -->
-            <!--</div>
-            <input type="submit" value="Submit">
-        </form>-->
+            <!--</div>-->
+            <input type="hidden" name="filtered" value="true"/>
+            <input type="submit" value="Filtra">
+        </form>
     </div>
     <div id="items">
         {foreach from=$items_for_tpl item="prodotto"}

@@ -35,15 +35,25 @@ class Magazzino extends Model{
         return $r;
     }
 
-    public function getAvailableItems(int $idCategoria, int $page):array{
+    public function getAvailableItems(\Views\Request $req, &$filters):array{
+        $idCategoria = $req->getInt(0);         //id Categoria
+        $page = $req->getInt(1,1);              //numero pagina
+        $filters = \Foundations\Filtro::findInCat($idCategoria);
+
+        if($req->getBool("filtered",FALSE,"POST"))
+            foreach($filters as $filtro)
+                $filtro->getParams($req);
+
         $r = array();
         $n = 50;
         $i = 0;
+        $filtered = $req->getBool("filtered",FALSE,"POST");
         foreach ($this->items as $item)
-            if($item->getQuantita()>0 && $item->getProdotto()->hasCat($idCategoria)){
-                $i++;
-                if($i >= ($page-1)*$n && $i < $page*$n)     //divido l'elenco in pagine di 50 prodotti
-                    $r[] = $item;
+            if($item->getQuantita()>0 && $item->getProdotto()->hasCat($idCategoria))
+                if($filtered && $item->getProdotto()->filter($filters) || !$filtered){
+                    $i++;
+                    if($i >= ($page-1)*$n && $i < $page*$n)     //divido l'elenco in pagine di 50 prodotti
+                        $r[] = $item;
             }
         return $r;
     }

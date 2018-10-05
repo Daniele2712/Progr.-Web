@@ -134,6 +134,18 @@ class Request{
     }
 
     /**
+     * restituisce un parametro di tipo booleano
+     *
+     * @param     string|int    $name           il nome o la posizione del parametro
+     * @param     bool|null      $default        valore di default del parametro
+     * @param     string        $superGlobal    array superglobale in cui cercare il parametro
+     * @return    int                           il parametro richiesto
+     */
+    public function getBool($name='',bool $default=NULL,string $superGlobal='GET'): int{
+        return $this->getParam($name,'bool',$default,$superGlobal);
+    }
+
+    /**
      * restituisce un parametro di tipo float
      *
      * @param     string|int    $name           il nome o la posizione del parametro
@@ -155,6 +167,18 @@ class Request{
      */
     public function getString($name='',string $default=NULL,string $superGlobal='GET'): string{
         return $this->getParam($name,'string',$default,$superGlobal);
+    }
+
+    /**
+     * restituisce un parametro di tipo array
+     *
+     * @param     string|int    $name           il nome del parametro
+     * @param     string|null   $default        valore di default del parametro
+     * @param     string        $superGlobal    array superglobale in cui cercare il parametro
+     * @return    string                        il parametro richiesto
+     */
+    public function getArray($name='',array $default=NULL,string $superGlobal='GET'): array{
+        return $this->getParam($name,'array',$default,$superGlobal);
     }
 
     /**
@@ -213,6 +237,9 @@ class Request{
 				case 'date':
 					$default=new \DateTime();
 					break;
+                case 'array':
+                    $default=array();
+                    break;
                 case 'json':
                     $default=false;
                     break;
@@ -322,6 +349,12 @@ class Request{
 				elseif(empty($tmp))
 					return $default;
 				break;
+            case 'array':
+                if(is_array($tmp))
+                    return $tmp;
+                else
+                    return $default;
+                break;
             case 'json':
 				$tmp=file_get_contents("php://input");
 				if(is_string($tmp)){

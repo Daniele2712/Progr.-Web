@@ -26,17 +26,16 @@ class spesa implements Controller{
             $valuta = $session->getUser()->getIdValuta();
         $v->fillBasket($session->getCart(), $valuta);
         try{
-            $items = \Foundations\Magazzino::findClosestTo($session->getAddr())->getAvailableItems(
-                $req->getInt(0),          //id Categoria
-                $req->getInt(1,1)         //numero pagina
-            );
+            $items = \Foundations\Magazzino::findClosestTo($session->getAddr())->getAvailableItems($req, $filters);
         }catch(\Exception $e){
-            if($e->getMessage() === "Error Address not set")
-                \Views\HTTPView::redirect("/spesa/home"); //quando la sessione scade perdo l'indirizzo, quindi lo rimando alla home
+            if($e->getMessage() === "Error Address not set")    //quando la sessione scade perdo l'indirizzo,
+                \Views\HTTPView::redirect("/spesa/home");       //quindi lo rimando alla home
+            else
+                throw $e;
         }
         $v->fillItems($items, $valuta);
         $v->fillCategories(\Foundations\Categoria::findMainCategories());
-        $v->fillFilters(\Foundations\Filtro::findInCat($req->getInt(0)));
+        $v->fillFilters($filters);
         $v->render();
     }
 
