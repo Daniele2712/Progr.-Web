@@ -42,6 +42,7 @@ body{
 
 #header{
     background-color: rgb(211,211,211);
+    height: 130px;
 }
 
 #logoimg,
@@ -63,6 +64,7 @@ body{
         width:600px;
         height:100%;
         display: inline-block;
+        vertical-align: top;
         overflow: hidden;
         padding: 5px;
         box-sizing: border-box;
@@ -70,6 +72,8 @@ body{
 
     #header #profilebox{
         width:200px;
+        height: 100%;
+        vertical-align: top;
         display: inline-block;
         right: 0;
         position: absolute;
@@ -101,6 +105,7 @@ body{
         height: 100%;
         padding: 5px;
         display: inline-block;
+        vertical-align: top;
         overflow: hidden;
         box-sizing: border-box;
     }
@@ -109,6 +114,7 @@ body{
         width:624px;
         height:100%;
         display: inline-block;
+        vertical-align: top;
         overflow: hidden;
         padding: 5px;
         box-sizing: border-box;
@@ -116,7 +122,9 @@ body{
 
     #header #profilebox{
         width:200px;
+        height:100%;
         display: inline-block;
+        vertical-align: top;
         overflow: hidden;
     }
 }
