@@ -2,6 +2,7 @@
 	background-color: #292c2f;
     height: 315px;
     overflow: hidden;
+	grid-area: footer;
 }
 
 .footer-distributed{
