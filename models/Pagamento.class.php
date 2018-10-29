@@ -10,7 +10,7 @@ if(!defined("EXEC")){
 
 abstract class Pagamento extends Model{
     private $idPagamento;
-    private $valuta = "EUR";
+    private $valuta = "EUR";    //da cambiare o eventualmente eliminare xke ogni utente ha la propira preferenza ocn la valuta
 
     public function __construct(int $idPagamento){
         $this->idPagamento = $idPagamento;

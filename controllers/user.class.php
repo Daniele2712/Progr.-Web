@@ -24,19 +24,19 @@ class User implements Controller{
     }
 
     public static function login(Request $req){
-        $user = $req->getString("username",NULL,"POST");
+        $username = $req->getString("username",NULL,"POST");
         $pw = $req->getString("password",NULL,"POST");
         $session = \Singleton::Session();
         $tmp = array("r"=>404);
         try{
             /*  controllare se si tratta di un gestore o di un utente */
-            $session->login($user,$pw);
+            $idUser=$session->login($username,$pw);
             $tmp["r"] = 200;
             $user = \Singleton::Session()->getUser();
             if(is_subclass_of($user,"\\Models\\Dipendente"))
                 $tmp["type"] = "dipendente";
             else
-                $tmp["type"] = "cliente";
+                $tmp["type"] = "cliente";   //forse si potrebbe aggiungere il caso in cui sia sottoclasse di utente registrato, e poi -lelse, dove e' utente/cliente
             (new \Views\JSONView($tmp))->render();
         }catch(\ModelException $e){             //utente non trovato
             (new \Views\JSONView($tmp))->render();

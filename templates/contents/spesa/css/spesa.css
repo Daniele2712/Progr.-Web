@@ -206,29 +206,29 @@ max-width: 300px;
 
 
 #basket{
+    margin-top:25px;
+    margin-bottom:25px;
     grid-area:basket;
     display:grid;
     justify-items: center;
 }
 
 #cart_total{
+    display:grid;
+    align-items:center;
+    grid-template-columns:1fr 1fr;
     height:30px;
+    
 }
 
 
 #basked_wrapper{
+    font-size:0.9em;
     width:90%;
-    display:grid;
-    grid-template-rows: 200px auto;
-    height:700px;
-
 
 }
 #basket-fa{
     display:grid;
-    justify-items:center;
-
-    grid-template-rows:3fr 1fr;
     justify-items:center;
 }
 #imgCarello{
@@ -237,6 +237,8 @@ max-width: 300px;
 
 
 .cartList{
+    margin-top:25px;
+    margin-bottom:25px;
     display:grid;
     grid-template-rows: repeat(auto-fit, 30px);
 }
@@ -283,7 +285,15 @@ max-width: 300px;
     white-space:nowrap;   /*bellissima cosa che fa in modo che quando fai spazio, il resto non va a capo nel caso il nome sia troppo lungo per la riga*/
 }
 
-
+#payButton:hover{
+    cursor:pointer;
+}
+#pay{
+    margin-top:25px;
+    margin-bottom:25px;
+    display:grid;
+    justify-content: center;
+}
 
 #footer{
     grid-area:footer;

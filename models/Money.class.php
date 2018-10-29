@@ -11,9 +11,9 @@ class Money extends Model{
 	private $idValuta = 1;
     private static $valute = array();
 	//Costruttore
-	public function __construct(float $pre, int $val){
+	public function __construct(float $pre, int $idVal){
 		$this->prezzo = $pre;
-		$this->idValuta = $val;
+		$this->idValuta = $idVal;
         self::loadValute();
 	}
 	//Metodi

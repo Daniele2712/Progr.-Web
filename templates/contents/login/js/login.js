@@ -35,9 +35,10 @@ function login(){
         dataType:"json",
         data:$("#login #loginbox input").serialize(),
         success:function(data){
-            if(data.r===200){
+            console.log("success");
+            if(data.r===200){   //sembra che non uso le variabile ritornate dalla post tmp[r] e tmp[type]
                 $("#login #message").html("<p class='message_ok'>Reloading</p>").show();
-                location.reload();
+                location.reload();      //la differenza sara' che ora ci sara una sessione con un utente loggato
             }else{
                 $("#login #message").html("<p class='message_error'>Wrong Username or Password</p>").show();
                 $("#login #loginbox #loginPassword").val("");

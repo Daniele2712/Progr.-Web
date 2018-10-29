@@ -6,14 +6,14 @@ if(!defined("EXEC")){
 }
 
 class DatiAnagrafici extends Model{
-    private $idDatiAnagrafici;
+    //  private $idDatiAnagrafici;      A:penso non serva ilDatiAnagrafici xke c'e gia l'id ereditato dal Model
     private $nome;
     private $cognome;
     private $telefono;
     private $dataNascita;
 
     public function __construct(int $id=0, string $nome="", string $cognome="", string $telefono="", \DateTime $nascita = null){
-        $this->idDatiAnagrafici = $id;
+        $this->setId($id);
         $this->nome = $nome;
         $this->cognome = $cognome;
         $this->telefono = $telefono;
@@ -27,4 +27,9 @@ class DatiAnagrafici extends Model{
     public function getCognome(){return $this->cognome;}
     public function getTelefono(){return $this->telefono;}
     public function getDataNascita(){return $this->DataNascita;}
+    
+    public function setNome($n){$this->nome=$n;}
+    public function setCognome($c){$this->cognome=$c;}
+    public function setTelefono($t){$this->telefono=$t;}
+    public function setDataNascita($d){$this->DataNascita=$d;}
 }

@@ -35,9 +35,24 @@ abstract class Utente extends DatiAnagrafici{
         $Fname = "Foundations\\".$obj["tipo_utente"];
         if(class_exists($Fname) && (new \ReflectionClass($Fname))->isSubclassOf("\\Foundations\\Utente"))
             return $Fname::create_user($obj["id"], $dati_anagrafici, $obj["email"], $obj["username"]);
-        throw new \Exception("Error User Type not found", 2);
+        else throw new \Exception("Error User Type not found", 2);
     }
 
 
     protected abstract static function create_user(int $id, \Models\DatiAnagrafici $dati_anagrafici, string $email, string $username);
-}
+
+    public static function getRuoloOfUserId($idUtente){ // magari puoi fare anche un controllo prima x vedere se e effettivamente un dipendente o no...qui do x scontato che e un dipendente
+            //Restituisce UtenteRegistrato, oppure Gestore, Corriere, Amministratore, ecc se l-utente e un dipendente
+            
+        if(\Foundations\UtenteRegistrato::isUtenteRegistrato($idUtente))
+        {
+           return "UtenteRegistrato"; 
+        }
+        else if(\Foundations\Dipendente::isDipendente($idUtente))
+        {
+            return \Foundations\Dipendente::getRuoloOfDipendenteWithId($idUtente);
+        }
+        else return null;
+    }
+    
+    }

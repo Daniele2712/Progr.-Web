@@ -10,10 +10,8 @@ class shop{
     public static function home(Request $req){
         $v = new \Views\Home();
         //throw new \Exception("Error Processing Request", 1);
-        $session = \Singleton::Session();
-        if($session->isLogged())
-            $v->setUser($session->getUser());
-
+        //$session = \Singleton::Session();
+        //$v->setUser();      //si occupa il render di fare il setUser
         $v->render();
     }
 
@@ -88,7 +86,7 @@ class shop{
             if($session->isLogged())            //nel caso l-utente abbia digitato direttamente l-indirizzo senza essersi loggato, lo mando alla home
             {
                 $v = new \Views\Gestore();
-                $v->setUser($session->getUser());
+                $v->setUser();
                 $v->render();
             }
             else header('Location: '."http://".$req->getServerName());
@@ -143,19 +141,7 @@ class shop{
      * Ti carica nei prodotti solo i prodotti del magazzino che rispetta le condizioni
      */
         }
-    public static function submit(Request $req){
-        echo("non dovrei arrivare qui");
-        // submitting a guestbook entry
-        self::mungeFormData($_POST);
-        if(self::isValidForm($_POST)){
-            $guestbook->addEntry($_POST);
-            $guestbook->displayBook($guestbook->getEntries());
-        } else {
-             echo var_dump($_POST);
-            $guestbook->displayForm($_POST);
-
-        }
-    }
+    
 
     public static function default(Request $req){
         return self::home($req);

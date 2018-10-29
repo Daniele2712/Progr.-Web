@@ -10,7 +10,7 @@ class Corriere extends Dipendente{
     private $consegne = array();
     //Costruttori
     public function __construct($idUtente, $datiAnagrafici, $email, $username, $id, $ruolo, $tipoContratto, $dataAssunzioni, $oreSettimanali, $stipendioOrario, $turni, int $idCorriere=0, array $consegne = array()){
-        parent::__construct($idUtente, $datiAnagrafici, $email, $username, $id, $ruolo, $tipoContratto, $dataAssunzioni, $oreSettimanali, $stipendioOrario, $turni)
+        parent::__construct($idUtente, $datiAnagrafici, $email, $username, $id, $ruolo, $tipoContratto, $dataAssunzioni, $oreSettimanali, $stipendioOrario, $turni);
         $this->idCorriere = $idCorriere;
         foreach($consegne as $c){
             $this->consegne[] = clone $c;

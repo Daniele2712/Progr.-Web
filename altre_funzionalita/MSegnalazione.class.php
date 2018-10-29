@@ -26,7 +26,7 @@ class Segnalazione extends Model{
         $this->messaggio = $messaggio;
         $this->risposta = $risposta;
         $this->stato = $stato;
-        $this-> = clone $prodotto;
+        $this->prodotto = clone $prodotto;
         $this->ordine = clone $ordine;
     }
 } 

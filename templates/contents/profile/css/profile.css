@@ -35,6 +35,7 @@
     width:200px;
     top:60px;
     right:0px;
+    z-index: 1;
 }
 
 #profile #dropdownMenu ul{

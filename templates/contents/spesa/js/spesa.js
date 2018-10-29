@@ -1,5 +1,8 @@
 $(document).ready(function(){
     ricaricaCarrello();
+    $("#payButton").click(function(){
+        location.href="/checkout/displaycheckout";
+    });
 });
 
 

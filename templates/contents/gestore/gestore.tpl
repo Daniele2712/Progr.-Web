@@ -11,7 +11,7 @@
     <div id="sezioni">
         <div id="sezioniStatistiche">
             <div class="sezione" id="sezioneOrdini">Ordini</div>
-            {if $GestoreOAmministratore != 'Amministratore'}
+            {if $logged != 'Amministratore'}
             <div class="sezione" id="sezioniProdottiRicevuti">Prodotti ricevuti</div>
             <div class="sezione" id="sezioneProdottiVenduti">Prodotti venduti</div>
             {/if}
@@ -20,14 +20,14 @@
         <div id="sezioniAmministrazione">
            
                 <div class="sezione active" id="sezioneProdotti">Prodotti</div>
-            {if $GestoreOAmministratore != 'Amministratore'}  
+            {if $logged != 'Amministratore'}  
                 <div class="sezione active" id="sezioneMagazzini">Magazzini</div>
             {else}
                  
                  <div class="sezione active" id="sezioneMagazzini">Magazzino</div>
             {/if}
             <div class="sezione" id="sezioneDipendenti">Dipendenti</div>
-            {if $GestoreOAmministratore != 'Amministratore'}
+            {if $logged != 'Amministratore'}
             <div class="sezione" id="sezioneAggiungiCategorie">Aggiungi Categoie</div>
             <div class="sezione" id="sezioneFiltri">Friltri</div>
             <div class="sezione" id="sezioneOfferte">Offerte</div>
@@ -47,13 +47,13 @@
         <div id="ProdottiUpper">
         <div id="scrittaProdotti">
             <span><b>Prodotti</b></span>
-            {if $GestoreOAmministratore != 'Amministratore'}
+            {if $logged != 'Amministratore'}
                 <button type='button' onclick="aggiungiProdoto()">Aggiungi Prodotto</button>
             {/if}    
         </div>
-            {if $GestoreOAmministratore eq 'Gestore'}
+            {if $logged eq 'Gestore'}
                 <span id="scrittaLocazione"><b>Magazzino</b>: Via Giuseppe Verdi 22, Milano {*{$indirizzoMagazzino}*}</span>
-            {elseif $GestoreOAmministratore != 'Amministratore'}
+            {elseif $logged != 'Amministratore'}
                 <div id="ProdottiFiltroMagazzino">
                    Magazzino: <select class='listaNomiMagazzini'><option>Tutti</option></select>
                     </div>
@@ -145,7 +145,7 @@
             <div><label>Price :</label><input type="text" name="prezzo"></div>
             <div><label>Valuta :</label><input type="text" name="valuta"></div>
             <div><label>Quantita :</label><input type="text" name="quantita"></div>
-            {if $GestoreOAmministratore != 'Amministratore'}{*      !! DEVO CAMBIARE IL != in ==  , != e solo provvisorio per programmare delle cose    *}      
+            {if $logged != 'Amministratore'}{*      !! DEVO CAMBIARE IL != in ==  , != e solo provvisorio per programmare delle cose    *}      
             <div>
                 <label>Magazzino :</label>
                 <select class='listaNomiMagazzini'>

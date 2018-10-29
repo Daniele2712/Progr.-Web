@@ -61,7 +61,7 @@ class Prodotto extends Model{
         return $this->nome;
     }
 
-	public function getPrezzo(){
+	public function getPrezzo() : \Models\Money{
         return clone $this->prezzo;
     }
 

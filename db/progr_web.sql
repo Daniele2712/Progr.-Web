@@ -152,8 +152,8 @@ CREATE TABLE `dipendenti` (
 --
 
 INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_assunzione`, `ore_settimanali`, `prezzo`, `id_valuta`) VALUES
-(1, 4, 2, 1, '2018-08-08', 0, 0, 1),
-(2, 3, 1, 1, '2018-08-08', 0, 0, 1);
+(1, 3, 1, 1, '2018-08-08', 2, 2, 1),
+(2, 2, 3, 1, '2018-08-08', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -286,7 +286,7 @@ CREATE TABLE `indirizzi` (
 INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`, `latitudine`, `longitudine`) VALUES
 (1, 1, 'viale croce rossa', 2, '', 42.356806, 13.396409),
 (2, 1, 'viale aldo moro', 4, '', 42.360347, 13.397168),
-(3, 1, 'via dal cazzo', 8, 'asdasasdadads', 42.3506, 13.3995),
+(3, 1, 'via Santo Agostino', 8, 'Non vogliamo mica andare al esame con nomi di vie compromettenti', 42.3506, 13.3995),
 (4, 1, 'xx settembre', 1, '', 42.3544927, 13.3896686);
 
 -- --------------------------------------------------------
@@ -531,6 +531,18 @@ CREATE TABLE `ordini` (
 
 -- --------------------------------------------------------
 
+
+--
+-- Table structure for table `ordini_non_registrati`
+--
+
+CREATE TABLE `ordini_non_registrati` (
+  `id` int(11) NOT NULL,
+  `id_ordine` int(11) NOT NULL,
+  `code` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 --
 -- Struttura della tabella `pagamenti`
 --
@@ -545,7 +557,10 @@ CREATE TABLE `pagamenti` (
 --
 
 INSERT INTO `pagamenti` (`id`, `tipo`) VALUES
-(1, 'carta');
+(1, 'carta'),
+(2, 'contrassegno'),
+(3, 'carta'),
+(4, 'bitcoin');
 
 -- --------------------------------------------------------
 
@@ -638,9 +653,8 @@ CREATE TABLE `utenti` (
 
 INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`, `idValutaDefault`) VALUES
 (1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af', 1),
-(2, 1, 'UtenteRegistrato', 'alessandromanzoni@gmail.com', 'aleman', 'a39bb4d6e7f7036c1e5a7192adc56ed0', 1),
-(3, 1, 'Dipendente', 'andreibal@yahoo.com', 'andrei', 'b2d09b73eb5ad0228f9cb2e51485a45f', 1),
-(4, 2, 'Dipendente', 'luigiverdi@gmail.com', 'luiver', 'e0c96a15bd424cc0b7a81e498603b17d', 1);
+(2, 1, 'Dipendente', 'gestore@yahoo.com', 'gestore', 'AE8DD69BEF648B58C635D887844D6DEC', 1),
+(3, 1, 'Dipendente', 'amministratore@yahoo.com', 'amministratore', 'E792CD9665119B1244E8AFCF36FB5F48', 1);
 
 -- --------------------------------------------------------
 
@@ -889,6 +903,14 @@ ALTER TABLE `ordini`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_indirizzo` (`id_indirizzo`),
   ADD KEY `id_dati_anagrafici` (`id_dati_anagrafici`);
+
+--
+-- Indexes for table `ordini_non_registrati`
+--
+ALTER TABLE `ordini_non_registrati`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`),
+  ADD KEY `vincolo ordine-ordine_non_registrati` (`id_ordine`);
 
 --
 -- Indici per le tabelle `pagamenti`

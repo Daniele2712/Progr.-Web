@@ -45,10 +45,15 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
         $this->HTMLRender();
         $settings = \Singleton::Settings();
         $session = \Singleton::Session();
+        $this->setUser();
+       
         if($session->isLogged())
-            $this->setUser($session->getUser());
+        {
+            $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
+            $this->addCSS("profile/css/profile.css");
+            $this->addJS("profile/js/profile.js");
+        }
         else{
-            $this->smarty->assign('logged', 'false');
             $this->smarty->assign('templateLoginOrProfileIncludes', 'login/login.tpl');
             $this->addCSS("login/css/login.css");
             $this->addJS("login/js/login.js");
@@ -92,22 +97,18 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      *
      * @param    \Models\Utente    $user    modello dell'utente
      */
-    public function setUser(\Models\Utente $user){
-        switch(get_class($user)){ // ricordo che  $user= \Singleton::Session()->getUser()
-            case "Models\UtenteRegistrato":        // non so se serve aggiungere anche  || is_subclass_of($user,"\Models\UtenteRegistrato")
-                $this->smarty->assign('logged', 'UtenteRegistrato');
-                $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
-                $this->addCSS("profile/css/profile.css");
-                $this->addJS("profile/js/profile.js");
-                $this->smarty->assign('username', $user->getUsername());
-                break;
-            case "Models\Gestore":
-                $this->smarty->assign('logged', 'Gestore');
-                $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
-                $this->addCSS("profile/css/profile.css");
-                $this->addJS("profile/js/profile.js");
-                $this->smarty->assign('username', $user->getUsername());
-                break;
+    public function setUser(){
+        $session2 = \Singleton::Session();
+        if($session2->isLogged())    // solo se l'utente e loggato fa queste cose
+        {
+        $userType=$session2->getRuoloOfLoggedUser();         // restituisce UtenteRegistrato, Amministratore,Gestore, Corriere, ecc
+        
+        $this->smarty->assign('logged', $userType);     
+        $this->smarty->assign('username', $session2->getUser()->getUsername());
+        }
+        else 
+        {
+         $this->smarty->assign('logged', 'false');
         }
     }
 

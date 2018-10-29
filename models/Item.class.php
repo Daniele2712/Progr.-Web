@@ -7,20 +7,31 @@ if(!defined("EXEC")){
 
 class Item extends Model{
     //Attributi
-	private $prodotto;      // e' un prodotto
+	private $prodotto;      // e' un Model prodotto
 	private $quantità=0;    // e' un intero
 	private $prezzo;        // e' un MONEY
 	//Costruttori
-	public function __construct(Prodotto $p, Money $m, int $q)
+	public function __construct(Prodotto $p, Money $m=NULL, int $q) // se inizializzi un item senza mettere il money, te lo calcola in automatico in base alla quantia
 	{
 		$this->prodotto=clone $p;
 		$this->quantità=$q;
-		$this->prezzo=$m;
+                if($m===NULL)
+                {
+                    $prezzo=$p->getPrezzo()->getPrezzo()*$q;
+                    $valuta=$p->getPrezzo()->getValuta();
+                    $n=new \Models\Money($prezzo, $valuta);
+                    $this->prezzo=$n;
+                }
+                else{
+                    $this->prezzo=$m;
+                }
 	}
-    public function getProdotto(){
-        return clone $this->prodotto;
-    }
-	public function getTotale(){
+        
+        
+        public function getProdotto(): Prodotto{
+            return clone $this->prodotto;
+        }
+	public function getTotale(): Money{
 		return $this->prezzo;
 	}
 	public function getQuantita(){

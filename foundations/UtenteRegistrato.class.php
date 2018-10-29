@@ -27,7 +27,7 @@ class UtenteRegistrato extends Utente{
         if($r === FALSE)
             throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
         elseif($r === NULL)
-            throw new \ModelException("Model Not Found", __CLASS__, array("id"=>$id_utente), 0);
+            throw new \SQLException("Empty Result", $sql, 0, 8);   
         $p->close();
 
         //Indirizzo preferito
@@ -58,5 +58,17 @@ class UtenteRegistrato extends Utente{
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
+    }
+    
+    public static function isUtenteRegistrato($id){
+        $sql = "SELECT id FROM ". self::$table." WHERE id_utente=?";
+        $p = \Singleton::DB()->prepare($sql);
+        $p->bind_param("i",$id);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $num=$p->get_result()->num_rows;
+        $p->close();
+        if($num>0) return true;
+        else return false;
     }
 }

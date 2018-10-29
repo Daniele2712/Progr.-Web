@@ -107,7 +107,12 @@
             <div id="basket-fa">
                 <i id="imgCarello" class="fas fa-4x fa-cart-plus"></i>
             </div>
+            
             <div class="cartList">
+            </div>
+            
+            <div id="pay">
+                <button id="payButton">Pay Now</button>
             </div>
         </div>
     </div>

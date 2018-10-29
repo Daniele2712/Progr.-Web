@@ -11,7 +11,7 @@ class Carta implements MetodoPagamento
     private $cvv;
     private $nome;
     private $cognome;
-    private $dataScadenza
+    private $dataScadenza;
 
   public function __construct(int $idPagamento, int $idCarta, string $numCarta, int $cvv,
   string $nome, string $cognome, DateTime $dataScadenza){
@@ -29,7 +29,7 @@ class Carta implements MetodoPagamento
 
     }
 
-    private verificaCredenziali(){
+    private function verificaCredenziali(){
 
         // vede se i dati inviati sono nei range ammisibili, e toglie i caratteri illegali....
     }

@@ -50,13 +50,13 @@ class Request{
         $this->action = $config['default']['action'];
         $this->method = $_SERVER['REQUEST_METHOD'];
         $uri = $_SERVER['REQUEST_URI'];
-        $pos = strpos($uri,'?');
+        $pos = strpos($uri,'?');                                        // posizione alla quale iniziano i parametri, percio' il ?
         $params = explode("/",$pos===FALSE?$uri:substr($uri,0,$pos));
         array_shift($params);
 
         if(count($params)>0 && $params[0]=="api"){
             $this->rest = true;
-            array_shift($params);   //cosi mi sbarazzo del capo "api"
+            array_shift($params);   //cosi mi sbarazzo del pezzo in cima "api"
             $this->controller = "Controllers\\Api\\".array_shift($params);
             $this->action = "default";
         }elseif(count($params)>0 && $params[0]!==""){

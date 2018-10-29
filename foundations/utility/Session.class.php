@@ -77,7 +77,9 @@ class Session{
         if(!isset($_SESSION["userId"]) || !is_int($_SESSION["userId"]))
             throw new \Exception("User not Found", 5);
         $user = Utente::find($_SESSION["userId"]);
-        $_SESSION["cartId"] = $user->getCarrello()->getId();
+        if(method_exists($user, 'getCarrello')) $_SESSION["cartId"] = $user->getCarrello()->getId();        //A: solo se l-utente e' un utente registrato,e quindi ha un carrello, 
+         // altrimenti, ex se e' un gestore , non devo imposotare il cookie cartId, xke il gestore non ha un carrello
+        
         return $user;
     }
 
@@ -87,7 +89,7 @@ class Session{
      * @return    boolean    TRUE se è già loggato, FALSE altrimenti
      */
     public function isLogged(){
-        return isset($_SESSION["userId"]) && $_SESSION["userId"]!==NULL;
+        return isset($_SESSION["userId"]) && $_SESSION["userId"]!==NULL;    
     }
 
     public function getCart():\Models\Carrello{
@@ -148,6 +150,19 @@ class Session{
 
     public function setOrder(int $id){
         $_SESSION["orderId"] = $id;
+    }
+    public function getRuoloOfLoggedUser(){
+        if(!$this->isLogged())
+        {
+            throw new \Exception("You are not logged in", 5);
+        }
+        else{
+           
+            $userId=$this->getUser()->getId();
+            if(\Foundations\Dipendente::isDipendente($userId))
+            {return \Foundations\Dipendente::getRuoloOfUserId($userId);}
+            else {return "UtenteRegistrato";}
+        }
     }
 
 

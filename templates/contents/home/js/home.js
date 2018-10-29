@@ -3,7 +3,10 @@ $(document).ready(function(){
         if(logged==="false")
             guest_shop();
         else
-            user_shop();
+        {
+            if(logged==="Gestore") gestore_shop();  /*  vorrei fare in modo di non arrivare fino a qui  , cioe far loggare direttamente il gestore oppure l'amministratore  */
+                else user_shop();
+        }
     });
     $("#dialog #guest_address .next").click(add_address);
     $("#dialog #user_address .next").click(use_default_address);
@@ -14,7 +17,7 @@ $(document).ready(function(){
 })
 
 function guest_shop(){
-    $("#dialog #start").hide();
+    $("#dialog #shop_button").hide();
     $("#dialog #guest_address").show();
     $("#dialog #guest_address input:first").focus();
 }
@@ -128,4 +131,8 @@ function save_user_address(){
             ajax_error(req, text, error);
         }
     });
+}
+
+function gestore_shop(){
+    location.href="/shop/gestore";
 }
