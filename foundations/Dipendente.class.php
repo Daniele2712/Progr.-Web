@@ -36,12 +36,18 @@ class Dipendente extends Utente{
         $turni = Turno::findByDipendente($id_dipendente);
         $Fname = "Foundations\\".$ruolo;
 
-        if($ruolo==="Amministratore")
+        /*      Finche non facciamo le altre classi Foundation\gestore, Foundation\Amminstratore, ecc, questa sezione la commento cosi non crea problemi
+        La parte che ho commentato crea un diverso Foundation\abc in base al ruolo
+         * if($ruolo==="Amministratore")
             return self::create_dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, self::getContratto($tipoContratto), new \DateTime($dataAssunzione), $oreSettimanali, new \Models\Money($prezzo,$valuta), $turni);
         elseif(class_exists($Fname) && (new \ReflectionClass($Fname))->isSubclassOf("\\Foundations\\Dipendente")){
             return $Fname::create_dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, self::getContratto($tipoContratto), new \DateTime($dataAssunzione), $oreSettimanali, new \Models\Money($prezzo,$valuta), $turni);
         }
         throw new \Exception("Error Dipendente Type not found", 2);
+        */
+        
+        //  quindi la seguente istruzione vuol dire che a  prescindere da tutto, io creo un dipendente
+        return self::create_dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, self::getContratto($tipoContratto), new \DateTime($dataAssunzione), $oreSettimanali, new \Models\Money($prezzo,$valuta), $turni);
     }
 
     public static function create(array $obj): Model{
@@ -94,6 +100,39 @@ class Dipendente extends Utente{
             self::$contratti[$id_contratto] = $nome;
         }
         return self::$contratti[$id_contratto];
+    }
+    
+    public static function isDipendente($id){
+        $sql = "SELECT id FROM ".self::$table." WHERE id_utente=?";
+        $p = \Singleton::DB()->prepare($sql);
+        $p->bind_param("i",$id);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $num=$p->get_result()->num_rows;
+        $p->close();
+        if($num) return true;
+        else return false;
+    }
+    
+    
+    public static function getRuoloOfDipendenteWithId($idUtente){ // magari puoi fare anche un controllo prima x vedere se e effettivamente un dipendente o no...qui do x scontato che e un dipendente
+            //Restituisce UtenteRegistrato, oppure Gestore, Corriere, Amministratore, ecc se l-utente e un dipendente
+            
+            $sql = "SELECT ruolo FROM ".self::$table." WHERE id_utente=?";
+            $p = \Singleton::DB()->prepare($sql);
+            $p->bind_param("i",$idUtente);
+            if(!$p->execute())
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+            $p->bind_result($idRuolo);
+            $r = $p->fetch();
+            if($r === FALSE)
+                throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+            elseif($r === NULL)
+                throw new \SQLException("Empty Result", $sql, 0, 8);
+            $p->close();
+            
+            return self::getRuolo($idRuolo);
+        
     }
 }
 ?>

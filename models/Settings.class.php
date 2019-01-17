@@ -10,7 +10,7 @@ class Settings extends Model{
 
     public function __construct(){
         $data = \Foundations\Settings::loadAll();
-        foreach($data as $i => $v)
+        foreach($data as $i => $v)  // i e' l'indice della riga, v e' il valore, che e' a sua volta un array, con v[k] e v[v]
             $this->settings[$v["k"]] = $v["v"];
     }
 

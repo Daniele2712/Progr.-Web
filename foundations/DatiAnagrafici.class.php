@@ -9,8 +9,19 @@ if(!defined("EXEC")){
 class DatiAnagrafici extends Foundation{
     protected static $table = "dati_anagrafici";
 
-    public static function insert(Model $object): int{
-
+    public static function insert(Model $dati_anagrafici): int{
+            $DB = \Singleton::DB();
+            $sql = "INSERTO INTO ".self::$table." VALUES(NULL, ?, ?,?,?)";
+            $p = $DB->prepare($sql);
+            $nome=$dati_anagrafici->getNome();
+            $cognome=$dati_anagrafici->getCognome();
+            $telefono=$dati_anagrafici->getTelefono();
+            $nasita=$dati_anagrafici->getDataNascita()->format('Y-m-d H:i:s');
+            $p->bind_param("ssss", $nome, $cognome, $telefono, $nasita );
+            if(!$p->execute())
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+            $p->close();
+            $idUltimoOrdine=$DB->lastId();
     }
 
     public static function update(Model $object){

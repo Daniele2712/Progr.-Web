@@ -1,3 +1,11 @@
+$(document).ready(function(){
+    $("#payButton").click(function(){
+        location.href="/checkout/displaycheckout";
+    });
+});
+
+
+
 function popupToggle(number){
 $("#moreabout"+number).toggle('slow');
 }

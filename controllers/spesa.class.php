@@ -36,6 +36,34 @@ class spesa implements Controller{
         $v->fillFilters($filters);
         $v->render();
     }
+    public static function ordini(Request $req){
+       $valuta=\Models\Money::EUR();
+       $session=\Singleton::Session();
+       $v = new \Views\Ordini();
+       
+       
+       if($session->isLogged())
+       {
+        $valuta = $session->getUser()->getIdValuta();   //magari puo servire per displayare gli item con la valuta, da implementare in seguito
+        $userId=$session->getUser()->getId(); 
+        $v->utenteRegistrato();
+        $arrayOrdini= \Foundations\Ordine::findByUserId($userId);
+        $ordiniSemplici=array();    //un array che contiene oggetti TIPO ordini, solo che al posto degli indirizzi, datiana, pagamento, contiene solo il loro id
+                
+        foreach($arrayOrdini as $ordine){
+        $ordineJson=\Foundations\Ordine::orderDetailsToJson($ordine->getId());
+        $ordiniSemplici[]= json_decode($ordineJson);    
+        }
+        $v->fillOrdini($ordiniSemplici);
+       }
+   
+       else{
+           $v->utenteNonRegistrato();
+           $v->fillOrdini('');    //penso che devo cmq inizializzare la variabile, anche se non la uso altrimenti smarty si lamente
+       }       //vedi cosa fare se l-utente non e registrato   forse e bene generare un numero random x ogni ordine creato. e usarlo come parametro nel url
+       
+       $v->render(); 
+    }
 
     /**
      * aggiunge un item al carello in base all' id del prodotto selezionato e la sua quantità
@@ -82,7 +110,6 @@ class spesa implements Controller{
 
     public static function guestpayment(Request $req){
         $session = \Singleton::Session();
-
         if($session->isLogged())
             die("errore");
         $id = $req->getInt("id", NULL);

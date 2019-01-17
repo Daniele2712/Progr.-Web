@@ -33,15 +33,16 @@
     display:none;
     position:relative;
     width:200px;
-    top:60px;
+    top:130px;
     right:0px;
+    z-index: 1;
 }
 
 #profile #dropdownMenu ul{
     display:grid;
     grid-template-columns:1fr ;
-    z-intex:1;
-    background-color: rgba(211,211,211);
+    z-index:1;
+    background-color: rgb(211,211,211);
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
 

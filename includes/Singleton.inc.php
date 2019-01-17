@@ -10,7 +10,7 @@ class Singleton{
     private static $session_handler = null;
     private static $settings_handler = null;
 
-    public static function DB(){
+    public static function DB() : \Foundations\Database{
         if(!self::$DB_handler)
             self::$DB_handler = new Foundations\Database();
         return self::$DB_handler;
@@ -29,9 +29,9 @@ class Singleton{
         return self::$smarty_handler;
     }
 
-    public static function Session(){
+    public static function Session() : \Foundations\Session {
         if(!self::$session_handler)
-            self::$session_handler = new Foundations\Session();
+            self::$session_handler = new \Foundations\Session();
         return self::$session_handler;
     }
 

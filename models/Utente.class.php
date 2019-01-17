@@ -6,15 +6,15 @@ if(!defined("EXEC")){
 }
 
 abstract class Utente extends Model{
-    private $idUtente;
+    //private $idUtente;    non penso seva idUtente in quanto c-e gia l'attributo id del modello, e useremo quello
     private $email;
     private $username;
     private $datiAnagrafici;
     private $valuta;
 
-    public function __construct(int $idUtente, DatiAnagrafici $datiAnagrafici, string $email="", string $username="", int $valuta = NULL){
+    public function __construct(int $id, DatiAnagrafici $datiAnagrafici, string $email="", string $username="", int $valuta = NULL){
         $this->datiAnagrafici = clone $datiAnagrafici;
-        $this->idUtente = $idUtente;
+        $this->id = $id;
         $this->email = $email;
         $this->username = $username;
         if($valuta === NULL)
@@ -29,9 +29,10 @@ abstract class Utente extends Model{
         return $this->username;
     }
 
-    public function getId(): int{
-        return $this->idUtente;
+    public function getDatiAnagrafici() : \Models\DatiAnagrafici{
+        return $this->datiAnagrafici;
     }
+
 
     public function getValuta(): Money{
         return clone $this->valuta;

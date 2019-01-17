@@ -122,6 +122,10 @@
                     <span id="prezzo_totale">{$valuta_for_carrello} {$total_for_carrello}</span>
                 </div>
             </div>
+
+            <div id="pay">
+                <button id="payButton">Pay Now</button>
+            </div>
         </div>
     </div>
 </div>
