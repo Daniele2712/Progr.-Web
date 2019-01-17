@@ -12,6 +12,7 @@ class SpesaSenzaLogin extends HTMLView{
         $this->content = "spesa/spesa";
         $this->addCSS("spesa/css/spesa.css");
         $this->addJS("spesa/js/spesa.js");
+        $this->setCSRF(\Singleton::Session()->getCSRF());
     }
 
     public function fillCategories($categories){

@@ -76,8 +76,7 @@ class UtenteRegistrato extends Utente{
      * @param     int       $id    id dell'indirizzo
      */
     private function useAddress(int $id){
-        $addr = $this->findUserAddress($id);
-        \Singleton::Session()->setUserAddress($addr->getId());
+        \Singleton::Session()->setUserAddress($this->findUserAddress($id));
     }
 
     /**
@@ -85,7 +84,7 @@ class UtenteRegistrato extends Utente{
      * come indirizzo da usare per l'ordine
      */
     private function useDefaultAddress(){
-        \Singleton::Session()->setUserAddress($this->getIndirizzoPreferito()->getId());
+        \Singleton::Session()->setUserAddress($this->getIndirizzoPreferito());
     }
 
     /**

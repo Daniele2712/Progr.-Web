@@ -10,16 +10,18 @@ abstract class Utente extends Model{
     private $email;
     private $username;
     private $datiAnagrafici;
-    private $idValuta;
+    private $valuta;
 
-    public function __construct(int $idUtente, DatiAnagrafici $datiAnagrafici, string $email="", string $username="", int $idValuta = NULL){
+    public function __construct(int $idUtente, DatiAnagrafici $datiAnagrafici, string $email="", string $username="", int $valuta = NULL){
         $this->datiAnagrafici = clone $datiAnagrafici;
         $this->idUtente = $idUtente;
         $this->email = $email;
         $this->username = $username;
-        if($idValuta === NULL)
-            $idValuta = Money::EUR();
-        $this->idValuta = $idValuta;
+        if($valuta === NULL)
+            $valuta = Money::EUR();
+        else
+            $valuta = new Money(0, $valuta);
+        $this->valuta = $valuta;
     }
 
 
@@ -31,7 +33,7 @@ abstract class Utente extends Model{
         return $this->idUtente;
     }
 
-    public function getIdValuta(): int{
-        return $this->idValuta;
+    public function getValuta(): Money{
+        return clone $this->valuta;
     }
 }

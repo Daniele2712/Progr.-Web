@@ -271,7 +271,7 @@ max-width: 300px;
     white-space:nowrap;
 }
 
-.prezzo_totale{
+#prezzo_totale{
     float:right;
     margin:4px;
     white-space:nowrap;

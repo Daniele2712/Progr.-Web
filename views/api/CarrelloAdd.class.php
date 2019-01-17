@@ -9,16 +9,19 @@ if(!defined("EXEC")){
 /**
  * View che mostra un elenco di comuni
  */
-class Carrello extends JSONView{
+class CarrelloAdd extends JSONView{
     public function setCart(\Models\Carrello $carrello, \Models\Money $valuta){
         foreach($carrello->getItems() as $item){
-            $this->data["items"][] = array(
-                "id"=>$item->getProdotto()->getId(),
+            $this->data["carrello"]["items"][] = array(
                 "nome"=>$item->getProdotto()->getNome(),
                 "quantita"=>$item->getQuantita(),
                 "prezzo"=>$item->getTotale()->getPrezzo($valuta));
         }
-        $this->data["valuta"] = $valuta->getValutaSymbol();
-        $this->data["totale"] = $carrello->getTotale()->getPrezzo();
+        $this->data["carrello"]["valuta"] = $valuta->getValutaSymbol();
+        $this->data["carrello"]["totale"] = $carrello->getTotale()->getPrezzo();
+    }
+
+    public function setCSRF(string $token){
+        $this->data["CSRF"] = $token;
     }
 }

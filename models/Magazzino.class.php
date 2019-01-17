@@ -35,6 +35,23 @@ class Magazzino extends Model{
         return $r;
     }
 
+    public function findItem(Prodotto $prod):Item{
+        foreach ($this->items as $item)
+            if($item->getProdotto()->getId() == $prod->getId())
+                return clone $item;
+        new \ModelException("Item not found", __CLASS__, array("id_prod"=>$prod->getId()),1);
+    }
+
+    public function sellItem(Prodotto $prod, int $qta){
+        foreach ($this->items as $item)
+            if($item->getProdotto()->getId() == $prod->getId()){
+                if($item->getQuantita() < $qta)
+                    new \ModelException("Stock underflow", __CLASS__, array("stock"=>$item->getQuantita(), "qta"=>$qta), 2);
+                $item->add(-$qta);
+            }
+        new \ModelException("Item not found", __CLASS__, array("id_prod"=>$prod->getId()),1);
+    }
+
     public function getAvailableItems(\Views\Request $req, &$filters):array{
         $idCategoria = $req->getInt(0);         //id Categoria
         $page = $req->getInt(1,1);              //numero pagina

@@ -86,11 +86,11 @@
                 <a class="item_more" onclick="popupToggle({$prodotto.id})">Dettagli <i class="fas fa-info-circle"></i></a>
                 <div class="add_to_cart">
                     <i class="far fa-2x fa-minus-square" onclick="subtractOne(this)"></i>
-                    <input type="input" size="1" id="quantityOfProduct{$prodotto.id}">
+                    <input type="input" size="1" class="qta">
                     <i class="far fa-2x fa-plus-square" onclick="addOne(this)"></i>
-                    <i class="fas fa-2x fa-cart-plus" onclick='addToCart(this)'></i>
+                    <i class="fas fa-2x fa-cart-plus" onclick='addToCart(this, {$prodotto.id})'></i>
                 </div>
-                <div class="moreabout" id="moreabout{$prodotto.id}">
+                <div class="moreabout">
 
                     <h2>Details</h2>
                     <a class="close" onclick="popupToggle({$prodotto.id})">&times;</a>
@@ -107,7 +107,20 @@
             <div id="basket-fa">
                 <i id="imgCarello" class="fas fa-4x fa-cart-plus"></i>
             </div>
-            <div class="cartList">
+            <div>
+                <div class="cartList">
+                    {foreach from=$prodotti_for_carello item="prodotto"}
+                        <div class="inListProduct" data-id="{$prodotto.id}">
+                            <div>{$prodotto.quantita}</div>
+                            <div class="nome">{$prodotto.nome}</div>
+                            <div class="prezzo">{$valuta_for_carrello} {$prodotto.totale}</div>
+                        </div>
+                    {/foreach}
+                </div>
+                <div id="cart_total">
+                    <span id="totale_nome"> TOTALE </span>
+                    <span id="prezzo_totale">{$valuta_for_carrello} {$total_for_carrello}</span>
+                </div>
             </div>
         </div>
     </div>

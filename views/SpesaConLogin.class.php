@@ -12,22 +12,23 @@ class SpesaConLogin extends HTMLView{
         $this->content = "spesa/spesa";
         $this->addCSS("spesa/css/spesa.css");
         $this->addJS("spesa/js/spesa.js");
-        
 
-        
+
+
         $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
         $this->addCSS("profile/css/profile.css");
         $this->addJS("profile/js/profile.js");
+        $this->setCSRF(\Singleton::Session()->getCSRF());
     }
-    
+
     public function fillCategories($categories){
          $this->smarty->assign('categorie_for_tpl' , $categories);
     }
-    
+
     public function fillFilters($filters){
          $this->smarty->assign('categorie_for_tpl' , $categories);
     }
-    
+
     public function fillItems($items){
          $this->smarty->assign('items_for_tpl' , $items);
     }
@@ -37,10 +38,10 @@ class SpesaConLogin extends HTMLView{
     public function totalBasket($totalPrice){
          $this->smarty->assign('total_for_carrello' , $totalPrice);
     }
-    
+
   /*  public function setUsername($name){
-        $this->smarty->assign('username', $name);  
+        $this->smarty->assign('username', $name);
     }
-   */ 
-    
+   */
+
 }
