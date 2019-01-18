@@ -4,7 +4,6 @@ define('ROOT', dirname(__FILE__));
 define('EXEC', true);
 require_once(ROOT.DS.'includes'.DS.'config.inc.php');
 require_once(ROOT.DS.'includes'.DS.'autoload.inc.php');
-
 Controllers\FrontController::route(new Views\Request());
 /*
 $prodottoA=\Foundations\Prodotto::find(1);
@@ -30,3 +29,4 @@ echo \Foundations\Ordine::orderToJson($ord);
 //$res=\Foundations\Ordine::itemsOfOrderJson(1);
 
 //var_dump(\Foundations\Ordine::codeExists(111));
+//var_dump(\Foundations\Indirizzo::getIndirizziByUserIdFull(1));

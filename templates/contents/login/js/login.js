@@ -46,6 +46,9 @@ function login(){
             }
         },
         error:function(req, text, error){
+            console.log(req);
+            console.log(text);
+            console.log(error);
             ajax_error(req, text, error);
         }
     });

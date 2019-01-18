@@ -31,7 +31,7 @@ class Session{
         if($password === '')
             throw new \InvalidArgumentException("password input was empty");
         $_SESSION["userId"] = Utente::login($username,$password);       //dice al /foundation/utente di eseguira la metodo login(), che restituisce l-id della persona loggata
-        return $_SESSION["userId"];
+         return $_SESSION["userId"];
     }
 
     /**
@@ -107,13 +107,18 @@ class Session{
         }
     }
 
+    
+
     public function getAddr():\Models\Indirizzo{
         if(array_key_exists("addressId",$_SESSION))
             return Indirizzo::find($_SESSION["addressId"]);
         throw new \Exception("Error Address not set", 1);
-
     }
-
+    
+    public function getAddressesFull(){ //full x indicare che e compreso anhce l-indirizzo preferito
+        
+    }
+    
     public function getOrder():\Models\Ordine{
         if(isset($_SESSION["orderId"]))
             return Ordine::find($_SESSION["orderId"]);

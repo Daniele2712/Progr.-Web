@@ -81,12 +81,10 @@ class Ordine extends Foundation{
         $strCons=$dataCons->format('Y-m-d H:i:s');
         $stato=$ordine->getStato();
         if($stato==null) $stato="Non ancora in preparazione?";
-        /*  RISOLVERE STA COSA CON LA DATA CHE NON PUO ESSERE TRASFORMATA IN STRINGA X ESSEEER MESSA NEL DB*/
-        
-        $sql = "INSERT INTO ordini VALUES(NULL,  ? , ? , ? , ? , ? , ? , ? , ? , ? ,?)";
+       
+        $sql = "INSERT INTO ordini VALUES(NULL,'Carta',  ? , ? , ? , ? , ? , ? , ? , ? , ? ,?);";
         $p = $DB->prepare($sql);
-        var_dump($dataCons);
-        $p->bind_param("iiidddiss", $idPag, $idInd, $idDati ,$sub ,$sped , $tot, $idVal, $strOrd , $strCons, $stato);
+        $p->bind_param("iiidddisss", $idPag, $idInd, $idDati ,$sub ,$sped , $tot, $idVal, $strOrd , $strCons, $stato);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();

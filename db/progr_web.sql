@@ -124,10 +124,10 @@ CREATE TABLE `dati_anagrafici` (
 --
 
 INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascita`) VALUES
-(1, 'Mario', 'Rossi', '33312345678', '1970-01-01'),
-(2, 'Luigi', 'Verdi', '33387654321', '1980-02-02'),
-(3, 'Andrei', 'Balaban', '11122245678', '1940-01-04'),
-(4, 'Alfredo', 'Alfonso', '33333345678', '1988-02-02'),
+(1, 'Luigi', 'Verdi', '33387654321', '1980-02-02'),
+(2, 'Andrei', 'Balaban', '11122245678', '1940-01-04'),
+(3, 'Alfredo', 'Alfonso', '33333345678', '1988-02-02'),
+(4, 'Mario', 'Rossi', '33312345678', '1970-01-01'),
 (5, 'Alessandro', 'Manzoni', '33212345678', '1990-01-03');
 
 -- --------------------------------------------------------
@@ -152,8 +152,9 @@ CREATE TABLE `dipendenti` (
 --
 
 INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_assunzione`, `ore_settimanali`, `prezzo`, `id_valuta`) VALUES
-(1, 3, 1, 1, '2018-08-08', 2, 2, 1),
-(2, 2, 3, 1, '2018-08-08', 1, 1, 1);
+(1, 1, 1, 1, '2018-08-08', 2, 2, 1),
+(2, 2, 3, 1, '2018-08-08', 1, 1, 1),
+(3, 3, 3, 1, '2018-08-08', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -284,9 +285,9 @@ CREATE TABLE `indirizzi` (
 --
 
 INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`, `latitudine`, `longitudine`) VALUES
-(1, 1, 'viale croce rossa', 2, '', 42.356806, 13.396409),
-(2, 1, 'viale aldo moro', 4, '', 42.360347, 13.397168),
-(3, 1, 'via Santo Agostino', 8, 'Non vogliamo mica andare al esame con nomi di vie compromettenti', 42.3506, 13.3995),
+(1, 1, 'viale croce rossa', 2, 'Primo magazzino', 42.356806, 13.396409),
+(2, 1, 'viale aldo moro', 4, 'Secondo magazzino', 42.360347, 13.397168),
+(3, 1, 'via Santo Agostino', 8, 'Terzo magazzino', 42.3506, 13.3995),
 (4, 1, 'xx settembre', 1, '', 42.3544927, 13.3896686);
 
 -- --------------------------------------------------------
@@ -384,7 +385,9 @@ CREATE TABLE `magazzini` (
 --
 
 INSERT INTO `magazzini` (`id`, `id_gestore`, `id_indirizzo`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(2, 2, 2),
+(3, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -652,9 +655,10 @@ CREATE TABLE `utenti` (
 --
 
 INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`, `idValutaDefault`) VALUES
-(1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af', 1),
-(2, 1, 'Dipendente', 'gestore@yahoo.com', 'gestore', 'AE8DD69BEF648B58C635D887844D6DEC', 1),
-(3, 1, 'Dipendente', 'amministratore@yahoo.com', 'amministratore', 'E792CD9665119B1244E8AFCF36FB5F48', 1);
+(1, 1, 'Dipendente', 'amministratore@yahoo.com', 'amministratore', 'e792cd9665119b1244e8afcf36fb5f48', 1),
+(2, 2, 'Dipendente', 'gestore@yahoo.com', 'gestore', 'ae8dd69bef648b58c635d887844d6dec', 1),
+(3, 3, 'Dipendente', 'gestore2@yahoo.com', 'gestore2', 'eb2609f4f9c7ea8abfd0289d245d3f7b', 1),
+(4, 4, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af', 1);
 
 -- --------------------------------------------------------
 

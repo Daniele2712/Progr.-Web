@@ -32,7 +32,7 @@ class Money extends Model{
             return round($this->prezzo * \Foundations\Valuta::exchangeRate(self::findValutaCode($this->idValuta), self::findValutaCode($idValuta)),2);
 	}
 
-	public function getValuta():int{
+	public function getValuta():int{                //nome improprio, si dovrebbe chiamare getIdValuta, ma ormai abbiamo scritto tanto codice con questa funzione, sa le vambiamo nome dovremmo cambiare il codice dapertutto
 		return $this->idValuta;
 	}
 
@@ -100,4 +100,10 @@ class Money extends Model{
         if(empty(self::$valute))
             self::$valute = \Foundations\Valuta::all();
     }
+    
+    public static function add(\Models\Money $a, \Models\Money $b, $idValuta){
+       $prezzo=$a->getPrezzo($idValuta)+$b->getPrezzo($idValuta);
+       return new \Models\Money($prezzo, $idValuta);
+    }
+    
 }
