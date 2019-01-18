@@ -110,8 +110,8 @@ class Session{
     
 
     public function getAddr():\Models\Indirizzo{
-        if(array_key_exists("addressId",$_SESSION))
-            return Indirizzo::find($_SESSION["addressId"]);
+        if(array_key_exists("address",$_SESSION))
+            return $_SESSION["address"];
         throw new \Exception("Error Address not set", 1);
     }
     
@@ -124,18 +124,24 @@ class Session{
             return Ordine::find($_SESSION["orderId"]);
     }
 
+    public function getUserValuta():\Models\Money{
+        if($this->isLogged())
+            return $this->getUser()->getValuta();
+        else
+            return \Models\Money::EUR();
+    }
+
     public function setGuestAddress(int $id_comune, string $via, string $civico, string $note){
-        $addr = new \Models\Indirizzo(0,\Foundations\Comune::find($id_comune), $via, $civico, $note);
-        $_SESSION["addressId"] = \Foundations\Indirizzo::save($addr);
+        $_SESSION["address"] = new \Models\Indirizzo(0,\Foundations\Comune::find($id_comune), $via, $civico, $note);
     }
 
-    public function setUserAddress(int $id){
-        $_SESSION["addressId"] = $id;
+    public function setUserAddress(\Models\Indirizzo $addr){
+        $_SESSION["address"] = clone $addr;
     }
 
-    public function setGuestCart(\Models\Carrello $addr){
+    public function setGuestCart(\Models\Carrello $c){
         $_SESSION["cartId"] = NULL;
-        $_SESSION["guestCart"] = clone $addr;
+        $_SESSION["guestCart"] = clone $c;
     }
 
     public function setUserCart(int $id){
@@ -145,7 +151,7 @@ class Session{
 
     public function setGuestPayment(\Models\Pagamento $payment){
         $_SESSION["paymentId"] = NULL;
-        $_SESSION["guestPayment"] = clone $payment;
+        $_SESSION["guestPayment"] = $payment;
     }
 
     public function setUserPayment(int $id){

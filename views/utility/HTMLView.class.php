@@ -113,7 +113,7 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
     }
 
     public function setCSRF(string $token){
-        setcookie("CSRF", $token, 0, "/", "", FALSE, TRUE);
+        setcookie("CSRF", $token, 0, "/", "", FALSE, FALSE);
     }
 
     /**

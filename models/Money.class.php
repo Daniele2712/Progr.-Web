@@ -25,11 +25,11 @@ class Money extends Model{
 		$this->idValuta = $val;
 	}
 
-	public function getPrezzo(int $idValuta = NULL):float{
-        if($idValuta === NULL || $this->idValuta === $idValuta)
+	public function getPrezzo(\Models\Money $valuta = NULL):float{
+        if($valuta === NULL || $this->idValuta === $valuta->idValuta)
 		    return $this->prezzo;
         else
-            return round($this->prezzo * \Foundations\Valuta::exchangeRate(self::findValutaCode($this->idValuta), self::findValutaCode($idValuta)),2);
+            return round($this->prezzo * \Foundations\Valuta::exchangeRate(self::findValutaCode($this->idValuta), $valuta->getValutaCode()), 2);
 	}
 
 	public function getValuta():int{                //nome improprio, si dovrebbe chiamare getIdValuta, ma ormai abbiamo scritto tanto codice con questa funzione, sa le vambiamo nome dovremmo cambiare il codice dapertutto
@@ -54,7 +54,7 @@ class Money extends Model{
         $valuta = self::findValuta($this->idValuta);
         if(empty($valuta))
             new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$this->idValuta),1);
-        return self::$valute[$this->idValuta][3];
+        return $valuta[3];
     }
 
     public static function findValuta(int $id):array{
@@ -81,16 +81,17 @@ class Money extends Model{
 
     public static function findValutaSymbol(int $id): string{
         $valuta = self::findValuta($id);
+            var_dump($valuta);
         if(empty($valuta))
             new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$id),1);
         return $valuta[3];
     }
 
-    public static function EUR():int{
+    public static function EUR(): Money{
         self::loadValute();
         foreach(self::$valute as $valuta){
             if($valuta[1]==="EUR")
-                return $valuta[0];
+                return new Money(0, $valuta[0]);
         }
         throw new \ModelException("Data Not Found", __CLASS__, array("valuta_name"=>"EUR"),1);
 

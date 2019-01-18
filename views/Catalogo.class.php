@@ -12,6 +12,7 @@ class Catalogo extends HTMLView{
         $this->content = "spesa/spesa";
         $this->addCSS("spesa/css/spesa.css");
         $this->addJS("spesa/js/spesa.js");
+        $this->setCSRF(\Singleton::Session()->getCSRF());
     }
 
     public function fillCategories($categories){
@@ -34,7 +35,7 @@ class Catalogo extends HTMLView{
         $this->smarty->assign('filtri_for_tpl' , $filtri);
     }
 
-    public function fillItems(array $arrayItems, int $idValuta){
+    public function fillItems(array $arrayItems, \Models\Money $valuta){
         $items = array();
         foreach($arrayItems as $item){
             $prodotto = $item->getProdotto();
@@ -42,8 +43,8 @@ class Catalogo extends HTMLView{
             $y['id'] = $prodotto->getId();
             $y['nome'] = $prodotto->getNome();
             $y['supply'] = $item->getQuantita();
-            $y['prezzo'] = number_format($prodotto->getPrezzo()->getPrezzo($idValuta),2);
-            $y['valuta'] = \Models\Money::findValutaSymbol($idValuta);
+            $y['prezzo'] = number_format($prodotto->getPrezzo()->getPrezzo($valuta),2);
+            $y['valuta'] = $valuta->getValutaSymbol();
             $y['info'] = $prodotto->getInfo();
             $y['descrizione'] = $prodotto->getDescrizione();
             $items[] = $y;
@@ -51,17 +52,18 @@ class Catalogo extends HTMLView{
         $this->smarty->assign('items_for_tpl' , $items);
     }
 
-    public function fillBasket(\Models\Carrello $carrello, int $idValuta){
+    public function fillBasket(\Models\Carrello $carrello, \Models\Money $valuta){
         $items = $carrello->getItems();
         $itemsBasket = array();
         foreach($items as $x){
+            $y['id'] = $x->getProdotto()->getId();
             $y['nome'] = $x->getProdotto()->getNome();
             $y['quantita'] = $x->getQuantita();
-            $y['valuta'] = \Models\Money::findValutaSymbol($idValuta);
-            $y['totale'] = number_format($x->getTotale()->getPrezzo($idValuta),2);// perche il primo get prezzo ti rida un MONEY
+            $y['totale'] = number_format($x->getTotale()->getPrezzo($valuta),2);// perche il primo get prezzo ti rida un MONEY
             $itemsBasket[] = $y;
         }
         $this->smarty->assign('prodotti_for_carello' , $itemsBasket);
-        $this->smarty->assign('total_for_carrello' , $carrello->getTotale()->getPrezzo($idValuta));
+        $this->smarty->assign('total_for_carrello' , $carrello->getTotale()->getPrezzo($valuta));
+        $this->smarty->assign('valuta_for_carrello' , $valuta->getValutaSymbol());
     }
 }

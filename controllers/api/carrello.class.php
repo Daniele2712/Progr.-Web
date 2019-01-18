@@ -12,7 +12,7 @@ class carrello implements Controller{
         $session = \Singleton::Session();
         if($session->isLogged() && is_a($session->getUser(),"\\Models\\UtenteRegistrato") || !$session->isLogged()){
             $v = new \Views\Api\Carrello(array("r"=>200));
-            $v->setCart($session->getCart(),$session->getUser());
+            $v->setCart($session->getCart(),$session->getUserValuta());
             $v->render();
         }else{                                                      //non autorizzato
             $v = new \Views\JSONView(array("r"=>403));
@@ -24,6 +24,8 @@ class carrello implements Controller{
         $p = $req->getParam(0);
         if($p === "address")
             return self::address($req);
+        elseif($p === "add")
+            return self::add($req);
         else
             Error::Error400($request);
 
@@ -31,6 +33,23 @@ class carrello implements Controller{
 
     public static function default(Request $req){
         self::get($req);
+    }
+
+    private static function add(Request $req){
+        $session = \Singleton::Session();
+        if(!$session->checkCSRF($req->getCSRF())){
+            $v = new \Views\JSONView(array("r"=>410, "CSRF"=>$session->getCSRF())); //Token non valido
+            return $v->render();
+        }else{
+            $id = $req->getParam(1);
+            $qta = $req->getParam(2);
+            $cart = $session->getCart();
+            $cart->addProdottoById($id, $qta);
+            $v = new \Views\Api\CarrelloAdd(array("r"=>200));                       //Token valido
+            $v->setCSRF($session->getCSRF());
+            $v->setCart($cart, $session->getUserValuta());
+            return $v->render();
+        }
     }
 
     private static function address(Request $req){

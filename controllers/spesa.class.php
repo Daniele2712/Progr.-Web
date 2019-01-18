@@ -20,10 +20,8 @@ class spesa implements Controller{
      */
     public static function catalogo(Request $req){
         $session = \Singleton::Session();
+        $valuta = $session->getUserValuta();
         $v = new \Views\Catalogo();
-        $valuta = \Models\Money::EUR();
-        if($session->isLogged())
-            $valuta = $session->getUser()->getIdValuta();
         $v->fillBasket($session->getCart(), $valuta);
         try{
             $items = \Foundations\Magazzino::findClosestTo($session->getAddr())->getAvailableItems($req, $filters);

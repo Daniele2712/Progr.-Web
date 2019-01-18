@@ -40,7 +40,7 @@ class Filtro extends Model{
     public function filtra($valore): bool{
         switch($this->tipo){
             case "range":
-                return ($valore >= $this->valore[0] && $valore <= $this->valore[1]);
+                return ($valore >= $this->valore[0] && $valore <= $this->valore[1] || ($this->valore[0] == 0 && $this->valore[1] == 0));
             case "value":
             case "radio":
             case "checkbox":

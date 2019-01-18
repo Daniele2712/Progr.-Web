@@ -16,7 +16,17 @@ class Carrello extends Model{
 	}
 
 	//Metodi
+	public function addProdottoById(int $id, int $q){
+        $prodotto = \Foundations\Prodotto::find($id);
+        $this->addProdotto($prodotto, $q);
+    }
+
 	public function addProdotto(Prodotto $pro, int $q){
+        if($q<0)
+            new \ModelException("negative qta", __CLASS__, array("qta"=>$q),1);
+        $max =  \Foundations\Magazzino::findClosestTo(\Singleton::Session()->getAddr())->findItem($pro)->getQuantita();
+        if($q > $max)
+            $q = $max;
         $f = FALSE;
         $id = $pro->getId();
         foreach($this->prodotti as $k=>$item)
