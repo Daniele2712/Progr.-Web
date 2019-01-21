@@ -35,11 +35,16 @@ function login(){
         dataType:"json",
         data:$("#login #loginbox input").serialize(),
         success:function(data){
+            console.log(data);
             console.log("success");
             if(data.r===200){   //sembra che non uso le variabile ritornate dalla post tmp[r] e tmp[type]
                 $("#login #message").html("<p class='message_ok'>Reloading</p>").show();
-                location.reload();      //la differenza sara' che ora ci sara una sessione con un utente loggato
-            }else{
+                if(data.type==='Cliente') location.reload();    //la differenza sara' che ora ci sara una sessione con un utente loggato
+                else if(data.type==='Amministratore') window.location.replace("/shop/amministratore");
+                else if(data.type === 'Gestore') window.location.replace("/shop/gestore");
+                else $("#login #message").html("<p class='message_error'>Tipo di utente non trovato</p>").show();
+                }
+            else{
                 $("#login #message").html("<p class='message_error'>Wrong Username or Password</p>").show();
                 $("#login #loginbox #loginPassword").val("");
                 $("#login #loginbox #loginUsername").select();

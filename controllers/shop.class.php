@@ -91,6 +91,18 @@ class shop{
             }
             else header('Location: '."http://".$req->getServerName());
     }
+    
+    public static function amministratore(Request $req){
+
+         $session = \Singleton::Session();
+            if($session->isLogged())            //nel caso l-utente abbia digitato direttamente l-indirizzo senza essersi loggato, lo mando alla home
+            {
+                $v = new \Views\Amministratore();
+                $v->setUser();
+                $v->render();
+            }
+            else header('Location: '."http://".$req->getServerName());
+    }
 
 
 

@@ -146,6 +146,11 @@ class ApiController{
         if(sizeof($params)==0 or $params[0]=='' )     self::showCategorie();
          else self::setError("no_parameters_after_categorie");
          break;
+        
+    case 'ruoli':
+        if(sizeof($params)==0 or $params[0]=='' )     self::showRuoli();
+         else self::setError("no_parameters_after_categorie");
+         break;
 
 
 
@@ -629,11 +634,19 @@ class ApiController{
             }
 
     private static function showCategorie(){
-        $categorie=\Singleton::DB()->query("SELECT categorie.id, categorie.nome as nome_categoria, categorie.padre as id_padre FROM categorie;");
+        $categorie=\Singleton::DB()->query("SELECT categorie.id as id_categoria, categorie.nome as nome_categoria, categorie.padre as id_padre FROM categorie;");
         while($r = mysqli_fetch_assoc($categorie)) {$rows[] = $r; }
         if(isset($rows)) echo json_encode($rows);
         else self::setSuccess("empty");
     }
+    
+    private static function showRuoli(){
+        $categorie=\Singleton::DB()->query("SELECT dipendenti_ruoli.id as id_ruolo, dipendenti_ruoli.ruolo as nome_ruolo FROM dipendenti_ruoli;");
+        while($r = mysqli_fetch_assoc($categorie)) {$rows[] = $r; }
+        if(isset($rows)) echo json_encode($rows);
+        else self::setSuccess("empty");
+    }
+    
 /*          END static functionS FOR GET       */
 
     private static function utenteLoggato(){

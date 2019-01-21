@@ -10,81 +10,115 @@
     
     <div id="sezioni">
         <div id="sezioniStatistiche">
+            <div class="sezione" id="sezioneStatisticheMini">Statistiche</div>
             <div class="sezione" id="sezioneOrdini">Ordini</div>
-            {if $logged != 'Amministratore'}
             <div class="sezione" id="sezioniProdottiRicevuti">Prodotti ricevuti</div>
             <div class="sezione" id="sezioneProdottiVenduti">Prodotti venduti</div>
-            {/if}
+            
         </div>
             
         <div id="sezioniAmministrazione">
-           
-                <div class="sezione active" id="sezioneProdotti">Prodotti</div>
-            {if $logged != 'Amministratore'}  
-                <div class="sezione active" id="sezioneMagazzini">Magazzini</div>
-            {else}
-                 
-                 <div class="sezione active" id="sezioneMagazzini">Magazzino</div>
-            {/if}
+            <div class="sezione active" id="sezioneMagazzini">Magazzino</div>
+            <div class="sezione active" id="sezioneProdotti">Prodotti</div>
             <div class="sezione" id="sezioneDipendenti">Dipendenti</div>
-            {if $logged != 'Amministratore'}
-            <div class="sezione" id="sezioneAggiungiCategorie">Aggiungi Categoie</div>
-            <div class="sezione" id="sezioneFiltri">Friltri</div>
-            <div class="sezione" id="sezioneOfferte">Offerte</div>
-            {/if}
         </div>
         
         <div id="sezioniImpostazioni">
-            <div class="sezione" id="">Password</div>
-            <div class="sezione" id="">Impostazione Sito</div>
-            <div class="sezione" id="">Informazioni</div>
+            <div class="sezione" id="sezioneIInformazioni">Informazioni</div>
         </div>
     </div>
     
-    <div id="content">
+    <div id="sectionContent">
     
-    <div class="sezioneProdottiDiv divGestionale">
-        <div id="ProdottiUpper">
-        <div id="scrittaProdotti">
-            <span><b>Prodotti</b></span>
-            {if $logged != 'Amministratore'}
-                <button type='button' onclick="aggiungiProdoto()">Aggiungi Prodotto</button>
-            {/if}    
+    <div id="sezioneMagazziniDiv" class="divGestionale notUpdated">
+        <div class="upper">
+            <div class="scritta">
+                <span><b>Magazzini</b></span>
+            </div>
+            <div class="aggiungi">
+                <span><button type="button" id="addProduct"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Un bel niente&nbsp;<i class="fas fa-plus"></i></button></span> 
+            </div>
+            <div class="scrittaMagazzino">
+                <b>Magazzino:</b>
+            </div>
+            <div class="nomeMagazzino">
+                <span>Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
+            </div> 
         </div>
-            {if $logged eq 'Gestore'}
-                <span id="scrittaLocazione"><b>Magazzino</b>: Via Giuseppe Verdi 22, Milano {*{$indirizzoMagazzino}*}</span>
-            {elseif $logged != 'Amministratore'}
-                <div id="ProdottiFiltroMagazzino">
-                   Magazzino: <select class='listaNomiMagazzini'><option>Tutti</option></select>
+            
+        <div id="MagazziniLower">
+            <div id='tableMagazzini' class="table">
+                <div id='ColonneMagazzino' class='magazzino'>
+                    <div id='idMagazzino'><b>ID</b></div>
+                    <div id='cittaMagazzino'><b>Citta'</b></div>
+                    <div id='CAPMagazzino'><b>CAP</b></div>
+                    <div id='viaMagazzino'><b>Via</b></div>
+                    <div id='numeroMagazzino'><b>Numero</b></div>
+                    <div id='modificaMagazzino'><b>Modifica</b></div>
+                </div>
+                
+                <div class='lineaDiSeparazione'></div>
+                
+                <div id='ElencoMagazzini'>
+                    <div class='magazzino'>
+                        <div>2</div>
+                        <div>Roma</div>
+                        <div>66100</div>
+                        <div>Via XX Settembre</div>
+                        <div>55</div>
+                        <div><a href='.....ID'>Cambia Indirizzo</a></div>
                     </div>
-            {else}<span id="scrittaLocazione">Come sei arrivato qui se non sei ne gestore ne amministratore?</span>
-            {/if}
-        
-        
-             
-        <div id="ProdottiFiltroPrezzo">
-                      <label>Price range</label>
-                      <input type="input" size="1" name="price-min" id="ProdottoPriceMin" placeholder='MIN'>&nbsp;--
-                      <input type="input" size="1" name="price-max" id="ProdottoPriceMax" placeholder='MAX'>
+                </div>
+            </div>
+
+        </div>
+    </div>
+            
+            
+            
+    <div id="sezioneProdottiDiv" class="divGestionale notUpdated">
+        <div class="upper">
+            <div class="scritta">
+                <span><b>Prodotti</b></span>
+            </div>
+            <div class="aggiungi">
+                <button type="button" id="addProduct"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Prodotto&nbsp;<i class="fas fa-plus"></i></button> 
+            </div>
+            <div class="scrittaMagazzino">
+                <b>Magazzino:</b>
+            </div>
+            <div class="nomeMagazzino">
+                <span>Roma, 66100, Via col vento 24</span>
+            </div> 
         </div>
         
-        <div id="ProdottiFiltroCategoria">
-            Categoria: <select class='ListaCategorie'><option>Tutte</option></select>   
+        <div id="prodottiFiltro">     
+            <div id="ProdottiFiltroPrezzo">
+                         Price:
+                          <input type="input" size="1" name="price-min" id="ProdottoPriceMin" placeholder='MIN'>&nbsp;-
+                          <input type="input" size="1" name="price-max" id="ProdottoPriceMax" placeholder='MAX'>
+            </div>
+
+            <div id="ProdottiFiltroCategoria">
+                Categoria:  <select id='listaCategorieLook'>
+                                <option>Tutte</option>
+                            </select>   
+            </div>
+
+
+
+            <div id="ProdottiFiltroNome">
+                Nome:&nbsp;<input id="inputProdottiFiltroNome" type="text">
+            </div>
+            <div id="ProdottiSearch">
+                 <button type="button" id="ProdottiSearchButton">FILTER&nbsp;<i class="fas fa-search"></i></button> 
+            </div>
         </div>
-             
-         
-              
-        <div id="ProdottiNomeFiltro">
-            Nome:&nbsp;<input id="inputProdottiNomeFilter" type="text">
-        </div>
-        <div id="ProdottiSearch">
-             <button type="button" id="ProdottiSearchButton">FILTER&nbsp;<i class="fas fa-search"></i></button> 
-        </div>
-        </div>
+        
         
         
         <div id="ProdottiLower">
-            <div id='tableProdotti'>
+            <div id='tableProdotti' class="table">
                 <div id='ColonneProdotti' class='prodotto'>
                     <div id='idProdotto'><b>ID</b></div>
                     <div id='nomeProdotto'><b>Nome</b></div>
@@ -99,7 +133,7 @@
                     <div id='cancellaProdotto'><i class="fas fa-trash-alt"></i></div>
                     
                 </div>
-                <div id='lineaDiSeparazione'></div>
+                <div class='lineaDiSeparazione'></div>
                 <div id='ElencoProdotti'>
                     
                     <div class='prodotto'>
@@ -120,16 +154,10 @@
             </div>
 
         </div>
-        
-     </div>        
-             
-             
-             
-             
-             
-        
-    <div class="sezioneAggiungiProdottiDiv divGestionale">
-      <h1>Inserisci nuovo prodotto</h1>
+            
+            
+      <div class="addProductDiv divGestionale">
+        <h1>Inserisci nuovo prodotto</h1>
 
       <form id="inserisciProdotto" method="POST" action="/upload/uploadProduct" enctype="multipart/form-data">
 
@@ -139,19 +167,18 @@
             <div><label>Info :</label><textarea cols="40" rows="4" name="info" placeholder="Info about the product"></textarea></div>
             <div>
                 <label>Categoria :</label>
-                <select class='ListaCategorie' name="categoria">
+                <select id='listaCategorieInsert' name="categoria">
                 </select>
             </div>
             <div><label>Price :</label><input type="text" name="prezzo"></div>
             <div><label>Valuta :</label><input type="text" name="valuta"></div>
             <div><label>Quantita :</label><input type="text" name="quantita"></div>
-            {if $logged != 'Amministratore'}{*      !! DEVO CAMBIARE IL != in ==  , != e solo provvisorio per programmare delle cose    *}      
+                {* DEVO FARE IN MODO CHE I GESTORI POSSONO SCEGLIERE SOLO TRA I PROPRI MAGAZZINI  *}      
             <div>
                 <label>Magazzino :</label>
                 <select class='listaNomiMagazzini'>
                 </select>
             </div>
-            {/if}
             <button type="submit">INSERT</button>
       </form>      
     </div>
@@ -164,22 +191,112 @@
             <button type="submit">INSERT</button>
       </form>
     </div>
-    
+        
+     </div>        
+             
+             
+             
+             
+             
+        
     
         
-    <div class="updateOfferte divGestionale">
-          <h1>UPDATEEEE OFEERTA </h1>
-    </div>
-        
     
         
-    <div class="sezioneDipendentiDiv divGestionale">
-    <h1>Dipendnteni </h1>
+    <div id="sezioneDipendentiDiv" class="divGestionale notUpdated">
+        <div class="upper">
+            <div class="scritta">
+                <span><b>Dipendenti</b></span>
+            </div>
+            <div class="aggiungi">
+                <button type="button" id="addEmplayee"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Dipendente&nbsp;<i class="fas fa-plus"></i></button> 
+            </div>
+            <div class="scrittaMagazzino">
+                <b>Magazzino:</b>
+            </div>
+            <div class="nomeMagazzino">
+                <span>Roma, 66100, Via col vento 24</span>
+            </div> 
+        </div>
+            
+        
+        
+        <div id="dipendentiFiltro">     
+            <div id="ProdottiFiltroNome">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nome:&nbsp;<input id="inputDipendentiFiltroNome" type="text">
+            </div>
+            
+            <div id="DipendentiFiltroRuolo">
+                Ruolo:  <select id='listaRuoliLook'>
+                                <option>Tutti</option>
+                        </select>   
+            </div>
+
+            <div id="ProdottiFiltroCognome">
+                Cognome:&nbsp;<input id="inputDipendentiFiltroCognome" type="text">
+            </div>
+            
+            <div id="DipendentiSearch">
+                 <button type="button" id="DipendentiSearchButton">FILTER&nbsp;<i class="fas fa-search"></i></button> 
+            </div>
+        </div>
+
+            <div id="DipendentiLower">
+            <div id='tableDipendetni' class="table">
+                <div id='ColonneDipendenti' class='dipendente'>
+                    <div id='idDipendente'><b>ID</b></div>
+                    <div id='nomeDipendente'><b>Nome</b></div>
+                    <div id='cognomeDipendente'><b>Cognome</b></div>
+                    <div id='ruoloDipendente'><b>Ruolo</b></div>
+                    <div id='stipendioOrarioDipendente'><b>€/ora</b></div>
+                    <div id='turniDipendente'><b>Turni</b></div>
+                    <div id='modificaProdotto'><i class="far fa-edit"></i></div>
+                    <div id='cancellaProdotto'><i class="fas fa-trash-alt"></i></div>
+                    
+                </div>
+                
+                <div class='lineaDiSeparazione'></div>
+                
+                <div id='ElencoDipendenti'>
+                    <div class='dipendente'>
+                        <div>32</div>
+                        <div>Marco</div>
+                        <div>Aurelio</div>
+                        <div>Cassiere</div>
+                        <div>5</div>
+                        <div><i class="far fa-image"></i></div>
+                        <div><i class="far fa-edit"></i></div>
+                        <div><i class="fas fa-trash-alt"></i></div>
+                    </div>
+                       
+                </div>
+            </div>
+            </div>
+
+
+        <div class="addEmployeeDiv divGestionale">
+            <form id="inserisciDipendente" method="POST" action="/upload/uploadDipendente" enctype="multipart/form-data">
+
+                <div><label>Nome :</label><input type="text" name="nome" id="nomeDipendente"></div>
+                <div><label>Cognome :</label><textarea cols="40" rows="4" name="cognome" placeholder="Cognome" id="cognomeDipendente"></textarea></div>
+                <div><label>Ruolo :</label><textarea cols="40" rows="4" name="info" placeholder="ruolo del dipendente"></textarea></div>
+                <div>
+                    <label>Contratto :</label>
+                    <select id='asd' name="contratto">
+                    </select>
+                </div>
+                <div><label>Stipendio :</label><input type="text" name="stipendioOrario"></div>  
+                <div>
+                    <label>Magazzino :</label>
+                    <select class='listaNomiMagazzini'>
+                    </select>
+                </div>
+                <button type="submit">INSERT</button>
+            </form>
+        </div>
     </div>
     
-    <div class="sezioneAggiungiDipendentiDiv divGestionale">
-    <h1>aggiungi dipendenti </h1>
-    </div>
+    
      
      
     </div>

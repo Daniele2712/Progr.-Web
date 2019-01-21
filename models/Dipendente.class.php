@@ -32,6 +32,13 @@ class Dipendente extends Utente{
 
     //TODO: completare la classe
 
+    public function getRuolo(){
+        return $this->ruolo;
+    }
+    
+    public function setRuolo($ruolo){
+        $this->ruolo=$ruolo;
+    }
     public function removeFromMagazzino(){}
 
     public function removeTurni(){}

@@ -33,10 +33,8 @@ class User implements Controller{
             $idUser=$session->login($username,$pw);
             $tmp["r"] = 200;
             $user = \Singleton::Session()->getUser();
-            if(is_subclass_of($user,"\\Models\\Dipendente"))
-                $tmp["type"] = "dipendente";
-            else
-                $tmp["type"] = "cliente";   //forse si potrebbe aggiungere il caso in cui sia sottoclasse di utente registrato, e poi -lelse, dove e' utente/cliente
+            if(is_a($user,"\\Models\\Dipendente")) $tmp["type"]= $user->getRuolo();
+            else  $tmp["type"] = "Cliente";   //forse si potrebbe aggiungere il caso in cui sia sottoclasse di utente registrato, e poi -lelse, dove e' utente/cliente
             (new \Views\JSONView($tmp))->render();
         }catch(\ModelException $e){             //utente non trovato
             (new \Views\JSONView($tmp))->render();
@@ -47,7 +45,8 @@ class User implements Controller{
         \Singleton::Session()->logout();
     }
 
-    private function isGestore($id){
+    /*  da cancellare xke il controllore non deve fare le chiamate al DB
+     * private function isGestore($id){
         $DB= \Singleton::DB();
         $querry= $DB->prepare("SELECT count(*) FROM utenti WHERE tipo_utente='Gestore' AND id=$id;");
         if(!$querry->execute())
@@ -56,7 +55,7 @@ class User implements Controller{
         $querry->fetch();
         if($num==0) return false;
         else return true;
-    }
+    }*/
 
     public static function default(Request $req){
         return self::login($req);

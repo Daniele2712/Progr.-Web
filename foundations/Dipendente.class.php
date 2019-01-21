@@ -25,7 +25,7 @@ class Dipendente extends Utente{
         $p->bind_param("i",$id_utente);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
-        $p->bind_result($id_utente, $id_dipendente, $idRuolo, $tipoContratto, $dataAssunzione, $oreSettimanali, $prezzo, $valuta);
+        $p->bind_result($id_utente, $id_dipendente, $idRuolo, $tipoContratto, $dataAssunzione, $oreSettimanali, $prezzo, $valuta,$id_magazzino);
         $r = $p->fetch();
         if($r === FALSE)
             throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);

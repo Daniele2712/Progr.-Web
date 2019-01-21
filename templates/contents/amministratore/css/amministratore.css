@@ -6,7 +6,7 @@
     grid-template-rows:150px auto;
     grid-template-areas:
         "macrosezioni macrosezioni macrosezioni"
-        "sezioni sectionContent sectionContent";
+        "sezioni content content";
   
 }
 
@@ -127,101 +127,77 @@
 
 /*      END OF  SEZIONI      */
 
-/*      UPPER       */
 
-.upper { 
-    display:grid;
-    width:100%;
-    height:150px;
-    justify-items:center;
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:1fr 1fr;
-    grid-template-areas:
-        "scritta scrittaMagazzino"
-        "aggiungi nomeMagazzino";
-}
-
-.scritta{
-    font-size:2em;
-    grid-area:scritta;
-    display:grid;
-    justify-items:center;
-    align-items:center;
-}
-
-.aggiungi{
-    grid-area:aggiungi;
-    display:grid;
-    justify-items:center;
-    align-items:center;
-}
-
-.scrittaMagazzino{
-    font-size:1.5em;
-    grid-area:scrittaMagazzino;
-    display:grid;
-    justify-items:center;
-    align-items:center;
-}
-
-.nomeMagazzino{
-    grid-area:nomeMagazzino;
-    display:grid;
-    justify-items:center;
-    align-items:center;
-    
-}
-
-
-/*      END OF UPPER*/
 
 /*      CONTENUTO      */
-#sectionContent{
-    grid-area:sectionContent;
+#content{
+    grid-area:content;
     width:100%;
     height:100%;
 }
-
-
-.sezioneMagazziniDiv{
-    display:block;
-}
-
-
-
 
 
 .sezioneProdottiDiv{
     display:grid;
 }
 
-/*      FILTRI PRODOTTI     */
+/*  PRODOTTI UPPER  */
 
-#prodottiFiltro{
-    border-top:2px grey solid;
-    margin-bottom:10px;
+#ProdottiUpper{
+    border:3px lightgrey solid;
+    width:auto;
+    margin:5px;
+    padding:15px;
+    margin-top:0;
+    border-radius: 15px;
+   
     display:grid;
-    grid-template-rows:1fr 1fr;
-    grid-template-columns:1fr 1fr;
-    height:100px;
-    justify-items: center;
-    align-items: center;
+    justify-items:center;
+    align-items:center;
+    grid-template-columns:1fr 1fr 1fr auto;
+    grid-template-rows:2fr 1fr;
+    grid-template-areas:
+        "titolo titolo magazzino magazzino"
+        "filtroPrezzo filtroCategoria filtroNome filtra";
+    grid-gap:15px;
 }
 
-#dipendentiFiltro{
-    border-top:2px grey solid;
-    margin-bottom:10px;
+#scrittaProdotti{
+    grid-area:titolo;
+    font-size:3em;
+    width:100%;
     display:grid;
-    grid-template-rows:1fr 1fr;
-    grid-template-columns:1fr 1fr;
-    height:100px;
-    justify-items: center;
-    align-items: center;
+    align-items:center;
+    grid-auto-flow:column;
+    justify-content: space-around;
+}
+#scrittaLocazione{
+    gird-area:magazzino;
+    font-size:1.5em;
+}
+#ProdottiFiltroPrezzo{
+    grid-area:filtroPrezzo;
+}
+#ProdottiFiltroCategoria{
+    grid-area:filtroCategoria;
+}
+#ProdottiNomeFiltro{
+    grid-area:filtroNome;
+}
+#ProdottiSearch{
+    grid-area:filtra;
+    font-size:1.5em;
+    padding:5px;
 }
 
 
-/*      TABLES      */
-.table{
+
+/*  END OF PRODOTTI UPPER  */
+
+
+/*  PRODOTTI LOWER  */
+
+#ProdottiLower{
     display:grid;
     border:3px lightgrey solid;
     width:auto;
@@ -229,61 +205,30 @@
     padding:15px;
     margin-top:0;
     border-radius: 15px;
+    
 }
-
-.table{
-    text-align: center;
-}
-
-
-.lineaDiSeparazione{
-    height:2px;
+#tableProdotti{
     width:100%;
-    background-image: radial-gradient( grey, lightgrey, white);
+    
 }
-
-
-#ColonneMagazzini{
-    font-size:1.2em;
-}
-.magazzino{
-    display:grid;
-    align-items:center;
-    grid-template-columns:1fr 2fr 1fr 3fr 1fr 2fr;
-    padding:5px;
-    height:60px;
-}
-
-
-
-
 #ColonneProdotti{
-    font-size:1.2em;
+    font-size:1.5em;
 }
+
+
+#lineaDiSeparazione{
+    height:3px;
+    width:100%;
+    background-color: lightgrey;
+}
+
 .prodotto{
     display:grid;
-    align-items:center;
     grid-template-columns:1fr repeat(4, 3fr) 1fr 3fr 1fr 1fr 1fr 1fr;
     padding:5px;
     height:60px;
+    
 }
-
-
-#ColonneDipendenti{
-    font-size:1.2em;
-}
-.dipendente{
-    display:grid;
-    align-items:center;
-    grid-template-columns:1fr repeat(3, 3fr) 2fr 1fr 1fr 1fr;
-    padding:5px;
-    height:60px;
-}
-
-/*      END OF TABLES   */
-
-/*  PRODOTTI LOWER  */
-
 
 .prodotto div{
     display:grid;
@@ -297,6 +242,11 @@
 }
 
 
+.prodotto div{
+    
+    border-left:1px lightgrey solid;
+    border-right:1px lightgrey solid;
+}
 
 #ElencoProdotti{
     max-height:1200px;
@@ -352,5 +302,5 @@
 }
 
 .divGestionale{
-    display:none;
+    display:none; 
 }

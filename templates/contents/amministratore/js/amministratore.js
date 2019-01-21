@@ -44,69 +44,15 @@ $("#impostazioni").click(function(){
     $(".sezione").click(function(){
         var nameOfSection = $(this).attr("id");
         $(".divGestionale").css('display', 'none');
-        $('#' + nameOfSection + 'Div').css('display', 'block');
+        console.log($(".divGestionele"));
+        $('.' + nameOfSection + 'Div').css('display', 'grid');
     
     $(".sezione").removeClass('active');
     $(this).addClass('active');
     });
     
-    
-     //  Funzioni che aggiunge le categorie solo se necessario
-    $("#sezioneProdotti").click(function(){
-    var nameOfSection = $(this).attr("id");
-        if($('#' + nameOfSection + 'Div').hasClass('notUpdated'))
-        {
-            $.ajax({
-                url:"http://webb/api/ApiController/categorie",
-                method:"GET",
-                dataType:"json",
-                success:function(categorie){
-                    jQuery.each( categorie, function( i, categoria ) {
-                    if(categoria['id_padre']!=null) var padre='&nbsp;&nbsp;&nbsp;[ID Padre: '+categoria['id_padre']+']';
-                    else var padre='';
-                    var cat='<option value='+categoria['id_categoria']+'>ID '+categoria['id_categoria']+' : '+categoria['nome_categoria']+padre+'</option>';
-                    $( "#listaCategorieLook" ).append(cat);
-                  });
-                      $('#' + nameOfSection + 'Div').removeClass('notUpdated');
-
-                },
-                error:function(req, text, error){
-                    ajax_error(req, text, error);
-                }
-            })
-        }
-    
-    
-    });
-    
-    //  Funzioni che aggiunge i ruoli solo se necessario
-    $("#sezioneDipendenti").click(function(){
-        var nameOfSection = $(this).attr("id");
-        if($('#' + nameOfSection + 'Div').hasClass('notUpdated'))
-        {
-            $.ajax({
-                url:"http://webb/api/ApiController/ruoli",
-                method:"GET",
-                dataType:"json",
-                success:function(arrayDiRisposta){
-                    jQuery.each(arrayDiRisposta, function( i, elementoRisposta ) {
-                        
-                        var ruolo= '<option value='+elementoRisposta['id_ruolo']+'>ID '+elementoRisposta['id_ruolo']+' :   '+elementoRisposta['nome_ruolo']+'</option>';
-                        $( "#listaRuoliLook" ).append(ruolo);
-                      });
-                      $('#' + nameOfSection + 'Div').removeClass('notUpdated');
-
-                },
-                error:function(req, text, error){
-                    ajax_error(req, text, error);
-                }
-            })
-        }
-    });
-    
     $("#sezioneProdotti").click(caricaProdotti());
     
-    $("#ProdottiSearchButton").click(caricaProdotti());
     //La seguente funzione seve per popolare la lista dei magazzini per l-amministratore, il quale puo scegliere cosa fare in tutti i magazzini
     $.ajax({
         url:"http://webb/api/ApiController/indirizzi",
@@ -125,22 +71,48 @@ $("#impostazioni").click(function(){
     })
     
     
+     //La seguente funzione seve per popolare la lista delle categorie
+    $.ajax({
+        url:"http://webb/api/ApiController/categorie",
+        method:"GET",
+        dataType:"json",
+        success:function(categorie){
+            jQuery.each( categorie, function( i, categoria ) {
+                if(categoria['padre']!=null) var padre='[Padre: '+categoria['padre']+']';
+                else var padre='';
+                var cat= '<option value='+categoria['id']+'>ID '+categoria['id']+' :   '+categoria['nome_categoria']+padre+'</option>';
+                $( ".ListaCategorie" ).append(cat);
+              });
+            
+        },
+        error:function(req, text, error){
+            ajax_error(req, text, error);
+        }
+    })
+    
     $('.sezioneProdottiDiv').css('display', 'grid');
 });
 
 function caricaProdotti(){
     var min=$('#ProdottoPriceMin').val();
     var max=$('#ProdottoPriceMax').val();
-    var categoria=$("#ListaCategorie").selected().val();
+    var categoria=$("#ProdottoCategoria").val();
     var nome=$('#inputProdottiNomeFilter').val();
     var magazzino=1;
     
+    console.log(min);
+    console.log(max);
+    console.log(categoria);
+    console.log(nome);
+    console.log(magazzino);
+    
     $.ajax({
-        url:"http://webb/api/ApiController/prodotti/prezzo_min/"+min+"/prezzo_max/"+max+"categoria/"+categoria+"/nome/"+nome+"/magazzino/"+magazzino,
+        url:"http://webb/api/ApiController/prodotti",
         method:"GET",
         dataType:"json",
         success:function(arrayDiRisposta){
             jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) { //Devo fare una funzione che trasforma la valuta in elementi HTML
+                console.log(elementoRisposta);
                 var newProduct= '<div class="prodotto">\
                                     <div>'+elementoRisposta['id_prodotto']+'</div>\
                                     <div>'+elementoRisposta['nome_categoria']+'</div>\
@@ -169,5 +141,4 @@ function aggiungiProdoto(){
         $(".divGestionale").css('display', 'none');
         $('.sezioneAggiungiProdottiDiv').css('display', 'grid');
 }
-
 
