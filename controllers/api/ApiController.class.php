@@ -12,7 +12,7 @@ class ApiController{
                             ├── id/$int ├──                 mosstra tutti gli item del magazzino con ID $int
                                         ├──categoria/$cat   mostra tutti gli item del magazzino con ID $int aventi categoria $cat
                             ├── categoria/$cat              mostra tutti gli item di tuti i magazzini con categoria $cat
-
+            ├── dipendenti  /nome/cognome/ruolo/                    
      * i filtri per i prodotti sono :
      * nome(non serve il nome completo, basta anche una sottostringa del nome)
      * magazzino
@@ -90,51 +90,8 @@ class ApiController{
         else self::setError("non_loggato");
         break;
 
-    case 'prodotti':
-
-            $ok=TRUE;   // se l-utente sbaglia a scrivere salto molti controlli
-            if(in_array("magazzino", $params) && $ok)
-                {
-                $indexId=array_search('magazzino', $params);
-                    if(isset($params[$indexId+1])){$id_magazzino=$params[$indexId+1];}
-                    else {$ok=FALSE; self::setError("expected_index");}
-                };
-
-            if(in_array("categoria", $params) && $ok)
-                {
-                $indexCategoria=array_search('categoria', $params);
-                    if(isset($params[$indexCategoria+1])){if(self::existsCategoria($params[$indexCategoria+1], 'any')) {$categoria=$params[$indexCategoria+1];}
-                                                          else {$ok=FALSE; self::setError("categoria_not_exists",$params[$indexCategoria+1]);}
-                    }
-                    else {$ok=FALSE; self::setError("expected_categoria");}
-                };
-
-            if(in_array("nome", $params) && $ok)
-                {
-                $indexId=array_search('nome', $params);
-
-                    if(isset($params[$indexId+1])){$nome=$params[$indexId+1];}
-                    else {$ok=FALSE; self::setError("expected_index");}
-                };
-
-            if(in_array("prezzo_min", $params) && $ok)
-                {
-                $indexId=array_search('prezzo_min', $params);
-                    if(isset($params[$indexId+1])){$prezzo_min=$params[$indexId+1];}
-                    else {$ok=FALSE; self::setError("expected_index");}
-                };
-
-            if(in_array("prezzo_max", $params) && $ok)
-                {
-                $indexId=array_search('prezzo_max', $params);
-                    if(isset($params[$indexId+1])){$iprezzo_max=$params[$indexId+1];}
-                    else {$ok=FALSE; self::setError("expected_index");}
-                };
-
-            if($ok) self::showProdotti($id_magazzino, $categoria, $nome, $prezzo_min, $prezzo_max);
-
-
-        break;
+    
+    
 
     case 'indirizzi':
         if(sizeof($params)==0 or $params[0]=='' )     self::showIndirizzi();
@@ -146,12 +103,7 @@ class ApiController{
         if(sizeof($params)==0 or $params[0]=='' )     self::showCategorie();
          else self::setError("no_parameters_after_categorie");
          break;
-        
-    case 'ruoli':
-        if(sizeof($params)==0 or $params[0]=='' )     self::showRuoli();
-         else self::setError("no_parameters_after_categorie");
-         break;
-
+     
 
 
 
@@ -632,6 +584,9 @@ class ApiController{
                     if(isset($rows)) echo json_encode($rows);
                     else self::setSuccess("empty");
             }
+            
+   
+    
 
     private static function showCategorie(){
         $categorie=\Singleton::DB()->query("SELECT categorie.id as id_categoria, categorie.nome as nome_categoria, categorie.padre as id_padre FROM categorie;");
@@ -640,12 +595,7 @@ class ApiController{
         else self::setSuccess("empty");
     }
     
-    private static function showRuoli(){
-        $categorie=\Singleton::DB()->query("SELECT dipendenti_ruoli.id as id_ruolo, dipendenti_ruoli.ruolo as nome_ruolo FROM dipendenti_ruoli;");
-        while($r = mysqli_fetch_assoc($categorie)) {$rows[] = $r; }
-        if(isset($rows)) echo json_encode($rows);
-        else self::setSuccess("empty");
-    }
+    
     
 /*          END static functionS FOR GET       */
 

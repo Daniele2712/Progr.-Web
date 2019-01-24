@@ -18,7 +18,7 @@
         </div>
             
         <div id="sezioniAmministrazione">
-            <div class="sezione active" id="sezioneMagazzini">Magazzino</div>
+            <div class="sezione" id="sezioneMagazzini">Magazzino</div>
             <div class="sezione active" id="sezioneProdotti">Prodotti</div>
             <div class="sezione" id="sezioneDipendenti">Dipendenti</div>
         </div>
@@ -36,13 +36,14 @@
                 <span><b>Magazzini</b></span>
             </div>
             <div class="aggiungi">
-                <span><button type="button" id="addProduct"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Un bel niente&nbsp;<i class="fas fa-plus"></i></button></span> 
+                <span><button type="button"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Un bel niente&nbsp;<i class="fas fa-plus"></i></button></span> 
             </div>
             <div class="scrittaMagazzino">
                 <b>Magazzino:</b>
             </div>
             <div class="nomeMagazzino">
                 <span>Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
+                <span id="idMagazzino">1</span>
             </div> 
         </div>
             
@@ -82,7 +83,8 @@
                 <span><b>Prodotti</b></span>
             </div>
             <div class="aggiungi">
-                <button type="button" id="addProduct"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Prodotto&nbsp;<i class="fas fa-plus"></i></button> 
+                <button type="button" id="addProductButton"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Prodotto&nbsp;<i class="fas fa-plus"></i></button>
+                <button type="button" id="addCategoriaButton"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Categoria&nbsp;<i class="fas fa-plus"></i></button> 
             </div>
             <div class="scrittaMagazzino">
                 <b>Magazzino:</b>
@@ -100,8 +102,8 @@
             </div>
 
             <div id="ProdottiFiltroCategoria">
-                Categoria:  <select id='listaCategorieLook'>
-                                <option>Tutte</option>
+                Categoria:  <select id='inputProdottiFiltroCategoria'>
+                                <option value="Tutte">Tutte</option>
                             </select>   
             </div>
 
@@ -126,8 +128,8 @@
                     <div id='descrizioneProdotto'><b>Descrizione</b></div>
                     <div id='infoProdotto'><b>Info</b></div>
                     <div id='prezzoProdotto'><b>€</b></div>
-                    <div id='quantitaProdotto'><b>Magazzino</b></div>
-                    <div id='quantitaProdotto'><b>Qta</b></div>
+                    <div id='quantitaProdotto' title="ID Magazzino"><b>Mag.</b></div>
+                    <div id='quantitaProdotto' title="Quantita'"><b>Qta</b></div>
                     <div><i class="far fa-image"></i></div>
                     <div id='modificaProdotto'><i class="far fa-edit"></i></div>
                     <div id='cancellaProdotto'><i class="fas fa-trash-alt"></i></div>
@@ -135,28 +137,13 @@
                 </div>
                 <div class='lineaDiSeparazione'></div>
                 <div id='ElencoProdotti'>
-                    
-                    <div class='prodotto'>
-                        <div>32</div>
-                        <div>Collina</div>
-                        <div>Verde e azzurra</div>
-                        <div>info disponibili sul nostro sito di fiducia</div>
-                        <div>13,43€</div>
-                        <div>55</div>
-                        <div>Roma, Via Giuseppe Garibaldi 3</div>
-                        <div>55</div>
-                         <div><i class="far fa-image"></i></div>
-                        <div><i class="far fa-edit"></i></div>
-                        <div><i class="fas fa-trash-alt"></i></div>
-                    </div>
-                       
                 </div>
             </div>
 
         </div>
             
             
-      <div class="addProductDiv divGestionale">
+      <div id="addProductDiv">
         <h1>Inserisci nuovo prodotto</h1>
 
       <form id="inserisciProdotto" method="POST" action="/upload/uploadProduct" enctype="multipart/form-data">
@@ -183,7 +170,7 @@
       </form>      
     </div>
         
-    <div class="sezioneAggiungiCategorieDiv divGestionale">
+    <div id="addCategoriaDiv">
     <h1>Aggiungi nuova categoria</h1>
       <form id="categoryForm" method="POST" action="/upload/uploadCategory" enctype="multipart/form-data">
             <div><label>Nome Categoria</label><input type="text" name="categoria"></div>
@@ -222,17 +209,17 @@
         
         
         <div id="dipendentiFiltro">     
-            <div id="ProdottiFiltroNome">
+            <div id="DipendentiFiltroNome">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nome:&nbsp;<input id="inputDipendentiFiltroNome" type="text">
             </div>
             
             <div id="DipendentiFiltroRuolo">
-                Ruolo:  <select id='listaRuoliLook'>
+                Ruolo:  <select id='inputDipendentiFiltroRuolo'>
                                 <option>Tutti</option>
                         </select>   
             </div>
 
-            <div id="ProdottiFiltroCognome">
+            <div id="DipendentiFiltroCognome">
                 Cognome:&nbsp;<input id="inputDipendentiFiltroCognome" type="text">
             </div>
             
@@ -258,17 +245,6 @@
                 <div class='lineaDiSeparazione'></div>
                 
                 <div id='ElencoDipendenti'>
-                    <div class='dipendente'>
-                        <div>32</div>
-                        <div>Marco</div>
-                        <div>Aurelio</div>
-                        <div>Cassiere</div>
-                        <div>5</div>
-                        <div><i class="far fa-image"></i></div>
-                        <div><i class="far fa-edit"></i></div>
-                        <div><i class="fas fa-trash-alt"></i></div>
-                    </div>
-                       
                 </div>
             </div>
             </div>

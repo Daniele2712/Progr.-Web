@@ -15,6 +15,7 @@
             {if $logged != 'Amministratore'}
             <div class="sezione" id="sezioniProdottiRicevuti">Prodotti ricevuti</div>
             <div class="sezione" id="sezioneProdottiVenduti">Prodotti venduti</div>
+            <div class="sezione" id="sezioneSegnalazioni">Segnalazioni</div>
             {/if}
         </div>
             
