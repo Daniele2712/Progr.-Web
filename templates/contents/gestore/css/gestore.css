@@ -172,6 +172,14 @@
     
 }
 
+.pointer{
+    cursor:pointer;
+}
+
+.pointer:hover{
+    box-shadow: 2px 2px 3px;
+}
+
 
 /*      END OF UPPER*/
 
@@ -191,8 +199,7 @@
 
 
 
-.sezioneProdottiDiv{
-    display:grid;
+#sezioneProdottiDiv{
 }
 
 #ProdottiLower{
@@ -311,7 +318,7 @@
 
 
 #ElencoProdotti{
-    max-height:1200px;
+    max-height:600px;
     overflow:auto;
 }
                     
@@ -322,42 +329,115 @@
 
 
 /*      sezioneAggiungiProdottiDiv     */
-#addProductDiv{
-    border:3px lightgrey solid;
-    border-radius: 15px;
-    display:grid;
-    margin:15px;
-    margin-top:0px;
-    justify-items:center;
-    align-items:center;
-    grid-gap:15px;
-    
+
+#veil{
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background-color:rgb(128,128,128,0.85);
+    z-index:1;
     display:none;
 }
 
-#inserisciProdotto{
+#addProductDiv, #addCategoriaDiv, #addEmployeeDiv{
+    background-color:white;
+    width:60%;
+    display:none;
+    border:3px lightgrey solid;
+    border-radius: 15px;
+    justify-items:center;
+    align-items:center;
+    grid-gap:15px;
+    position: absolute;
+    top:150px;
+    z-index:2;
+    justify-content:center;
+    justify-self:center;
+}
+
+.insertTitle{
+    text-align: center;
+    margin:15px;
+}
+
+#inserisciProdottoForm{
     display:grid;
     grid-gap:10px;
     grid-template-rows:repeat(10, 1fr);
-    width:60%;
+    self-justify:center;
     justify-items:center;
+    margin-bottom:15px;
 }
 
-#inserisciProdotto div{
+#inserisciProdottoForm div{
     width:100%;
     height:60px;
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 2fr;
     justify-items:center;
     align-items:center;
     justify-content:space-evenly;
 }
 
+#addEmployeeDivForm{
+    display:grid;
+    grid-gap:10px;
+    grid-template-rows:repeat(7, 1fr);
+    self-justify:center;
+    justify-items:center;
+    margin-bottom:15px;
+}
+
+#addEmployeeDivForm div{
+    
+}
+
+
+
+
+#inserisciCategoriaForm{
+    display:grid;
+    grid-template-rows:2fr 2fr 2fr;
+    self-justify:center;
+    justify-items:center;
+    grid-gap:15px;
+    margin-bottom:15px;
+    
+}
+
+#inserisciCategoriaForm div{
+    width:100%;
+    height:60px;
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+
+
+
+
+#addProductExitButton, #addCategoriaExitButton, #addEmployeeExitButton{
+    position:absolute;
+    text-align:center;
+    top:10px;
+    right:10px;
+    font-size:1.8em;
+    cursor: pointer;
+    border:1px grey solid;
+    border-radius:5px;
+}
+
+
 #addCategoriaDiv{
-   
+    position:fixed;
+    justify-self:center;
+    align-self:center;
     border:3px lightgrey solid;
     border-radius: 15px;
-    display:grid;
     margin:15px;
     margin-top:0px;
     justify-items:center;

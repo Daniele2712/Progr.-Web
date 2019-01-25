@@ -1,6 +1,6 @@
 {* Smarty *}
 <div id="gestoreContent">
-        
+<div id="veil"></div>       
     
     <div id="macrosezioni">
                 <div class="macrosezione" id="statistiche">Statistiche</div>
@@ -77,14 +77,14 @@
             
             
             
-    <div id="sezioneProdottiDiv" class="divGestionale notUpdated">
+    <div id="sezioneProdottiDiv" class="divGestionale">
         <div class="upper">
             <div class="scritta">
                 <span><b>Prodotti</b></span>
             </div>
             <div class="aggiungi">
-                <button type="button" id="addProductButton"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Prodotto&nbsp;<i class="fas fa-plus"></i></button>
-                <button type="button" id="addCategoriaButton"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Categoria&nbsp;<i class="fas fa-plus"></i></button> 
+                <button type="button" id="addProductButton" class="pointer"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Prodotto&nbsp;<i class="fas fa-plus"></i></button>
+                <button type="button" id="addCategoriaButton" class="pointer"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Categoria&nbsp;<i class="fas fa-plus"></i></button> 
             </div>
             <div class="scrittaMagazzino">
                 <b>Magazzino:</b>
@@ -144,14 +144,15 @@
             
             
       <div id="addProductDiv">
-        <h1>Inserisci nuovo prodotto</h1>
-
-      <form id="inserisciProdotto" method="POST" action="/upload/uploadProduct" enctype="multipart/form-data">
+        <span id="addProductExitButton">&nbsp;X&nbsp;</span>
+        <div class="insertTitle"><h1>Inserisci nuovo prodotto</h1></div>
+        
+      <form id="inserisciProdottoForm" method="POST" action="/upload/uploadProduct" enctype="multipart/form-data">
 
             <div><label>Image :</label><input type="file" name="image"></div>
             <div><label>Nome :</label><input type="text" name="nome" id="nomeProdotto"></div>
-            <div><label>Descrizione :</label><textarea cols="40" rows="4" name="descrizione" placeholder="Describe the product"></textarea></div>
-            <div><label>Info :</label><textarea cols="40" rows="4" name="info" placeholder="Info about the product"></textarea></div>
+            <div><label>Descrizione :</label><textarea cols="40" rows="3" name="descrizione" placeholder="Describe the product"></textarea></div>
+            <div><label>Info :</label><textarea cols="40" rows="3" name="info" placeholder="Info about the product"></textarea></div>
             <div>
                 <label>Categoria :</label>
                 <select id='listaCategorieInsert' name="categoria">
@@ -171,18 +172,16 @@
     </div>
         
     <div id="addCategoriaDiv">
-    <h1>Aggiungi nuova categoria</h1>
-      <form id="categoryForm" method="POST" action="/upload/uploadCategory" enctype="multipart/form-data">
+    <span id="addCategoriaExitButton">&nbsp;X&nbsp;</span>
+    <div class="insertTitle"><h1>Aggiungi nuova categoria</h1></div>
+      <form id="inserisciCategoriaForm" method="POST" action="/upload/uploadCategory" enctype="multipart/form-data">
             <div><label>Nome Categoria</label><input type="text" name="categoria"></div>
             <div><label>Nome Padre</label><input type="text" name="padre"></div>
             <button type="submit">INSERT</button>
       </form>
     </div>
         
-     </div>        
-             
-             
-             
+    </div>  
              
              
         
@@ -190,13 +189,13 @@
         
     
         
-    <div id="sezioneDipendentiDiv" class="divGestionale notUpdated">
+    <div id="sezioneDipendentiDiv" class="divGestionale">
         <div class="upper">
             <div class="scritta">
                 <span><b>Dipendenti</b></span>
             </div>
             <div class="aggiungi">
-                <button type="button" id="addEmplayee"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Dipendente&nbsp;<i class="fas fa-plus"></i></button> 
+                <button type="button" id="addEmployeeButton" class="pointer"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Dipendente&nbsp;<i class="fas fa-plus"></i></button> 
             </div>
             <div class="scrittaMagazzino">
                 <b>Magazzino:</b>
@@ -250,8 +249,11 @@
             </div>
 
 
-        <div class="addEmployeeDiv divGestionale">
-            <form id="inserisciDipendente" method="POST" action="/upload/uploadDipendente" enctype="multipart/form-data">
+        
+        <div id="addEmployeeDiv">
+            <span id="addEmployeeExitButton">&nbsp;X&nbsp;</span>
+            <div class="insertTitle"><h1>Inserisci nuovo Dipendente</h1></div>
+            <form id="addEmployeeDivForm" method="POST" action="/upload/uploadDipendente" enctype="multipart/form-data">
 
                 <div><label>Nome :</label><input type="text" name="nome" id="nomeDipendente"></div>
                 <div><label>Cognome :</label><textarea cols="40" rows="4" name="cognome" placeholder="Cognome" id="cognomeDipendente"></textarea></div>

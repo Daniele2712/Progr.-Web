@@ -68,11 +68,33 @@ $.ajax({
     }
 })
 
-$('#addProductButton').click(function(){$("#addProductDiv").fadeIn();});
-$('#addProductExitButton').click(function(){$("#addProductDiv").fadeOut();});
+$('#addProductButton').click(function(){
+    $("#veil").fadeIn();
+    $("#addProductDiv").fadeIn();
+    
+});
+$('#addProductExitButton').click(function(){
+    $("#addProductDiv").fadeOut();
+    $("#veil").fadeOut();
+});
 
-$('#addCategoriaButton').click(function(){$("#addCategoriaDiv").fadeIn();});
-$('#addCategoriaExitButton').click(function(){$("#addCategoriaDiv").fadeOut();});
+$('#addCategoriaButton').click(function(){
+    $("#veil").fadeIn();
+    $("#addCategoriaDiv").fadeIn();
+});
+$('#addCategoriaExitButton').click(function(){
+    $("#addCategoriaDiv").fadeOut();
+    $("#veil").fadeOut();
+});
+
+$('#addEmployeeButton').click(function(){
+    $("#veil").fadeIn();
+    $("#addEmployeeDiv").fadeIn();
+});
+$('#addEmployeeExitButton').click(function(){
+    $("#addEmployeeDiv").fadeOut();
+    $("#veil").fadeOut();
+});
 
 
 caricaCategorie();
