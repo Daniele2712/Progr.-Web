@@ -127,9 +127,154 @@
 
 /*      END OF  SEZIONI      */
 
+
+/*              STATISTICHE             */
+/*              STATISTICHE             */
+.upperStats{
+    font-size:1.5em;
+    display:grid;
+    width:100%;
+    height:80px;
+    justify-items:center;
+    align-items:center;
+    grid-template-columns:1fr 1fr;
+    grid-template-areas: "scrittaStats nomeMagazzinoStats";
+}
+
+.scrittaStats{
+    grid-area:scrittaStats;
+}
+.nomeMagazzinoStats{
+    grid-area:nomeMagazzinoStats;
+}
+    
+    
+
+.lowerStats{
+    margin-top:15px;
+    margin-bottom:15px;
+    display:grid;
+    width:100%;
+    height:80px;
+    justify-items:center;
+    grid-template-columns:1fr 1fr 1fr;
+    
+}
+.minisezione {
+    height:40px;
+    border-bottom: grey 8px solid;
+    border-left: lightgrey 8px solid;
+    border-right: lightgrey 8px solid;
+    cursor:pointer;
+    font-size:1.3em;
+    box-shadow: 0px 10px 12px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:15px;
+    text-align: center;
+    display:grid;
+    align-items: center;
+    padding:10px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
+#statsContainer{
+    width:100%;
+    height:500px;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+    grid-template-columns:1fr 20fr 1fr;
+    grid-template-areas: "sx centerImage dx";
+    
+}
+
+#images{
+    position:relative;
+    grid-area:centerImage;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:column;
+    overflow:hidden;
+}
+
+.statsImages{
+    position:absolute;
+    right:0px;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:column;
+}
+
+.statsImages img{
+    width:750px;
+    height:500px;
+}
+#statisticheAnnualiDiv{
+}
+#statisticheSettimanaliDiv{
+}
+#statisticheMensiliDiv{
+}
+
+.fwbw{
+    border:2px black solid;
+    border-radius:5px;
+    display:grid;
+    align-items:center;
+    jusrify-items:center;
+    z-index:1;
+}
+
+.niceButton{
+    font-size:1.4em;
+    cursor: pointer;
+    border:1px grey solid;
+    border-radius:5px;
+    z-index:1;
+}
+
+.minisezione.active { /*Clicked and held*/
+  box-shadow: 0px 8px 9px;
+}
+
+#ColonneOrdini{
+}
+
+.ordine{
+    display:grid;
+    align-items:center;
+    justify-items:center;
+    grid-template-columns:1fr 2fr 2fr 2fr 1fr 1fr 1fr 2fr 2fr;
+    grid-gap:2px;
+    height:60px;
+}
+
+.ordine div {
+            width:100%;
+}
+
+
+
+
+
+
+
+
+
+
+/*          END OF STATISTICHE      */
+/*          END OF STATISTICHE      */
+
+
 /*      UPPER       */
 
-.upper { 
+.upper {
     display:grid;
     width:100%;
     height:150px;
@@ -179,6 +324,11 @@
 .pointer:hover{
     box-shadow: 2px 2px 3px;
 }
+
+#idMagazzino{
+    display:none;
+}
+
 
 
 /*      END OF UPPER*/
@@ -241,11 +391,10 @@
     padding:15px;
     margin-top:0;
     border-radius: 15px;
-}
-
-.table{
     text-align: center;
 }
+
+
 
 
 .lineaDiSeparazione{
@@ -280,6 +429,15 @@
     padding:5px;
     height:60px;
 }
+.prodottoRicVen{
+    display:grid;
+    align-items:center;
+    grid-template-columns:1fr repeat(4, 3fr) 3fr 3fr;
+    padding:5px;
+    height:60px;
+    
+}
+
 
 
 #ColonneDipendenti{
@@ -331,11 +489,11 @@
 /*      sezioneAggiungiProdottiDiv     */
 
 #veil{
-    width:100%;
-    height:100%;
     position:fixed;
     top:0;
     left:0;
+    width:100%;
+    height:100%;
     background-color:rgb(128,128,128,0.85);
     z-index:1;
     display:none;
@@ -344,6 +502,7 @@
 #addProductDiv, #addCategoriaDiv, #addEmployeeDiv{
     background-color:white;
     width:60%;
+    max-width:600px;
     display:none;
     border:3px lightgrey solid;
     border-radius: 15px;
@@ -379,6 +538,8 @@
     justify-items:center;
     align-items:center;
     justify-content:space-evenly;
+}
+#image-base64{
 }
 
 #addEmployeeDivForm{
@@ -430,6 +591,8 @@
     border:1px grey solid;
     border-radius:5px;
 }
+
+
 
 
 #addCategoriaDiv{

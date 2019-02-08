@@ -1,36 +1,191 @@
 {* Smarty *}
 <div id="gestoreContent">
-<div id="veil"></div>       
+    <div id="veil"></div>
+  
     
-    <div id="macrosezioni">
-                <div class="macrosezione" id="statistiche">Statistiche</div>
-                <div class="macrosezione active" id="amministrazione">Amministrazione</div>
-                <div class="macrosezione" id="impostazioni">Impostazioni</div>
+<div id="macrosezioni">
+            <div class="macrosezione" id="statistiche">Statistiche</div>
+            <div class="macrosezione active" id="amministrazione">Amministrazione</div>
+            <div class="macrosezione" id="impostazioni">Impostazioni</div>
+</div>
+
+<div id="sezioni">
+    <div id="sezioniStatistiche">
+        <div class="sezione" id="sezioneStatistiche">Statistiche</div>
+        <div class="sezione notUpdated" id="sezioneOrdini">Ordini</div>
+        <div class="sezione notUpdated" id="sezioneProdottiRicevuti">Prodotti ricevuti</div>
+        <div class="sezione notUpdated" id="sezioneProdottiVenduti">Prodotti venduti</div>
+
     </div>
+
+    <div id="sezioniAmministrazione">
+        <div class="sezione" id="sezioneMagazzini">Magazzino</div>
+        <div class="sezione active" id="sezioneProdotti">Prodotti</div>
+        <div class="sezione" id="sezioneDipendenti">Dipendenti</div>
+    </div>
+
+    <div id="sezioniImpostazioni">
+        <div class="sezione" id="sezioneIInformazioni">Informazioni</div>
+    </div>
+</div>
     
-    <div id="sezioni">
-        <div id="sezioniStatistiche">
-            <div class="sezione" id="sezioneStatisticheMini">Statistiche</div>
-            <div class="sezione" id="sezioneOrdini">Ordini</div>
-            <div class="sezione" id="sezioniProdottiRicevuti">Prodotti ricevuti</div>
-            <div class="sezione" id="sezioneProdottiVenduti">Prodotti venduti</div>
-            
+<div id="sectionContent">
+    
+    <div id="sezioneStatisticheDiv" class="divGestionale">
+        <div class="upperStats">
+            <div class="scrittaStats">
+                <span><b>Magazzino :</b></span>
+            </div>
+            <div class="nomeMagazzinoStats">
+                <span class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span> 
+            </div>
         </div>
+        <div class="lowerStats">
+            <div id="statisticheAnnuali" class="minisezione active"><span>Annuale</span></div>
+            <div id="statisticheSettimanali" class="minisezione"><span>Settimanale</span></div>
+            <div id="statisticheMensili" class="minisezione"><span>Mensile</span></div>
             
-        <div id="sezioniAmministrazione">
-            <div class="sezione" id="sezioneMagazzini">Magazzino</div>
-            <div class="sezione active" id="sezioneProdotti">Prodotti</div>
-            <div class="sezione" id="sezioneDipendenti">Dipendenti</div>
+                
         </div>
         
-        <div id="sezioniImpostazioni">
-            <div class="sezione" id="sezioneIInformazioni">Informazioni</div>
+        <div id="statsContainer">
+        <span id="backwardImage" class="niceButton">&nbsp;<&nbsp;</span>
+        <div id="images">
+            <div id="statisticheAnnualiDiv" class="statsImages selected">
+                <img src="/api/img/mese2.png">
+                <img src="/api/img/mese3.png">
+                <img src="/api/img/mese2.png">
+                <img src="/api/img/mese2.png">
+                <img src="/api/img/mese3.png">
+                <img src="/api/img/mese2.png">
+            </div>
+
+            <div id="statisticheMensiliDiv" class="statsImages" style="display:none;">
+                <img src="/api/img/mese2.png">
+                <img src="/api/img/mese3.png">
+                <img src="/api/img/mese2.png">
+                <img src="/api/img/mese2.png">
+                <img src="/api/img/mese3.png">
+                <img src="/api/img/mese2.png">
+            </div>
+            
+            <div id="statisticheSettimanaliDiv" class="statsImages" style="display:none;">
+                <img src="/api/img/settimana13.png">
+                <img src="/api/img/settimana14.png">
+                <img src="/api/img/settimana15.png">
+                <img src="/api/img/mese2.png">
+                <img src="/api/img/mese3.png">
+                <img src="/api/img/mese2.png">
+                
+            </div>
+
+            
         </div>
+        <span id="forwardImage" class="niceButton">&nbsp;>&nbsp;</span>
+        </div>
+        
+        
+        
     </div>
+        
+    <div id="sezioneOrdiniDiv" class="divGestionale">
+        <div class="upperStats">
+            <div class="scrittaStats">
+                <span><b>Magazzino :</b></span>
+            </div>
+            <div class="nomeMagazzinoStats">
+                <span class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span> 
+            </div>
+        </div>
+        
+        <div id='tableOrdini' class="table">
+                <div id='ColonneOrdini' class='ordine'>
+                    <div id='idOrdine'><b>ID</b></div>
+                    <div id='tipoPagamentoOrdine'><b>Tipo</b></div>
+                    <div id='indirizzoOrdine' title="Indirizzo"><b>Indirizzo</b></div>
+                    <div id='datiAnagraficiOrdine' title="Richiedente"><b>Utente</b></div>
+                    <div id='subtotaleOrdine' title="Subtotale"><b>SubT</b></div>
+                    <div id='spese_spedizioneOrdine' title="Costo Spedizione"><b>Sped</b></div>
+                    <div id='totaleOrdine' title="Spesa Totale"><b>Tot</b></div>
+                    <div id='dataRichiestaOrdine' title="Data Richiesta"><b>D.R</b></div>
+                    <div id='dataConsegnaOrdine' title="Data Consegna"><b>D.C</b></div>
+                </div>
+                <div class='lineaDiSeparazione'></div>
+                <div id='ElencoOrdini'>
+                    
+                    <div class='ordine'>
+                       <div>3</b></div>
+                       <div>Carta</b></div>
+                       <div>Via Fernando Rossi</b></div>
+                       <div>Mario Vangeli</b></div>
+                       <div>12 $</b></div>
+                       <div>5$</b></div>
+                       <div>17$</b></div>
+                       <div>12-23-1993 12:12:23</b></div>
+                       <div>12-23-1933 22:52:23</b></div>
+                    </div>
+                    
+                </div>
+            </div>
+    </div>
+        
+    <div id="sezioneProdottiRicevutiDiv" class="divGestionale">
+        <div class="upperStats">
+            <div class="scrittaStats">
+                <span><b>Magazzino :</b></span>
+            </div>
+            <div class="nomeMagazzinoStats">
+                <span>Roma, 66100, Via col vento 24</span> 
+            </div>
+        </div>
+        
+        <div id='tableProdottiRicevuti' class="table">
+                <div id='ColonneProdottiRicevuti' class='prodottoRicVen'>
+                    <div id='idProdottoRicevuti'><b>ID</b></div>
+                    <div id='nomeProdottoRicevuti'><b>Nome</b></div>
+                    <div id='nomeProdottoRicevuti'><b>Categoria</b></div>
+                    <div id='descrizioneProdottoRicevuti'><b>Descrizione</b></div>
+                    <div id='infoProdottoRicevuti'><b>Info</b></div>
+                    <div id='quantitaProdottoRicevuti' title="Quantita'"><b>Quantita</b></div>
+                    <div id='dataProdottoRicevuti'><b>Data</b></div>
+                </div>
+            
+                <div class='lineaDiSeparazione'></div>
+                <div id='ElencoProdottiRicevuti'>
+                </div>
+            </div>
+    </div>
+        
+    <div id="sezioneProdottiVendutiDiv" class="divGestionale">
+         <div class="upperStats">
+            <div class="scrittaStats">
+                <span><b>Magazzino :</b></span>
+            </div>
+            <div class="nomeMagazzinoStats">
+                <span class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span> 
+            </div>
+        </div>   
+        
+        <div id='tableProdottiVenduti' class="table">
+                <div id='ColonneProdottiVenduti' class='prodottoRicVen'>
+                    <div id='idProdottoVenduti'><b>ID</b></div>
+                    <div id='nomeProdottoVenduti'><b>Nome</b></div>
+                    <div id='nomeProdottoVenduti'><b>Categoria</b></div>
+                    <div id='descrizioneProdottoVenduti'><b>Descrizione</b></div>
+                    <div id='infoProdottoVenduti'><b>Info</b></div>
+                    <div id='quantitaProdottoVenduti' title="Quantita'"><b>Quantita</b></div>
+                    <div id='dataProdottoVenduti'><b>Data</b></div>
+                </div>
+                <div class='lineaDiSeparazione'></div>
+                <div id='ElencoProdottiVenduti'>
+                </div>
+            </div>
+    </div>
+        
     
-    <div id="sectionContent">
     
-    <div id="sezioneMagazziniDiv" class="divGestionale notUpdated">
+    
+    <div id="sezioneMagazziniDiv" class="divGestionale">
         <div class="upper">
             <div class="scritta">
                 <span><b>Magazzini</b></span>
@@ -42,7 +197,7 @@
                 <b>Magazzino:</b>
             </div>
             <div class="nomeMagazzino">
-                <span>Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
+                <span class="magazzinoSelezionato">Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
                 <span id="idMagazzino">1</span>
             </div> 
         </div>
@@ -90,7 +245,7 @@
                 <b>Magazzino:</b>
             </div>
             <div class="nomeMagazzino">
-                <span>Roma, 66100, Via col vento 24</span>
+                <span  class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span>
             </div> 
         </div>
         
@@ -148,18 +303,25 @@
         <div class="insertTitle"><h1>Inserisci nuovo prodotto</h1></div>
         
       <form id="inserisciProdottoForm" method="POST" action="/upload/uploadProduct" enctype="multipart/form-data">
-
-            <div><label>Image :</label><input type="file" name="image"></div>
+            <div>
+                <label>Image :</label><input type="file" name="image" id="aggiungiProdotti-immagine">
+                <div id="image-base64"></div>
+            </div>
             <div><label>Nome :</label><input type="text" name="nome" id="nomeProdotto"></div>
             <div><label>Descrizione :</label><textarea cols="40" rows="3" name="descrizione" placeholder="Describe the product"></textarea></div>
             <div><label>Info :</label><textarea cols="40" rows="3" name="info" placeholder="Info about the product"></textarea></div>
             <div>
                 <label>Categoria :</label>
-                <select id='listaCategorieInsert' name="categoria">
+                <select id='aggiungiProdotti-categoria' name="categoria">
+                    <option value="null">Nessuna Categoria</option>
                 </select>
             </div>
             <div><label>Price :</label><input type="text" name="prezzo"></div>
-            <div><label>Valuta :</label><input type="text" name="valuta"></div>
+            <div>
+                <label>Valuta :</label>
+                <select id='aggiungiProdotti-valuta' name="valuta">
+                </select>
+            </div>
             <div><label>Quantita :</label><input type="text" name="quantita"></div>
                 {* DEVO FARE IN MODO CHE I GESTORI POSSONO SCEGLIERE SOLO TRA I PROPRI MAGAZZINI  *}      
             <div>
@@ -168,7 +330,8 @@
                 </select>
             </div>
             <button type="submit">INSERT</button>
-      </form>      
+      </form>
+            <div id="addProductMessage"></div>
     </div>
         
     <div id="addCategoriaDiv">
@@ -201,7 +364,7 @@
                 <b>Magazzino:</b>
             </div>
             <div class="nomeMagazzino">
-                <span>Roma, 66100, Via col vento 24</span>
+                <span  class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span>
             </div> 
         </div>
             

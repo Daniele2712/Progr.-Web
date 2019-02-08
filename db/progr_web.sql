@@ -541,9 +541,10 @@ CREATE TABLE `ordini` (
   `subtotale` float NOT NULL,
   `spese_spedizione` float NOT NULL,
   `totale` float NOT NULL,
-  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL,
+  `id_valuta` int(11) NOT NULL,
   `data_ordine` datetime NOT NULL,
-  `ora_consegna` datetime NOT NULL
+  `ora_consegna` datetime NOT NULL,
+  `id_magazzino` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -750,8 +751,38 @@ INSERT INTO `valute` (`id`, `sigla`, `nome`, `simbolo`) VALUES
 (4, 'BTC', 'Bitcoins', 'BTC'),
 (5, 'JPY', 'Yen', '&yen;');
 
+CREATE TABLE `prodotti_ricevuti` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id_prodotto` int(11) NOT NULL,
+  `quantita` int(11) NOT NULL,
+  `data` date NOT NULL,
+  `id_magazzino` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `prodotti_venduti` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id_prodotto` int(11) NOT NULL,
+  `quantita` int(11) NOT NULL,
+  `data` date NOT NULL,
+  `id_magazzino` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- Inserisco anche i collegametni prodotti-magazzini, lo faccio solo ora, e non dopo la dichiarazione della tabbelle items_magazzini perche non avevo ancora introdotto i prodotti
 INSERT INTO `items_magazzino` (`id_magazzino`,`id_prodotto`,`quantita`) VALUES ("1",1,103),("1",2,178),("1",3,110),("1",4,29),("1",5,53),("1",6,208),("1",7,49),("1",8,169),("1",9,291),("1",10,242),("2",11,110),("2",12,31),("2",13,50),("2",14,213),("2",15,220),("2",16,134),("2",17,295),("2",18,61),("2",19,102),("2",20,122),("3",21,60),("3",22,15),("3",23,123),("3",24,248),("3",25,42),("3",26,102),("3",27,50),("3",28,99),("3",29,68),("3",30,118),("1",31,171),("1",32,269),("1",33,160),("1",34,32),("1",35,9),("1",36,208),("1",37,164),("1",38,294),("1",39,218),("1",40,262),("2",41,138),("2",42,185),("2",43,174),("2",44,135),("2",45,218),("2",46,15),("2",47,136),("2",48,138),("2",49,178),("2",50,45),("3",51,299),("3",52,37),("3",53,43),("3",54,98),("3",55,249),("3",56,284),("3",57,23),("3",58,168),("3",59,7),("3",60,42),("1",61,176),("1",62,165),("1",63,118),("1",64,285),("1",65,249),("1",66,9),("1",67,188),("1",68,150),("1",69,203),("1",70,171),("2",71,33),("2",72,41),("2",73,17),("2",74,13),("2",75,57);
+
+
+ALTER TABLE `prodotti_ricevuti`
+  ADD KEY `id_prodotto` (`id_prodotto`),
+  ADD KEY `id_magazzino` (`id_magazzino`),
+  ADD CONSTRAINT `id_prodotti_ricevuti` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `id_magazzini_ricevuti` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+ALTER TABLE `prodotti_venduti`
+  ADD KEY `id_prodotto` (`id_prodotto`),
+  ADD KEY `id_magazzino` (`id_magazzino`),
+  ADD CONSTRAINT `id_prodotti_venduti` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `id_magazzini_venduti` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Indici per le tabelle scaricate
@@ -890,6 +921,8 @@ ALTER TABLE `opzioni`
 --
 ALTER TABLE `ordini`
   ADD KEY `id_indirizzo` (`id_indirizzo`),
+  ADD KEY `id_magazzino` (`id_magazzino`),
+  ADD KEY `id_valuta` (`id_valuta`),
   ADD KEY `id_dati_anagrafici` (`id_dati_anagrafici`);
 
 --
@@ -1087,6 +1120,8 @@ ALTER TABLE `opzioni`
 --
 ALTER TABLE `ordini`
   ADD CONSTRAINT `ordini_ibfk_1` FOREIGN KEY (`id_dati_anagrafici`) REFERENCES `dati_anagrafici` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ordini-magazzini` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `id_valuta` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `ordini_ibfk_2` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

@@ -7,18 +7,18 @@ if(!defined("EXEC")){
 	return;
 }
 
-class ruoli implements Controller{
+class valute implements Controller{
 
     public static function get(Request $req){
-        self::showRuoli($req);
+        self::showValute($req);
     }
 
     public static function default(Request $req){
         self::get($req);
     }
 
-    private static function showRuoli($req){
-        $categorie=\Singleton::DB()->query("SELECT dipendenti_ruoli.id as id_ruolo, dipendenti_ruoli.ruolo as nome_ruolo FROM dipendenti_ruoli;");
+    private static function showValute($req){
+        $categorie=\Singleton::DB()->query("SELECT id as id_valuta, sigla as sigla_valuta, simbolo as simbolo_valuta FROM valute;");
         while($r = mysqli_fetch_assoc($categorie)) {$rows[] = $r; }
         if(isset($rows)) echo json_encode($rows);
         else self::setSuccess("empty");

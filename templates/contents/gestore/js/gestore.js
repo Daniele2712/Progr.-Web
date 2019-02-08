@@ -48,6 +48,57 @@ $(".sezione").click(function(){
     });
     
     
+    
+    
+    
+// FUNZIONI PER LE MINISEZIONI DELLO STATS
+
+//  Funzioni che fanno apparire e sparire le sezioni relative alle 3 grandi macrocategorie, in base a quale macrocategoria hai cliccato
+$("#statisticheAnnuali").click(function(){
+            $('.minisezione.active').removeClass('active');
+            $('#statisticheAnnuali').addClass('active');
+            
+            $('.statsImages.selected').css('display', 'none');
+            $('#statisticheAnnualiDiv').css('display', 'grid');
+            
+            $('.statsImages.selected').removeClass('selected');
+            $('#statisticheAnnualiDiv').addClass('selected');
+            
+            
+ });
+ 
+$("#statisticheMensili").click(function(){
+            $('.minisezione.active').removeClass('active');
+            $('#statisticheMensili').addClass('active');
+            
+            $('.statsImages.selected').css('display', 'none');
+            $('#statisticheMensiliDiv').css('display', 'grid');
+            
+            $('.statsImages.selected').removeClass('selected');
+            $('#statisticheMensiliDiv').addClass('selected');
+ });
+ 
+$("#statisticheSettimanali").click(function(){
+            $('.minisezione.active').removeClass('active');
+            $('#statisticheSettimanali').addClass('active');
+            
+            $('.statsImages.selected').css('display', 'none');
+            $('#statisticheSettimanaliDiv').css('display', 'grid');
+            
+            $('.statsImages.selected').removeClass('selected');
+            $('#statisticheSettimanaliDiv').addClass('selected');
+ });
+         
+
+$('#backwardImage').click(function() {
+         $('.statsImages.selected').animate({'right' : "-=750px" });
+});
+$('#forwardImage').click(function() {
+        $('.statsImages.selected').animate({'right' : "+=750px" });
+});
+
+    
+    
 $("#ProdottiSearchButton").click(function(){caricaProdotti()});
 $("#DipendentiSearchButton").click(function(){caricaDipendenti()});
 
@@ -96,11 +147,43 @@ $('#addEmployeeExitButton').click(function(){
     $("#veil").fadeOut();
 });
 
+$('#sezioneOrdini').click(function(){
+    if($('#sezioneOrdini').hasClass('notUpdated')){
+        caricaOrdiniGestore();
+    }
+});
+
+$('#sezioneProdottiRicevuti').click(function(){
+    if($('#sezioneProdottiRicevuti').hasClass('notUpdated')){
+        caricaProdottiRicevuti();
+    }
+});
+
+$('#sezioneProdottiVenduti').click(function(){
+    if($('#sezioneProdottiVenduti').hasClass('notUpdated')){
+        caricaProdottiVenduti();
+    }
+});
+
+
 
 caricaCategorie();
 caricaRuoli();
+caricaValute();
 
 $('#sezioneProdottiDiv').css('display', 'block');
+document.getElementById("aggiungiProdotti-immagine").addEventListener("change", readImage);
+
+$('#backwardImage').click(function(){
+    $("#addEmployeeDiv").fadeOut();
+    $("#veil").fadeOut();
+});
+
+$('#forwardImage').click(function(){
+    $("#addEmployeeDiv").fadeOut();
+    $("#veil").fadeOut();
+});
+
 });
 
 function caricaProdotti(){
@@ -157,6 +240,125 @@ function caricaProdotti(){
     
 }
 
+function caricaOrdiniGestore(){
+    var magazzino=$('#idMagazzino').text();
+    $.ajax({
+        url:"http://webb/api/ordine/magazzino/"+magazzino,
+        method:"GET",
+        dataType:"json",
+        success:function(arrayDiRisposta){
+            $('#ElencoOrdini').html("");
+            if(arrayDiRisposta.message==undefined)
+            {
+                jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) { 
+                    var newOrdine= '<div class="ordine">\
+                                        <div>'+elementoRisposta['id_ordine']+'</div>\
+                                        <div>'+elementoRisposta['tipo_ordine']+'</div>\
+                                        <div>'+elementoRisposta['via_indirizzo_ordine']+', '+elementoRisposta['nome_indirizzo_ordine']+'</div>\
+                                        <div>'+elementoRisposta['nome_utente_ordine']+' '+elementoRisposta['cognome_utente_ordine']+'</div>\
+                                        <div>'+elementoRisposta['subtotale_ordine']+' '+elementoRisposta['simbolo_valuta_ordine']+'</div>\
+                                        <div>'+elementoRisposta['spedizione_ordine']+' '+elementoRisposta['simbolo_valuta_ordine']+'</div>\
+                                        <div>'+elementoRisposta['totale_ordine']+' '+elementoRisposta['simbolo_valuta_ordine']+'</div>\
+                                        <div>'+elementoRisposta['data_ordine']+'</div>\
+                                        <div>'+elementoRisposta['consegna_ordine']+'</div>\
+                                        </div>';
+
+                    $( "#ElencoOrdini" ).append( newOrdine);
+                  });
+            }
+            else{
+                $('#ElencoOrdini').html("<div class='noResults'>No results</div>");
+            }
+            $('#sezioneOrdini').removeClass('notUpdated');
+        },
+        error:function(req, text, error){
+            ajax_error(req, text, error);
+        }
+    })
+}
+
+function caricaProdottiRicevuti(){
+    var magazzino=$('#idMagazzino').text();
+    $.ajax({
+        url:"http://webb/api/prodotti_ricevuti/magazzino/"+magazzino,
+        method:"GET",
+        dataType:"json",
+        success:function(arrayDiRisposta){
+            $('#ElencoProdottiRicevuti').html("");
+            if(arrayDiRisposta.message==undefined)
+            {
+                jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) {
+                    if(elementoRisposta['descrizione_prodotto'].length > 35) var descrDisplay=elementoRisposta['descrizione_prodotto'].substr(0,35)+'  ...';
+                    else var descrDisplay=elementoRisposta['descrizione_prodotto'];
+                    
+                    if(elementoRisposta['info_prodotto'].length > 35) var infoDisplay=elementoRisposta['info_prodotto'].substr(0,35)+'  ...';
+                    else var infoDisplay=elementoRisposta['info_prodotto'];
+                    
+                    var newProduct= '<div class="prodottoRicVen">\
+                                        <div>'+elementoRisposta['id_prodotto']+'</div>\
+                                        <div>'+elementoRisposta['nome_prodotto']+'</div>\
+                                        <div>'+elementoRisposta['categoria_prodotto']+'</div>\
+                                        <div class="descr" title="'+elementoRisposta['descrizione_prodotto']+'">'+descrDisplay+'</div>\
+                                        <div class="descr" title="'+elementoRisposta['info_prodotto']+'">'+infoDisplay+'</div>\
+                                        <div>'+elementoRisposta['quantita_prodotto']+'</div>\
+                                        <div>'+elementoRisposta['data']+'</div>\
+                                    </div>';
+                    $("#ElencoProdottiRicevuti").append(newProduct);
+                  });
+              }
+              else{
+                $('#ElencoProdottiRicevuti').html("<div class='noResults'>No results</div>");
+            }
+            $('#sezioneProdottiRicevuti').removeClass('notUpdated');
+        }   
+        ,
+        error:function(req, text, error){
+            ajax_error(req, text, error);
+        }
+    });
+}
+
+function caricaProdottiVenduti(){
+    var magazzino=$('#idMagazzino').text();
+    $.ajax({
+        url:"http://webb/api/prodotti_venduti/magazzino/"+magazzino,
+        method:"GET",
+        dataType:"json",
+        success:function(arrayDiRisposta){
+            $('#ElencoProdottiVenduti').html("");
+            if(arrayDiRisposta.message==undefined)
+            {
+                jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) {
+                    if(elementoRisposta['descrizione_prodotto'].length > 35) var descrDisplay=elementoRisposta['descrizione_prodotto'].substr(0,35)+'  ...';
+                    else var descrDisplay=elementoRisposta['descrizione_prodotto'];
+                    
+                    if(elementoRisposta['info_prodotto'].length > 35) var infoDisplay=elementoRisposta['info_prodotto'].substr(0,35)+'  ...';
+                    else var infoDisplay=elementoRisposta['info_prodotto'];
+                    
+                    var newProduct= '<div class="prodottoRicVen">\
+                                        <div>'+elementoRisposta['id_prodotto']+'</div>\
+                                        <div>'+elementoRisposta['nome_prodotto']+'</div>\
+                                        <div>'+elementoRisposta['categoria_prodotto']+'</div>\
+                                        <div class="descr" title="'+elementoRisposta['descrizione_prodotto']+'">'+descrDisplay+'</div>\
+                                        <div class="descr" title="'+elementoRisposta['info_prodotto']+'">'+infoDisplay+'</div>\
+                                        <div>'+elementoRisposta['quantita_prodotto']+'</div>\
+                                        <div>'+elementoRisposta['data']+'</div>\
+                                    </div>';
+                    $("#ElencoProdottiVenduti").append(newProduct);
+                  });
+              }
+              else{
+                $('#ElencoProdottiVenduti').html("<div class='noResults'>No results</div>");
+            }
+            $('#sezioneProdottiVenduti').removeClass('notUpdated');
+        }   
+        ,
+        error:function(req, text, error){
+            ajax_error(req, text, error);
+        }
+    });
+}
+
 function caricaDipendenti(){
     var nome=$('#inputDipendentiFiltroNome').val();
     var cognome=$('#inputDipendentiFiltroCognome').val();
@@ -209,6 +411,7 @@ function caricaCategorie(){
                     else var padre='';
                     var cat='<option value='+categoria['id_categoria']+'>ID '+categoria['id_categoria']+' : '+categoria['nome_categoria']+padre+'</option>';
                     $( "#inputProdottiFiltroCategoria" ).append(cat);
+                    $( "#aggiungiProdotti-categoria").append(cat);
                   });
                 },
                 error:function(req, text, error){
@@ -234,6 +437,51 @@ function caricaRuoli(){
             }
         })
 }
+
+function caricaValute(){
+    $.ajax({
+            url:"http://webb/api/valute",
+            method:"GET",
+            dataType:"json",
+            success:function(arrayDiRisposta){
+                jQuery.each(arrayDiRisposta, function( i, elementoRisposta ) {
+                    var valuta= '<option value='+elementoRisposta['id_valuta']+'>'+elementoRisposta['simbolo_valuta']+'&nbsp;&nbsp;:&nbsp;&nbsp;'+elementoRisposta['sigla_valuta']+'</option>';
+                    $( "#aggiungiProdotti-valuta" ).append(valuta);
+                  });
+            },
+            error:function(req, text, error){
+                ajax_error(req, text, error);
+            }
+        })
+    
+}
+
+function readImage() {  // volevo usarla per uploadare l-immagine via ajax, invece di fare una richiesta al server e cambiare la pagina...pero non la cpaisco a pieno..per ora non la uso
+  
+  if (this.files && this.files[0]) {
+    
+    var FR= new FileReader();
+    
+    FR.addEventListener("load", function(e) {
+      //document.getElementById("img").src       = e.target.result;
+      $("#image-base64").innerHTML = e.target.result;
+    }); 
+    
+    FR.readAsDataURL( this.files[0] );
+  }
+  
+}
+
+
+
+function createProdotto(){}
+function deleteProdotto(){}
+function modofyProdotto(){/*combinaz lineare di create e delete*/}
+function createCategoria(){}
+function deleteCategoria(){}
+function createDipendente(){}
+function deleteDipendente(){}
+function modofyDipendente(){/*combinaz lineare di create e delete*/}
 
 
 
