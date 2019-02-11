@@ -137,7 +137,7 @@
     height:80px;
     justify-items:center;
     align-items:center;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 2fr;
     grid-template-areas: "scrittaStats nomeMagazzinoStats";
 }
 
@@ -353,7 +353,6 @@
 }
 
 #ProdottiLower{
-    font-size:0.8em;
 }
 
 
@@ -405,12 +404,11 @@
 
 
 #ColonneMagazzini{
-    font-size:1.2em;
 }
 .magazzino{
     display:grid;
     align-items:center;
-    grid-template-columns:1fr 2fr 1fr 3fr 1fr 2fr;
+    grid-template-columns:2fr 1fr 3fr 1fr 2fr ;
     padding:5px;
     height:60px;
 }
@@ -438,10 +436,26 @@
     
 }
 
+#ElencoOrdini{
+    font-size:0.8em;
+}
+#ElencoProdottiRicevuti{
+    font-size:0.8em;
+}
+
+#ElencoProdottiVenduti{
+    font-size:0.8em;
+}
+
+#ElencoProdotti{
+    font-size:0.8em;
+}
+#ElencoProdotti{
+    font-size:0.8em;
+}
 
 
 #ColonneDipendenti{
-    font-size:1.2em;
 }
 .dipendente{
     display:grid;
@@ -474,11 +488,13 @@
 
 
 
+.elenco{
 
-#ElencoProdotti{
-    max-height:600px;
-    overflow:auto;
+    max-height: 1000px;
+    overflow:scroll;
 }
+
+
                     
  
 /*  END OF PRODOTTI LOWER  */
@@ -552,8 +568,15 @@
 }
 
 #addEmployeeDivForm div{
-    
+    width:100%;
+    height:60px;
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
 }
+
 
 
 

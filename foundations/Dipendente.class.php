@@ -134,5 +134,27 @@ class Dipendente extends Utente{
             return self::getRuolo($idRuolo);
         
     }
+    
+    public static function getMagazziniOfDipendenteWithId($idGestore){ // magari puoi fare anche un controllo prima x vedere se e effettivamente un dipendente o no...qui do x scontato che e un dipendente
+            //Restituisce UtenteRegistrato, oppure Gestore, Corriere, Amministratore, ecc se l-utente e un dipendente
+            
+            $sql = "SELECT magazzini.id, comuni.CAP, comuni.nome, comuni.provincia, indirizzi.via, indirizzi.civico FROM magazzini,indirizzi,comuni WHERE magazzini.id_gestore= ? AND magazzini.id_indirizzo=indirizzi.id AND indirizzi.id_comune=comuni.id;";
+            $p = \Singleton::DB()->prepare($sql);
+            $p->bind_param('i',$idGestore);
+            if(!$p->execute())
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+            $p->bind_result($id, $CAP, $nome, $provincia, $via, $civico);
+            while ($p->fetch()) {
+            $data_array[] = array("id"=>$id,"CAP"=>$CAP,"nome"=>$nome,"provincia"=>$provincia,"via"=>$via,"civico"=>$civico);
+            }
+            /*if($r === FALSE)
+                throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+            elseif($r === NULL)
+                throw new \SQLException("Empty Result", $sql, 0, 8);*/
+            $p->close();
+            
+            return $data_array;
+        
+    }
 }
 ?>

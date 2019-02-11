@@ -159,6 +159,18 @@ class ordine implements Controller{
     }
     
     
+    
+    private static function setSuccess($info){
+    switch($info){
+    case 'empty':
+        http_response_code(200);
+        echo '{"message":"Everything went right but the result is empty"}';
+    break;   
+   }
+}
+    
+    
+    
 
     
     //uniqid('php_', TRUE) - genera string di 23 catarreri random , se ci metto false come secondo parametro, mi sceglie 13 caratteri

@@ -6,7 +6,7 @@
     grid-template-rows:150px auto;
     grid-template-areas:
         "macrosezioni macrosezioni macrosezioni"
-        "sezioni content content";
+        "sezioni sectionContent sectionContent";
   
 }
 
@@ -128,76 +128,261 @@
 /*      END OF  SEZIONI      */
 
 
+/*              STATISTICHE             */
+/*              STATISTICHE             */
+.upperStats{
+    font-size:1.5em;
+    display:grid;
+    width:100%;
+    height:80px;
+    justify-items:center;
+    align-items:center;
+    grid-template-columns:1fr 2fr;
+    grid-template-areas: "scrittaStats nomeMagazzinoStats";
+}
+
+.scrittaStats{
+    grid-area:scrittaStats;
+}
+.nomeMagazzinoStats{
+    grid-area:nomeMagazzinoStats;
+}
+    
+    
+
+.lowerStats{
+    margin-top:15px;
+    margin-bottom:15px;
+    display:grid;
+    width:100%;
+    height:80px;
+    justify-items:center;
+    grid-template-columns:1fr 1fr 1fr;
+    
+}
+.minisezione {
+    height:40px;
+    border-bottom: grey 8px solid;
+    border-left: lightgrey 8px solid;
+    border-right: lightgrey 8px solid;
+    cursor:pointer;
+    font-size:1.3em;
+    box-shadow: 0px 10px 12px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:15px;
+    text-align: center;
+    display:grid;
+    align-items: center;
+    padding:10px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
+#statsContainer{
+    width:100%;
+    height:500px;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+    grid-template-columns:1fr 20fr 1fr;
+    grid-template-areas: "sx centerImage dx";
+    
+}
+
+#images{
+    position:relative;
+    grid-area:centerImage;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:column;
+    overflow:hidden;
+}
+
+.statsImages{
+    position:absolute;
+    right:0px;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:column;
+}
+
+.statsImages img{
+    width:750px;
+    height:500px;
+}
+#statisticheAnnualiDiv{
+}
+#statisticheSettimanaliDiv{
+}
+#statisticheMensiliDiv{
+}
+
+.fwbw{
+    border:2px black solid;
+    border-radius:5px;
+    display:grid;
+    align-items:center;
+    jusrify-items:center;
+    z-index:1;
+}
+
+.niceButton{
+    font-size:1.4em;
+    cursor: pointer;
+    border:1px grey solid;
+    border-radius:5px;
+    z-index:1;
+}
+
+.minisezione.active { /*Clicked and held*/
+  box-shadow: 0px 8px 9px;
+}
+
+#ColonneOrdini{
+}
+
+.ordine{
+    display:grid;
+    align-items:center;
+    justify-items:center;
+    grid-template-columns:1fr 2fr 2fr 2fr 1fr 1fr 1fr 2fr 2fr;
+    grid-gap:2px;
+    height:60px;
+}
+
+.ordine div {
+            width:100%;
+}
+
+
+
+
+
+
+
+
+
+
+/*          END OF STATISTICHE      */
+/*          END OF STATISTICHE      */
+
+
+/*      UPPER       */
+
+.upper {
+    display:grid;
+    width:100%;
+    height:150px;
+    justify-items:center;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    grid-template-areas:
+        "scritta scrittaMagazzino"
+        "aggiungi nomeMagazzino";
+}
+
+.scritta{
+    font-size:2em;
+    grid-area:scritta;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+
+.aggiungi{
+    grid-area:aggiungi;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+
+.scrittaMagazzino{
+    font-size:1.5em;
+    grid-area:scrittaMagazzino;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+
+.nomeMagazzino{
+    grid-area:nomeMagazzino;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+    
+}
+
+.pointer{
+    cursor:pointer;
+}
+
+.pointer:hover{
+    box-shadow: 2px 2px 3px;
+}
+
+#idMagazzino{
+    display:none;
+}
+
+
+
+/*      END OF UPPER*/
 
 /*      CONTENUTO      */
-#content{
-    grid-area:content;
+#sectionContent{
+    grid-area:sectionContent;
     width:100%;
     height:100%;
 }
 
 
-.sezioneProdottiDiv{
-    display:grid;
-}
-
-/*  PRODOTTI UPPER  */
-
-#ProdottiUpper{
-    border:3px lightgrey solid;
-    width:auto;
-    margin:5px;
-    padding:15px;
-    margin-top:0;
-    border-radius: 15px;
-   
-    display:grid;
-    justify-items:center;
-    align-items:center;
-    grid-template-columns:1fr 1fr 1fr auto;
-    grid-template-rows:2fr 1fr;
-    grid-template-areas:
-        "titolo titolo magazzino magazzino"
-        "filtroPrezzo filtroCategoria filtroNome filtra";
-    grid-gap:15px;
-}
-
-#scrittaProdotti{
-    grid-area:titolo;
-    font-size:3em;
-    width:100%;
-    display:grid;
-    align-items:center;
-    grid-auto-flow:column;
-    justify-content: space-around;
-}
-#scrittaLocazione{
-    gird-area:magazzino;
-    font-size:1.5em;
-}
-#ProdottiFiltroPrezzo{
-    grid-area:filtroPrezzo;
-}
-#ProdottiFiltroCategoria{
-    grid-area:filtroCategoria;
-}
-#ProdottiNomeFiltro{
-    grid-area:filtroNome;
-}
-#ProdottiSearch{
-    grid-area:filtra;
-    font-size:1.5em;
-    padding:5px;
+.sezioneMagazziniDiv{
+    display:block;
 }
 
 
 
-/*  END OF PRODOTTI UPPER  */
 
 
-/*  PRODOTTI LOWER  */
+#sezioneProdottiDiv{
+}
 
 #ProdottiLower{
+}
+
+
+/*      FILTRI PRODOTTI     */
+
+#prodottiFiltro{
+    border-top:2px grey solid;
+    margin-bottom:10px;
+    display:grid;
+    grid-template-rows:1fr 1fr;
+    grid-template-columns:1fr 1fr;
+    height:100px;
+    justify-items: center;
+    align-items: center;
+}
+
+#dipendentiFiltro{
+    border-top:2px grey solid;
+    margin-bottom:10px;
+    display:grid;
+    grid-template-rows:1fr 1fr;
+    grid-template-columns:1fr 1fr;
+    height:100px;
+    justify-items: center;
+    align-items: center;
+}
+
+
+/*      TABLES      */
+.table{
     display:grid;
     border:3px lightgrey solid;
     width:auto;
@@ -205,30 +390,85 @@
     padding:15px;
     margin-top:0;
     border-radius: 15px;
-    
+    text-align: center;
 }
-#tableProdotti{
+
+
+
+
+.lineaDiSeparazione{
+    height:2px;
     width:100%;
-    
+    background-image: radial-gradient( grey, lightgrey, white);
 }
+
+
+#ColonneMagazzini{
+}
+.magazzino{
+    display:grid;
+    align-items:center;
+    grid-template-columns:2fr 1fr 3fr 1fr 2fr ;
+    padding:5px;
+    height:60px;
+}
+
+
+
+
 #ColonneProdotti{
-    font-size:1.5em;
+    font-size:1em;
+
 }
-
-
-#lineaDiSeparazione{
-    height:3px;
-    width:100%;
-    background-color: lightgrey;
-}
-
 .prodotto{
     display:grid;
-    grid-template-columns:1fr repeat(4, 3fr) 1fr 3fr 1fr 1fr 1fr 1fr;
+    align-items:center;
+    grid-template-columns:1fr repeat(4, 3fr) 2fr 2fr 1fr 1fr 1fr 1fr;
+    padding:5px;
+    height:60px;
+}
+.prodottoRicVen{
+    display:grid;
+    align-items:center;
+    grid-template-columns:1fr repeat(4, 3fr) 3fr 3fr;
     padding:5px;
     height:60px;
     
 }
+
+#ElencoOrdini{
+    font-size:0.8em;
+}
+#ElencoProdottiRicevuti{
+    font-size:0.8em;
+}
+
+#ElencoProdottiVenduti{
+    font-size:0.8em;
+}
+
+#ElencoProdotti{
+    font-size:0.8em;
+}
+#ElencoProdotti{
+    font-size:0.8em;
+}
+
+
+#ColonneDipendenti{
+}
+.dipendente{
+    display:grid;
+    align-items:center;
+    grid-template-columns:1fr repeat(3, 3fr) 2fr 1fr 1fr 1fr;
+    padding:5px;
+    height:60px;
+}
+
+/*      END OF TABLES   */
+
+/*  PRODOTTI LOWER  */
+
 
 .prodotto div{
     display:grid;
@@ -237,21 +477,24 @@
     text-align:center;
     width: 100%;
     height:100%;
-    overflow: auto;
+    overflow: hidden;
+    
   
 }
 
-
-.prodotto div{
-    
-    border-left:1px lightgrey solid;
-    border-right:1px lightgrey solid;
+.prodotto .descr {
+    cursor: pointer;
 }
 
-#ElencoProdotti{
-    max-height:1200px;
-    overflow:auto;
+
+
+.elenco{
+
+    max-height: 1000px;
+    overflow:scroll;
 }
+
+
                     
  
 /*  END OF PRODOTTI LOWER  */
@@ -260,30 +503,75 @@
 
 
 /*      sezioneAggiungiProdottiDiv     */
-.sezioneAggiungiProdottiDiv{
+
+#veil{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgb(128,128,128,0.85);
+    z-index:1;
+    display:none;
+}
+
+#addProductDiv, #addCategoriaDiv, #addEmployeeDiv{
+    background-color:white;
+    width:60%;
+    max-width:600px;
+    display:none;
     border:3px lightgrey solid;
     border-radius: 15px;
-    display:grid;
-    margin:15px;
-    margin-top:0px;
     justify-items:center;
     align-items:center;
     grid-gap:15px;
+    position: absolute;
+    top:150px;
+    z-index:2;
+    justify-content:center;
+    justify-self:center;
 }
 
-#inserisciProdotto{
+.insertTitle{
+    text-align: center;
+    margin:15px;
+}
+
+#inserisciProdottoForm{
     display:grid;
     grid-gap:10px;
     grid-template-rows:repeat(10, 1fr);
-    width:60%;
+    self-justify:center;
     justify-items:center;
+    margin-bottom:15px;
 }
 
-#inserisciProdotto div{
+#inserisciProdottoForm div{
     width:100%;
     height:60px;
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 2fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+#image-base64{
+}
+
+#addEmployeeDivForm{
+    display:grid;
+    grid-gap:10px;
+    grid-template-rows:repeat(7, 1fr);
+    self-justify:center;
+    justify-items:center;
+    margin-bottom:15px;
+}
+
+#addEmployeeDivForm div{
+    width:100%;
+    height:60px;
+    display:grid;
+    grid-template-columns:1fr 2fr;
     justify-items:center;
     align-items:center;
     justify-content:space-evenly;
@@ -291,8 +579,68 @@
 
 
 
+
+
+#inserisciCategoriaForm{
+    display:grid;
+    grid-template-rows:2fr 2fr 2fr;
+    self-justify:center;
+    justify-items:center;
+    grid-gap:15px;
+    margin-bottom:15px;
+    
+}
+
+#inserisciCategoriaForm div{
+    width:100%;
+    height:60px;
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+
+
+
+
+#addProductExitButton, #addCategoriaExitButton, #addEmployeeExitButton{
+    position:absolute;
+    text-align:center;
+    top:10px;
+    right:10px;
+    font-size:1.8em;
+    cursor: pointer;
+    border:1px grey solid;
+    border-radius:5px;
+}
+
+
+
+
+#addCategoriaDiv{
+    position:fixed;
+    justify-self:center;
+    align-self:center;
+    border:3px lightgrey solid;
+    border-radius: 15px;
+    margin:15px;
+    margin-top:0px;
+    justify-items:center;
+    align-items:center;
+    grid-gap:15px;
+    
+    display:none;
+}
+
+
+
 /*  END OF sezioneAggiungiProdottiDiv*/
 
+.noResults{
+    margin:10px;
+    padding:10px;
+}
 
 
 
@@ -302,5 +650,5 @@
 }
 
 .divGestionale{
-    display:none; 
+    display:none;
 }

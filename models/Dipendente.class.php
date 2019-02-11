@@ -64,4 +64,10 @@ class Dipendente extends Utente{
     }
 
     public function removeTurno(int $idTurno){}
+    
+    public function getHisMagazzini(){ // Ritorna un array associativo con id_magazzino => via_magazzino 
+        
+        
+    }
+    
 }

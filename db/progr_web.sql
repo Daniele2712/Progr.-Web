@@ -105,7 +105,7 @@ INSERT INTO `comuni` (`id`, `CAP`, `nome`, `provincia`) VALUES
 (1, 67100, 'l\'aquila', 'AQ'),
 (2, 67039, 'sulmona', 'AQ');
 
--- --------------------------------------------------------
+-- --------------------------------------------------------'
 
 --
 -- Struttura della tabella `dati_anagrafici`
@@ -771,6 +771,9 @@ CREATE TABLE `prodotti_venduti` (
 INSERT INTO `items_magazzino` (`id_magazzino`,`id_prodotto`,`quantita`) VALUES ("1",1,103),("1",2,178),("1",3,110),("1",4,29),("1",5,53),("1",6,208),("1",7,49),("1",8,169),("1",9,291),("1",10,242),("2",11,110),("2",12,31),("2",13,50),("2",14,213),("2",15,220),("2",16,134),("2",17,295),("2",18,61),("2",19,102),("2",20,122),("3",21,60),("3",22,15),("3",23,123),("3",24,248),("3",25,42),("3",26,102),("3",27,50),("3",28,99),("3",29,68),("3",30,118),("1",31,171),("1",32,269),("1",33,160),("1",34,32),("1",35,9),("1",36,208),("1",37,164),("1",38,294),("1",39,218),("1",40,262),("2",41,138),("2",42,185),("2",43,174),("2",44,135),("2",45,218),("2",46,15),("2",47,136),("2",48,138),("2",49,178),("2",50,45),("3",51,299),("3",52,37),("3",53,43),("3",54,98),("3",55,249),("3",56,284),("3",57,23),("3",58,168),("3",59,7),("3",60,42),("1",61,176),("1",62,165),("1",63,118),("1",64,285),("1",65,249),("1",66,9),("1",67,188),("1",68,150),("1",69,203),("1",70,171),("2",71,33),("2",72,41),("2",73,17),("2",74,13),("2",75,57);
 
 
+
+
+
 ALTER TABLE `prodotti_ricevuti`
   ADD KEY `id_prodotto` (`id_prodotto`),
   ADD KEY `id_magazzino` (`id_magazzino`),
@@ -783,6 +786,16 @@ ALTER TABLE `prodotti_venduti`
   ADD KEY `id_magazzino` (`id_magazzino`),
   ADD CONSTRAINT `id_prodotti_venduti` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `id_magazzini_venduti` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+-- Inserimento di alcuni ordini 
+INSERT INTO `ordini` (`id`, `tipo_pagamento`, `id_m_pagamento`, `id_indirizzo`, `id_dati_anagrafici`, `subtotale`, `spese_spedizione`, `totale`, `id_valuta`, `data_ordine`, `ora_consegna`, `id_magazzino`) VALUES (NULL, 'Carta', NULL, '2', '2', '15', '5', '20', '1', '2019-01-09 03:06:20', '2019-02-11 07:23:38', '1'), (NULL, 'Paypal', NULL, '1', '5', '44', '5', '49', '2', '2019-02-03 06:31:43', '2019-02-04 07:16:19', '1'), (NULL, 'Bitcoin', NULL, '3', '10', '66', '13', '79', '4', '2019-02-05 12:37:42', '2019-02-06 04:19:26', '1'), (NULL, 'Contrassegno', NULL, '4', '8', '66', '4', '70', '1', '2019-02-08 12:16:19', '2019-02-08 20:39:42', '1'), (NULL, 'Carta', NULL, '1', '8', '63', '23', '85', '1', '2019-02-09 10:23:00', '2019-02-09 18:52:53', '2'), (NULL, 'Paypal', NULL, '4', '2', '44', '2', '46', '2', '2019-02-10 08:22:24', '2019-02-11 06:11:10', '2');
+
+-- Inserimento di alcuni prodotti ricevuti
+INSERT INTO `prodotti_ricevuti` (`id`, `id_prodotto`, `quantita`, `data`, `id_magazzino`) VALUES (NULL, '4', '33', '2019-07-13', '1'), (NULL, '11', '44', '2019-03-11', '2'), (NULL, '26', '500', '2018-11-06', '1'), (NULL, '6', '55', '2019-07-07', '2'), (NULL, '7', '32', '2019-10-22', '1'), (NULL, '19', '50', '2019-02-19', '3'), (NULL, '5', '44', '2019-01-22', '1'), (NULL, '5', '60', '2018-09-20', '2'), (NULL, '25', '25', '2019-07-13', '1'), (NULL, '10', '80', '2019-08-14', '2');
+
+-- Inserimento di alcuni prodotti venduti
+INSERT INTO `prodotti_venduti` (`id`, `id_prodotto`, `quantita`, `data`, `id_magazzino`) VALUES (NULL, '2', '333', '2019-02-13', '1'), (NULL, '31', '44', '2019-02-1', '2'), (NULL, '23', '400', '2018-12-06', '1'), (NULL, '7', '58', '2019-04-03', '2'), (NULL, '17', '32', '2019-11-22', '1'), (NULL, '15', '32', '2018-01-16', '3'), (NULL, '15', '44', '2019-02-17', '1'), (NULL, '4', '66', '2017-11-21', '2'), (NULL, '22', '25', '2019-05-26', '1'), (NULL, '1', '80', '2019-09-3', '2');
 
 --
 -- Indici per le tabelle scaricate

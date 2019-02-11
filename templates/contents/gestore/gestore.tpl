@@ -37,7 +37,7 @@
                 <span><b>Magazzino :</b></span>
             </div>
             <div class="nomeMagazzinoStats">
-                <span class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span> 
+                <span class="magazzinoSelezionato">Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
             </div>
         </div>
         <div class="lowerStats">
@@ -94,7 +94,7 @@
                 <span><b>Magazzino :</b></span>
             </div>
             <div class="nomeMagazzinoStats">
-                <span class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span> 
+                <span class="magazzinoSelezionato">Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span> 
             </div>
         </div>
         
@@ -111,20 +111,7 @@
                     <div id='dataConsegnaOrdine' title="Data Consegna"><b>D.C</b></div>
                 </div>
                 <div class='lineaDiSeparazione'></div>
-                <div id='ElencoOrdini'>
-                    
-                    <div class='ordine'>
-                       <div>3</b></div>
-                       <div>Carta</b></div>
-                       <div>Via Fernando Rossi</b></div>
-                       <div>Mario Vangeli</b></div>
-                       <div>12 $</b></div>
-                       <div>5$</b></div>
-                       <div>17$</b></div>
-                       <div>12-23-1993 12:12:23</b></div>
-                       <div>12-23-1933 22:52:23</b></div>
-                    </div>
-                    
+                <div id='ElencoOrdini' class="elenco">
                 </div>
             </div>
     </div>
@@ -135,7 +122,7 @@
                 <span><b>Magazzino :</b></span>
             </div>
             <div class="nomeMagazzinoStats">
-                <span>Roma, 66100, Via col vento 24</span> 
+                <span class="magazzinoSelezionato">Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span> 
             </div>
         </div>
         
@@ -151,7 +138,7 @@
                 </div>
             
                 <div class='lineaDiSeparazione'></div>
-                <div id='ElencoProdottiRicevuti'>
+                <div id='ElencoProdottiRicevuti' class="elenco">
                 </div>
             </div>
     </div>
@@ -162,7 +149,7 @@
                 <span><b>Magazzino :</b></span>
             </div>
             <div class="nomeMagazzinoStats">
-                <span class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span> 
+                <span class="magazzinoSelezionato">Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span> 
             </div>
         </div>   
         
@@ -177,7 +164,7 @@
                     <div id='dataProdottoVenduti'><b>Data</b></div>
                 </div>
                 <div class='lineaDiSeparazione'></div>
-                <div id='ElencoProdottiVenduti'>
+                <div id='ElencoProdottiVenduti' class="elenco">
                 </div>
             </div>
     </div>
@@ -196,9 +183,9 @@
             <div class="scrittaMagazzino">
                 <b>Magazzino:</b>
             </div>
-            <div class="nomeMagazzino">
+            <div id="selezionaMagazzino" class="nomeMagazzino">
                 <span class="magazzinoSelezionato">Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
-                <span id="idMagazzino">1</span>
+                <span id="idMagazzino"></span>
             </div> 
         </div>
             
@@ -215,15 +202,7 @@
                 
                 <div class='lineaDiSeparazione'></div>
                 
-                <div id='ElencoMagazzini'>
-                    <div class='magazzino'>
-                        <div>2</div>
-                        <div>Roma</div>
-                        <div>66100</div>
-                        <div>Via XX Settembre</div>
-                        <div>55</div>
-                        <div><a href='.....ID'>Cambia Indirizzo</a></div>
-                    </div>
+                <div id='ElencoMagazzini' class="elenco">
                 </div>
             </div>
 
@@ -245,7 +224,7 @@
                 <b>Magazzino:</b>
             </div>
             <div class="nomeMagazzino">
-                <span  class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span>
+                <span class="magazzinoSelezionato">Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
             </div> 
         </div>
         
@@ -291,7 +270,7 @@
                     
                 </div>
                 <div class='lineaDiSeparazione'></div>
-                <div id='ElencoProdotti'>
+                <div id='ElencoProdotti' class="elenco">
                 </div>
             </div>
 
@@ -310,25 +289,11 @@
             <div><label>Nome :</label><input type="text" name="nome" id="nomeProdotto"></div>
             <div><label>Descrizione :</label><textarea cols="40" rows="3" name="descrizione" placeholder="Describe the product"></textarea></div>
             <div><label>Info :</label><textarea cols="40" rows="3" name="info" placeholder="Info about the product"></textarea></div>
-            <div>
-                <label>Categoria :</label>
-                <select id='aggiungiProdotti-categoria' name="categoria">
-                    <option value="null">Nessuna Categoria</option>
-                </select>
-            </div>
+            <div><label>Categoria :</label> <select id='aggiungiProdotti-categoria' name="categoria"></select></div>
             <div><label>Price :</label><input type="text" name="prezzo"></div>
-            <div>
-                <label>Valuta :</label>
-                <select id='aggiungiProdotti-valuta' name="valuta">
-                </select>
-            </div>
-            <div><label>Quantita :</label><input type="text" name="quantita"></div>
-                {* DEVO FARE IN MODO CHE I GESTORI POSSONO SCEGLIERE SOLO TRA I PROPRI MAGAZZINI  *}      
-            <div>
-                <label>Magazzino :</label>
-                <select class='listaNomiMagazzini'>
-                </select>
-            </div>
+            <div><label>Valuta :</label><select id='aggiungiProdotti-valuta' name="valuta"></select></div>
+            <div><label>Quantita :</label><input type="text" name="quantita"></div>     
+            <div><label>Magazzino :</label><select class='listaNomiMagazzini' name="magazzino"></select></div>
             <button type="submit">INSERT</button>
       </form>
             <div id="addProductMessage"></div>
@@ -364,7 +329,7 @@
                 <b>Magazzino:</b>
             </div>
             <div class="nomeMagazzino">
-                <span  class="magazzinoSelezionato">Roma, 66100, Via col vento 24</span>
+                <span class="magazzinoSelezionato">Loading&nbsp;<i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
             </div> 
         </div>
             
@@ -376,7 +341,7 @@
             </div>
             
             <div id="DipendentiFiltroRuolo">
-                Ruolo:  <select id='inputDipendentiFiltroRuolo'>
+                Ruolo:  <select class='ruoliDipendenti' id="inputDipendentiFiltroRuolo">
                                 <option>Tutti</option>
                         </select>   
             </div>
@@ -406,7 +371,7 @@
                 
                 <div class='lineaDiSeparazione'></div>
                 
-                <div id='ElencoDipendenti'>
+                <div id='ElencoDipendenti' class="elenco">
                 </div>
             </div>
             </div>
@@ -418,20 +383,12 @@
             <div class="insertTitle"><h1>Inserisci nuovo Dipendente</h1></div>
             <form id="addEmployeeDivForm" method="POST" action="/upload/uploadDipendente" enctype="multipart/form-data">
 
-                <div><label>Nome :</label><input type="text" name="nome" id="nomeDipendente"></div>
-                <div><label>Cognome :</label><textarea cols="40" rows="4" name="cognome" placeholder="Cognome" id="cognomeDipendente"></textarea></div>
-                <div><label>Ruolo :</label><textarea cols="40" rows="4" name="info" placeholder="ruolo del dipendente"></textarea></div>
-                <div>
-                    <label>Contratto :</label>
-                    <select id='asd' name="contratto">
-                    </select>
-                </div>
-                <div><label>Stipendio :</label><input type="text" name="stipendioOrario"></div>  
-                <div>
-                    <label>Magazzino :</label>
-                    <select class='listaNomiMagazzini'>
-                    </select>
-                </div>
+                <div><label>Nome :</label><input type="text" name="nome" placeholder="Nome" id="nomeDipendente"></div>
+                <div><label>Cognome :</label><input type="text" name="cognome" placeholder="Cognome" id="cognomeDipendente"></textarea></div>
+                <div><label>Ruolo :</label><select name="ruoloDipendente" class="ruoliDipendenti"></select></div>
+                <div><label>Contratto :</label><select name="contrattoDipendente" class="selectContrattoDipendente" ></select></div>
+                <div><label>Stipendio :</label><input name="stipendioOrario" type="text"  placeholder="€ / ORA"></div>  
+                <div><label>Magazzino :</label><select name="magazzino" class='listaNomiMagazzini'></select></div>
                 <button type="submit">INSERT</button>
             </form>
         </div>

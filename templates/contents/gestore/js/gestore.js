@@ -184,6 +184,8 @@ $('#forwardImage').click(function(){
     $("#veil").fadeOut();
 });
 
+indirizziDeiMagazzini();
+caricaContratti();
 });
 
 function caricaProdotti(){
@@ -427,9 +429,8 @@ function caricaRuoli(){
             dataType:"json",
             success:function(arrayDiRisposta){
                 jQuery.each(arrayDiRisposta, function( i, elementoRisposta ) {
-
                     var ruolo= '<option value='+elementoRisposta['nome_ruolo']+'>ID '+elementoRisposta['id_ruolo']+' :   '+elementoRisposta['nome_ruolo']+'</option>';
-                    $( "#inputDipendentiFiltroRuolo" ).append(ruolo);
+                    $( ".ruoliDipendenti").append(ruolo);
                   });
             },
             error:function(req, text, error){
@@ -483,5 +484,88 @@ function createDipendente(){}
 function deleteDipendente(){}
 function modofyDipendente(){/*combinaz lineare di create e delete*/}
 
+function indirizziDeiMagazzini(){
+   $.ajax({
+            url:"http://webb/api/user/indirizziMagazzini",
+            method:"GET",
+            dataType:"json",
+            success:function(risposta){
+                $('.magazzinoSelezionato').html("ID:"+risposta.magazzini[0]['id']+"&nbsp;&nbsp;"+risposta.magazzini[0]['nome'] +", "+risposta.magazzini[0]['via'] +" "+risposta.magazzini[0]['civico']);  //scrive in tutti i posti dedicati al nome del negozio
+                
+                
+                
+                var opzioniMagazziniPerDropdown="";
+                jQuery.each(risposta.magazzini, function( i, magazzino )
+                {
+                 opzioniMagazziniPerDropdown = opzioniMagazziniPerDropdown+'<option class="magazzinoValue" value='+magazzino['id']+'>'+"ID:"+magazzino['id']+"&nbsp;&nbsp;"+magazzino['nome']+', '+magazzino['via']+' '+magazzino['civico']+'</option>';
+                });
+                var selectMagazzino="<select id='selectMagazzinoSelectTable'>"+opzioniMagazziniPerDropdown+"</select><span id=idMagazzino></span>"; // questo perzzo serve per riempire la parte del nome (e id invisibile) del magazzino
+                $('#selezionaMagazzino').html(selectMagazzino);
+                $('.listaNomiMagazzini').html(opzioniMagazziniPerDropdown);
+                
+                $('#idMagazzino').html(risposta.magazzini[0]['id']);        // riempio quella span con l-id cel primo magazzino appartenente all gestore, che sarebbe quello di default
+                
+                //Ora completo anche la tabbella grande con la lista dei magazzini    
+                 jQuery.each(risposta.magazzini, function( i, magazzino )
+                {
+                    var magazzino = '<div class="magazzino">\
+                                        <div>'+magazzino['nome']+'</div>\
+                                        <div>'+magazzino['CAP']+'</div>\
+                                        <div>'+magazzino['via']+'</div>\
+                                        <div>'+magazzino['civico']+'</div>\
+                                        <div><a href="#">Cambia Indirizzo</a></div>\
+                                    </div>';
+                    $('#ElencoMagazzini').append(magazzino)
+                 });
+                
+                // Dopo aver creato tutto questo, ci aggiungo la funzione on click che aggiorna la span quando il gestore cambia il magazzino
+                $('.magazzinoValue').click(function(){
+                    var idMagazzinoSelezionato=$(this).attr('value');       //Prende l-id del magazzino , che e' memorizzato nel attributo value dell'opzione
+                   $('#idMagazzino').html(idMagazzinoSelezionato);          //nella sezione invisibile con id idMagazzino ci aggiungo l'id del magazzino
+                   
+                   //ora cambio la scritta in tutte le sezioni dove c-e scritto "nome del magazzino"
+                   jQuery.each(risposta.magazzini, function( i, magazzino )
+                        {
+                            if(magazzino['id']==idMagazzinoSelezionato) 
+                                $('.magazzinoSelezionato').html("ID:"+magazzino['id']+"&nbsp;&nbsp;"+magazzino['nome'] +", "+magazzino['via'] +" "+magazzino['civico']);
+                        });
+                   
+                   
+                   //Dato che ho cambiato magazzino, ora le informazioni delle tabblle di prima sono obolete, quindi le cancello
+                   $('#ElencoProdotti').html('');
+                   $('#ElencoDipendenti').html('');
+                   $('#ElencoOrdini').html('');
+                   $('#ElencoProdottiRicevuti').html('');
+                   $('#ElencoProdottiVenduti').html('');
+                   $('#sezioneOrdini').addClass('notUpdated');
+                   $('#sezioneProdottiRicevuti').addClass('notUpdated');
+                   $('#sezioneProdottiVenduti').addClass('notUpdated');
+                    
+                });
+            },
+            error:function(req, text, error){
+                ajax_error(req, text, error);
+            }
+        });
+}
+
+function caricaContratti(){
+    $.ajax({
+            url:"http://webb/api/contratti",
+            method:"GET",
+            dataType:"json",
+            success:function(contratti){
+               
+                jQuery.each(contratti, function( i, contratto )
+                {
+                    $('.selectContrattoDipendente').append("<option value="+contratto['id_contratto']+">"+contratto['tipo_contratto']+"</option>");
+                });
+               }
+            ,
+            error:function(req, text, error){
+                ajax_error(req, text, error);
+            }
+        });
+}
 
 
