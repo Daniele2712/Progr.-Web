@@ -1,4 +1,4 @@
-#profile{
+#topProfile{
     display:grid;
     grid-template-columns:1fr 2fr 1fr;
     grid-template-areas:"user username bars";
@@ -33,7 +33,7 @@
     display:none;
     position:relative;
     width:200px;
-    top:130px;
+    top:50px;
     right:0px;
     z-index: 1;
 }
@@ -54,6 +54,7 @@
 }
 
 #profile .listItem{
+    width:100%;
     cursor:pointer;
     display:grid;
     grid-template-columns:3fr 1fr ;
@@ -69,4 +70,48 @@
 #profile .listItem i{
     align-self:right;
     padding:10px;
+}
+
+@media screen and (min-width:800px) and (max-width:1024px){   /* questa  parte serve per i TABLET */    
+#topProfile{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    grid-template-areas:"username bars";
+    width:100%;
+    height:100%;
+    justify-items:space-evenly;
+    align-items:center;
+}
+
+#profile #user{
+    display:none;
+}
+}
+    
+@media screen and (max-width:800px){     /* questa  parte serve per i Telefonini */
+#topProfile{
+    display:grid;
+    grid-template-columns:1fr;
+    grid-template-areas:"bars";
+    width:100%;
+    height:100%;
+    align-items:center;
+    
+}
+
+#profile #user{
+    display:none;
+}
+
+#profile #username{
+    display:none;
+}
+
+#dialog_container{
+    position:relative !important;
+    top:0px !important;
+    right:0px !important;
+    z-index:1;
+}
+
 }

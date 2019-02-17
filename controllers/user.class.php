@@ -7,7 +7,7 @@ if(!defined("EXEC")){
 }
 
 class User implements Controller{
-    public static function getIndirizzi(Request $req){
+    public static function getIndirizzi(Request $req){ 
         $sessione = \Singleton::Session();
         if(!$sessione->isLogged()){
             echo "non loggato";

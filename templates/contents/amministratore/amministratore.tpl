@@ -22,10 +22,12 @@
         <div class="sezione" id="sezioneMagazzini">Magazzino</div>
         <div class="sezione active" id="sezioneProdotti">Prodotti</div>
         <div class="sezione" id="sezioneDipendenti">Dipendenti</div>
+        <div class="sezione" id="sezioneGestori">Gestori</div>
     </div>
 
     <div id="sezioniImpostazioni">
-        <div class="sezione" id="sezioneIInformazioni">Informazioni</div>
+        <div class="sezione" id="sezioneProfilo">Profilo</div>
+        <div class="sezione" id="sezioneSitoWeb">Sito Web</div>
     </div>
 </div>
     
@@ -178,7 +180,7 @@
                 <span><b>Magazzini</b></span>
             </div>
             <div class="aggiungi">
-                <span><button type="button"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Un bel niente&nbsp;<i class="fas fa-plus"></i></button></span> 
+                <span><button type="button" id="addMagazzinoButton"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;un&nbsp;magazzino&nbsp;<i class="fas fa-plus"></i></button></span> 
             </div>
             <div class="scrittaMagazzino">
                 <b>Magazzino:</b>
@@ -206,6 +208,18 @@
                 </div>
             </div>
 
+        </div>
+        
+        <div id="addMagazzinoDiv">
+            <span id="addMagazzinoExitButton">&nbsp;X&nbsp;</span>
+            <div class="insertTitle"><h1>Inserisci nuovo magazzino</h1></div>
+            <form id="addMagazzinoDivForm" method="POST" action="/upload/uploadMagazzino" enctype="multipart/form-data">
+                <div><label>Citta :</label><input type="text" name="citta" id="nomeCitta" placeholder="Roma"></textarea></div>
+                <div><label>CAP :</label><input type="text" name="cap" id="cap" placeholder="64100"></div>
+                <div><label>Via :</label><input type="text" name="via" placeholder="Via Giuseppe Verdi"></div>  
+                <div><label>Civico :</label><input type="text" name="civico" placeholder="127"></div>
+                <button type="submit">INSERT</button>
+            </form>
         </div>
     </div>
             
@@ -394,13 +408,78 @@
         </div>
     </div>
     
-    
-     
-     
+    <div id="sezioneGestoriDiv" class="divGestionale">
+        <div class="upper">
+            <div class="scritta">
+                <span><b>Gestori</b></span>
+            </div>
+            <div class="aggiungi">
+                <button type="button" id="addGestoreButton" class="pointer"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Gestori&nbsp;<i class="fas fa-plus"></i></button> 
+            </div>
+            <div class="scrittaMagazzino">
+                <b>Magazzino:</b>
+            </div>
+            <div class="nomeMagazzino">
+                <span >Tutti i magazzini</span>
+            </div> 
+        </div>
+            
+        
+
+            <div id="GestoriLower">
+            <div id='tableGestori' class="table">
+                <div id='ColonneGestori' class='gestore'>
+                    <div id='idGestore'><b>ID</b></div>
+                    <div id='nomeGestore'><b>Nome</b></div>
+                    <div id='cognomeGestore'><b>Cognome</b></div>
+                    <div id='stipendioOrarioGestore'><b>€/ora</b></div>
+                    <div id='magazzinoGestore'><b>€/ora</b></div>
+                    <div id='modificaProdotto'><i class="far fa-edit"></i></div>
+                    <div id='cancellaProdotto'><i class="fas fa-trash-alt"></i></div>
+                </div>
+                
+                <div class='lineaDiSeparazione'></div>
+                
+                <div id='ElencoGestori' class="elenco">
+                </div>
+            </div>
+            </div>
+
+
+        
+        <div id="addGestoreDiv">
+            <span id="addGestoreExitButton">&nbsp;X&nbsp;</span>
+            <div class="insertTitle"><h1>Inserisci nuovo Gestore</h1></div>
+            <form id="addGestoreDivForm" method="POST" action="/upload/uploadGestore" enctype="multipart/form-data">
+
+                <div><label>Nome :</label><input type="text" name="nome" placeholder="Nome" id="nomeGestore"></div>
+                <div><label>Cognome :</label><input type="text" name="cognome" placeholder="Cognome" id="cognomeGestore"></textarea></div>
+                <div><label>Username :</label><input type="text" name="username" placeholder="Username" id="usernameGestore"></textarea></div>
+                <div><label>Password :</label><input type="password" name="password" placeholder="**********" id="passwordGestore"></textarea></div>
+                <div><label>Contratto :</label><select name="contrattoDipendente" class="selectContrattoDipendente" ></select></div>
+                <div><label>Stipendio :</label><input name="stipendioOrario" type="text"  placeholder="€ / ORA"></div>  
+                <div><label>Magazzino :</label><select name="magazzino" class='listaNomiMagazzini'></select></div>
+                <button type="submit">INSERT</button>
+            </form>
+        </div>
     </div>
     
+     
+    <div id="sezioneProfiloDiv" class="divGestionale">
+        <div id="ProfiloDiv">
+            <div><button>Cambia Password</button></div>
+        </div>
+     </div>
+
+    <div id="sezioneSitoWebDiv" class="divGestionale">
+        <div id="SitoWebDiv">
+            <div><button>Cambia sfondo del Website</button></div>
+            <div><button>Cambia Colore Tema</button></div>
+            <div><button>Cambia Nome Website</button></div>
+        </div>
+     </div>
         
     
   
 </div>
-             </div>
+</div>

@@ -99,7 +99,7 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      */
     public function setUser(){
         $session2 = \Singleton::Session();
-        if($session2->isLogged())    // solo se l'utente e loggato fa queste cose
+        if($session2->isLogged())    // solo se l'utente e' loggato fa queste cose
         {
         $userType=$session2->getRuoloOfLoggedUser();         // restituisce UtenteRegistrato, Amministratore,Gestore, Corriere, ecc
         

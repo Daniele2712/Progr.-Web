@@ -14,15 +14,10 @@ class Amministratore extends HTMLView{
         //$content=createContent();
         $this->layout = "layout";       
         $this->content = "amministratore/amministratore";
-        $this->smarty->assign('templateHeadIncludes', '<link rel="stylesheet" type="text/css" href="/templates/css/profile.css"/> <link rel="stylesheet" type="text/css" href="/templates/css/amministratore.css"/>');                   /* Deve essere formato <link rel="stylesheet" type="text/css" href="...>*/
         
-        $this->smarty->assign('username', 'Gestor Mario');
-        $this->smarty->assign('templateLoginOrProfileIncludes', '/profile/profile.tpl');     /* Deve essere un template   */
-        $this->addJS("profile/js/profile.js");
-        $this->addCSS("profile/css/profile.css");
-        
-        $this->smarty->assign('templateContentIncludes', 'contents/amministratore/amministratore.tpl');             /* Deve essere un template*/
-        $this->addCSS('amministratore/css/amministratore.css');
+        $this->addCSS('gestore/css/gestore.css');   // Dato che la maggior parte della pagina e' in comune con il gestore, uso li stile e il javascript che ho usato per il gestore per stilizzare anche l-amministratore
+        $this->addJS('gestore/js/gestore.js');      // In questo modo se devo fare una modifica la faccio solo al file del gestore
+        $this->addCSS('amministratore/css/amministratore.css');     // in css e js del amministratore metto solo cose che appartengono al amministratore
         $this->addJS('amministratore/js/amministratore.js');
         
     }

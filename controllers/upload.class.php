@@ -110,6 +110,39 @@ class upload{
         echo "(PS. ancora da implementare)";
         }
     }
+    
+    public static function uploadGestore(Request $req){
+
+        /*  DEVO ANCHE FILTRARE STI VALORI x VEDERE SE VANNO BENE!  */
+        /*  LO FARO IN SEGUITO                                      */
+
+        /* req conosce i parametri della PSOT, li prendo per poi usarli per aggiungere tutto nel DB */
+        $nome=$req->getString('nome', NULL, 'POST');
+        $cognome=$req->getString('cognome', NULL, 'POST');
+        $id_ruolo=$req->getString('ruoloDipendente', NULL, 'POST');
+        $id_contratto=$req->getString('contrattoDipendente', NULL, 'POST');
+        $stipendio=$req->getFloat('stipendioOrario', NULL, 'POST');
+        $id_magazzino=$req->getString('magazzino', NULL, 'POST');
+        $tuttoOK=TRUE;  // in caso qualcosa vada male lo imposto a FALSE e non faccio nemmeno i prossimi passi.
+
+        
+        /*  Verifica che:       se qualcosa va male imposto tuttoOK=FALSE;
+         *  id_ruolo esiste
+         *  colui che inserisce il ruolo ha il permesso di farlo(un gestore non puo inserire un amministratore)
+         *  il magazzino in cui si vuole inserire il dipendente e sotto il controllo del gestore
+         */
+        
+      /*            Inserimento dipendente        */
+        if($tuttoOK)
+        {
+        $DB = \Singleton::DB();
+        echo "Successfully updated gestori.<br/>";
+        echo "$nome $cognome was added to the list<br/><br/>";
+        echo "(PS. ancora da implementare)";
+        }
+    }
+    
+    
 
     public static function saveProduct(Request $req){
 
@@ -169,6 +202,25 @@ if ($uploadOk == 0) {
          }
          else{ echo "PADRE NON ESISTE! </br> Se desideri aggiungere una categoria senza padre, aggiungi il valore 'NULL' nel riquadro padre";}
         }
+     }
+     
+     public static function uploadMagazzino(Request $req){
+         $DB=\Singleton::DB();
+        $nome=$req->getString('nome', NULL, 'POST');
+        $cognome=$req->getString('cognome', NULL, 'POST');
+        $id_ruolo=$req->getString('ruoloDipendente', NULL, 'POST');
+
+        //get Id gestore    
+        $id_gestore=1;
+        
+        // eventualmente crea l-indirizzo se non esiste
+        
+        //get Id indirizzo
+        $id_indirizzo=1;
+        
+        if($DB->query("INSERT INTO `magazzini` (`id_gestore`, `id_indirizzo`) VALUES ('$id_gestore' , '$id_indirizzo');")) echo " Magazzino inserito";
+          else " Non e possibile aggiungere il magazzino ";
+     
      }
 
     private function category_exists($id){

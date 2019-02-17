@@ -1,3 +1,67 @@
+#veil{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgb(128,128,128,0.85);
+    z-index:1;
+    display:none;
+}
+#sectionContent{
+    grid-area:sectionContent;
+    width:100%;
+    height:100%;
+}
+
+
+.sezioneMagazziniDiv{
+    display:block;
+}
+#sezioniStatistiche{
+    display:none;
+}
+
+
+#sezioniImpostazioni{
+    display:none;
+}
+
+.divGestionale{
+    display:none;
+}
+
+
+
+#addProductExitButton, #addCategoriaExitButton, #addEmployeeExitButton{
+    position:absolute;
+    text-align:center;
+    top:10px;
+    right:10px;
+    font-size:1.8em;
+    cursor: pointer;
+    border:1px grey solid;
+    border-radius:5px;
+}
+
+#addProductDiv, #addCategoriaDiv, #addEmployeeDiv{
+    background-color:white;
+    width:60%;
+    max-width:600px;
+    display:none;
+    border:3px lightgrey solid;
+    border-radius: 15px;
+    justify-items:center;
+    align-items:center;
+    grid-gap:15px;
+    position: absolute;
+    top:150px;
+    z-index:2;
+    justify-content:center;
+    justify-self:center;
+}
+@media screen and (min-width:1024px){
+    
 #gestoreContent{ /* THE WHOLE CONTAINTER*/
     display:grid;
     width:100%;
@@ -11,87 +75,73 @@
 }
 
 /*      MACROSEZIONI      */
+
 #macrosezioni{
-    grid-area:macrosezioni;
     width:100%;
+    height:100%;
+    grid-area:macrosezioni;
     background: linear-gradient(lightgrey, white);
     display:grid;
-    grid-template-columns:1fr 1fr 1fr;
+    grid-auto-flow:column;
     align-items: center;
     justify-items: center;
-    grid-auto-flow:row;
 }
 
+.macrosezione{
+    width:100%;
+    height:100%;
+    display:grid;
+    align-items: center;
+    justify-items: center;
+}
 
-
-.macrosezione {
+.macrosezione span{
+    padding:2%;
     border-bottom: grey 8px solid;
     border-left: lightgrey 8px solid;
     border-right: lightgrey 8px solid;
     cursor:pointer;
-    font-size:2em;
+    font-size:0.9em;
     box-shadow: 0px 10px 12px rgba(0,0,0,0.3);
     background: linear-gradient( white,#F4FAFB);
     background-color: white;
     border-radius:15px;
-    text-align: center;
-    display:grid;
-    align-items: center;
-    margin:30px;
-    padding:10px;
     -webkit-user-select: none;  
     -moz-user-select: none;    
     -ms-user-select: none;      
     user-select: none;
-    
 }
-.macrosezione.active {
+
+.macrosezione.active span{
     box-shadow: 0px 12px 20px;
     
 }
-.macrosezione:active { /*Clicked and held*/
+.macrosezione:active span{ /*Clicked and held*/
   box-shadow: 0px 8px 9px;
 }
+
+
 /*      END OF  MACROSEZIONI      */
 
 
 /*      SEZIONI      */
+
 #sezioni{
+    margin:5px;
+    font-size:0.8em;
     grid-area:sezioni;
     width:100%;
+    height:100%;
     display:grid;
-    border-right: lightgrey 2px solid;
-    border-top: lightgrey 2px solid;
-    border-radius:15px;
-    padding-top:10px;
-    
+    grid-auto-flow:row;
+    border: lightgrey 2px solid;
+    border-radius:8px;
     -webkit-user-select: none;  
     -moz-user-select: none;    
     -ms-user-select: none;      
     user-select: none;
-}
+    }
 
-#sezioniStatistiche{
-    display:grid;
-    justify-items: center;
-    align-content:start;
-    display:none;
-    
-}
-
-#sezioniAmministrazione{
-    display:grid;
-    justify-items: center;
-    align-content:start;
-    
-}
-
-#sezioniImpostazioni{
-    display:grid;
-    justify-items: center;
-    align-content:start;
-    display:none;
-}
 
 .sezione{
     width:80%;
@@ -109,8 +159,28 @@
     justify-items: center;
     align-items:center;
     margin:15px;
-    
 }
+
+.sezione span{
+    height:2em;
+    border-bottom: grey 2px solid;
+    border-left: lightgrey 2px solid;
+    border-right: lightgrey 2px solid;
+    cursor:pointer;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:15px;
+    margin:10px;
+    padding:10%;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+
+
+
+
 
 .sezione:hover { /*Clicked and held*/
   box-shadow: 0px 7px 7px;
@@ -124,6 +194,11 @@
     box-shadow: 0px 8px 10px;
     
 }
+
+    
+
+
+
 
 /*      END OF  SEZIONI      */
 
@@ -334,16 +409,7 @@
 /*      END OF UPPER*/
 
 /*      CONTENUTO      */
-#sectionContent{
-    grid-area:sectionContent;
-    width:100%;
-    height:100%;
-}
 
-
-.sezioneMagazziniDiv{
-    display:block;
-}
 
 
 
@@ -504,33 +570,9 @@
 
 /*      sezioneAggiungiProdottiDiv     */
 
-#veil{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background-color:rgb(128,128,128,0.85);
-    z-index:1;
-    display:none;
-}
 
-#addProductDiv, #addCategoriaDiv, #addEmployeeDiv{
-    background-color:white;
-    width:60%;
-    max-width:600px;
-    display:none;
-    border:3px lightgrey solid;
-    border-radius: 15px;
-    justify-items:center;
-    align-items:center;
-    grid-gap:15px;
-    position: absolute;
-    top:150px;
-    z-index:2;
-    justify-content:center;
-    justify-self:center;
-}
+
+
 
 .insertTitle{
     text-align: center;
@@ -604,16 +646,7 @@
 
 
 
-#addProductExitButton, #addCategoriaExitButton, #addEmployeeExitButton{
-    position:absolute;
-    text-align:center;
-    top:10px;
-    right:10px;
-    font-size:1.8em;
-    cursor: pointer;
-    border:1px grey solid;
-    border-radius:5px;
-}
+
 
 
 
@@ -642,6 +675,21 @@
     padding:10px;
 }
 
+/*      IMPOSTAZIONI        */
+#ProfiloDiv{
+    margin:5%;
+    margin-top:10%;
+    display:grid;
+    grid-template-columns:1fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+    grid-gap:20px;
+}
+#ProfiloDiv button{
+    height:80px;
+}
+
 
 
 /*      END OF  CONTENUTO      */
@@ -649,6 +697,136 @@
     display:none;
 }
 
-.divGestionale{
-    display:none;
+
+
 }
+
+@media screen and (max-width:1024px){   /*  TABLET  */
+
+    
+#gestoreContent{ /* THE WHOLE CONTAINTER*/
+    display:grid;
+    width:100%;
+    justify-items:center;
+    align-items: center;
+    grid-template-rows:150px 80px auto;
+    grid-template-areas:
+        "macrosezioni"
+        "sezioni"
+        "sectionContent";
+    }
+    
+#macrosezioni{
+    width:100%;
+    height:100%;
+    grid-area:macrosezioni;
+    background: linear-gradient(lightgrey, white);
+    display:grid;
+    grid-auto-flow:column;
+    align-items: center;
+    justify-items: center;
+}
+
+.macrosezione{
+    width:100%;
+    height:100%;
+    display:grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.macrosezione span{
+    padding:2%;
+    border-bottom: grey 8px solid;
+    border-left: lightgrey 8px solid;
+    border-right: lightgrey 8px solid;
+    cursor:pointer;
+    font-size:0.9em;
+    box-shadow: 0px 10px 12px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:15px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
+.macrosezione.active span{
+    box-shadow: 0px 12px 20px;
+    
+}
+.macrosezione:active span{ /*Clicked and held*/
+  box-shadow: 0px 8px 9px;
+}
+    
+#sezioni{
+    margin:5px;
+    font-size:0.8em;
+    grid-area:sezioni;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:row;
+    border: lightgrey 2px solid;
+    border-radius:8px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+    }
+
+
+.gruppoDiSezioni{
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:column;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+
+.sezione {
+    height:100%;
+    width:100%;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+.sezione span{
+    height:2em;
+    border-bottom: grey 2px solid;
+    border-left: lightgrey 2px solid;
+    border-right: lightgrey 2px solid;
+    cursor:pointer;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:15px;
+    margin:10px;
+    padding:10%;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+
+.sezione:hover span{ /*Clicked and held*/
+  box-shadow: 0px 7px 7px;
+}
+
+.sezione:active span{ /*Clicked and held*/
+  box-shadow: 0px 10px 12px;
+}
+
+.sezione.active span{
+    box-shadow: 0px 8px 10px;
+    
+}
+
+}
+
+@media screen and (max-width:800px){    /*      TEELFONO   penso che resta uguale alla parte per il tablet... */
+
+}
+

@@ -102,22 +102,7 @@ $('#forwardImage').click(function() {
 $("#ProdottiSearchButton").click(function(){caricaProdotti()});
 $("#DipendentiSearchButton").click(function(){caricaDipendenti()});
 
-//La seguente funzione seve per popolare la lista dei magazzini per l-amministratore, il quale puo scegliere cosa fare in tutti i magazzini
-$.ajax({
-    url:"http://webb/api/ApiController/indirizzi",
-    method:"GET",
-    dataType:"json",
-    success:function(indirizzi){
-        jQuery.each( indirizzi, function( i, indirizzo ) {
-            var indirizzo= '<option>ID '+indirizzo['id_magazzino']+' :   '+indirizzo['citta']+' '+indirizzo['provincia']+' '+indirizzo['cap']+' ' +indirizzo['via']+' '+indirizzo['civico']+'</option>';
-            $( ".ListaNomiMagazzini" ).append( indirizzo);
-          });
 
-    },
-    error:function(req, text, error){
-        ajax_error(req, text, error);
-    }
-})
 
 $('#addProductButton').click(function(){
     $("#veil").fadeIn();
@@ -486,33 +471,33 @@ function modofyDipendente(){/*combinaz lineare di create e delete*/}
 
 function indirizziDeiMagazzini(){
    $.ajax({
-            url:"http://webb/api/user/indirizziMagazzini",
+            url:"http://webb/api/indirizzi/all",
             method:"GET",
             dataType:"json",
             success:function(risposta){
-                $('.magazzinoSelezionato').html("ID:"+risposta.magazzini[0]['id']+"&nbsp;&nbsp;"+risposta.magazzini[0]['nome'] +", "+risposta.magazzini[0]['via'] +" "+risposta.magazzini[0]['civico']);  //scrive in tutti i posti dedicati al nome del negozio
+                $('.magazzinoSelezionato').html("ID:"+risposta.magazzini[0]['id_magazzino']+"&nbsp;&nbsp;"+risposta.magazzini[0]['nome_citta_magazzino'] +", "+risposta.magazzini[0]['via_magazzino'] +" "+risposta.magazzini[0]['civico_magazzino']);  //scrive in tutti i posti dedicati al nome del negozio
                 
                 
                 
                 var opzioniMagazziniPerDropdown="";
                 jQuery.each(risposta.magazzini, function( i, magazzino )
                 {
-                 opzioniMagazziniPerDropdown = opzioniMagazziniPerDropdown+'<option class="magazzinoValue" value='+magazzino['id']+'>'+"ID:"+magazzino['id']+"&nbsp;&nbsp;"+magazzino['nome']+', '+magazzino['via']+' '+magazzino['civico']+'</option>';
+                 opzioniMagazziniPerDropdown = opzioniMagazziniPerDropdown+'<option class="magazzinoValue" value='+magazzino['id_magazzino']+'>'+"ID:"+magazzino['id_magazzino']+"&nbsp;&nbsp;"+magazzino['nome_citta_magazzino']+', '+magazzino['via_magazzino']+' '+magazzino['civico_magazzino']+'</option>';
                 });
                 var selectMagazzino="<select id='selectMagazzinoSelectTable'>"+opzioniMagazziniPerDropdown+"</select><span id=idMagazzino></span>"; // questo perzzo serve per riempire la parte del nome (e id invisibile) del magazzino
                 $('#selezionaMagazzino').html(selectMagazzino);
                 $('.listaNomiMagazzini').html(opzioniMagazziniPerDropdown);
                 
-                $('#idMagazzino').html(risposta.magazzini[0]['id']);        // riempio quella span con l-id cel primo magazzino appartenente all gestore, che sarebbe quello di default
+                $('#idMagazzino').html(risposta.magazzini[0]['id_magazzino']);        // riempio quella span con l-id cel primo magazzino appartenente all gestore, che sarebbe quello di default
                 
                 //Ora completo anche la tabbella grande con la lista dei magazzini    
                  jQuery.each(risposta.magazzini, function( i, magazzino )
                 {
                     var magazzino = '<div class="magazzino">\
-                                        <div>'+magazzino['nome']+'</div>\
-                                        <div>'+magazzino['CAP']+'</div>\
-                                        <div>'+magazzino['via']+'</div>\
-                                        <div>'+magazzino['civico']+'</div>\
+                                        <div>'+magazzino['nome_citta_magazzino']+'</div>\
+                                        <div>'+magazzino['CAP_magazzino']+'</div>\
+                                        <div>'+magazzino['via_magazzino']+'</div>\
+                                        <div>'+magazzino['civico_magazzino']+'</div>\
                                         <div><a href="#">Cambia Indirizzo</a></div>\
                                     </div>';
                     $('#ElencoMagazzini').append(magazzino)
@@ -527,7 +512,7 @@ function indirizziDeiMagazzini(){
                    jQuery.each(risposta.magazzini, function( i, magazzino )
                         {
                             if(magazzino['id']==idMagazzinoSelezionato) 
-                                $('.magazzinoSelezionato').html("ID:"+magazzino['id']+"&nbsp;&nbsp;"+magazzino['nome'] +", "+magazzino['via'] +" "+magazzino['civico']);
+                                $('.magazzinoSelezionato').html("ID:"+magazzino['id_magazzino']+"&nbsp;&nbsp;"+magazzino['nome_citta_magazzino'] +", "+magazzino['via_magazzino'] +" "+magazzino['civico_magazzino']);
                         });
                    
                    

@@ -135,9 +135,9 @@ class Dipendente extends Utente{
         
     }
     
-    public static function getMagazziniOfDipendenteWithId($idGestore){ // magari puoi fare anche un controllo prima x vedere se e effettivamente un dipendente o no...qui do x scontato che e un dipendente
-            //Restituisce UtenteRegistrato, oppure Gestore, Corriere, Amministratore, ecc se l-utente e un dipendente
+    public static function getMagazziniOfDipendenteWithId($idGestore){ // I controlli che sia un vero Gestore vanno fatti prima, qui do per scontato che sia un gestore
             
+        
             $sql = "SELECT magazzini.id, comuni.CAP, comuni.nome, comuni.provincia, indirizzi.via, indirizzi.civico FROM magazzini,indirizzi,comuni WHERE magazzini.id_gestore= ? AND magazzini.id_indirizzo=indirizzi.id AND indirizzi.id_comune=comuni.id;";
             $p = \Singleton::DB()->prepare($sql);
             $p->bind_param('i',$idGestore);
@@ -145,7 +145,7 @@ class Dipendente extends Utente{
                 throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
             $p->bind_result($id, $CAP, $nome, $provincia, $via, $civico);
             while ($p->fetch()) {
-            $data_array[] = array("id"=>$id,"CAP"=>$CAP,"nome"=>$nome,"provincia"=>$provincia,"via"=>$via,"civico"=>$civico);
+            $data_array[] = array("id_magazzino"=>$id,"CAP_magazzino"=>$CAP,"nome_citta_magazzino"=>$nome,"provincia_magazzino"=>$provincia,"via_magazzino"=>$via,"civico_magazzino"=>$civico);
             }
             /*if($r === FALSE)
                 throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
@@ -155,6 +155,26 @@ class Dipendente extends Utente{
             
             return $data_array;
         
+    }
+    
+    public static function getMagazziniOfAmministratore(){  // Il controllo non lo faccio qui perche l-ho fatto prima(o lo devo fare prima)
+                                                        // Quindi vado su fiducia che si tratta veramente di un Amministratore
+        
+            $sql = "SELECT magazzini.id, comuni.CAP, comuni.nome, comuni.provincia, indirizzi.via, indirizzi.civico FROM magazzini,indirizzi,comuni WHERE magazzini.id_indirizzo=indirizzi.id AND indirizzi.id_comune=comuni.id;";
+            $p = \Singleton::DB()->prepare($sql);
+            if(!$p->execute())
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+            $p->bind_result($id, $CAP, $nome, $provincia, $via, $civico);
+            while ($p->fetch()) {
+            $data_array[] = array("id_magazzino"=>$id,"CAP_magazzino"=>$CAP,"nome_citta_magazzino"=>$nome,"provincia_magazzino"=>$provincia,"via_magazzino"=>$via,"civico_magazzino"=>$civico);
+            }
+            /*if($r === FALSE)
+                throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+            elseif($r === NULL)
+                throw new \SQLException("Empty Result", $sql, 0, 8);*/
+            $p->close();
+            
+            return $data_array;
     }
 }
 ?>

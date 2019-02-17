@@ -4,28 +4,28 @@
   
     
 <div id="macrosezioni">
-            <div class="macrosezione" id="statistiche">Statistiche</div>
-            <div class="macrosezione active" id="amministrazione">Amministrazione</div>
-            <div class="macrosezione" id="impostazioni">Impostazioni</div>
+            <div class="macrosezione" id="statistiche"><span>Statistiche</span></div>
+            <div class="macrosezione active" id="amministrazione"><span>Amministrazione</span></div>
+            <div class="macrosezione" id="impostazioni"><span>Impostazioni</span></div>
 </div>
 
 <div id="sezioni">
-    <div id="sezioniStatistiche">
-        <div class="sezione" id="sezioneStatistiche">Statistiche</div>
-        <div class="sezione notUpdated" id="sezioneOrdini">Ordini</div>
-        <div class="sezione notUpdated" id="sezioneProdottiRicevuti">Prodotti ricevuti</div>
-        <div class="sezione notUpdated" id="sezioneProdottiVenduti">Prodotti venduti</div>
+    <div id="sezioniStatistiche" class="gruppoDiSezioni">
+        <div class="sezione" id="sezioneStatistiche"><span>Statistiche</span></div>
+        <div class="sezione notUpdated" id="sezioneOrdini"><span>Ordini</span></div>
+        <div class="sezione notUpdated" id="sezioneProdottiRicevuti"><span>Prodotti ricevuti</span></div>
+        <div class="sezione notUpdated" id="sezioneProdottiVenduti"><span>Prodotti venduti</span></div>
 
     </div>
 
-    <div id="sezioniAmministrazione">
-        <div class="sezione" id="sezioneMagazzini">Magazzino</div>
-        <div class="sezione active" id="sezioneProdotti">Prodotti</div>
-        <div class="sezione" id="sezioneDipendenti">Dipendenti</div>
+    <div id="sezioniAmministrazione" class="gruppoDiSezioni">
+        <div class="sezione" id="sezioneMagazzini"><span>Magazzino</div>
+        <div class="sezione active" id="sezioneProdotti"><span>Prodotti</div>
+        <div class="sezione" id="sezioneDipendenti"><span>Dipendenti</div>
     </div>
 
-    <div id="sezioniImpostazioni">
-        <div class="sezione" id="sezioneIInformazioni">Informazioni</div>
+    <div id="sezioniImpostazioni" class="gruppoDiSezioni">
+        <div class="sezione" id="sezioneProfilo"><span>Profilo</span></div>
     </div>
 </div>
     
@@ -178,7 +178,6 @@
                 <span><b>Magazzini</b></span>
             </div>
             <div class="aggiungi">
-                <span><button type="button"><i class="fas fa-plus"></i>&nbsp;Aggiungi&nbsp;Un bel niente&nbsp;<i class="fas fa-plus"></i></button></span> 
             </div>
             <div class="scrittaMagazzino">
                 <b>Magazzino:</b>
@@ -394,7 +393,11 @@
         </div>
     </div>
     
-    
+    <div id="sezioneProfiloDiv" class="divGestionale">
+        <div id="ProfiloDiv">
+            <div><button>Cambia Password</button></div>
+        </div>
+     </div>
      
      
     </div>
