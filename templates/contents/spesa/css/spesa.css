@@ -61,6 +61,11 @@
     padding:10px;
 
 }
+
+#filterform button{
+    width: 100%;
+}
+
 #price-min, #price-max{
     width: 50px;
 }
@@ -218,7 +223,7 @@ max-width: 300px;
     align-items:center;
     grid-template-columns:1fr 1fr;
     height:30px;
-    
+
 }
 
 
@@ -285,14 +290,14 @@ max-width: 300px;
     white-space:nowrap;   /*bellissima cosa che fa in modo che quando fai spazio, il resto non va a capo nel caso il nome sia troppo lungo per la riga*/
 }
 
-#payButton:hover{
-    cursor:pointer;
-}
 #pay{
     margin-top:25px;
     margin-bottom:25px;
-    display:grid;
     justify-content: center;
+}
+
+#payButton{
+    width: 100%;
 }
 
 #footer{

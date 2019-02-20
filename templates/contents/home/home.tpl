@@ -1,5 +1,10 @@
 {* Smarty *}
 <div id="homeContent">
+    {if isset($message) && $message}
+        <div id="message_box">
+            {$message}
+        </div>
+    {/if}
     <div id="dialog">
         <div id="shop_button">
             <img id="start" src="/templates/contents/home/img/shopnow_button.png"/>
@@ -8,16 +13,17 @@
             <h1>Seleziona il tuo indirizzo di spedizione</h1>
             <div id="add_location">
                 <div><label for="citta">Citt&agrave;</label>
-                  <input type="text" name="comune" class="autoload_comune" tabindex="1">
+                  <input type="text" name="comune" class="autoload_comune">
                   <input type="hidden" name="comuneId" class="autoload_comune_id"></div>
                 <div><label>Via</label>
-                  <input type="text" name="via" tabindex="2"></div>
+                  <input type="text" name="via"></div>
                 <div><label>Numero</label>
-                  <input type="text" name="civico" tabindex="3"></div>
+                  <input type="text" name="civico"></div>
                 <div><label>Note</label>
-                  <input type="text" name="note" tabindex="4"></div>
+                  <input type="text" name="note"></div>
+                <div class="message"></div>
                 <div id="actions">
-                  <div class="button next" tabindex="5">Continua</div>
+                  <button class="button next">Continua</button>
                 </div>
             </div>
         </div>
@@ -25,32 +31,32 @@
             <h1>Usare questo indirizzo di spedizione?</h1>
             <div id="location"></div>
             <div id="actions">
-                <div class="button next">Continua</div>
-                <div class="button change">Cambia</div>
+                <button class="button next">Continua</button>
+                <button class="button change">Cambia</button>
             </div>
         </div>
         <div id="user_addresses">
             <h1>Seleziona il tuo indirizzo di spedizione</h1>
             <div id="locations">
             </div>
-            <div id="add_new" class="button">
+            <button id="add_new" class="button">
                 Aggiungi
-            </div>
+            </button>
         </div>
         <div id="new_user_address">
             <h1>Seleziona il tuo indirizzo di spedizione</h1>
             <div id="add_location">
                 <div><label for="citta">Citt&agrave;</label>
-                  <input type="text" name="comune" class="autoload_comune" tabindex="1">
+                  <input type="text" name="comune" class="autoload_comune">
                   <input type="hidden" name="comuneId" class="autoload_comune_id"></div>
                 <div><label>Via</label>
-                  <input type="text" name="via" tabindex="2"></div>
+                  <input type="text" name="via"></div>
                 <div><label>Numero</label>
-                  <input type="text" name="civico" tabindex="3"></div>
+                  <input type="text" name="civico"></div>
                 <div><label>Note</label>
-                  <input type="text" name="note" tabindex="4"></div>
+                  <input type="text" name="note"></div>
                 <div id="actions">
-                  <div class="button next" tabindex="5">Continua</div>
+                  <button class="button next">Continua</button>
                 </div>
             </div>
         </div>

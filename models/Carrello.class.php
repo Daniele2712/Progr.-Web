@@ -78,7 +78,7 @@ class Carrello extends Model{
         $this->CalcolaTotale();
 	}
 
-    public function getTotale(){
+    public function getTotale():Money{
         return $this->totale;
     }
 

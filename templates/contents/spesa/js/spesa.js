@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $("#payButton").click(function(){
-        location.href="/checkout/displaycheckout";
+        location.href="/spesa/checkout/";
     });
 });
 
@@ -33,7 +33,7 @@ function addToCart(obj, id){
             method:"POST",
             dataType:"json",
             success:function(r){
-                setCookie("CSRF",r.CSRF);
+                ajax_common(r);
                 input.val(r.qta);
                 if(r.r==200){
                     updateCarrello(r.carrello);
@@ -53,6 +53,7 @@ function ricaricaCarrello(){
         method:"GET",
         dataType:"json",
         success:function(r){    //è gia un oggetto, non è json
+            ajax_common(r);
             updateCarrello(r);
         },
         error:function(req, text, error){

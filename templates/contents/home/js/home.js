@@ -29,12 +29,12 @@ function add_address(){
         dataType:"json",
         data: $("#dialog #guest_address input").serialize(),
         success:function(data){
+            ajax_common(data, function(data){
+                $("#dialog #guest_address .message").html("<p class='message_error'>"+data.msg+"</p>");
+            });
             if(data.r==200){
                 location.href="/spesa/catalogo";
-            }else if(data.r==404){
-                $("#dialog #guest_address .message").html("<p class='message_error'>Indirizzo non trovato</p>")
-            }else if(data.r==410)
-                location.reload();
+            }
         },
         error:function(req, text, error){
             ajax_error(req, text, error);
@@ -48,6 +48,7 @@ function user_shop(){
         method:"GET",
         dataType:"json",
         success:function(data){
+            ajax_common(data);
             if(data.r==200){
                 var p = data.preferito;
                 $("#dialog #user_address #location").html(p.comune+" ("+p.provincia+"), "+
@@ -74,10 +75,10 @@ function use_default_address(){
         method:"POST",
         dataType:"json",
         success:function(data){
+            ajax_common(data);
             if(data.r==200){
                 location.href="/spesa/catalogo";
-            }else if(data.r==410)
-                location.reload();
+            }
         },
         error:function(req, text, error){
             ajax_error(req, text, error);
@@ -96,10 +97,10 @@ function use_address(obj){
         method:"POST",
         dataType:"json",
         success:function(data){
+            ajax_common(data);
             if(data.r=200){
                 location.href="/spesa/catalogo";
-            }else if(data.r==410)
-                location.reload();
+            }
         },
         error:function(req, text, error){
             ajax_error(req, text, error);
@@ -120,12 +121,12 @@ function save_user_address(){
         dataType:"json",
         data: $("#dialog #new_user_address input").serialize(),
         success:function(data){
+            ajax_common(data, function(data){
+                $("#dialog #new_user_address .message").html("<p class='message_error'>Indirizzo non trovato</p>")
+            });
             if(data.r==200){
                 location.href="/spesa/catalogo";
-            }else if(data.r==404){
-                $("#dialog #new_user_address .message").html("<p class='message_error'>Indirizzo non trovato</p>")
-            }else if(data.r==410)
-                location.reload();
+            }
         },
         error:function(req, text, error){
             ajax_error(req, text, error);

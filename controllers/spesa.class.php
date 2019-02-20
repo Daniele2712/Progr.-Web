@@ -20,15 +20,20 @@ class spesa implements Controller{
      */
     public static function catalogo(Request $req){
         $session = \Singleton::Session();
+        if($session->timedOut()){
+            $session->setMessage("Sessione scaduta per inattivit&agrave;");
+            \Views\HTTPView::redirect("/spesa/home");
+        }
         $valuta = $session->getUserValuta();
         $v = new \Views\Catalogo();
         $v->fillBasket($session->getCart(), $valuta);
         try{
             $items = \Foundations\Magazzino::findClosestTo($session->getAddr())->getAvailableItems($req, $filters);
         }catch(\Exception $e){
-            if($e->getMessage() === "Error Address not set")    //quando la sessione scade perdo l'indirizzo,
+            if($e->getMessage() === "Error Address not set"){   //quando la sessione scade perdo l'indirizzo,
+                $session->setMessage("Indirizzo di spedizione non impostato");
                 \Views\HTTPView::redirect("/spesa/home");       //quindi lo rimando alla home
-            else
+            }else
                 throw $e;
         }
         $v->fillItems($items, $valuta);
@@ -36,52 +41,47 @@ class spesa implements Controller{
         $v->fillFilters($filters);
         $v->render();
     }
+
+    public static function checkout(Request $req){
+        $session = \Singleton::Session();
+        if($session->timedOut()){
+            $session->setMessage("Sessione scaduta per inattivit&agrave;");
+            \Views\HTTPView::redirect("/spesa/home");
+        }
+        $v = new \Views\Checkout();
+        $v->setAddress($session->getAddr());
+        $v->setLoggedUser($session->getUser());
+        $v->setCart($session->getCart(), $session->getUserValuta());
+        $v->render();
+    }
+
     public static function ordini(Request $req){
        $valuta=\Models\Money::EUR();
        $session=\Singleton::Session();
        $v = new \Views\Ordini();
-       
-       
+
+
        if($session->isLogged())
        {
         $valuta = $session->getUser()->getIdValuta();   //magari puo servire per displayare gli item con la valuta, da implementare in seguito
-        $userId=$session->getUser()->getId(); 
+        $userId=$session->getUser()->getId();
         $v->utenteRegistrato();
         $arrayOrdini= \Foundations\Ordine::findByUserId($userId);
         $ordiniSemplici=array();    //un array che contiene oggetti TIPO ordini, solo che al posto degli indirizzi, datiana, pagamento, contiene solo il loro id
-                
+
         foreach($arrayOrdini as $ordine){
         $ordineJson=\Foundations\Ordine::orderDetailsToJson($ordine->getId());
-        $ordiniSemplici[]= json_decode($ordineJson);    
+        $ordiniSemplici[]= json_decode($ordineJson);
         }
         $v->fillOrdini($ordiniSemplici);
        }
-   
+
        else{
            $v->utenteNonRegistrato();
            $v->fillOrdini('');    //penso che devo cmq inizializzare la variabile, anche se non la uso altrimenti smarty si lamente
        }       //vedi cosa fare se l-utente non e registrato   forse e bene generare un numero random x ogni ordine creato. e usarlo come parametro nel url
-       
-       $v->render(); 
-    }
 
-    /**
-     * aggiunge un item al carello in base all' id del prodotto selezionato e la sua quantità
-     */
-    public static function addCarrello(Request $req){
-        $session = \Singleton::Session();
-        $cart = $session->getCart();
-        $id = $req->getInt("id");
-        $qta = $req->getInt("qta");
-        echo "<pre>";
-        print_r($cart);
-        echo "</pre><br>";
-        $prodotto = \Foundations\Prodotto::find($id);
-        $cart->addProdotto($prodotto, $qta);
-        //aggiorna carrello
-        echo "<pre>";
-        print_r($cart);
-        echo "</pre>";
+       $v->render();
     }
 
     public static function completaordine(Request $req){

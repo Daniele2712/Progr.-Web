@@ -13,5 +13,9 @@ class Home extends HTMLView{
         $this->addJS("home/js/home.js");
         $this->addCSS("home/css/home.css");
         $this->setCSRF(\Singleton::Session()->getCSRF());
+        if(\Singleton::Session()->getMessage()){
+            $this->smarty->assign('message', \Singleton::Session()->getMessage());
+            \Singleton::Session()->setMessage("");
+        }
     }
 }

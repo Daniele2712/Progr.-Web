@@ -74,7 +74,7 @@
                 -->
             <!--</div>-->
             <input type="hidden" name="filtered" value="true"/>
-            <input type="submit" value="Filtra">
+            <button class="button">Filtra</button>
         </form>
     </div>
     <div id="items">
@@ -124,7 +124,7 @@
             </div>
 
             <div id="pay">
-                <button id="payButton">Pay Now</button>
+                <button id="payButton" class="button">Pay Now</button>
             </div>
         </div>
     </div>

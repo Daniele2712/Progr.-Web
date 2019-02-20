@@ -7,14 +7,14 @@
         <div id="loginbox">
             <div>
                 <label for="username">Username</label>
-                <input type="text" name="username" id="loginUsername" tabindex="1">
+                <input type="text" name="username" id="loginUsername">
             </div><div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="loginPassword" tabindex="2">
+                <input type="password" name="password" id="loginPassword">
             </div>
             <div id="message"></div>
             <div class="actions">
-                <div id="login_submit" class="button" tabindex="3">Login</div>
+                <button id="login_submit" class="button">Login</button>
                 <a href="/forgot">I forgot my password</a>
             </div>
         </div>

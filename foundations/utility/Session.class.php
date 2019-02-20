@@ -9,11 +9,21 @@ if(!defined("EXEC")){
  * classe Foundation che gestisce la sessione
  */
 class Session{
+
+    public static $session_time = 12000;
     /**
      * inizializza la sessione
      */
     public function __construct(){
         session_start();
+        if(isset($_SESSION["last_time"]) && $_SESSION["last_time"]+self::$session_time < time()){
+            session_unset();
+        }else
+            $_SESSION["last_time"] = time();
+    }
+
+    public function timedOut(){
+        return !isset($_SESSION["last_time"]);
     }
 
     /**
@@ -77,9 +87,8 @@ class Session{
         if(!isset($_SESSION["userId"]) || !is_int($_SESSION["userId"]))
             throw new \Exception("User not Found", 5);
         $user = Utente::find($_SESSION["userId"]);
-        if(method_exists($user, 'getCarrello')) $_SESSION["cartId"] = $user->getCarrello()->getId();        //A: solo se l-utente e' un utente registrato,e quindi ha un carrello, 
+        if(method_exists($user, 'getCarrello')) $_SESSION["cartId"] = $user->getCarrello()->getId();        //A: solo se l-utente e' un utente registrato,e quindi ha un carrello,
          // altrimenti, ex se e' un gestore , non devo imposotare il cookie cartId, xke il gestore non ha un carrello
-        
         return $user;
     }
 
@@ -89,7 +98,7 @@ class Session{
      * @return    boolean    TRUE se è già loggato, FALSE altrimenti
      */
     public function isLogged(){
-        return isset($_SESSION["userId"]) && $_SESSION["userId"]!==NULL;    
+        return isset($_SESSION["userId"]) && $_SESSION["userId"]!==NULL;
     }
 
     public function getCart():\Models\Carrello{
@@ -119,6 +128,12 @@ class Session{
             return Ordine::find($_SESSION["orderId"]);
     }
 
+    public function getMessage():string{
+        if(isset($_SESSION["message"]))
+            return $_SESSION["message"];
+        return "";
+    }
+
     public function getUserValuta():\Models\Money{
         if($this->isLogged())
             return $this->getUser()->getValuta();
@@ -127,6 +142,13 @@ class Session{
     }
 
     public function setGuestAddress(int $id_comune, string $via, string $civico, string $note){
+        if($id_comune == 0 )
+            throw new \ModelException("Error comune required", __CLASS__, array("id_comune"=>$id_comune), 0);
+        elseif($via == "")
+            throw new \ModelException("Error via required", __CLASS__, array("via"=>$via), 0);
+        elseif($civico == "")
+            throw new \ModelException("Error civico required", __CLASS__, array("civico"=>$civico), 0);
+
         $_SESSION["address"] = new \Models\Indirizzo(0,\Foundations\Comune::find($id_comune), $via, $civico, $note);
     }
 
@@ -157,13 +179,18 @@ class Session{
     public function setOrder(int $id){
         $_SESSION["orderId"] = $id;
     }
+
+    public function setMessage(string $msg = ""){
+        $_SESSION["message"] = $msg;
+    }
+
     public function getRuoloOfLoggedUser(){
         if(!$this->isLogged())
         {
             throw new \Exception("You are not logged in", 5);
         }
         else{
-           
+
             $userId=$this->getUser()->getId();
             if(\Foundations\Dipendente::isDipendente($userId))
             {return \Foundations\Dipendente::getRuoloOfUserId($userId);}

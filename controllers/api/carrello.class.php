@@ -58,6 +58,7 @@ class carrello implements Controller{
             $v = new \Views\JSONView(array("r"=>410));                  //Token non valido
             return $v->render();
         }
+        $CSRF = $session->getCSRF();
         if($session->isLogged()){
             $user = $session->getUser();
             if(is_a($user,"\\Models\\UtenteRegistrato")){
@@ -70,7 +71,7 @@ class carrello implements Controller{
                         $user->setNewCartAddress($id_comune,$via,$civico,$note);
                     }catch(\ModelException $e){
                         if($e->getCode()===2){                                  //indirizzo errato
-                            $v = new \Views\JSONView(array("r"=>404));
+                            $v = new \Views\JSONView(array("r"=>404, "CSRF"=>$CSRF));
                             $v->render();
                         }else
                             throw $e;
@@ -79,14 +80,14 @@ class carrello implements Controller{
                     try{
                         $user->setCartAddress($req->getParam(1));
                     }catch(\ModelException $e){
-                        $v = new \Views\JSONView(array("r"=>403));          //Id indirizzo non valido
+                        $v = new \Views\JSONView(array("r"=>403, "CSRF"=>$CSRF));          //Id indirizzo non valido
                         $v->render();
                     }
                 }
-                $v = new \Views\JSONView(array("r"=>200));
+                $v = new \Views\JSONView(array("r"=>200, "CSRF"=>$CSRF));
                 $v->render();
             }else{                                                      //Utente non valido
-                $v = new \Views\JSONView(array("r"=>403));
+                $v = new \Views\JSONView(array("r"=>403, "CSRF"=>$CSRF));
                 $v->render();
             }
         }else{                                                          //Visitatore
@@ -96,14 +97,11 @@ class carrello implements Controller{
             $note = $req->getString("note","","POST");
             try{
                 $session->setGuestAddress($id_comune, $via, $civico, $note);
-            }catch(\ModelException $e){
-                if($e->getCode()===2){                                  //indirizzo errato
-                    $v = new \Views\JSONView(array("r"=>404));
-                    $v->render();
-                }else
-                    throw $e;
+            }catch(\ModelException $e){                               //indirizzo errato
+                $v = new \Views\JSONView(array("r"=>404, "CSRF"=>$CSRF, "msg"=>$e->getMessage()));
+                return $v->render();
             }
-            $v = new \Views\JSONView(array("r"=>200));
+            $v = new \Views\JSONView(array("r"=>200, "CSRF"=>$CSRF));
             $v->render();
         }
     }

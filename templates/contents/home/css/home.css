@@ -6,6 +6,18 @@
     background-color: #292c2f;
 }
 
+#message_box{
+    margin-top: 30px;
+    padding: 10px;
+    height: 20px;
+    border-radius: 5px;
+    border: 1px solid rgb(191, 216, 227);
+    background-color: rgba(191, 216, 227, 1);
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
 #dialog{
     width:500px;
     margin-top:10%;
@@ -66,7 +78,7 @@
     padding: 10px;
 }
 
-#add_location>div {
+#add_location>div:not(.message){
     display: grid;
     grid-template-columns: 1fr 2fr;
     align-items: center;

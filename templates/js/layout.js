@@ -18,12 +18,34 @@ $(document).ready(function(){
             $(this).next('input.autoload_comune_id').val(v);
             this.value = l.substring(0, l.indexOf("("));
             return false;
+        },
+        focus: function(event, ui){
+            var val = ui.item.label
+            $(this).val(val.substring(0, val.indexOf("(")));
+            return false;
         }
     })
 })
 
 function ajax_error(req, text, error){
     alert(text);
+}
+
+function ajax_common(resp, errorFunction){
+    if(resp.CSRF)
+        setCookie("CSRF",resp.CSRF);
+    if(resp.r==410)
+        location.reload();
+    if(resp.r==404 && resp.msg){
+        if(typeof errorFunction === "function")
+            errorFunction(resp);
+        else
+            error_message(resp.r, resp.msg);
+    }
+}
+
+function error_message(error, msg){
+    alert(error+": "+msg);
 }
 
 function setCookie(name,value,days) {
