@@ -26,20 +26,20 @@
                 <span id="recapTitle"><h2>Dati di spedizione</h2><a href="#">Modifica</a></span>
                 <div class="recapElement">
                     <p>Nome <i class="fas fa-2x fa-user-alt"></i></p>
-                    <p>{$nome}</p>
+                    <p>{$datiAnagrafici.nome} {$datiAnagrafici.cognome}</p>
                 </div>
                 <div class="recapElement">
                     <p>Indirizzo <i class="fas  fa-2x fa-people-carry"></i></p>
-                    <p>{$indirizzo}</p>
+                    <p>{$indirizzo.via} {$indirizzo.civico}, {$indirizzo.nomeComune}</p>
                 </div>
                  <div class="recapElement">
                     <p>Telefono <i class="fas  fa-2x fa-mobile-alt"></i></p>
-                    <p>{$telefono}</p>
+                    <p>{$datiAnagrafici.telefono}</p>
                 </div>
             </div>
 
             <div class="container details">
-                <form id="pagamentoMastercard">
+                <form id="pagamentoMastercard" action="/checkout/pagamentoMastercard" method="post">
                       <h3 id="d_title">Mastercard</h3>
                       <div id="nome_carta">
                         <label for="cname">Nome sulla carta</label>
@@ -61,29 +61,28 @@
                           <input type="text" id="cvv" name="cvv" placeholder="352">
                      </div>
 
-                      <button  id="paga" type="submit" form="pagamentoMastercard" value="Submit">Paga</button>
+                      <button  id="paga" type="submit" value="Submit">Paga</button>
                 </form>
 
             </div>
-
 
 
             <div class="container cart">
                 <h4>Cart
                   <span class="price" style="color:black">
                     <i class="fa fa-shopping-cart"></i>
-                    <b>4</b>
+                    <b>{$numItems}</b>
                   </span>
                 </h4>
-                <p><a href="#">Product 1</a> <span class="price">{$valuta} 15</span></p>
-                <p><a href="#">Product 2</a> <span class="price">{$valuta} 5</span></p>
-                <p><a href="#">Product 3</a> <span class="price">{$valuta} 8</span></p>
-                <p><a href="#">Product 4</a> <span class="price">{$valuta} 2</span></p>
+                  {foreach from=$productsArray item='product'}
+                <p><a href=".../paginaDiInfoDelProdotto{$product.idProdotto}">{$product.quantitaProdotto} x {$product.nomeProdotto}</a> <span class="price">{$htmlValuta}{$product.prezzoProdotto}</span></p>
+
+
+                {/foreach}
                 <hr>
-                <p>Total <span class="price" style="color:black"><b>{$valuta} {$totale}</b></span></p>
+
+                <p>Total <span class="price" style="color:black"><b>{$htmlValuta}{$prezzoTotale}</b></span></p>
+
             </div>
-
-
-
 
 </div>

@@ -67,7 +67,6 @@ class Carrello extends Foundation{
         else{
         //inserisce una riga nella tabbella items_carrello
         $sql = 'INSERT INTO '.'items_carrello'.' VALUES (NULL, ?, ?, ?,?,?)';
-        //$sql = "INSERT INTO `items_carrello` (`id`, `id_carrello`, `id_prodotto`, `totale`, `valuta`, `quantita`) VALUES (, '1', '1', '55.5', 'EUR', '2');";
         $p = $DB->prepare($sql);
         $p->bind_param("iidsi", $id_carrello,$id_prodotto, $totale, $id_valuta, $quantita);
         if(!$p->execute())
@@ -92,6 +91,26 @@ class Carrello extends Foundation{
         
         return $DB->lastId();   //ritorna l-id del carrello appena inserito nella tabbella items_prodotti
         //potrebbe essere che restituisce l-id del valore aggionato nel caso in cui si e eseguito il ramo IF
+    }
+    
+    public static function svuotaCarrello($id){
+        $DB = \Singleton::DB();
+        //  la prima parte cancella lgi item del carrello
+        $sql = 'DELETE FROM items_carrello WHERE id_carrello=?';
+        $p = $DB->prepare($sql);
+        $p->bind_param("i", $id);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->close();
+        
+        
+        //  la seconda parte azzerra il totale del carrello, nella tabbella carrello
+        $sql = "UPDATE items_carrello SET totale='0.0' WHERE id=?";
+        $p = $DB->prepare($sql);
+        $p->bind_param("i", $id);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->close();
     }
 
     public static function create(array $obj): Model{      // funzione che genera il Model a partire da un array associativo con un solo campo, id

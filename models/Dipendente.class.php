@@ -32,6 +32,13 @@ class Dipendente extends Utente{
 
     //TODO: completare la classe
 
+    public function getRuolo(){
+        return $this->ruolo;
+    }
+    
+    public function setRuolo($ruolo){
+        $this->ruolo=$ruolo;
+    }
     public function removeFromMagazzino(){}
 
     public function removeTurni(){}
@@ -57,4 +64,10 @@ class Dipendente extends Utente{
     }
 
     public function removeTurno(int $idTurno){}
+    
+    public function getHisMagazzini(){ // Ritorna un array associativo con id_magazzino => via_magazzino 
+        
+        
+    }
+    
 }

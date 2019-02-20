@@ -45,7 +45,7 @@
                     <input type="password" name="confermaPassword" id="confermaPassword">
                 </div>
                 <div class="actions">
-                    <input type="submit" name="login" value="Login">
+                    <input type="submit" name="login" class="button" value="Login">
                 </div>
             </form>
         </div>

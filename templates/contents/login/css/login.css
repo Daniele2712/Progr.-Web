@@ -1,59 +1,39 @@
 #login{
-    width: 100%;
-    height: 100%;
-}
-
+        width:100%;
+        height:100%;
+    }
+    
 #login #loginAndRegister{
     width: 100%;
     height: 100%;
 }
 
+
+#login #loginAndRegister{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+    
 #login #loginAndRegister>div{
-    display: inline-block;
-    box-sizing: border-box;
-    width: 50%;
-    height: 100%;
     cursor:pointer;
-    text-align: center;
-    padding: 50px 0;
 }
 
 #login #dialog_container{
-    position:absolute;
     width: 0px;
     height: 0px;
+    z-index:1;
 }
 
-#login #loginbox{
+#login .actions a{
+    font-size: 80%;
+    justify-self: end;
+}
+
+#login #loginbox>#message{
     display: none;
-    position:relative;
-    top:30px;
-    right:275px;
-    background-color: rgba(191, 216, 227, .4);
-    border: 1px solid rgba(191, 216, 227, .8);
-    border-radius:8px;
-    width:450px;
-    padding: 10px;
-}
-
-#login #registerbox{
-    display:none;
-    position:relative;
-    top:30px;
-    right:275px;
-    background-color: rgba(191, 216, 227, .4);
-    border: 1px solid rgba(191, 216, 227, .8);
-    border-radius:8px 8px 5px 5px;
-    padding: 10px;
-    width:450px;
-}
-
-#login #loginbox>div,
-#login #registerbox div{
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    align-items: center;
-    padding: 5px;
 }
 
 #login #loginbox>div.actions,
@@ -61,9 +41,7 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-#login #loginbox>#message{
-    display: none;
-}
+
 
 #login input{
     border: 1px solid rgba(191, 216, 227, .8);
@@ -83,19 +61,76 @@
     width: 100%;
 }
 
-#login .actions a{
-    font-size: 80%;
-    justify-self: end;
+
+#login #loginbox{
+    display: none;
+    position:absolute;
+    top:170px;
+    right:20px;
+    background-color: rgba(191, 216, 227, .4);
+    border: 1px solid rgba(191, 216, 227, .8);
+    border-radius:8px;
+    width:450px;
+    padding: 10px;
 }
 
-@media screen and (min-width:800px) and (max-width:1024px){
-    #login #loginAndRegister>div{
-        display: block;
-        box-sizing: border-box;
-        width: 100%;
-        height: 50%;
-        cursor:pointer;
-        text-align: center;
-        padding: 17px 0 0 0;
-    }
+
+#login #registerbox{
+    display:none;
+    position:absolute;
+    top:170px;
+    right:20px;
+    background-color: rgba(191, 216, 227, .4);
+    border: 1px solid rgba(191, 216, 227, .8);
+    border-radius:8px 8px 5px 5px;
+    padding: 10px;
+    width:450px;
+}
+
+#login #loginbox>div,
+#login #registerbox div{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    padding: 5px;
+}
+@media screen and (min-width:1024px){   /* questa  parte serve per i PC */
+
+
+
+
+
+
+
+
+
+
+}
+
+@media screen and (min-width:800px) and (max-width:1024px){   /* questa  parte serve per i TABLET */
+    
+#login #registerbox{
+    background-color: rgba(191, 216, 227, .8);
+}
+
+#login #loginbox{
+    background-color: rgba(191, 216, 227, .8);
+}    
+
+
+}
+
+@media screen and (max-width:800px){     /* questa  parte serve per i Telefonini */
+    
+#login #registerbox{
+    background-color: rgba(191, 216, 227, .8);
+}
+
+#login #loginbox{
+    background-color: rgba(191, 216, 227, .8);
+}
+
+
+
+   
 }

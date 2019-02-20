@@ -53,7 +53,7 @@ class Request{
         $pos = strpos($uri,'?');                                        // posizione alla quale iniziano i parametri, percio' il ?
         $params = explode("/",$pos===FALSE?$uri:substr($uri,0,$pos));
         array_shift($params);
-
+        
         if(count($params)>0 && $params[0]=="api"){
             $this->rest = true;
             array_shift($params);   //cosi mi sbarazzo del pezzo in cima "api"

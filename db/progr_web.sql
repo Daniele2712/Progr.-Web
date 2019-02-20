@@ -1,4 +1,4 @@
--- phpMyAdmin SQL Dump
+    -- phpMyAdmin SQL Dump
 -- version 4.6.0
 -- http://www.phpmyadmin.net
 --
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `carrelli` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `totale` float NOT NULL,
   `id_valuta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -46,7 +46,7 @@ INSERT INTO `carrelli` (`id`, `totale`, `id_valuta`) VALUES
 --
 
 CREATE TABLE `carte` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_pagamento` int(11) NOT NULL,
   `numero` int(20) NOT NULL,
   `cvv` int(5) NOT NULL,
@@ -69,7 +69,7 @@ INSERT INTO `carte` (`id`, `id_pagamento`, `numero`, `cvv`, `nome`, `cognome`, `
 --
 
 CREATE TABLE `categorie` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   `padre` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -81,8 +81,8 @@ CREATE TABLE `categorie` (
 INSERT INTO `categorie` (`id`, `nome`, `padre`) VALUES
 (1, 'alimentari', NULL),
 (2, 'elettrodomestici', NULL),
-(3, 'latticini', 1),
-(4, 'televisori', 2);
+(3, 'medicinali', 1),
+(4, 'automobili', NULL);
 
 -- --------------------------------------------------------
 
@@ -91,7 +91,7 @@ INSERT INTO `categorie` (`id`, `nome`, `padre`) VALUES
 --
 
 CREATE TABLE `comuni` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `CAP` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `provincia` varchar(2) NOT NULL
@@ -105,14 +105,14 @@ INSERT INTO `comuni` (`id`, `CAP`, `nome`, `provincia`) VALUES
 (1, 67100, 'l\'aquila', 'AQ'),
 (2, 67039, 'sulmona', 'AQ');
 
--- --------------------------------------------------------
+-- --------------------------------------------------------'
 
 --
 -- Struttura della tabella `dati_anagrafici`
 --
 
 CREATE TABLE `dati_anagrafici` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `cognome` varchar(100) NOT NULL,
   `telefono` varchar(20) NOT NULL,
@@ -123,12 +123,19 @@ CREATE TABLE `dati_anagrafici` (
 -- Dump dei dati per la tabella `dati_anagrafici`
 --
 
-INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascita`) VALUES
-(1, 'Mario', 'Rossi', '33312345678', '1970-01-01'),
-(2, 'Luigi', 'Verdi', '33387654321', '1980-02-02'),
-(3, 'Andrei', 'Balaban', '11122245678', '1940-01-04'),
-(4, 'Alfredo', 'Alfonso', '33333345678', '1988-02-02'),
-(5, 'Alessandro', 'Manzoni', '33212345678', '1990-01-03');
+INSERT INTO `dati_anagrafici` (`nome`, `cognome`, `telefono`, `data_nascita`) VALUES
+('Luigi', 'Verdi', '33387654321', '1980-02-02'),
+('Andrei', 'Balaban', '11122245678', '1940-01-04'),
+('Alfredo', 'Alfonso', '33333345678', '1988-02-02'),
+('Mario', 'Rossi', '33312345678', '1970-01-01'),
+('Alessandro', 'Manzoni', '33212345678', '1990-01-03'),
+('Matteo', 'De Sica', '11127658321', '1990-02-22'),
+('Luca', 'Orsini', '19122245678', '1970-01-14'),
+('Alfredo', 'Alfonso', '39333345678', '1968-02-22'),
+('Giovanni', 'Feliciani', '39312347778', '1970-01-01'),
+('Daniele', 'Manzoni', '33223245678', '1990-01-03'),
+('Maria', 'Iezzi', '32212345678', '1970-01-01'),
+('Dora', 'Esplora', '33215555678', '1990-01-03');
 
 -- --------------------------------------------------------
 
@@ -137,23 +144,28 @@ INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascit
 --
 
 CREATE TABLE `dipendenti` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_utente` int(11) NOT NULL,
   `ruolo` int(11) NOT NULL,
   `tipo_contratto` int(11) NOT NULL,
   `data_assunzione` date NOT NULL,
   `ore_settimanali` int(11) NOT NULL,
-  `prezzo` float NOT NULL,
-  `id_valuta` int(11) NOT NULL
+  `paga_oraria` float NOT NULL,
+  `id_valuta` int(11) NOT NULL,
+  `id_magazzino` int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `dipendenti`
 --
 
-INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_assunzione`, `ore_settimanali`, `prezzo`, `id_valuta`) VALUES
-(1, 3, 1, 1, '2018-08-08', 2, 2, 1),
-(2, 2, 3, 1, '2018-08-08', 1, 1, 1);
+INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_assunzione`, `ore_settimanali`, `paga_oraria`, `id_valuta`) VALUES
+(1, 1, 1, 1, '2018-08-08', 2, 2, 1),
+(2, 2, 3, 1, '2018-08-08', 1, 1, 1),
+(3, 3, 3, 1, '2018-08-08', 1, 1, 1);
+-- Genera 100 dipendenti che lavorano nei magazzini 1,2,3, con id_ruoli 2,4,5,6 e usano id_utente da 1 a 10
+INSERT INTO dipendenti (id_utente,ruolo,tipo_contratto,data_assunzione,ore_settimanali,paga_oraria,id_valuta,id_magazzino) VALUES (3,"5","1","13-02-02",35,"3.24","1",1),(7,"2","1","17-07-08",27,"0.62","1",3),(4,"4","1","03-05-01",56,"0.11","1",1),(8,"6","1","13-03-19",11,"5.93","1",1),(1,"4","1","00-09-29",56,"6.31","1",2),(6,"4","1","06-06-01",37,"6.72","1",2),(5,"6","1","00-02-13",9,"7.07","1",3),(10,"5","1","07-09-08",31,"1.28","1",3),(8,"6","1","13-07-22",32,"7.52","1",3),(10,"2","1","13-04-06",58,"6.71","1",3),(9,"6","2","09-04-30",25,"7.45","1",3),(4,"6","2","08-12-24",33,"8.22","1",1),(4,"2","2","04-12-26",43,"1.40","1",1),(6,"6","2","99-09-18",17,"2.63","1",3),(10,"5","2","03-04-19",54,"4.49","1",3),(5,"5","2","11-03-21",22,"5.40","1",1),(1,"4","2","16-11-23",17,"8.53","1",2),(9,"2","2","09-02-06",52,"6.78","1",3),(6,"5","2","09-02-27",41,"5.45","1",1),(9,"2","2","04-03-28",37,"5.00","1",2),(2,"6","3","14-07-02",40,"1.74","1",2),(8,"6","3","06-12-06",44,"1.75","1",1),(4,"2","3","11-02-04",10,"4.94","1",3),(3,"2","3","11-05-03",17,"6.13","1",1),(1,"5","3","07-08-19",50,"7.75","1",1),(7,"6","3","09-12-11",52,"7.71","1",3),(7,"5","3","09-01-26",14,"5.45","1",2),(3,"6","3","07-04-18",38,"4.01","1",2),(4,"4","3","09-07-08",52,"6.28","1",3),(4,"4","3","00-04-16",13,"8.77","1",2),(9,"2","4","06-02-01",26,"6.56","1",2),(6,"4","4","17-02-04",39,"4.03","1",2),(1,"4","4","16-05-13",14,"6.12","1",1),(7,"5","4","16-11-21",38,"8.29","1",1),(2,"4","4","07-06-11",17,"3.77","1",3),(3,"5","4","02-12-24",6,"6.20","1",3),(4,"2","4","06-05-18",20,"7.66","1",1),(8,"2","4","01-10-23",8,"9.50","1",2),(1,"2","4","16-08-20",31,"8.01","1",1),(9,"4","4","07-04-20",45,"5.72","1",1),(5,"2","1","04-11-26",40,"8.36","1",2),(5,"2","1","10-05-24",4,"1.20","1",2),(5,"6","1","13-05-19",6,"5.58","1",3),(5,"2","1","17-04-19",13,"7.61","1",1),(6,"6","1","03-07-31",36,"8.14","1",2),(8,"2","1","12-05-19",34,"9.46","1",3),(2,"6","1","99-09-29",49,"8.54","1",1),(8,"5","1","10-12-12",3,"6.10","1",3),(5,"2","1","00-07-31",6,"3.01","1",1),(9,"2","1","09-10-09",23,"0.83","1",3),(1,"4","2","11-08-06",4,"9.56","1",1),(9,"5","2","00-03-16",22,"2.22","1",3),(6,"5","2","07-03-24",19,"2.44","1",3),(7,"2","2","10-03-31",25,"0.94","1",1),(1,"2","2","04-09-01",38,"2.41","1",2),(2,"6","2","03-08-13",31,"9.50","1",1),(1,"2","2","05-03-14",50,"4.47","1",2),(8,"5","2","09-12-03",27,"3.42","1",3),(3,"5","2","04-04-03",41,"0.49","1",3),(5,"2","2","05-12-31",11,"6.66","1",1),(1,"6","3","12-09-29",34,"1.63","1",2),(3,"2","3","99-12-16",13,"5.24","1",3),(9,"6","3","14-10-18",26,"8.46","1",2),(9,"5","3","05-01-31",1,"4.21","1",2),(5,"4","3","03-04-19",21,"6.91","1",2),(1,"6","3","14-07-28",51,"1.32","1",3),(5,"4","3","15-03-14",48,"2.44","1",1),(3,"5","3","02-08-02",59,"5.72","1",1),(7,"4","3","09-12-25",37,"7.13","1",2),(1,"6","3","00-12-15",20,"5.76","1",1),(4,"6","4","14-07-12",23,"9.56","1",1),(7,"5","4","10-06-19",40,"0.45","1",1),(2,"5","4","03-09-19",4,"8.35","1",1),(2,"5","4","10-09-27",32,"3.09","1",3),(9,"6","4","13-10-30",13,"4.02","1",2),(5,"5","4","13-02-20",42,"4.73","1",2),(8,"6","4","13-07-29",8,"7.64","1",1),(3,"2","4","16-07-28",50,"7.53","1",2),(3,"6","4","08-11-15",55,"7.22","1",2),(4,"5","4","12-06-19",14,"8.44","1",3),(2,"5","1","99-07-02",6,"2.50","1",3),(7,"4","1","14-04-27",49,"8.79","1",1),(1,"5","1","09-10-23",47,"4.55","1",1),(9,"2","1","99-03-19",18,"5.50","1",2),(1,"6","1","16-11-19",27,"3.41","1",1),(2,"2","1","09-09-30",22,"8.33","1",2),(6,"2","1","09-06-26",29,"2.65","1",2),(2,"4","1","03-10-14",46,"6.41","1",2),(9,"6","1","02-05-09",38,"1.36","1",2),(6,"2","1","06-04-25",1,"6.13","1",2),(4,"4","2","13-03-08",23,"3.44","1",2),(4,"4","2","99-06-16",39,"5.77","1",3),(10,"4","2","99-10-09",1,"3.46","1",3),(4,"5","2","14-04-12",42,"6.73","1",1),(5,"2","2","16-08-01",48,"9.13","1",1),(2,"6","2","02-03-05",40,"3.32","1",3),(10,"5","2","99-03-17",8,"5.55","1",1),(1,"5","2","08-12-21",2,"2.17","1",2),(9,"6","2","13-10-19",44,"0.46","1",2),(5,"2","2","05-02-19",57,"5.15","1",1);
+
 
 -- --------------------------------------------------------
 
@@ -162,7 +174,7 @@ INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_as
 --
 
 CREATE TABLE `dipendenti_contratti` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `contratto` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -183,7 +195,7 @@ INSERT INTO `dipendenti_contratti` (`id`, `contratto`) VALUES
 --
 
 CREATE TABLE `dipendenti_ruoli` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `ruolo` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -194,7 +206,10 @@ CREATE TABLE `dipendenti_ruoli` (
 INSERT INTO `dipendenti_ruoli` (`id`, `ruolo`) VALUES
 (1, 'Amministratore'),
 (2, 'Corriere'),
-(3, 'Gestore');
+(3, 'Gestore'),
+(4, 'Pulizie'),
+(5, 'Cassiere'),
+(6, 'Magazziniere');
 
 -- --------------------------------------------------------
 
@@ -203,7 +218,7 @@ INSERT INTO `dipendenti_ruoli` (`id`, `ruolo`) VALUES
 --
 
 CREATE TABLE `filtri` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `filtrabile` tinyint(1) NOT NULL,
   `tipo` enum('checkbox','range','value','radio','multicheckbox') NOT NULL,
@@ -227,7 +242,7 @@ INSERT INTO `filtri` (`id`, `nome`, `filtrabile`, `tipo`, `id_categoria`) VALUES
 --
 
 CREATE TABLE `immagini` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL DEFAULT '',
   `size` varchar(25) NOT NULL DEFAULT '',
   `type` varchar(25) NOT NULL DEFAULT '',
@@ -250,7 +265,7 @@ INSERT INTO `immagini` (`id`, `nome`, `size`, `type`, `immagine`) VALUES
 --
 
 CREATE TABLE `immagini_prodotti` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_immagine` int(11) DEFAULT NULL,
   `id_prodotto` int(11) NOT NULL,
   `preferita` tinyint(1) NOT NULL DEFAULT '0'
@@ -270,7 +285,7 @@ INSERT INTO `immagini_prodotti` (`id`, `id_immagine`, `id_prodotto`, `preferita`
 --
 
 CREATE TABLE `indirizzi` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_comune` int(11) NOT NULL,
   `via` varchar(200) NOT NULL,
   `civico` int(11) NOT NULL,
@@ -284,9 +299,9 @@ CREATE TABLE `indirizzi` (
 --
 
 INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`, `latitudine`, `longitudine`) VALUES
-(1, 1, 'viale croce rossa', 2, '', 42.356806, 13.396409),
-(2, 1, 'viale aldo moro', 4, '', 42.360347, 13.397168),
-(3, 1, 'via Santo Agostino', 8, 'Non vogliamo mica andare al esame con nomi di vie compromettenti', 42.3506, 13.3995),
+(1, 1, 'viale croce rossa', 2, 'Primo magazzino', 42.356806, 13.396409),
+(2, 1, 'viale aldo moro', 4, 'Secondo magazzino', 42.360347, 13.397168),
+(3, 1, 'via Santo Agostino', 8, 'Terzo magazzino', 42.3506, 13.3995),
 (4, 1, 'xx settembre', 1, '', 42.3544927, 13.3896686);
 
 -- --------------------------------------------------------
@@ -296,7 +311,7 @@ INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`, `latitudine
 --
 
 CREATE TABLE `indirizzi_utenti` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, 
   `id_utente_r` int(11) NOT NULL,
   `id_indirizzo` int(11) NOT NULL,
   `preferito` tinyint(1) NOT NULL DEFAULT '0'
@@ -317,7 +332,7 @@ INSERT INTO `indirizzi_utenti` (`id`, `id_utente_r`, `id_indirizzo`, `preferito`
 --
 
 CREATE TABLE `items_carrello` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_carrello` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `totale` float NOT NULL,
@@ -339,7 +354,7 @@ INSERT INTO `items_carrello` (`id`, `id_carrello`, `id_prodotto`, `totale`, `id_
 --
 
 CREATE TABLE `items_magazzino` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_magazzino` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `quantita` int(11) NOT NULL
@@ -359,7 +374,7 @@ INSERT INTO `items_magazzino` (`id`, `id_magazzino`, `id_prodotto`, `quantita`) 
 --
 
 CREATE TABLE `items_ordine` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_ordine` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `prezzo` float NOT NULL,
@@ -374,7 +389,7 @@ CREATE TABLE `items_ordine` (
 --
 
 CREATE TABLE `magazzini` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_gestore` int(11) DEFAULT NULL,
   `id_indirizzo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -384,7 +399,9 @@ CREATE TABLE `magazzini` (
 --
 
 INSERT INTO `magazzini` (`id`, `id_gestore`, `id_indirizzo`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(2, 2, 2),
+(3, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -393,7 +410,7 @@ INSERT INTO `magazzini` (`id`, `id_gestore`, `id_indirizzo`) VALUES
 --
 
 CREATE TABLE `offerte` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_tipo` int(11) NOT NULL,
   `data_inizio` datetime NOT NULL,
   `data_fine` datetime NOT NULL
@@ -413,7 +430,7 @@ INSERT INTO `offerte` (`id`, `id_tipo`, `data_inizio`, `data_fine`) VALUES
 --
 
 CREATE TABLE `offerte_mxn` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_offerta` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `quantita_m` int(11) NOT NULL,
@@ -427,7 +444,7 @@ CREATE TABLE `offerte_mxn` (
 --
 
 CREATE TABLE `offerte_omaggi` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_offerta` int(11) NOT NULL,
   `id_prodotto_omaggio` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -439,7 +456,7 @@ CREATE TABLE `offerte_omaggi` (
 --
 
 CREATE TABLE `offerte_omaggi_condizioni` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_offerta_omaggio` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `quantita` int(11) NOT NULL
@@ -452,7 +469,7 @@ CREATE TABLE `offerte_omaggi_condizioni` (
 --
 
 CREATE TABLE `offerte_sconti` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_offerta` int(11) NOT NULL,
   `id_prodotto` int(11) NOT NULL,
   `prezzo` float NOT NULL,
@@ -473,7 +490,7 @@ INSERT INTO `offerte_sconti` (`id`, `id_offerta`, `id_prodotto`, `prezzo`, `id_v
 --
 
 CREATE TABLE `offerte_tipi` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `tipo` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -493,7 +510,7 @@ INSERT INTO `offerte_tipi` (`id`, `tipo`) VALUES
 --
 
 CREATE TABLE `opzioni` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `valore` varchar(100) NOT NULL,
   `id_filtro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -516,7 +533,7 @@ INSERT INTO `opzioni` (`id`, `valore`, `id_filtro`) VALUES
 --
 
 CREATE TABLE `ordini` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `tipo_pagamento` enum('Carta','Paypal','Bitcoin','Contrassegno') NOT NULL,
   `id_m_pagamento` int(11) DEFAULT NULL,
   `id_indirizzo` int(11) NOT NULL,
@@ -524,9 +541,10 @@ CREATE TABLE `ordini` (
   `subtotale` float NOT NULL,
   `spese_spedizione` float NOT NULL,
   `totale` float NOT NULL,
-  `valuta` enum('EUR','USD','GBP','BTC','JPY') NOT NULL,
+  `id_valuta` int(11) NOT NULL,
   `data_ordine` datetime NOT NULL,
-  `ora_consegna` datetime NOT NULL
+  `ora_consegna` datetime NOT NULL,
+  `id_magazzino` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -537,7 +555,7 @@ CREATE TABLE `ordini` (
 --
 
 CREATE TABLE `ordini_non_registrati` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_ordine` int(11) NOT NULL,
   `code` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -548,7 +566,7 @@ CREATE TABLE `ordini_non_registrati` (
 --
 
 CREATE TABLE `pagamenti` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `tipo` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -569,7 +587,7 @@ INSERT INTO `pagamenti` (`id`, `tipo`) VALUES
 --
 
 CREATE TABLE `pagamenti_preferiti` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_utente_r` int(11) NOT NULL,
   `id_pagamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -581,7 +599,7 @@ CREATE TABLE `pagamenti_preferiti` (
 --
 
 CREATE TABLE `prodotti` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `info` varchar(200) NOT NULL,
   `descrizione` text NOT NULL,
@@ -597,6 +615,17 @@ CREATE TABLE `prodotti` (
 INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `id_valuta`) VALUES
 (1, 'latte granarolo', 'Granarolo Latte Parzialmente Scremato a Lunga Conservazione 1 Litro', 'energia: 199 kJ, 47 kcal \r\ngrassi: 1,6 g \r\ndi cui acidi grassi saturi: 1,1 g \r\ncarboidrati: 5,0 g \r\ndi cui zuccheri: 5,0 g \r\nproteine: 3,2 g \r\nsale: 0,10 g \r\ncalcio:120 mg, 15%', 3, 1.29, 1);
 
+-- inserisci cibi, categoria 1
+
+INSERT INTO prodotti (nome,info,descrizione,id_categoria,prezzo,id_valuta) VALUES ("piselli","at risus. Nunc ac sem","erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat","1","7.95","1"),("pasta","odio. Phasellus at augue id","sem elit, pharetra ut, pharetra sed, hendrerit","1","4.46","1"),("pasta","Praesent eu dui. Cum sociis","Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam nunc,","1","5.62","1"),("kebab","nulla. Integer vulputate, risus a ultricies","congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed","1","7.12","1"),("pasta","Quisque","pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In","1","3.46","1"),("yogurt","malesuada vel, venenatis vel, faucibus","lacus, varius","1","9.89","1"),("seafood","rutrum. Fusce dolor","amet metus. Aliquam erat volutpat.","1","6.96","1"),("noodles","euismod est","mi","1","5.81","1"),("pasta","Mauris blandit enim consequat purus. Maecenas libero est, congue","Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat.","1","6.10","1"),("pies","Phasellus fermentum","Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci","1","8.13","1"),("maionese","faucibus orci luctus et ultrices posuere","Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit","1","9.57","1"),("ketchup","tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec","mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus","1","9.48","1"),("petto di pollo","vitae risus. Duis a mi fringilla mi lacinia mattis.","ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam","1","1.63","1"),("insalata","dolor, tempus non, lacinia","In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in","1","1.91","1"),("rucola","pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus","ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum.","1","4.79","1"),("Torta di mele","Aliquam auctor, velit eget laoreet posuere,","consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit","1","5.18","1"),("pane","rhoncus. Proin nisl sem, consequat nec, mollis","auctor, velit eget","1","3.20","1"),("fette biscottate","tellus. Phasellus elit","Ut nec urna et arcu imperdiet ullamcorper. Duis at lacus. Quisque purus sapien, gravida non, sollicitudin","1","8.22","1"),("caffe","sociis natoque penatibus et magnis dis parturient","tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed","1","8.32","1"),("Acqua Lete","eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in","Sed id","1","9.45","1");
+
+-- inserisci medicinali, categoria 3
+
+INSERT INTO prodotti (nome,info,descrizione,id_categoria,prezzo,id_valuta) VALUES ("Glipizide","vulputate eu, odio. Phasellus at augue id","urna justo faucibus lectus, a sollicitudin","3","5.38","1"),("Oxycontin","quam, elementum","nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec","3","7.80","1"),("Triamcinolone Acetonide","In condimentum. Donec","lectus ante dictum","3","4.29","1"),("Alprazolam","morbi tristique senectus et netus","eleifend, nunc risus","3","4.13","1"),("Metformin HCl","accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate,","consequat purus. Maecenas libero est, congue a, aliquet vel,","3","0.53","1"),("LevothyroxineSodium","magnis dis parturient montes, nascetur ridiculus mus.","enim, condimentum eget,","3","1.05","1"),("Atenolol","sagittis felis.","mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus.","3","5.89","1"),("Lexapro","risus.","et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere","3","6.61","1"),("Lisinopril","per conubia nostra, per inceptos hymenaeos. Mauris ut","accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut","3","5.20","1"),("Lisinopril","ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus","Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac, fermentum vel, mauris. Integer sem elit,","3","1.90","1"),("Clindamycin HCl","Nulla semper tellus","ac mi eleifend egestas. Sed pharetra, felis eget varius","3","0.20","1"),("Furosemide","Nulla tincidunt, neque vitae","fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;","3","7.40","1"),("Amlodipine Besylate","Quisque porttitor","lacus. Quisque imperdiet, erat nonummy ultricies","3","1.56","1"),("Simvastatin","Nullam feugiat placerat velit. Quisque varius. Nam","quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare.","3","3.85","1"),("Lorazepam","Cras vulputate velit eu sem. Pellentesque ut ipsum ac","Pellentesque ultricies dignissim lacus. Aliquam","3","3.14","1"),("Warfarin Sodium","ut","Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac","3","3.22","1"),("Symbicort","enim mi tempor lorem, eget mollis lectus","purus ac tellus.","3","1.74","1"),("Levoxyl","eget mollis lectus pede et risus. Quisque","neque sed sem egestas blandit. Nam nulla magna, malesuada","3","7.41","1"),("Ventolin HFA","vulputate ullamcorper","venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit","3","9.36","1"),("Nexium","adipiscing","semper erat, in consectetuer ipsum nunc id enim.","3","2.95","1"),("Lantus","urna. Nunc quis","congue a,","3","8.74","1"),("Triamterene/Hydrochlorothiazide","metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo","egestas nunc sed","3","7.43","1"),("Nexium","placerat, orci lacus vestibulum lorem, sit amet","malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a","3","2.93","1"),("Seroquel","turpis. Aliquam adipiscing","pellentesque. Sed dictum.","3","0.64","1"),("Azithromycin","malesuada vel, venenatis vel, faucibus id,","ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit","3","7.80","1"),("Lantus","ac turpis egestas. Aliquam fringilla","nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis","3","8.25","1"),("Allopurinol","metus urna convallis erat, eget tincidunt dui","ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae","3","4.08","1"),("Losartan Potassium","Quisque varius. Nam porttitor","Nam interdum enim non nisi. Aenean eget","3","3.99","1"),("Lovaza","Nullam lobortis quam a felis ullamcorper viverra.","vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia","3","2.11","1"),("Metformin HCl","ac orci. Ut semper pretium neque. Morbi quis urna. Nunc","Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce feugiat. Lorem ipsum dolor","3","2.54","1"),("Alprazolam","orci, adipiscing non,","non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at","3","1.06","1"),("Levaquin","Donec tempus,","ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus","3","6.07","1"),("Pantoprazole Sodium","Nulla semper tellus id nunc interdum","Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et,","3","3.59","1"),("Fluticasone Propionate","tempor, est ac","fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare,","3","2.49","1"),("Tramadol HCl","Sed molestie.","taciti sociosqu ad litora torquent","3","6.48","1"),("Amlodipine Besylate","nec ante blandit viverra. Donec tempus, lorem fringilla ornare","Quisque tincidunt pede","3","4.78","1"),("Cyclobenzaprin HCl","mauris sapien, cursus in, hendrerit","dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient","3","7.23","1"),("Metformin HCl","consequat nec, mollis vitae, posuere at, velit. Cras","luctus et ultrices posuere cubilia Curae; Phasellus","3","5.48","1"),("Seroquel","erat vitae risus.","pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede,","3","4.48","1"),("Plavix","pede et risus. Quisque","egestas blandit. Nam nulla","3","3.24","1"),("Cyclobenzaprin HCl","amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus","eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci,","3","6.08","1"),("Triamterene/Hydrochlorothiazide","vulputate eu, odio. Phasellus at augue","senectus","3","4.10","1"),("Lisinopril","Suspendisse sed dolor.","et magnis dis parturient montes, nascetur","3","4.62","1"),("Alprazolam","eu, euismod ac, fermentum vel, mauris. Integer sem elit,","interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam","3","8.24","1"),("Oxycodone HCl","lorem vitae odio sagittis","id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci","3","3.51","1"),("Crestor","Quisque ac","amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum","3","8.11","1"),("Metoprolol Tartrate ","lorem, eget mollis lectus pede et","vestibulum nec, euismod in, dolor. Fusce feugiat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam","3","5.17","1"),("Simvastatin","Duis gravida. Praesent eu nulla","faucibus id, libero.","3","5.28","1"),("Tramadol HCl","rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem","ullamcorper, velit in aliquet lobortis,","3","2.09","1"),("Sertraline HCl","Cum sociis natoque","arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante","3","0.27","1");
+
+-- Inserisci macchine, categoria 4
+
+INSERT INTO prodotti (nome,info,descrizione,id_categoria,prezzo,id_valuta) VALUES ("Chrysler","metus. In nec orci. Donec nibh. Quisque nonummy ipsum non","Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus","4","7.52","1"),("Ferrari","mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus","In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus","4","2.57","1"),("BMW","Etiam laoreet, libero","sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim,","4","7.88","1"),("Suzuki","nec, mollis vitae, posuere at, velit. Cras lorem","sed tortor. Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet ullamcorper. Duis at lacus. Quisque purus sapien, gravida non, sollicitudin a, malesuada","4","7.96","1"),("Dongfeng Motor","scelerisque sed,","dolor sit amet, consectetuer adipiscing elit. Curabitur sed tortor. Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet ullamcorper.","4","2.81","1"),("Kenworth","dictum eleifend, nunc risus","Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et","4","6.64","1"),("Suzuki","nibh vulputate","ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu","4","2.65","1"),("Acura","Nunc lectus pede, ultrices a,","Nam porttitor scelerisque neque. Nullam nisl. Maecenas","4","8.91","1"),("Ferrari","quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla.","tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna","4","8.07","1"),("Cadillac","Integer sem elit, pharetra ut, pharetra sed, hendrerit","et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse","4","8.23","1"),("Mazda","magna. Cras convallis convallis","lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames","4","6.69","1"),("Volkswagen","parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor.","suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor","4","2.82","1"),("Volvo","vitae sodales nisi magna sed","eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus","4","4.29","1"),("General Motors","ipsum primis","eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at,","4","2.27","1"),("Jeep","blandit. Nam nulla magna, malesuada","Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non","4","6.71","1"),("Dongfeng Motor","odio. Phasellus at augue","tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim,","4","4.56","1"),("Seat","diam nunc, ullamcorper eu, euismod ac, fermentum vel, mauris. Integer","nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam","4","1.72","1"),("Vauxhall","eleifend non, dapibus rutrum, justo. Praesent","auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper","4","2.99","1"),("Fiat","ipsum dolor sit amet, consectetuer adipiscing","Curabitur sed tortor. Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet","4","0.73","1"),("Kia Motors","sollicitudin a, malesuada id,","nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at","4","2.78","1");
 -- --------------------------------------------------------
 
 --
@@ -623,7 +652,7 @@ INSERT INTO `settings` (`k`, `v`) VALUES
 --
 
 CREATE TABLE `turni` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_dipendente` int(11) NOT NULL,
   `giorno_inizio` int(11) NOT NULL,
   `ora_inizio` time NOT NULL,
@@ -638,7 +667,7 @@ CREATE TABLE `turni` (
 --
 
 CREATE TABLE `utenti` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_datianagrafici` int(11) NOT NULL,
   `tipo_utente` enum('Dipendente','UtenteRegistrato') NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -649,12 +678,20 @@ CREATE TABLE `utenti` (
 
 --
 -- Dump dei dati per la tabella `utenti`
---
+---- genera utenti che usano 10 dati anagrafici diversi(id da 1 a 10)
 
-INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`, `idValutaDefault`) VALUES
-(1, 1, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af', 1),
-(2, 1, 'Dipendente', 'gestore@yahoo.com', 'gestore', 'AE8DD69BEF648B58C635D887844D6DEC', 1),
-(3, 1, 'Dipendente', 'amministratore@yahoo.com', 'amministratore', 'E792CD9665119B1244E8AFCF36FB5F48', 1);
+INSERT INTO `utenti` (`id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`, `idValutaDefault`) VALUES
+(1, 'Dipendente', 'amministratore@yahoo.com', 'amministratore', 'e792cd9665119b1244e8afcf36fb5f48', 1),
+(2, 'Dipendente', 'gestore@yahoo.com', 'gestore', 'ae8dd69bef648b58c635d887844d6dec', 1),
+(3, 'Dipendente', 'gestore2@yahoo.com', 'gestore2', 'eb2609f4f9c7ea8abfd0289d245d3f7b', 1),
+(4, 'UtenteRegistrato', 'mariorossi@gmail.com', 'rossi', '2bf65275cb7f5dc95febd7d46cd7d0af', 1),
+(5, 'Dipendente', 'corriere@yahoo.com', 'corriere', 'fe90858149652b2996fc1c7eee1592d2', 1),
+(6, 'Dipendente', 'magazziniere@yahoo.com', 'magazziniere', 'ed10489db9e44f3181e486cfa1375810', 1),
+(7, 'Dipendente', 'cassiere@yahoo.com', 'cassiere', '6534e3845cd940aba7215a67f07ceb40', 1),
+(8, 'Dipendente', 'pulizie@gmail.com', 'pulizie', '34f43298327554976608eda979b9fc54', 1),
+(9, 'Dipendente', 'aaa@yahoo.com', 'aaa', '47bce5c74f589f4867dbd57e9ca9f808', 1),
+(10, 'Dipendente', 'bbb@yahoo.com', 'bbb', '08f8e0260c64418510cefb2b06eee5cd', 1);
+
 
 -- --------------------------------------------------------
 
@@ -663,7 +700,7 @@ INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `userna
 --
 
 CREATE TABLE `utenti_registrati` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_utente` int(11) NOT NULL,
   `punti` int(11) NOT NULL,
   `id_carrello` int(11) DEFAULT NULL
@@ -674,7 +711,7 @@ CREATE TABLE `utenti_registrati` (
 --
 
 INSERT INTO `utenti_registrati` (`id`, `id_utente`, `punti`, `id_carrello`) VALUES
-(1, 1, 0, 1);
+(1, 4, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -683,7 +720,7 @@ INSERT INTO `utenti_registrati` (`id`, `id_utente`, `punti`, `id_carrello`) VALU
 --
 
 CREATE TABLE `valori` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_prodotto` int(11) NOT NULL,
   `id_opzione` int(11) DEFAULT NULL,
   `valore` varchar(100) DEFAULT NULL,
@@ -697,7 +734,7 @@ CREATE TABLE `valori` (
 --
 
 CREATE TABLE `valute` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `sigla` varchar(15) NOT NULL,
   `nome` varchar(20) NOT NULL,
   `simbolo` varchar(10) NOT NULL
@@ -714,6 +751,52 @@ INSERT INTO `valute` (`id`, `sigla`, `nome`, `simbolo`) VALUES
 (4, 'BTC', 'Bitcoins', 'BTC'),
 (5, 'JPY', 'Yen', '&yen;');
 
+CREATE TABLE `prodotti_ricevuti` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id_prodotto` int(11) NOT NULL,
+  `quantita` int(11) NOT NULL,
+  `data` date NOT NULL,
+  `id_magazzino` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `prodotti_venduti` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id_prodotto` int(11) NOT NULL,
+  `quantita` int(11) NOT NULL,
+  `data` date NOT NULL,
+  `id_magazzino` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Inserisco anche i collegametni prodotti-magazzini, lo faccio solo ora, e non dopo la dichiarazione della tabbelle items_magazzini perche non avevo ancora introdotto i prodotti
+INSERT INTO `items_magazzino` (`id_magazzino`,`id_prodotto`,`quantita`) VALUES ("1",1,103),("1",2,178),("1",3,110),("1",4,29),("1",5,53),("1",6,208),("1",7,49),("1",8,169),("1",9,291),("1",10,242),("2",11,110),("2",12,31),("2",13,50),("2",14,213),("2",15,220),("2",16,134),("2",17,295),("2",18,61),("2",19,102),("2",20,122),("3",21,60),("3",22,15),("3",23,123),("3",24,248),("3",25,42),("3",26,102),("3",27,50),("3",28,99),("3",29,68),("3",30,118),("1",31,171),("1",32,269),("1",33,160),("1",34,32),("1",35,9),("1",36,208),("1",37,164),("1",38,294),("1",39,218),("1",40,262),("2",41,138),("2",42,185),("2",43,174),("2",44,135),("2",45,218),("2",46,15),("2",47,136),("2",48,138),("2",49,178),("2",50,45),("3",51,299),("3",52,37),("3",53,43),("3",54,98),("3",55,249),("3",56,284),("3",57,23),("3",58,168),("3",59,7),("3",60,42),("1",61,176),("1",62,165),("1",63,118),("1",64,285),("1",65,249),("1",66,9),("1",67,188),("1",68,150),("1",69,203),("1",70,171),("2",71,33),("2",72,41),("2",73,17),("2",74,13),("2",75,57);
+
+
+
+
+
+ALTER TABLE `prodotti_ricevuti`
+  ADD KEY `id_prodotto` (`id_prodotto`),
+  ADD KEY `id_magazzino` (`id_magazzino`),
+  ADD CONSTRAINT `id_prodotti_ricevuti` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `id_magazzini_ricevuti` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+ALTER TABLE `prodotti_venduti`
+  ADD KEY `id_prodotto` (`id_prodotto`),
+  ADD KEY `id_magazzino` (`id_magazzino`),
+  ADD CONSTRAINT `id_prodotti_venduti` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `id_magazzini_venduti` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+-- Inserimento di alcuni ordini 
+INSERT INTO `ordini` (`id`, `tipo_pagamento`, `id_m_pagamento`, `id_indirizzo`, `id_dati_anagrafici`, `subtotale`, `spese_spedizione`, `totale`, `id_valuta`, `data_ordine`, `ora_consegna`, `id_magazzino`) VALUES (NULL, 'Carta', NULL, '2', '2', '15', '5', '20', '1', '2019-01-09 03:06:20', '2019-02-11 07:23:38', '1'), (NULL, 'Paypal', NULL, '1', '5', '44', '5', '49', '2', '2019-02-03 06:31:43', '2019-02-04 07:16:19', '1'), (NULL, 'Bitcoin', NULL, '3', '10', '66', '13', '79', '4', '2019-02-05 12:37:42', '2019-02-06 04:19:26', '1'), (NULL, 'Contrassegno', NULL, '4', '8', '66', '4', '70', '1', '2019-02-08 12:16:19', '2019-02-08 20:39:42', '1'), (NULL, 'Carta', NULL, '1', '8', '63', '23', '85', '1', '2019-02-09 10:23:00', '2019-02-09 18:52:53', '2'), (NULL, 'Paypal', NULL, '4', '2', '44', '2', '46', '2', '2019-02-10 08:22:24', '2019-02-11 06:11:10', '2');
+
+-- Inserimento di alcuni prodotti ricevuti
+INSERT INTO `prodotti_ricevuti` (`id`, `id_prodotto`, `quantita`, `data`, `id_magazzino`) VALUES (NULL, '4', '33', '2019-07-13', '1'), (NULL, '11', '44', '2019-03-11', '2'), (NULL, '26', '500', '2018-11-06', '1'), (NULL, '6', '55', '2019-07-07', '2'), (NULL, '7', '32', '2019-10-22', '1'), (NULL, '19', '50', '2019-02-19', '3'), (NULL, '5', '44', '2019-01-22', '1'), (NULL, '5', '60', '2018-09-20', '2'), (NULL, '25', '25', '2019-07-13', '1'), (NULL, '10', '80', '2019-08-14', '2');
+
+-- Inserimento di alcuni prodotti venduti
+INSERT INTO `prodotti_venduti` (`id`, `id_prodotto`, `quantita`, `data`, `id_magazzino`) VALUES (NULL, '2', '333', '2019-02-13', '1'), (NULL, '31', '44', '2019-02-1', '2'), (NULL, '23', '400', '2018-12-06', '1'), (NULL, '7', '58', '2019-04-03', '2'), (NULL, '17', '32', '2019-11-22', '1'), (NULL, '15', '32', '2018-01-16', '3'), (NULL, '15', '44', '2019-02-17', '1'), (NULL, '4', '66', '2017-11-21', '2'), (NULL, '22', '25', '2019-05-26', '1'), (NULL, '1', '80', '2019-09-3', '2');
+
 --
 -- Indici per le tabelle scaricate
 --
@@ -722,75 +805,43 @@ INSERT INTO `valute` (`id`, `sigla`, `nome`, `simbolo`) VALUES
 -- Indici per le tabelle `carrelli`
 --
 ALTER TABLE `carrelli`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_valuta` (`id_valuta`);
 
 --
 -- Indici per le tabelle `carte`
 --
 ALTER TABLE `carte`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_pagamento` (`id_pagamento`);
 
 --
 -- Indici per le tabelle `categorie`
 --
 ALTER TABLE `categorie`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `padre` (`padre`);
 
---
--- Indici per le tabelle `comuni`
---
-ALTER TABLE `comuni`
-  ADD PRIMARY KEY (`id`);
 
---
--- Indici per le tabelle `dati_anagrafici`
---
-ALTER TABLE `dati_anagrafici`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indici per le tabelle `dipendenti`
 --
 ALTER TABLE `dipendenti`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_datianagrafici` (`id_utente`),
   ADD KEY `ruolo` (`ruolo`),
   ADD KEY `tipo_contratto` (`tipo_contratto`),
-  ADD KEY `id_valuta` (`id_valuta`);
+  ADD KEY `id_valuta` (`id_valuta`),
+  ADD KEY `id_magazzino` (`id_valuta`);
 
---
--- Indici per le tabelle `dipendenti_contratti`
---
-ALTER TABLE `dipendenti_contratti`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `dipendenti_ruoli`
---
-ALTER TABLE `dipendenti_ruoli`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indici per le tabelle `filtri`
 --
 ALTER TABLE `filtri`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_categoria` (`id_categoria`);
-
---
--- Indici per le tabelle `immagini`
---
-ALTER TABLE `immagini`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indici per le tabelle `immagini_prodotti`
 --
 ALTER TABLE `immagini_prodotti`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_prodotto` (`id_prodotto`),
   ADD KEY `id_immagine` (`id_immagine`);
 
@@ -798,14 +849,12 @@ ALTER TABLE `immagini_prodotti`
 -- Indici per le tabelle `indirizzi`
 --
 ALTER TABLE `indirizzi`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_comune` (`id_comune`);
 
 --
 -- Indici per le tabelle `indirizzi_utenti`
 --
 ALTER TABLE `indirizzi_utenti`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_utente_r` (`id_utente_r`),
   ADD KEY `id_indirizzo` (`id_indirizzo`);
 
@@ -813,7 +862,6 @@ ALTER TABLE `indirizzi_utenti`
 -- Indici per le tabelle `items_carrello`
 --
 ALTER TABLE `items_carrello`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_prodotto` (`id_prodotto`),
   ADD KEY `id_carrello` (`id_carrello`),
   ADD KEY `id_valuta` (`id_valuta`);
@@ -822,7 +870,6 @@ ALTER TABLE `items_carrello`
 -- Indici per le tabelle `items_magazzino`
 --
 ALTER TABLE `items_magazzino`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_ordine` (`id_magazzino`),
   ADD KEY `id_prodotto` (`id_prodotto`);
 
@@ -830,7 +877,6 @@ ALTER TABLE `items_magazzino`
 -- Indici per le tabelle `items_ordine`
 --
 ALTER TABLE `items_ordine`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_ordine` (`id_ordine`),
   ADD KEY `id_prodotto` (`id_prodotto`),
   ADD KEY `id_valuta` (`id_valuta`);
@@ -839,7 +885,6 @@ ALTER TABLE `items_ordine`
 -- Indici per le tabelle `magazzini`
 --
 ALTER TABLE `magazzini`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_gestore` (`id_gestore`),
   ADD KEY `id_indirizzo` (`id_indirizzo`);
 
@@ -847,14 +892,12 @@ ALTER TABLE `magazzini`
 -- Indici per le tabelle `offerte`
 --
 ALTER TABLE `offerte`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_tipo` (`id_tipo`);
 
 --
 -- Indici per le tabelle `offerte_mxn`
 --
 ALTER TABLE `offerte_mxn`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_offerta` (`id_offerta`),
   ADD KEY `id_prodotto` (`id_prodotto`);
 
@@ -862,7 +905,6 @@ ALTER TABLE `offerte_mxn`
 -- Indici per le tabelle `offerte_omaggi`
 --
 ALTER TABLE `offerte_omaggi`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_offerta` (`id_offerta`),
   ADD KEY `id_omaggio` (`id_prodotto_omaggio`);
 
@@ -870,7 +912,6 @@ ALTER TABLE `offerte_omaggi`
 -- Indici per le tabelle `offerte_omaggi_condizioni`
 --
 ALTER TABLE `offerte_omaggi_condizioni`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_prodotto` (`id_prodotto`),
   ADD KEY `id_offerta_omaggio` (`id_offerta_omaggio`);
 
@@ -878,37 +919,29 @@ ALTER TABLE `offerte_omaggi_condizioni`
 -- Indici per le tabelle `offerte_sconti`
 --
 ALTER TABLE `offerte_sconti`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_offerta` (`id_offerta`),
   ADD KEY `id_prodotto` (`id_prodotto`),
   ADD KEY `id_valuta` (`id_valuta`);
 
 --
--- Indici per le tabelle `offerte_tipi`
---
-ALTER TABLE `offerte_tipi`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indici per le tabelle `opzioni`
 --
 ALTER TABLE `opzioni`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_filtro` (`id_filtro`);
 
 --
 -- Indici per le tabelle `ordini`
 --
 ALTER TABLE `ordini`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_indirizzo` (`id_indirizzo`),
+  ADD KEY `id_magazzino` (`id_magazzino`),
+  ADD KEY `id_valuta` (`id_valuta`),
   ADD KEY `id_dati_anagrafici` (`id_dati_anagrafici`);
 
 --
 -- Indexes for table `ordini_non_registrati`
 --
 ALTER TABLE `ordini_non_registrati`
-  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `code` (`code`),
   ADD KEY `vincolo ordine-ordine_non_registrati` (`id_ordine`);
 
@@ -916,14 +949,12 @@ ALTER TABLE `ordini_non_registrati`
 -- Indici per le tabelle `pagamenti`
 --
 ALTER TABLE `pagamenti`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id-tipo` (`tipo`);
 
 --
 -- Indici per le tabelle `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_utente_r` (`id_utente_r`),
   ADD KEY `id_pagamento` (`id_pagamento`);
 
@@ -931,7 +962,6 @@ ALTER TABLE `pagamenti_preferiti`
 -- Indici per le tabelle `prodotti`
 --
 ALTER TABLE `prodotti`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_categoria` (`id_categoria`),
   ADD KEY `id_valuta` (`id_valuta`);
 
@@ -945,14 +975,12 @@ ALTER TABLE `settings`
 -- Indici per le tabelle `turni`
 --
 ALTER TABLE `turni`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_dipendente` (`id_dipendente`);
 
 --
 -- Indici per le tabelle `utenti`
 --
 ALTER TABLE `utenti`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_datianagrafici` (`id_datianagrafici`),
   ADD KEY `idValutaDefault` (`idValutaDefault`);
 
@@ -960,7 +988,6 @@ ALTER TABLE `utenti`
 -- Indici per le tabelle `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_utente` (`id_utente`),
   ADD KEY `id_carrello` (`id_carrello`);
 
@@ -968,176 +995,11 @@ ALTER TABLE `utenti_registrati`
 -- Indici per le tabelle `valori`
 --
 ALTER TABLE `valori`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_prodotto` (`id_prodotto`),
   ADD KEY `id_opzione` (`id_opzione`),
   ADD KEY `id_filtro` (`id_filtro`);
 
---
--- Indici per le tabelle `valute`
---
-ALTER TABLE `valute`
-  ADD PRIMARY KEY (`id`);
 
---
--- AUTO_INCREMENT per le tabelle scaricate
---
-
---
--- AUTO_INCREMENT per la tabella `carrelli`
---
-ALTER TABLE `carrelli`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `carte`
---
-ALTER TABLE `carte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `categorie`
---
-ALTER TABLE `categorie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT per la tabella `comuni`
---
-ALTER TABLE `comuni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT per la tabella `dati_anagrafici`
---
-ALTER TABLE `dati_anagrafici`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT per la tabella `dipendenti`
---
-ALTER TABLE `dipendenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT per la tabella `dipendenti_contratti`
---
-ALTER TABLE `dipendenti_contratti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT per la tabella `dipendenti_ruoli`
---
-ALTER TABLE `dipendenti_ruoli`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT per la tabella `filtri`
---
-ALTER TABLE `filtri`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT per la tabella `immagini`
---
-ALTER TABLE `immagini`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT per la tabella `immagini_prodotti`
---
-ALTER TABLE `immagini_prodotti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `indirizzi`
---
-ALTER TABLE `indirizzi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT per la tabella `indirizzi_utenti`
---
-ALTER TABLE `indirizzi_utenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT per la tabella `items_magazzino`
---
-ALTER TABLE `items_magazzino`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `items_ordine`
---
-ALTER TABLE `items_ordine`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT per la tabella `magazzini`
---
-ALTER TABLE `magazzini`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `offerte`
---
-ALTER TABLE `offerte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `offerte_mxn`
---
-ALTER TABLE `offerte_mxn`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT per la tabella `offerte_omaggi`
---
-ALTER TABLE `offerte_omaggi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT per la tabella `offerte_omaggi_condizioni`
---
-ALTER TABLE `offerte_omaggi_condizioni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT per la tabella `offerte_sconti`
---
-ALTER TABLE `offerte_sconti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `offerte_tipi`
---
-ALTER TABLE `offerte_tipi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT per la tabella `opzioni`
---
-ALTER TABLE `opzioni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT per la tabella `ordini`
---
-ALTER TABLE `ordini`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT per la tabella `pagamenti`
---
-ALTER TABLE `pagamenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `pagamenti_preferiti`
---
-ALTER TABLE `pagamenti_preferiti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT per la tabella `prodotti`
---
-ALTER TABLE `prodotti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `utenti`
---
-ALTER TABLE `utenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT per la tabella `utenti_registrati`
---
-ALTER TABLE `utenti_registrati`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT per la tabella `valori`
---
-ALTER TABLE `valori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT per la tabella `valute`
---
-ALTER TABLE `valute`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Limiti per le tabelle scaricate
 --
@@ -1167,8 +1029,8 @@ ALTER TABLE `dipendenti`
   ADD CONSTRAINT `dipendenti_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `dipendenti_ibfk_2` FOREIGN KEY (`ruolo`) REFERENCES `dipendenti_ruoli` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `dipendenti_ibfk_3` FOREIGN KEY (`tipo_contratto`) REFERENCES `dipendenti_contratti` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `dipendenti_ibfk_4` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
-
+  ADD CONSTRAINT `dipendenti_ibfk_4` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `luogo_lavoro` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini` (`id`) ON DELETE SET NULL ON UPDATE CASCADE; 
 --
 -- Limiti per la tabella `filtri`
 --
@@ -1271,6 +1133,8 @@ ALTER TABLE `opzioni`
 --
 ALTER TABLE `ordini`
   ADD CONSTRAINT `ordini_ibfk_1` FOREIGN KEY (`id_dati_anagrafici`) REFERENCES `dati_anagrafici` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ordini-magazzini` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `id_valuta` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `ordini_ibfk_2` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

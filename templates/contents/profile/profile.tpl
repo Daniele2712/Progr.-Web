@@ -1,8 +1,11 @@
 {* Smarty *}
 <div id="profile">
-    <i id="user" class="fas fa-3x fa-user"></i>
-    <p id="username">{$username}</p>
-    <i id="bars" class="fas fa-3x fa-bars"></i>
+    <div id="topProfile">
+        <i id="user" class="fas fa-3x fa-user"></i>
+        <p id="username">{$username}</p>
+        <i id="bars" class="fas fa-3x fa-bars"></i>
+    </div>
+        
     <div id="dialog_container">
         <div id="dropdownMenu">
             <ul>

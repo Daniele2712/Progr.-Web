@@ -1,3 +1,67 @@
+#veil{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgb(128,128,128,0.85);
+    z-index:1;
+    display:none;
+}
+#sectionContent{
+    grid-area:sectionContent;
+    width:100%;
+    height:100%;
+}
+
+
+.sezioneMagazziniDiv{
+    display:block;
+}
+#sezioniStatistiche{
+    display:none;
+}
+
+
+#sezioniImpostazioni{
+    display:none;
+}
+
+.divGestionale{
+    display:none;
+}
+
+
+
+#addProductExitButton, #addCategoriaExitButton, #addEmployeeExitButton{
+    position:absolute;
+    text-align:center;
+    top:10px;
+    right:10px;
+    font-size:1.8em;
+    cursor: pointer;
+    border:1px grey solid;
+    border-radius:5px;
+}
+
+#addProductDiv, #addCategoriaDiv, #addEmployeeDiv{
+    background-color:white;
+    width:60%;
+    max-width:600px;
+    display:none;
+    border:3px lightgrey solid;
+    border-radius: 15px;
+    justify-items:center;
+    align-items:center;
+    grid-gap:15px;
+    position: absolute;
+    top:150px;
+    z-index:2;
+    justify-content:center;
+    justify-self:center;
+}
+@media screen and (min-width:1024px){
+    
 #gestoreContent{ /* THE WHOLE CONTAINTER*/
     display:grid;
     width:100%;
@@ -6,92 +70,78 @@
     grid-template-rows:150px auto;
     grid-template-areas:
         "macrosezioni macrosezioni macrosezioni"
-        "sezioni content content";
+        "sezioni sectionContent sectionContent";
   
 }
 
 /*      MACROSEZIONI      */
+
 #macrosezioni{
-    grid-area:macrosezioni;
     width:100%;
+    height:100%;
+    grid-area:macrosezioni;
     background: linear-gradient(lightgrey, white);
     display:grid;
-    grid-template-columns:1fr 1fr 1fr;
+    grid-auto-flow:column;
     align-items: center;
     justify-items: center;
-    grid-auto-flow:row;
 }
 
+.macrosezione{
+    width:100%;
+    height:100%;
+    display:grid;
+    align-items: center;
+    justify-items: center;
+}
 
-
-.macrosezione {
+.macrosezione span{
+    padding:2%;
     border-bottom: grey 8px solid;
     border-left: lightgrey 8px solid;
     border-right: lightgrey 8px solid;
     cursor:pointer;
-    font-size:2em;
+    font-size:0.9em;
     box-shadow: 0px 10px 12px rgba(0,0,0,0.3);
     background: linear-gradient( white,#F4FAFB);
     background-color: white;
     border-radius:15px;
-    text-align: center;
-    display:grid;
-    align-items: center;
-    margin:30px;
-    padding:10px;
     -webkit-user-select: none;  
     -moz-user-select: none;    
     -ms-user-select: none;      
     user-select: none;
-    
 }
-.macrosezione.active {
+
+.macrosezione.active span{
     box-shadow: 0px 12px 20px;
     
 }
-.macrosezione:active { /*Clicked and held*/
+.macrosezione:active span{ /*Clicked and held*/
   box-shadow: 0px 8px 9px;
 }
+
+
 /*      END OF  MACROSEZIONI      */
 
 
 /*      SEZIONI      */
+
 #sezioni{
+    margin:5px;
+    font-size:0.8em;
     grid-area:sezioni;
     width:100%;
+    height:100%;
     display:grid;
-    border-right: lightgrey 2px solid;
-    border-top: lightgrey 2px solid;
-    border-radius:15px;
-    padding-top:10px;
-    
+    grid-auto-flow:row;
+    border: lightgrey 2px solid;
+    border-radius:8px;
     -webkit-user-select: none;  
     -moz-user-select: none;    
     -ms-user-select: none;      
     user-select: none;
-}
+    }
 
-#sezioniStatistiche{
-    display:grid;
-    justify-items: center;
-    align-content:start;
-    display:none;
-    
-}
-
-#sezioniAmministrazione{
-    display:grid;
-    justify-items: center;
-    align-content:start;
-    
-}
-
-#sezioniImpostazioni{
-    display:grid;
-    justify-items: center;
-    align-content:start;
-    display:none;
-}
 
 .sezione{
     width:80%;
@@ -109,8 +159,28 @@
     justify-items: center;
     align-items:center;
     margin:15px;
-    
 }
+
+.sezione span{
+    height:2em;
+    border-bottom: grey 2px solid;
+    border-left: lightgrey 2px solid;
+    border-right: lightgrey 2px solid;
+    cursor:pointer;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:15px;
+    margin:10px;
+    padding:10%;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+
+
+
+
 
 .sezione:hover { /*Clicked and held*/
   box-shadow: 0px 7px 7px;
@@ -125,79 +195,260 @@
     
 }
 
+    
+
+
+
+
 /*      END OF  SEZIONI      */
 
 
-
-/*      CONTENUTO      */
-#content{
-    grid-area:content;
-    width:100%;
-    height:100%;
-}
-
-
-.sezioneProdottiDiv{
+/*              STATISTICHE             */
+/*              STATISTICHE             */
+.upperStats{
+    font-size:1.5em;
     display:grid;
+    width:100%;
+    height:80px;
+    justify-items:center;
+    align-items:center;
+    grid-template-columns:1fr 2fr;
+    grid-template-areas: "scrittaStats nomeMagazzinoStats";
 }
 
-/*  PRODOTTI UPPER  */
+.scrittaStats{
+    grid-area:scrittaStats;
+}
+.nomeMagazzinoStats{
+    grid-area:nomeMagazzinoStats;
+}
+    
+    
 
-#ProdottiUpper{
-    border:3px lightgrey solid;
-    width:auto;
-    margin:5px;
-    padding:15px;
-    margin-top:0;
-    border-radius: 15px;
-   
+.lowerStats{
+    margin-top:15px;
+    margin-bottom:15px;
+    display:grid;
+    width:100%;
+    height:80px;
+    justify-items:center;
+    grid-template-columns:1fr 1fr 1fr;
+    
+}
+.minisezione {
+    height:40px;
+    border-bottom: grey 8px solid;
+    border-left: lightgrey 8px solid;
+    border-right: lightgrey 8px solid;
+    cursor:pointer;
+    font-size:1.3em;
+    box-shadow: 0px 10px 12px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:15px;
+    text-align: center;
+    display:grid;
+    align-items: center;
+    padding:10px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
+#statsContainer{
+    width:100%;
+    height:500px;
     display:grid;
     justify-items:center;
     align-items:center;
-    grid-template-columns:1fr 1fr 1fr auto;
-    grid-template-rows:2fr 1fr;
-    grid-template-areas:
-        "titolo titolo magazzino magazzino"
-        "filtroPrezzo filtroCategoria filtroNome filtra";
-    grid-gap:15px;
+    grid-template-columns:1fr 20fr 1fr;
+    grid-template-areas: "sx centerImage dx";
+    
 }
 
-#scrittaProdotti{
-    grid-area:titolo;
-    font-size:3em;
+#images{
+    position:relative;
+    grid-area:centerImage;
     width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:column;
+    overflow:hidden;
+}
+
+.statsImages{
+    position:absolute;
+    right:0px;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:column;
+}
+
+.statsImages img{
+    width:750px;
+    height:500px;
+}
+#statisticheAnnualiDiv{
+}
+#statisticheSettimanaliDiv{
+}
+#statisticheMensiliDiv{
+}
+
+.fwbw{
+    border:2px black solid;
+    border-radius:5px;
     display:grid;
     align-items:center;
-    grid-auto-flow:column;
-    justify-content: space-around;
+    jusrify-items:center;
+    z-index:1;
 }
-#scrittaLocazione{
-    gird-area:magazzino;
+
+.niceButton{
+    font-size:1.4em;
+    cursor: pointer;
+    border:1px grey solid;
+    border-radius:5px;
+    z-index:1;
+}
+
+.minisezione.active { /*Clicked and held*/
+  box-shadow: 0px 8px 9px;
+}
+
+#ColonneOrdini{
+}
+
+.ordine{
+    display:grid;
+    align-items:center;
+    justify-items:center;
+    grid-template-columns:1fr 2fr 2fr 2fr 1fr 1fr 1fr 2fr 2fr;
+    grid-gap:2px;
+    height:60px;
+}
+
+.ordine div {
+            width:100%;
+}
+
+
+
+
+
+
+
+
+
+
+/*          END OF STATISTICHE      */
+/*          END OF STATISTICHE      */
+
+
+/*      UPPER       */
+
+.upper {
+    display:grid;
+    width:100%;
+    height:150px;
+    justify-items:center;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    grid-template-areas:
+        "scritta scrittaMagazzino"
+        "aggiungi nomeMagazzino";
+}
+
+.scritta{
+    font-size:2em;
+    grid-area:scritta;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+
+.aggiungi{
+    grid-area:aggiungi;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+
+.scrittaMagazzino{
     font-size:1.5em;
+    grid-area:scrittaMagazzino;
+    display:grid;
+    justify-items:center;
+    align-items:center;
 }
-#ProdottiFiltroPrezzo{
-    grid-area:filtroPrezzo;
+
+.nomeMagazzino{
+    grid-area:nomeMagazzino;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+    
 }
-#ProdottiFiltroCategoria{
-    grid-area:filtroCategoria;
+
+.pointer{
+    cursor:pointer;
 }
-#ProdottiNomeFiltro{
-    grid-area:filtroNome;
+
+.pointer:hover{
+    box-shadow: 2px 2px 3px;
 }
-#ProdottiSearch{
-    grid-area:filtra;
-    font-size:1.5em;
-    padding:5px;
+
+#idMagazzino{
+    display:none;
 }
 
 
 
-/*  END OF PRODOTTI UPPER  */
+/*      END OF UPPER*/
+
+/*      CONTENUTO      */
 
 
-/*  PRODOTTI LOWER  */
+
+
+
+
+#sezioneProdottiDiv{
+}
 
 #ProdottiLower{
+}
+
+
+/*      FILTRI PRODOTTI     */
+
+#prodottiFiltro{
+    border-top:2px grey solid;
+    margin-bottom:10px;
+    display:grid;
+    grid-template-rows:1fr 1fr;
+    grid-template-columns:1fr 1fr;
+    height:100px;
+    justify-items: center;
+    align-items: center;
+}
+
+#dipendentiFiltro{
+    border-top:2px grey solid;
+    margin-bottom:10px;
+    display:grid;
+    grid-template-rows:1fr 1fr;
+    grid-template-columns:1fr 1fr;
+    height:100px;
+    justify-items: center;
+    align-items: center;
+}
+
+
+/*      TABLES      */
+.table{
     display:grid;
     border:3px lightgrey solid;
     width:auto;
@@ -205,30 +456,85 @@
     padding:15px;
     margin-top:0;
     border-radius: 15px;
-    
+    text-align: center;
 }
-#tableProdotti{
+
+
+
+
+.lineaDiSeparazione{
+    height:2px;
     width:100%;
-    
+    background-image: radial-gradient( grey, lightgrey, white);
 }
+
+
+#ColonneMagazzini{
+}
+.magazzino{
+    display:grid;
+    align-items:center;
+    grid-template-columns:2fr 1fr 3fr 1fr 2fr ;
+    padding:5px;
+    height:60px;
+}
+
+
+
+
 #ColonneProdotti{
-    font-size:1.5em;
+    font-size:1em;
+
 }
-
-
-#lineaDiSeparazione{
-    height:3px;
-    width:100%;
-    background-color: lightgrey;
-}
-
 .prodotto{
     display:grid;
-    grid-template-columns:1fr repeat(4, 3fr) 1fr 3fr 1fr 1fr 1fr 1fr;
+    align-items:center;
+    grid-template-columns:1fr repeat(4, 3fr) 2fr 2fr 1fr 1fr 1fr 1fr;
+    padding:5px;
+    height:60px;
+}
+.prodottoRicVen{
+    display:grid;
+    align-items:center;
+    grid-template-columns:1fr repeat(4, 3fr) 3fr 3fr;
     padding:5px;
     height:60px;
     
 }
+
+#ElencoOrdini{
+    font-size:0.8em;
+}
+#ElencoProdottiRicevuti{
+    font-size:0.8em;
+}
+
+#ElencoProdottiVenduti{
+    font-size:0.8em;
+}
+
+#ElencoProdotti{
+    font-size:0.8em;
+}
+#ElencoProdotti{
+    font-size:0.8em;
+}
+
+
+#ColonneDipendenti{
+}
+.dipendente{
+    display:grid;
+    align-items:center;
+    grid-template-columns:1fr repeat(3, 3fr) 2fr 1fr 1fr 1fr;
+    padding:5px;
+    height:60px;
+}
+
+/*      END OF TABLES   */
+
+/*  PRODOTTI LOWER  */
+
 
 .prodotto div{
     display:grid;
@@ -237,21 +543,24 @@
     text-align:center;
     width: 100%;
     height:100%;
-    overflow: auto;
+    overflow: hidden;
+    
   
 }
 
-
-.prodotto div{
-    
-    border-left:1px lightgrey solid;
-    border-right:1px lightgrey solid;
+.prodotto .descr {
+    cursor: pointer;
 }
 
-#ElencoProdotti{
-    max-height:1200px;
-    overflow:auto;
+
+
+.elenco{
+
+    max-height: 1000px;
+    overflow:scroll;
 }
+
+
                     
  
 /*  END OF PRODOTTI LOWER  */
@@ -260,30 +569,51 @@
 
 
 /*      sezioneAggiungiProdottiDiv     */
-.sezioneAggiungiProdottiDiv{
-    border:3px lightgrey solid;
-    border-radius: 15px;
-    display:grid;
+
+
+
+
+
+.insertTitle{
+    text-align: center;
     margin:15px;
-    margin-top:0px;
-    justify-items:center;
-    align-items:center;
-    grid-gap:15px;
 }
 
-#inserisciProdotto{
+#inserisciProdottoForm{
     display:grid;
     grid-gap:10px;
     grid-template-rows:repeat(10, 1fr);
-    width:60%;
+    self-justify:center;
     justify-items:center;
+    margin-bottom:15px;
 }
 
-#inserisciProdotto div{
+#inserisciProdottoForm div{
     width:100%;
     height:60px;
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 2fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+#image-base64{
+}
+
+#addEmployeeDivForm{
+    display:grid;
+    grid-gap:10px;
+    grid-template-rows:repeat(7, 1fr);
+    self-justify:center;
+    justify-items:center;
+    margin-bottom:15px;
+}
+
+#addEmployeeDivForm div{
+    width:100%;
+    height:60px;
+    display:grid;
+    grid-template-columns:1fr 2fr;
     justify-items:center;
     align-items:center;
     justify-content:space-evenly;
@@ -291,8 +621,74 @@
 
 
 
+
+
+#inserisciCategoriaForm{
+    display:grid;
+    grid-template-rows:2fr 2fr 2fr;
+    self-justify:center;
+    justify-items:center;
+    grid-gap:15px;
+    margin-bottom:15px;
+    
+}
+
+#inserisciCategoriaForm div{
+    width:100%;
+    height:60px;
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+
+
+
+
+
+
+
+
+
+#addCategoriaDiv{
+    position:fixed;
+    justify-self:center;
+    align-self:center;
+    border:3px lightgrey solid;
+    border-radius: 15px;
+    margin:15px;
+    margin-top:0px;
+    justify-items:center;
+    align-items:center;
+    grid-gap:15px;
+    
+    display:none;
+}
+
+
+
 /*  END OF sezioneAggiungiProdottiDiv*/
 
+.noResults{
+    margin:10px;
+    padding:10px;
+}
+
+/*      IMPOSTAZIONI        */
+#ProfiloDiv{
+    margin:5%;
+    margin-top:10%;
+    display:grid;
+    grid-template-columns:1fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+    grid-gap:20px;
+}
+#ProfiloDiv button{
+    height:80px;
+}
 
 
 
@@ -301,6 +697,136 @@
     display:none;
 }
 
-.divGestionale{
-    display:none; 
+
+
 }
+
+@media screen and (max-width:1024px){   /*  TABLET  */
+
+    
+#gestoreContent{ /* THE WHOLE CONTAINTER*/
+    display:grid;
+    width:100%;
+    justify-items:center;
+    align-items: center;
+    grid-template-rows:150px 80px auto;
+    grid-template-areas:
+        "macrosezioni"
+        "sezioni"
+        "sectionContent";
+    }
+    
+#macrosezioni{
+    width:100%;
+    height:100%;
+    grid-area:macrosezioni;
+    background: linear-gradient(lightgrey, white);
+    display:grid;
+    grid-auto-flow:column;
+    align-items: center;
+    justify-items: center;
+}
+
+.macrosezione{
+    width:100%;
+    height:100%;
+    display:grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.macrosezione span{
+    padding:2%;
+    border-bottom: grey 8px solid;
+    border-left: lightgrey 8px solid;
+    border-right: lightgrey 8px solid;
+    cursor:pointer;
+    font-size:0.9em;
+    box-shadow: 0px 10px 12px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:15px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
+.macrosezione.active span{
+    box-shadow: 0px 12px 20px;
+    
+}
+.macrosezione:active span{ /*Clicked and held*/
+  box-shadow: 0px 8px 9px;
+}
+    
+#sezioni{
+    margin:5px;
+    font-size:0.8em;
+    grid-area:sezioni;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:row;
+    border: lightgrey 2px solid;
+    border-radius:8px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+    }
+
+
+.gruppoDiSezioni{
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-auto-flow:column;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+
+.sezione {
+    height:100%;
+    width:100%;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+.sezione span{
+    height:2em;
+    border-bottom: grey 2px solid;
+    border-left: lightgrey 2px solid;
+    border-right: lightgrey 2px solid;
+    cursor:pointer;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+    background: linear-gradient( white,#F4FAFB);
+    background-color: white;
+    border-radius:15px;
+    margin:10px;
+    padding:10%;
+    display:grid;
+    justify-items:center;
+    align-items:center;
+}
+
+.sezione:hover span{ /*Clicked and held*/
+  box-shadow: 0px 7px 7px;
+}
+
+.sezione:active span{ /*Clicked and held*/
+  box-shadow: 0px 10px 12px;
+}
+
+.sezione.active span{
+    box-shadow: 0px 8px 10px;
+    
+}
+
+}
+
+@media screen and (max-width:800px){    /*      TEELFONO   penso che resta uguale alla parte per il tablet... */
+
+}
+

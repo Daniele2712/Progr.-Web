@@ -38,7 +38,7 @@ class Valuta{
         elseif($r === NULL)
             throw new \ModelException("Model Not Found", __CLASS__, array("id"=>$id_utente), 0);
         $p->close();
-        return array($id, $sigla, $nome, $simbolo);
+        return array('id'=>$id, 'sigla'=>$sigla, 'nome'=>$nome, 'simbolo'=>$simbolo);
     }
 
     public static function exchangeRate(string $from, string $to){

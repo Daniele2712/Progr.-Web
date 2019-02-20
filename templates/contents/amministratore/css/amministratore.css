@@ -1,0 +1,105 @@
+.gestore{
+    display:grid;
+    align-items:center;
+    grid-template-columns:1fr repeat(2, 3fr) 1fr 1fr 1fr 1fr;
+    padding:5px;
+    height:60px;
+}
+
+#addGestoreDiv{
+    background-color:white;
+    width:60%;
+    max-width:600px;
+    display:none;
+    border:3px lightgrey solid;
+    border-radius: 15px;
+    justify-items:center;
+    align-items:center;
+    grid-gap:15px;
+    position: absolute;
+    top:150px;
+    z-index:2;
+    justify-content:center;
+    justify-self:center;
+}
+
+#addGestoreDivForm{
+    display:grid;
+    grid-gap:10px;
+    grid-template-rows:repeat(8 1fr);
+    justify-self:center;
+    justify-items:center;
+    margin-bottom:15px;
+}
+
+#addGestoreDivForm div{
+    height:60px;
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+
+
+#addMagazzinoDiv{
+    background-color:white;
+    width:60%;
+    max-width:600px;
+    display:none;
+    border:3px lightgrey solid;
+    border-radius: 15px;
+    justify-items:center;
+    align-items:center;
+    grid-gap:15px;
+    position: absolute;
+    top:150px;
+    z-index:2;
+    justify-content:center;
+    justify-self:center;
+}
+#addMagazzinoDivForm{
+    display:grid;
+    grid-gap:10px;
+    grid-template-rows:repeat(5, 1fr);
+    justify-self:center;
+    justify-items:center;
+    margin-bottom:15px;
+}
+
+#addMagazzinoDivForm div{
+    height:60px;
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+}
+
+ #addGestoreExitButton, #addMagazzinoExitButton{
+    position:absolute;
+    text-align:center;
+    top:10px;
+    right:10px;
+    font-size:1.8em;
+    cursor: pointer;
+    border:1px grey solid;
+    border-radius:5px;
+}
+
+#SitoWebDiv{
+    margin:5%;
+    margin-top:10%;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    justify-items:center;
+    align-items:center;
+    justify-content:space-evenly;
+    grid-gap:20px;
+}
+
+#SitoWebDiv button{
+    height:80px;
+}
