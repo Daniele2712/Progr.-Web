@@ -8,23 +8,23 @@ if(!defined("EXEC")){
 }
 
 class indirizzi implements Controller{
-    
+
     public static function get(Request $req){
         header('Content-type: application/json');
         $params=$req->getOtherParams();
 
-        if(in_array("all",$params))        
+        if(in_array("all",$params))
         {
             /*
                 Le funzioni GetMagazziniOfAmministratore e getMagazziniOfDipendenteWithId restituiscono un array con i seguenti campi
-             
+
              * id_magazzino
              * CAP_magazzino
              * nome_citta_magazzino
              * provincia_magazzino
              * via_magazzino
              * civico_magazzino
-             
+
             */
             $session = \Singleton::Session();
             if(!$session->isLogged())       //se NON e' loggato
@@ -71,7 +71,7 @@ class indirizzi implements Controller{
                     else
                     {
                      $v = new \Views\JSONView(array("r"=>403, "message"=>"Vuol dire che non sei ne Gestore ne Amministratore e che nonostante cio hai passato il controllo..non so come"));
-                     $v->render();   
+                     $v->render();
                     }
                 }
             }
@@ -81,24 +81,24 @@ class indirizzi implements Controller{
                 $v->render();
             }
     }
-        
+
     public static function post(Request $req){
     }
 
     public static function default(Request $req){
         self::get($req);
     }
-    
-    
-    
+
+
+
     private static function setSuccess($info){
     switch($info){
     case 'empty':
         http_response_code(200);
         echo '{"message":"Everything went right but the result is empty"}';
-    break;   
+    break;
    }
 }
-    
-    
+
+
 }

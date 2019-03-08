@@ -1,94 +1,94 @@
 $(document).ready(function(){
-        
+
 //  Funzioni che fanno apparire e sparire le sezioni relative alle 3 grandi macrocategorie, in base a quale macrocategoria hai cliccato
 $("#statistiche").click(function(){
-   
+
     if(!$('#statistiche').hasClass( "active" )) {$('#statistiche').addClass('active');}
     if($('#amministrazione').hasClass( "active" )) {$('#amministrazione').removeClass('active');}
     if($('#impostazioni').hasClass( "active" )) {$('#impostazioni').removeClass('active');}
-   
-    
+
+
     if($('#sezioniStatistiche').css('display') == 'none') {$('#sezioniStatistiche').css('display', 'grid');}
     if($('#sezioniAmministrazione').css('display') == 'grid') {$('#sezioniAmministrazione').css('display', 'none');}
     if($('#sezioniImpostazioni').css('display') == 'grid') {$('#sezioniImpostazioni').css('display', 'none');}
 });
 
 $("#amministrazione").click(function(){
-    
+
     if($('#statistiche').hasClass( "active" )) {$('#statistiche').removeClass('active');}
     if(!$('#amministrazione').hasClass( "active" )) {$('#amministrazione').addClass('active');}
     if($('#impostazioni').hasClass( "active" )) {$('#impostazioni').removeClass('active');}
-   
-    
+
+
     if($('#sezioniStatistiche').css('display') == 'grid') {$('#sezioniStatistiche').css('display', 'none');}
     if($('#sezioniAmministrazione').css('display') == 'none') {$('#sezioniAmministrazione').css('display', 'grid');}
     if($('#sezioniImpostazioni').css('display') == 'grid') {$('#sezioniImpostazioni').css('display', 'none');}
-}); 
+});
 
 $("#impostazioni").click(function(){
-    
+
     if($('#statistiche').hasClass( "active" )) {$('#statistiche').removeClass('active');}
     if($('#amministrazione').hasClass( "active" )) {$('#amministrazione').removeClass('active');}
     if(!$('#impostazioni').hasClass( "active" )) {$('#impostazioni').addClass('active');}
-   
-    
+
+
     if($('#sezioniStatistiche').css('display') == 'grid') {$('#sezioniStatistiche').css('display', 'none');}
     if($('#sezioniAmministrazione').css('display') == 'grid') {$('#sezioniAmministrazione').css('display', 'none');}
     if($('#sezioniImpostazioni').css('display') == 'none') {$('#sezioniImpostazioni').css('display', 'grid');}
 });
-  
+
 //  Funzioni che mostrano un solo Div alla volta, nascondendo quello che c-era prima
 $(".sezione").click(function(){
         var nameOfSection = $(this).attr("id");
         $(".divGestionale").css('display', 'none');
         $('#' + nameOfSection + 'Div').css('display', 'block');
-    
+
     $(".sezione").removeClass('active');
     $(this).addClass('active');
     });
-    
-    
-    
-    
-    
+
+
+
+
+
 // FUNZIONI PER LE MINISEZIONI DELLO STATS
 
 //  Funzioni che fanno apparire e sparire le sezioni relative alle 3 grandi macrocategorie, in base a quale macrocategoria hai cliccato
 $("#statisticheAnnuali").click(function(){
             $('.minisezione.active').removeClass('active');
             $('#statisticheAnnuali').addClass('active');
-            
+
             $('.statsImages.selected').css('display', 'none');
             $('#statisticheAnnualiDiv').css('display', 'grid');
-            
+
             $('.statsImages.selected').removeClass('selected');
             $('#statisticheAnnualiDiv').addClass('selected');
-            
-            
+
+
  });
- 
+
 $("#statisticheMensili").click(function(){
             $('.minisezione.active').removeClass('active');
             $('#statisticheMensili').addClass('active');
-            
+
             $('.statsImages.selected').css('display', 'none');
             $('#statisticheMensiliDiv').css('display', 'grid');
-            
+
             $('.statsImages.selected').removeClass('selected');
             $('#statisticheMensiliDiv').addClass('selected');
  });
- 
+
 $("#statisticheSettimanali").click(function(){
             $('.minisezione.active').removeClass('active');
             $('#statisticheSettimanali').addClass('active');
-            
+
             $('.statsImages.selected').css('display', 'none');
             $('#statisticheSettimanaliDiv').css('display', 'grid');
-            
+
             $('.statsImages.selected').removeClass('selected');
             $('#statisticheSettimanaliDiv').addClass('selected');
  });
-         
+
 
 $('#backwardImage').click(function() {
          $('.statsImages.selected').animate({'right' : "-=750px" });
@@ -97,8 +97,8 @@ $('#forwardImage').click(function() {
         $('.statsImages.selected').animate({'right' : "+=750px" });
 });
 
-    
-    
+
+
 $("#ProdottiSearchButton").click(function(){caricaProdotti()});
 $("#DipendentiSearchButton").click(function(){caricaDipendenti()});
 
@@ -107,7 +107,7 @@ $("#DipendentiSearchButton").click(function(){caricaDipendenti()});
 $('#addProductButton').click(function(){
     $("#veil").fadeIn();
     $("#addProductDiv").fadeIn();
-    
+
 });
 $('#addProductExitButton').click(function(){
     $("#addProductDiv").fadeOut();
@@ -179,10 +179,10 @@ function caricaProdotti(){
     var id_categoria=$( "#inputProdottiFiltroCategoria option:selected" ).val();
     var nome=$('#inputProdottiFiltroNome').val();
     var magazzino=$('#idMagazzino').text();
-    
-    
+
+
     $.ajax({
-        url:"http://webb/api/prodotti/prezzo_min/"+min+"/prezzo_max/"+max+"/id_categoria/"+id_categoria+"/nome/"+nome+"/magazzino/"+magazzino,
+        url:"/api/prodotti/prezzo_min/"+min+"/prezzo_max/"+max+"/id_categoria/"+id_categoria+"/nome/"+nome+"/magazzino/"+magazzino,
         method:"GET",
         dataType:"json",
         success:function(arrayDiRisposta){
@@ -192,10 +192,10 @@ function caricaProdotti(){
                 jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) {
                     if(elementoRisposta['descrizione_prodotto'].length > 35) var descrDisplay=elementoRisposta['descrizione_prodotto'].substr(0,35)+'  ...';
                     else var descrDisplay=elementoRisposta['descrizione_prodotto'];
-                    
+
                     if(elementoRisposta['info_prodotto'].length > 35) var infoDisplay=elementoRisposta['info_prodotto'].substr(0,35)+'  ...';
                     else var infoDisplay=elementoRisposta['info_prodotto'];
-                    
+
                     var newProduct= '<div class="prodotto">\
                                         <div>'+elementoRisposta['id_prodotto']+'</div>\
                                         <div>'+elementoRisposta['nome_prodotto']+'</div>\
@@ -215,7 +215,7 @@ function caricaProdotti(){
               else{
                 $('#ElencoProdotti').html("<div class='noResults'>No results</div>");
             }
-            
+
         },
         error:function(req, text, error){
             console.log(req);
@@ -224,20 +224,20 @@ function caricaProdotti(){
             ajax_error(req, text, error);
         }
     })
-    
+
 }
 
 function caricaOrdiniGestore(){
     var magazzino=$('#idMagazzino').text();
     $.ajax({
-        url:"http://webb/api/ordine/magazzino/"+magazzino,
+        url:"/api/ordine/magazzino/"+magazzino,
         method:"GET",
         dataType:"json",
         success:function(arrayDiRisposta){
             $('#ElencoOrdini').html("");
             if(arrayDiRisposta.message==undefined)
             {
-                jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) { 
+                jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) {
                     var newOrdine= '<div class="ordine">\
                                         <div>'+elementoRisposta['id_ordine']+'</div>\
                                         <div>'+elementoRisposta['tipo_ordine']+'</div>\
@@ -267,7 +267,7 @@ function caricaOrdiniGestore(){
 function caricaProdottiRicevuti(){
     var magazzino=$('#idMagazzino').text();
     $.ajax({
-        url:"http://webb/api/prodotti_ricevuti/magazzino/"+magazzino,
+        url:"/api/prodotti_ricevuti/magazzino/"+magazzino,
         method:"GET",
         dataType:"json",
         success:function(arrayDiRisposta){
@@ -277,10 +277,10 @@ function caricaProdottiRicevuti(){
                 jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) {
                     if(elementoRisposta['descrizione_prodotto'].length > 35) var descrDisplay=elementoRisposta['descrizione_prodotto'].substr(0,35)+'  ...';
                     else var descrDisplay=elementoRisposta['descrizione_prodotto'];
-                    
+
                     if(elementoRisposta['info_prodotto'].length > 35) var infoDisplay=elementoRisposta['info_prodotto'].substr(0,35)+'  ...';
                     else var infoDisplay=elementoRisposta['info_prodotto'];
-                    
+
                     var newProduct= '<div class="prodottoRicVen">\
                                         <div>'+elementoRisposta['id_prodotto']+'</div>\
                                         <div>'+elementoRisposta['nome_prodotto']+'</div>\
@@ -297,7 +297,7 @@ function caricaProdottiRicevuti(){
                 $('#ElencoProdottiRicevuti').html("<div class='noResults'>No results</div>");
             }
             $('#sezioneProdottiRicevuti').removeClass('notUpdated');
-        }   
+        }
         ,
         error:function(req, text, error){
             ajax_error(req, text, error);
@@ -308,7 +308,7 @@ function caricaProdottiRicevuti(){
 function caricaProdottiVenduti(){
     var magazzino=$('#idMagazzino').text();
     $.ajax({
-        url:"http://webb/api/prodotti_venduti/magazzino/"+magazzino,
+        url:"/api/prodotti_venduti/magazzino/"+magazzino,
         method:"GET",
         dataType:"json",
         success:function(arrayDiRisposta){
@@ -318,10 +318,10 @@ function caricaProdottiVenduti(){
                 jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) {
                     if(elementoRisposta['descrizione_prodotto'].length > 35) var descrDisplay=elementoRisposta['descrizione_prodotto'].substr(0,35)+'  ...';
                     else var descrDisplay=elementoRisposta['descrizione_prodotto'];
-                    
+
                     if(elementoRisposta['info_prodotto'].length > 35) var infoDisplay=elementoRisposta['info_prodotto'].substr(0,35)+'  ...';
                     else var infoDisplay=elementoRisposta['info_prodotto'];
-                    
+
                     var newProduct= '<div class="prodottoRicVen">\
                                         <div>'+elementoRisposta['id_prodotto']+'</div>\
                                         <div>'+elementoRisposta['nome_prodotto']+'</div>\
@@ -338,7 +338,7 @@ function caricaProdottiVenduti(){
                 $('#ElencoProdottiVenduti').html("<div class='noResults'>No results</div>");
             }
             $('#sezioneProdottiVenduti').removeClass('notUpdated');
-        }   
+        }
         ,
         error:function(req, text, error){
             ajax_error(req, text, error);
@@ -351,16 +351,16 @@ function caricaDipendenti(){
     var cognome=$('#inputDipendentiFiltroCognome').val();
     var ruolo=$("#inputDipendentiFiltroRuolo").val();
     var magazzino=$('#idMagazzino').text();
-    
+
     $.ajax({
-        url:"http://webb/api/dipendenti/nome/"+nome+"/cognome/"+cognome+"/ruolo/"+ruolo+"/magazzino/"+magazzino,
+        url:"/api/dipendenti/nome/"+nome+"/cognome/"+cognome+"/ruolo/"+ruolo+"/magazzino/"+magazzino,
         method:"GET",
         dataType:"json",
         success:function(arrayDiRisposta){
             $('#ElencoDipendenti').html("");
             if(arrayDiRisposta.message==undefined)
             {
-                jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) { 
+                jQuery.each( arrayDiRisposta, function( i, elementoRisposta ) {
                     var newDipendente= '<div class="dipendente">\
                                         <div>'+elementoRisposta['id_dipendente']+'</div>\
                                         <div>'+elementoRisposta['nome_dipendente']+'</div>\
@@ -384,12 +384,12 @@ function caricaDipendenti(){
             ajax_error(req, text, error);
         }
     })
-    
+
 }
 
 function caricaCategorie(){
             $.ajax({
-                url:"http://webb/api/ApiController/categorie",
+                url:"/api/ApiController/categorie",
                 method:"GET",
                 dataType:"json",
                 success:function(categorie){
@@ -406,10 +406,10 @@ function caricaCategorie(){
                 }
             })
     }
-    
+
 function caricaRuoli(){
         $.ajax({
-            url:"http://webb/api/ruoli",
+            url:"/api/ruoli",
             method:"GET",
             dataType:"json",
             success:function(arrayDiRisposta){
@@ -426,7 +426,7 @@ function caricaRuoli(){
 
 function caricaValute(){
     $.ajax({
-            url:"http://webb/api/valute",
+            url:"/api/valute",
             method:"GET",
             dataType:"json",
             success:function(arrayDiRisposta){
@@ -439,23 +439,23 @@ function caricaValute(){
                 ajax_error(req, text, error);
             }
         })
-    
+
 }
 
 function readImage() {  // volevo usarla per uploadare l-immagine via ajax, invece di fare una richiesta al server e cambiare la pagina...pero non la cpaisco a pieno..per ora non la uso
-  
+
   if (this.files && this.files[0]) {
-    
+
     var FR= new FileReader();
-    
+
     FR.addEventListener("load", function(e) {
       //document.getElementById("img").src       = e.target.result;
       $("#image-base64").innerHTML = e.target.result;
-    }); 
-    
+    });
+
     FR.readAsDataURL( this.files[0] );
   }
-  
+
 }
 
 
@@ -471,14 +471,14 @@ function modofyDipendente(){/*combinaz lineare di create e delete*/}
 
 function indirizziDeiMagazzini(){
    $.ajax({
-            url:"http://webb/api/indirizzi/all",
+            url:"/api/indirizzi/all",
             method:"GET",
             dataType:"json",
             success:function(risposta){
                 $('.magazzinoSelezionato').html("ID:"+risposta.magazzini[0]['id_magazzino']+"&nbsp;&nbsp;"+risposta.magazzini[0]['nome_citta_magazzino'] +", "+risposta.magazzini[0]['via_magazzino'] +" "+risposta.magazzini[0]['civico_magazzino']);  //scrive in tutti i posti dedicati al nome del negozio
-                
-                
-                
+
+
+
                 var opzioniMagazziniPerDropdown="";
                 jQuery.each(risposta.magazzini, function( i, magazzino )
                 {
@@ -487,10 +487,10 @@ function indirizziDeiMagazzini(){
                 var selectMagazzino="<select id='selectMagazzinoSelectTable'>"+opzioniMagazziniPerDropdown+"</select><span id=idMagazzino></span>"; // questo perzzo serve per riempire la parte del nome (e id invisibile) del magazzino
                 $('#selezionaMagazzino').html(selectMagazzino);
                 $('.listaNomiMagazzini').html(opzioniMagazziniPerDropdown);
-                
+
                 $('#idMagazzino').html(risposta.magazzini[0]['id_magazzino']);        // riempio quella span con l-id cel primo magazzino appartenente all gestore, che sarebbe quello di default
-                
-                //Ora completo anche la tabbella grande con la lista dei magazzini    
+
+                //Ora completo anche la tabbella grande con la lista dei magazzini
                  jQuery.each(risposta.magazzini, function( i, magazzino )
                 {
                     var magazzino = '<div class="magazzino">\
@@ -502,20 +502,20 @@ function indirizziDeiMagazzini(){
                                     </div>';
                     $('#ElencoMagazzini').append(magazzino)
                  });
-                
+
                 // Dopo aver creato tutto questo, ci aggiungo la funzione on click che aggiorna la span quando il gestore cambia il magazzino
                 $('.magazzinoValue').click(function(){
                     var idMagazzinoSelezionato=$(this).attr('value');       //Prende l-id del magazzino , che e' memorizzato nel attributo value dell'opzione
                    $('#idMagazzino').html(idMagazzinoSelezionato);          //nella sezione invisibile con id idMagazzino ci aggiungo l'id del magazzino
-                   
+
                    //ora cambio la scritta in tutte le sezioni dove c-e scritto "nome del magazzino"
                    jQuery.each(risposta.magazzini, function( i, magazzino )
                         {
-                            if(magazzino['id']==idMagazzinoSelezionato) 
+                            if(magazzino['id']==idMagazzinoSelezionato)
                                 $('.magazzinoSelezionato').html("ID:"+magazzino['id_magazzino']+"&nbsp;&nbsp;"+magazzino['nome_citta_magazzino'] +", "+magazzino['via_magazzino'] +" "+magazzino['civico_magazzino']);
                         });
-                   
-                   
+
+
                    //Dato che ho cambiato magazzino, ora le informazioni delle tabblle di prima sono obolete, quindi le cancello
                    $('#ElencoProdotti').html('');
                    $('#ElencoDipendenti').html('');
@@ -525,7 +525,7 @@ function indirizziDeiMagazzini(){
                    $('#sezioneOrdini').addClass('notUpdated');
                    $('#sezioneProdottiRicevuti').addClass('notUpdated');
                    $('#sezioneProdottiVenduti').addClass('notUpdated');
-                    
+
                 });
             },
             error:function(req, text, error){
@@ -536,11 +536,11 @@ function indirizziDeiMagazzini(){
 
 function caricaContratti(){
     $.ajax({
-            url:"http://webb/api/contratti",
+            url:"/api/contratti",
             method:"GET",
             dataType:"json",
             success:function(contratti){
-               
+
                 jQuery.each(contratti, function( i, contratto )
                 {
                     $('.selectContrattoDipendente').append("<option value="+contratto['id_contratto']+">"+contratto['tipo_contratto']+"</option>");
@@ -552,5 +552,3 @@ function caricaContratti(){
             }
         });
 }
-
-
