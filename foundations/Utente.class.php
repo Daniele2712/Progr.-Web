@@ -43,10 +43,10 @@ abstract class Utente extends DatiAnagrafici{
 
     public static function getRuoloOfUserId($idUtente){ // magari puoi fare anche un controllo prima x vedere se e effettivamente un dipendente o no...qui do x scontato che e un dipendente
             //Restituisce UtenteRegistrato, oppure Gestore, Corriere, Amministratore, ecc se l-utente e un dipendente
-            
+
         if(\Foundations\UtenteRegistrato::isUtenteRegistrato($idUtente))
         {
-           return "UtenteRegistrato"; 
+           return "UtenteRegistrato";
         }
         else if(\Foundations\Dipendente::isDipendente($idUtente))
         {
@@ -54,5 +54,5 @@ abstract class Utente extends DatiAnagrafici{
         }
         else return null;
     }
-    
-    }
+
+}

@@ -20,39 +20,41 @@ class spesa implements Controller{
      */
     public static function catalogo(Request $req){
         $session = \Singleton::Session();
-        if($session->timedOut()){
+        if($session->timedOut() || $session->isNew()){
             $session->setMessage("Sessione scaduta per inattivit&agrave;");
             \Views\HTTPView::redirect("/spesa/home");
         }
         $valuta = $session->getUserValuta();
         $v = new \Views\Catalogo();
         $v->fillBasket($session->getCart(), $valuta);
-        try{
-            $items = \Foundations\Magazzino::findClosestTo($session->getAddr())->getAvailableItems($req, $filters);
-        }catch(\Exception $e){
-            if($e->getMessage() === "Error Address not set"){   //quando la sessione scade perdo l'indirizzo,
-                $session->setMessage("Indirizzo di spedizione non impostato");
-                \Views\HTTPView::redirect("/spesa/home");       //quindi lo rimando alla home
-            }else
-                throw $e;
-        }
-        $v->fillItems($items, $valuta);
+        $data = \Models\Magazzino::getAvailableItems($req);
+        $v->fillItems($data["items"], $valuta);
         $v->fillCategories(\Foundations\Categoria::findMainCategories());
-        $v->fillFilters($filters);
+        $v->fillFilters($data["filters"]);
         $v->render();
     }
 
     public static function checkout(Request $req){
         $session = \Singleton::Session();
-        if($session->timedOut()){
+        if($session->timedOut() || $session->isNew()){
             $session->setMessage("Sessione scaduta per inattivit&agrave;");
             \Views\HTTPView::redirect("/spesa/home");
         }
         $v = new \Views\Checkout();
         $v->setAddress($session->getAddr());
-        $v->setLoggedUser($session->getUser());
-        $v->setCart($session->getCart(), $session->getUserValuta());
+        if($session->isLogged())
+            $v->setLoggedUser($session->getUser());
+        $v->fillBasket($session->getCart(), $session->getUserValuta());
         $v->render();
+    }
+
+    public static function ordine(Request $req){
+        $session = \Singleton::Session();
+        if($session->timedOut() || $session->isNew()){
+            $session->setMessage("Sessione scaduta per inattivit&agrave;");
+            \Views\HTTPView::redirect("/spesa/home");
+        }
+        $ordine = \Models\Ordine::nuovo($req);
     }
 
     public static function ordini(Request $req){
@@ -82,6 +84,14 @@ class spesa implements Controller{
        }       //vedi cosa fare se l-utente non e registrato   forse e bene generare un numero random x ogni ordine creato. e usarlo come parametro nel url
 
        $v->render();
+    }
+
+    public static function pagamento(Request $req){
+        $session = \Singleton::Session();
+        if($session->timedOut()){
+            $session->setMessage("Sessione scaduta per inattivit&agrave;");
+            \Views\HTTPView::redirect("/spesa/home");
+        }
     }
 
     public static function completaordine(Request $req){

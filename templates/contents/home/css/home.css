@@ -1,5 +1,5 @@
 #content{
-    height:800px;/* sovrascrive l altezza del content, e lo fa piu corto, tanto nella schermata di home non abbiamo tante cose*/
+    height:800px;/* blocca l'altezza del content*/
     background-image: url(/download/background);
     background-repeat: no-repeat;
     background-size: 100%;

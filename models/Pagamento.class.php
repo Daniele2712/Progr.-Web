@@ -1,5 +1,6 @@
 <?php
 namespace Models;
+use \Views\Request as Request;
 if(!defined("EXEC")){
     header("location: /index.php");
 	return;
@@ -9,19 +10,22 @@ if(!defined("EXEC")){
 
 
 abstract class Pagamento extends Model{
-    private $idPagamento;
-    private $valuta = "EUR";    //da cambiare o eventualmente eliminare xke ogni utente ha la propira preferenza ocn la valuta
-
-    public function __construct(int $idPagamento){
-        $this->idPagamento = $idPagamento;
+    public function __construct(int $id){
+        $this->id = $id;
     }
 
-    public abstract function createPayment();
-
-    public function getId(): int{
-        return $this->idPagamento;
+    public function getType(){
+        $path = explode('\\',get_class($this));
+        return array_pop($path);
     }
+
+    public static function nuovo(Request $req){
+        $type = "\\Models\\".$req->getString("tipo_pagamento","","POST");
+        if(class_exists($type) && (new \ReflectionClass($type))->isSubclassOf("\\Models\\Pagamento"))
+            return $type::newPayment($req);
+    }
+
+    public static abstract function newPayment(Request $req):Pagamento;
     public abstract function paga();
-    public abstract function sceglivaluta();
 
 }

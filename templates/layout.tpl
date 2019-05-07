@@ -11,7 +11,7 @@
         <script type="text/javascript" src="/libs/jquery-cookie/src/jquery_cookie.js" ></script>
         <script type="text/javascript" src="/templates/js/layout.js"></script>
         {$templateHeadIncludes}
-        <script type="text/javascript"> var logged="{$logged}"</script>
+        <script type="text/javascript"> var logged={if $logged}"{$logged}"{else}{"false"}{/if}</script>
         <title>{$siteTitle}</title>
     </head>
     <body>

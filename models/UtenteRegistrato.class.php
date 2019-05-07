@@ -99,4 +99,8 @@ class UtenteRegistrato extends Utente{
                 return $addr;
         throw new \ModelException("Model Not Found", __CLASS__, array("id_utente"=>$this->id, "id_addr"=>$id_addr), 0);
     }
+
+    public function getRuolo(){
+        return "UtenteRegistrato";
+    }
 }

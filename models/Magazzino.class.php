@@ -52,7 +52,7 @@ class Magazzino extends Model{
         new \ModelException("Item not found", __CLASS__, array("id_prod"=>$prod->getId()),1);
     }
 
-    public function getAvailableItems(\Views\Request $req, &$filters):array{
+    public static function getAvailableItems(\Views\Request $req):array{
         $idCategoria = $req->getInt(0);         //id Categoria
         $page = $req->getInt(1,1);              //numero pagina
         $filters = \Foundations\Filtro::findInCat($idCategoria);
@@ -65,14 +65,15 @@ class Magazzino extends Model{
         $n = 50;
         $i = 0;
         $filtered = $req->getBool("filtered",FALSE,"POST");
-        foreach ($this->items as $item)
+        $magazzino = \Foundations\Magazzino::findClosestTo(\Singleton::Session()->getAddr());
+        foreach ($magazzino->items as $item)
             if($item->getQuantita()>0 && $item->getProdotto()->hasCat($idCategoria))
                 if($filtered && $item->getProdotto()->filter($filters) || !$filtered){
                     $i++;
                     if($i >= ($page-1)*$n && $i < $page*$n)     //divido l'elenco in pagine di 50 prodotti
                         $r[] = $item;
             }
-        return $r;
+        return array("items"=>$r, "filters"=>$filters);
     }
 
     public function getIndirizzo():\Models\Indirizzo{

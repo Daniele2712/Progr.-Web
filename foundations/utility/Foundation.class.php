@@ -109,6 +109,29 @@ abstract class Foundation{
         return $r;
     }
 
+
+    /**
+     * metodo per testare l'esistenza di un Model nel DB a partire dal suo id
+     *
+     * @param   int    $id      id del Model da cercare
+     * @throws  Exception       se il nome della tabella non è stato impostato
+     * @throws  SQLException    in caso di errore di esecuzione dello statement
+     * @return  bool            TRUE se il model esiste, FALSE se non è stato trovato
+     */
+    public static function seek(int $id): bool{
+        if(!static::$table)
+            throw new \Exception("Error Table Name not set in".get_called_class(), 1);
+        $DB = \Singleton::DB();
+        $sql = "SELECT * FROM ".static::$table." WHERE ".static::$ID["name"]." = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param(static::$ID["type"],$id);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $p->close();
+        return $res && $res->num_rows===1;
+    }
+
     /**
      * metodo per cercare una tupla nel DB a partire dal suo id
      *
@@ -189,16 +212,13 @@ abstract class Foundation{
      * @param    \Models\Model   $obj  il Model da salvare
      * @return   int|null              l'eventuale id del nuovo Model
      */
-    public static function save(Model $obj):int{
-        try{
-            self::find($obj->getId());
+    public static function save(Model $obj){
+        if($obj->getId()<=0 || !static::seek($obj->getId())){
+            $id = static::insert($obj);
+            $obj->setId($id);
+            return $id;
+        }else
             return static::update($obj);
-        }catch(\SQLException $e){
-            if($e->getCode() === 8)
-                return static::insert($obj);
-            else
-                throw $e;
-        }
     }
 
 }

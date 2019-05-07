@@ -33,7 +33,7 @@ class indirizzi implements Controller{
                 $v->render();
                 }
             else{   //vuol dire che e' loggato
-                    $ruolo=$session->getRuoloOfLoggedUser();
+                    $ruolo=$session->getUser()->getRuolo();
                     if($ruolo=="Amministratore")
                     {
                         $magazzini = \Foundations\Dipendente::getMagazziniOfAmministratore();

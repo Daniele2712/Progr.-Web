@@ -11,24 +11,31 @@ class DatiAnagrafici extends Foundation{
 
     public static function insert(Model $dati_anagrafici): int{
             $DB = \Singleton::DB();
-            $sql = "INSERTO INTO ".self::$table." VALUES(NULL, ?, ?,?,?)";
+            $nome = $dati_anagrafici->getNome();
+            $cognome = $dati_anagrafici->getCognome();
+            $telefono = $dati_anagrafici->getTelefono();
+            $nascita = $dati_anagrafici->getDataNascita()->format('Y-m-d');
+
+            $sql = "INSERT INTO ".self::$table." VALUES (NULL, ?, ?, ?, ?)";
             $p = $DB->prepare($sql);
-            $nome=$dati_anagrafici->getNome();
-            $cognome=$dati_anagrafici->getCognome();
-            $telefono=$dati_anagrafici->getTelefono();
-            $nasita=$dati_anagrafici->getDataNascita()->format('Y-m-d H:i:s');
-            $p->bind_param("ssss", $nome, $cognome, $telefono, $nasita );
+            $p->bind_param("ssss", $nome, $cognome, $telefono, $nascita);
             if(!$p->execute())
                 throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
             $p->close();
-            $idUltimoOrdine=$DB->lastId();
+            return $DB->lastId();
     }
 
-    public static function update(Model $object){
+    public static function update(Model $dati_anagrafici){
             $DB = \Singleton::DB();
+            $id = $dati_anagrafici->getId();
+            $nome = $dati_anagrafici->getNome();
+            $cognome = $dati_anagrafici->getCognome();
+            $telefono = $dati_anagrafici->getTelefono();
+            $nascita = $dati_anagrafici->getDataNascita()->format('Y-m-d');
+
             $sql = "UPDATE dati_anagrafici SET nome = ?, cognome = ?, telefono = ?, data_nascita = ? WHERE id = ?";
             $p = $DB->prepare($sql);
-            $p->bind_param("ssss", $dati_anagrafici->getNome(), $dati_anagrafici->getCognome(), $dati_anagrafici->getTelefono(), $dati_anagrafici->getDataNascita());
+            $p->bind_param("ssssi", $nome, $cognome, $telefono, $nascita, $id);
             if(!$p->execute())
                 throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
             $p->close();

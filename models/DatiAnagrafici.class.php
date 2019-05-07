@@ -26,10 +26,10 @@ class DatiAnagrafici extends Model{
     public function getNome(){return $this->nome;}
     public function getCognome(){return $this->cognome;}
     public function getTelefono(){return $this->telefono;}
-    public function getDataNascita(){return $this->DataNascita;}
-    
+    public function getDataNascita(){return clone $this->dataNascita;}
+
     public function setNome($n){$this->nome=$n;}
     public function setCognome($c){$this->cognome=$c;}
     public function setTelefono($t){$this->telefono=$t;}
-    public function setDataNascita($d){$this->DataNascita=$d;}
+    public function setDataNascita($d){$this->dataNascita = clone $d;}
 }

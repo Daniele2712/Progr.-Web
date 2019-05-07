@@ -27,7 +27,7 @@ class UtenteRegistrato extends Utente{
         if($r === FALSE)
             throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
         elseif($r === NULL)
-            throw new \SQLException("Empty Result", $sql, 0, 8);   
+            throw new \SQLException("Empty Result", $sql, 0, 8);
         $p->close();
 
         //Indirizzo preferito
@@ -59,7 +59,7 @@ class UtenteRegistrato extends Utente{
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
     }
-    
+
     public static function isUtenteRegistrato($id){
         $sql = "SELECT id FROM ". self::$table." WHERE id_utente=?";
         $p = \Singleton::DB()->prepare($sql);

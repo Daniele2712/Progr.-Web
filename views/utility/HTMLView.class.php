@@ -46,14 +46,12 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
         $settings = \Singleton::Settings();
         $session = \Singleton::Session();
         $this->setUser();
-       
-        if($session->isLogged())
-        {
+
+        if($session->isLogged()){
             $this->smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
             $this->addCSS("profile/css/profile.css");
             $this->addJS("profile/js/profile.js");
-        }
-        else{
+        }else{
             $this->smarty->assign('templateLoginOrProfileIncludes', 'login/login.tpl');
             $this->addCSS("login/css/login.css");
             $this->addJS("login/js/login.js");
@@ -98,18 +96,13 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
      * @param    \Models\Utente    $user    modello dell'utente
      */
     public function setUser(){
-        $session2 = \Singleton::Session();
-        if($session2->isLogged())    // solo se l'utente e' loggato fa queste cose
-        {
-        $userType=$session2->getRuoloOfLoggedUser();         // restituisce UtenteRegistrato, Amministratore,Gestore, Corriere, ecc
-        
-        $this->smarty->assign('logged', $userType);     
-        $this->smarty->assign('username', $session2->getUser()->getUsername());
-        }
-        else 
-        {
-         $this->smarty->assign('logged', 'false');
-        }
+        $session = \Singleton::Session();
+        if($session->isLogged()){   // solo se l'utente e' loggato fa queste cose
+            $userType=$session->getUser()->getRuolo();         // restituisce UtenteRegistrato, Amministratore,Gestore, Corriere, ecc
+            $this->smarty->assign('logged', $session->getUser()->getRuolo());
+            $this->smarty->assign('username', $session->getUser()->getUsername());
+        }else
+            $this->smarty->assign('logged', FALSE);
     }
 
     public function setCSRF(string $token){

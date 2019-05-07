@@ -11,19 +11,27 @@ if(!defined("EXEC")){
 class Session{
 
     public static $session_time = 12000;
+    private $new_session = FALSE;
     /**
      * inizializza la sessione
      */
     public function __construct(){
         session_start();
-        if(isset($_SESSION["last_time"]) && $_SESSION["last_time"]+self::$session_time < time()){
+        if(isset($_SESSION["last_time"]) && $_SESSION["last_time"]+self::$session_time < time())
             session_unset();
-        }else
+        else{
+            if(!isset($_SESSION["last_time"]))
+                $this->new_session = TRUE;
             $_SESSION["last_time"] = time();
+        }
     }
 
     public function timedOut(){
         return !isset($_SESSION["last_time"]);
+    }
+
+    public function isNew(){
+        return $this->new_session;
     }
 
     /**
@@ -116,18 +124,18 @@ class Session{
         }
     }
 
-    
+
 
     public function getAddr():\Models\Indirizzo{
         if(array_key_exists("address",$_SESSION))
             return $_SESSION["address"];
         throw new \Exception("Error Address not set", 1);
     }
-    
+
     public function getAddressesFull(){ //full x indicare che e compreso anhce l-indirizzo preferito
-        
+
     }
-    
+
     public function getOrder():\Models\Ordine{
         if(isset($_SESSION["orderId"]))
             return Ordine::find($_SESSION["orderId"]);
@@ -187,20 +195,6 @@ class Session{
 
     public function setMessage(string $msg = ""){
         $_SESSION["message"] = $msg;
-    }
-
-    public function getRuoloOfLoggedUser(){
-        if(!$this->isLogged())
-        {
-            throw new \Exception("You are not logged in", 5);
-        }
-        else{
-
-            $userId=$this->getUser()->getId();
-            if(\Foundations\Dipendente::isDipendente($userId))
-            {return \Foundations\Dipendente::getRuoloOfUserId($userId);}
-            else {return "UtenteRegistrato";}
-        }
     }
 
 

@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $("#dialog #start").click(function(){
-        if(logged==="false")
+        if(logged===false)
             guest_shop();
         else
         {

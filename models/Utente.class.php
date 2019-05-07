@@ -6,7 +6,6 @@ if(!defined("EXEC")){
 }
 
 abstract class Utente extends Model{
-    //private $idUtente;    non penso seva idUtente in quanto c-e gia l'attributo id del modello, e useremo quello
     private $email;
     private $username;
     private $datiAnagrafici;
@@ -33,8 +32,9 @@ abstract class Utente extends Model{
         return $this->datiAnagrafici;
     }
 
-
     public function getValuta(): Money{
         return clone $this->valuta;
     }
+
+    public abstract function getRuolo();
 }

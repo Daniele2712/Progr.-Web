@@ -1,7 +1,6 @@
 .wrapper{
     display:grid;
     grid-template-columns:1fr 4fr 1fr;
-    grid-template-rows: 1fr 8fr;
     grid-template-areas:
     "categories categories categories"
     "filters items basket"
