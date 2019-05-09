@@ -8,7 +8,7 @@ if(!defined("EXEC")){
 
 class C_shop{
     public static function home(Request $req){
-        $v = new \Views\Home();
+        $v = new \Views\V_Home();
         $v->render();
     }
 
