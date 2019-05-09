@@ -5,7 +5,7 @@
 
 body{
     display:grid;
-    grid-template-rows: 120px 8fr 100px;
+    grid-template-rows: 120px auto 100px;
     grid-template-areas: "header" "content" "footer";
 }
 
@@ -39,66 +39,58 @@ html, body{
     text-align: center;
 }
 
-@media screen and (min-width:1024px){   /* questa  parte serve per i PC */
-    #header{
-        background-color: rgb(211,211,211);
-        height: 100%;
-        grid-area: header;
-    }
-
-    #content{
-        width:100%;
-        /*min-height:1000px;*/
-    }
-
-    .centralbox{
-        width: 1024px;
-        /*height: 100%;*/
-        margin: auto;
-    }
-
-    #header #logobox{
-        width: 200px;
-        height: 100%;
-        padding: 5px;
-        display: inline-block;
-        vertical-align: top;
-        overflow: hidden;
-        box-sizing: border-box;
-    }
-
-    #header #titlebox{
-        width:624px;
-        height:100%;
-        display: inline-block;
-        vertical-align: top;
-        overflow: hidden;
-        padding: 5px;
-        box-sizing: border-box;
-    }
-
-    #header #profilebox{
-        width:200px;
-        height:100%;
-        display: inline-block;
-        vertical-align: top;
-        overflow: hidden;
-    }
-
-    #logoimg, #logowriting{
-        height: 100%;
-        width: 100%;
-    }
-}
-
-@media screen and (min-width:800px) and (max-width:1024px){          /* questa  parte serve per i TABLET */
-
-
-    #header{
+/* questa  parte serve per i PC */
+#header{
     background-color: rgb(211,211,211);
-    height: 150px;
+    height: 100%;
+    width:100%;
     grid-area: header;
 }
+
+#content{
+    width:100%;
+}
+
+.centralbox{
+    max-width: 1024px;
+    margin: auto;
+}
+
+#header #logobox{
+    width: 200px;
+    height: 90%;
+    padding: 5px;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+#header #titlebox{
+    width:624px;
+    height:100%;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#header #profilebox{
+    width:200px;
+    height:100%;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+#logoimg, #logowriting{
+    height: 100%;
+    width: 100%;
+}
+
+
+@media screen and (max-width:1024px){          /* questa  parte serve per i TABLET */
 
 #logobox{
         display: none;
@@ -118,7 +110,6 @@ html, body{
 #content{
         display:grid;
         width:100%;
-        height:1600px;
         grid-area: content;
     }
 
@@ -157,60 +148,59 @@ html, body{
     }
 
 
-
-}
-
-
 @media screen and (max-width:800px){     /* questa  parte serve per i Telefonini */
 #header{
-    background-color: rgb(211,211,211);
-    height: 100%;
-    width:100%;
-    grid-area: header;
+  background-color: rgb(211,211,211);
+  height: 100%;
+  width:100%;
+  grid-area: header;
 }
 
 #header .centralbox{
-    width:100%;
-    height:100%;
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    justify-items:center;
-    align-items:center;
-    overflow:hidden;
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items:center;
+  align-items:center;
+  overflow:hidden;
 }
 
 #header #titlebox{
-    display: none;
+  display: none;
 }
 
 #header #logobox{
-    width:100%;
-    height:100%;
-    display:grid;
-    justify-items:center;
-    align-items:center;
+  width:100%;
+  height:100%;
+  display:grid;
+  justify-items:center;
+  align-items:center;
 }
 
 
 
 #header #profilebox{
-    width:100%;
-    height:100%;
-    display:grid;
-    justify-items:center;
-    align-items:center;
+  width:100%;
+  height:100%;
+  display:grid;
+  justify-items:center;
+  align-items:center;
 }
 
 #content{
-        display:grid;
-        width:100%;
-        height:1600px;
-        grid-area: content;
-    }
+      display:grid;
+      width:100%;
+      height:1600px;
+      grid-area: content;
+  }
 
 #content .centralbox{
-        width: 100%;
-        height: 100%;
-    }
+      width: 100%;
+      height: 100%;
+  }
+
+}
+}
 
 }

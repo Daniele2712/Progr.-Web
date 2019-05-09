@@ -16,7 +16,7 @@
     </head>
     <body>
         <div id="header">
-            <div class="centralbox">
+            <div class="centralbox headerWrapper">
                 <div id="logobox">
                     <a href="{$homeLink}">
                         <img id ="logoimg" src="/templates/img/logo.png" />
