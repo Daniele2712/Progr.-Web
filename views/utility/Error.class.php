@@ -126,14 +126,14 @@ class Error implements View{
         $this->user = $user;
         $smarty = \Singleton::Smarty();
         switch(get_class($user)){ // ricordo che  $user= \Singleton::Session()->getUser()
-            case "Models\UtenteRegistrato":        // non so se serve aggiungere anche  || is_subclass_of($user,"\Models\UtenteRegistrato")
+            case "Models\Utenti\M_UtenteRegistrato":        // non so se serve aggiungere anche  || is_subclass_of($user,"\Models\UtenteRegistrato")
                 $smarty->assign('logged', 'UtenteRegistrato');
                 $smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
                 $this->addCSS("profile/css/profile.css");
                 $this->addJS("profile/js/profile.js");
                 $smarty->assign('username', $user->getUsername());
                 break;
-            case "Models\Dipendente":
+            case "Models\Utenti\M_Dipendente":
                 $smarty->assign('logged', 'Gestore');
                 $smarty->assign('templateLoginOrProfileIncludes', 'profile/profile.tpl');
                 $this->addCSS("profile/css/profile.css");

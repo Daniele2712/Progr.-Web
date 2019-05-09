@@ -13,6 +13,7 @@
         {$templateHeadIncludes}
         <script type="text/javascript"> var logged={if $logged}"{$logged}"{else}{"false"}{/if}</script>
         <title>{$siteTitle}</title>
+        <link rel="shortcut icon" href="/download/favicon"/>
     </head>
     <body>
         <div id="header">

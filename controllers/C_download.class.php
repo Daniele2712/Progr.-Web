@@ -31,6 +31,18 @@ class C_download implements Controller{
         $v->render();
     }
 
+    public static function favicon(Request $req){
+        $id = \Singleton::Settings()->getBackground();
+        try{
+            $image = \Foundations\F_Immagine::find($id);
+        }catch(\SQLException $e){
+            Error::error404($req);
+        }
+        $v = new \Views\Image();
+        $v->setImage($image);
+        $v->render();
+    }
+
     public static function default(Request $req){
         return self::image($req);
     }
