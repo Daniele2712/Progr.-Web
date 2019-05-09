@@ -1,3 +1,6 @@
+.content .centralBox{
+  min-height: 700px;
+}
 #veil{
     position:fixed;
     top:0;
@@ -46,8 +49,7 @@
 
 #addProductDiv, #addCategoriaDiv, #addEmployeeDiv{
     background-color:white;
-    width:60%;
-    max-width:600px;
+    width:600px;
     display:none;
     border:3px lightgrey solid;
     border-radius: 15px;
@@ -58,20 +60,22 @@
     top:150px;
     z-index:2;
     justify-content:center;
-    justify-self:center;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
-@media screen and (min-width:1024px){
-    
+/*  Lo stile per il desktop lo metto qui e verra aplicato a tutti i tipi di dispositivo, poi per il tablet e mobile sovrascrivo cio che e' diverso */
+
 #gestoreContent{ /* THE WHOLE CONTAINTER*/
     display:grid;
     width:100%;
-    justify-items:center;
     grid-template-columns:1fr 2fr 2fr;
-    grid-template-rows:150px auto;
+    grid-template-rows:150px 1fr;
     grid-template-areas:
         "macrosezioni macrosezioni macrosezioni"
         "sezioni sectionContent sectionContent";
-  
+
 }
 
 /*      MACROSEZIONI      */
@@ -83,20 +87,16 @@
     background: linear-gradient(lightgrey, white);
     display:grid;
     grid-auto-flow:column;
-    align-items: center;
-    justify-items: center;
+    align-content: center;
+    justify-content: space-evenly;
 }
 
+
 .macrosezione{
-    width:100%;
-    height:100%;
     display:grid;
     align-items: center;
     justify-items: center;
-}
-
-.macrosezione span{
-    padding:2%;
+    padding:10px;
     border-bottom: grey 8px solid;
     border-left: lightgrey 8px solid;
     border-right: lightgrey 8px solid;
@@ -106,19 +106,28 @@
     background: linear-gradient( white,#F4FAFB);
     background-color: white;
     border-radius:15px;
-    -webkit-user-select: none;  
-    -moz-user-select: none;    
-    -ms-user-select: none;      
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
+.macrosezione:hover{ /*Clicked and held*/
+  box-shadow: 0px 4px 4px;
+}
 
-.macrosezione.active span{
-    box-shadow: 0px 12px 20px;
-    
+.macrosezione:active { /*Clicked and held*/
+  box-shadow: 0px 7px 7px;
 }
-.macrosezione:active span{ /*Clicked and held*/
-  box-shadow: 0px 8px 9px;
+
+#macrosezioni .active{
+  box-shadow: 0px 6px 6px;
 }
+
+
+
+
+
+
 
 
 /*      END OF  MACROSEZIONI      */
@@ -130,22 +139,29 @@
     margin:5px;
     font-size:0.8em;
     grid-area:sezioni;
-    width:100%;
-    height:100%;
+    width:90%;
+    padding-bottom:50px;
     display:grid;
     grid-auto-flow:row;
     border: lightgrey 2px solid;
     border-radius:8px;
-    -webkit-user-select: none;  
-    -moz-user-select: none;    
-    -ms-user-select: none;      
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
     }
+
+.gruppoDiSezioni{
+ display:grid;
+ grid-auto-flow:row;
+ align-content:start;
+ grid-column-gap: 20px;
+}
 
 
 .sezione{
     width:80%;
-    height:80px;
+    height:50px;
     border-bottom: grey 2px solid;
     border-left: lightgrey 2px solid;
     border-right: lightgrey 2px solid;
@@ -162,17 +178,7 @@
 }
 
 .sezione span{
-    height:2em;
-    border-bottom: grey 2px solid;
-    border-left: lightgrey 2px solid;
-    border-right: lightgrey 2px solid;
-    cursor:pointer;
-    box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
-    background: linear-gradient( white,#F4FAFB);
-    background-color: white;
-    border-radius:15px;
-    margin:10px;
-    padding:10%;
+
     display:grid;
     justify-items:center;
     align-items:center;
@@ -190,12 +196,11 @@
   box-shadow: 0px 10px 12px;
 }
 
-.sezione.active {
-    box-shadow: 0px 8px 10px;
-    
+.gruppoDiSezioni .active{
+  box-shadow: 0px 6px 5px;
 }
 
-    
+
 
 
 
@@ -222,8 +227,8 @@
 .nomeMagazzinoStats{
     grid-area:nomeMagazzinoStats;
 }
-    
-    
+
+
 
 .lowerStats{
     margin-top:15px;
@@ -233,7 +238,7 @@
     height:80px;
     justify-items:center;
     grid-template-columns:1fr 1fr 1fr;
-    
+
 }
 .minisezione {
     height:40px;
@@ -250,9 +255,9 @@
     display:grid;
     align-items: center;
     padding:10px;
-    -webkit-user-select: none;  
-    -moz-user-select: none;    
-    -ms-user-select: none;      
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
@@ -264,7 +269,7 @@
     align-items:center;
     grid-template-columns:1fr 20fr 1fr;
     grid-template-areas: "sx centerImage dx";
-    
+
 }
 
 #images{
@@ -389,7 +394,7 @@
     display:grid;
     justify-items:center;
     align-items:center;
-    
+
 }
 
 .pointer{
@@ -499,7 +504,7 @@
     grid-template-columns:1fr repeat(4, 3fr) 3fr 3fr;
     padding:5px;
     height:60px;
-    
+
 }
 
 #ElencoOrdini{
@@ -544,8 +549,8 @@
     width: 100%;
     height:100%;
     overflow: hidden;
-    
-  
+
+
 }
 
 .prodotto .descr {
@@ -561,8 +566,8 @@
 }
 
 
-                    
- 
+
+
 /*  END OF PRODOTTI LOWER  */
 
 
@@ -630,7 +635,7 @@
     justify-items:center;
     grid-gap:15px;
     margin-bottom:15px;
-    
+
 }
 
 #inserisciCategoriaForm div{
@@ -657,12 +662,11 @@
     align-self:center;
     border:3px lightgrey solid;
     border-radius: 15px;
-    margin:15px;
     margin-top:0px;
     justify-items:center;
     align-items:center;
     grid-gap:15px;
-    
+
     display:none;
 }
 
@@ -699,134 +703,66 @@
 
 
 
-}
-
 @media screen and (max-width:1024px){   /*  TABLET  */
 
-    
+
 #gestoreContent{ /* THE WHOLE CONTAINTER*/
     display:grid;
     width:100%;
-    justify-items:center;
-    align-items: center;
-    grid-template-rows:150px 80px auto;
+    grid-template-rows:80px 80px auto;
+    grid-template-columns:1fr;
     grid-template-areas:
         "macrosezioni"
         "sezioni"
         "sectionContent";
+        justify-content: center;
     }
-    
-#macrosezioni{
-    width:100%;
-    height:100%;
-    grid-area:macrosezioni;
-    background: linear-gradient(lightgrey, white);
-    display:grid;
-    grid-auto-flow:column;
-    align-items: center;
-    justify-items: center;
-}
 
-.macrosezione{
-    width:100%;
-    height:100%;
-    display:grid;
-    align-items: center;
-    justify-items: center;
-}
 
-.macrosezione span{
-    padding:2%;
-    border-bottom: grey 8px solid;
-    border-left: lightgrey 8px solid;
-    border-right: lightgrey 8px solid;
-    cursor:pointer;
-    font-size:0.9em;
-    box-shadow: 0px 10px 12px rgba(0,0,0,0.3);
-    background: linear-gradient( white,#F4FAFB);
-    background-color: white;
-    border-radius:15px;
-    -webkit-user-select: none;  
-    -moz-user-select: none;    
-    -ms-user-select: none;      
-    user-select: none;
-}
 
-.macrosezione.active span{
-    box-shadow: 0px 12px 20px;
-    
-}
-.macrosezione:active span{ /*Clicked and held*/
-  box-shadow: 0px 8px 9px;
-}
-    
 #sezioni{
-    margin:5px;
-    font-size:0.8em;
-    grid-area:sezioni;
+    grid-auto-flow:column;
+    justify-content: space-evenly;
     width:100%;
-    height:100%;
-    display:grid;
-    grid-auto-flow:row;
-    border: lightgrey 2px solid;
-    border-radius:8px;
-    -webkit-user-select: none;  
-    -moz-user-select: none;    
-    -ms-user-select: none;      
-    user-select: none;
+    border: none;
+    border-top:lightgrey 2px solid;
+    border-radius:0;
+    margin:0;
     }
-
 
 .gruppoDiSezioni{
-    width:100%;
-    height:100%;
-    display:grid;
-    grid-auto-flow:column;
-    justify-items:center;
-    align-items:center;
-    justify-content:space-evenly;
+
+ grid-auto-flow:column;
+ align-content:start;
+ grid-column-gap: 20px;
+ align-content: center;
+
+
+
+ }
+ .sezione{
+ width:auto;
+ height:auto;
+ padding:10px;
 }
 
-.sezione {
-    height:100%;
-    width:100%;
-    display:grid;
-    justify-items:center;
-    align-items:center;
-}
-.sezione span{
-    height:2em;
-    border-bottom: grey 2px solid;
-    border-left: lightgrey 2px solid;
-    border-right: lightgrey 2px solid;
-    cursor:pointer;
-    box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
-    background: linear-gradient( white,#F4FAFB);
-    background-color: white;
-    border-radius:15px;
-    margin:10px;
-    padding:10%;
-    display:grid;
-    justify-items:center;
-    align-items:center;
-}
 
-.sezione:hover span{ /*Clicked and held*/
-  box-shadow: 0px 7px 7px;
-}
+#addProductDiv, #addCategoriaDiv, #addEmployeeDiv{
+    width:600px;
 
-.sezione:active span{ /*Clicked and held*/
-  box-shadow: 0px 10px 12px;
-}
+  }
 
-.sezione.active span{
-    box-shadow: 0px 8px 10px;
-    
-}
 
-}
+
+
+
 
 @media screen and (max-width:800px){    /*      TEELFONO   penso che resta uguale alla parte per il tablet... */
 
+  #addProductDiv, #addCategoriaDiv, #addEmployeeDiv{
+      width:100%;
+      max-width:600px;
+    }
 }
 
+}

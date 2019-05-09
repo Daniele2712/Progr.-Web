@@ -1,8 +1,9 @@
 #footer{
 	background-color: #292c2f;
-    height: 315px;
+    height: 260px;
     overflow: hidden;
 	grid-area: footer;
+	margin-top:50px;
 }
 
 .footer-distributed{

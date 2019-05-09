@@ -2,39 +2,27 @@ $(document).ready(function(){
 
 //  Funzioni che fanno apparire e sparire le sezioni relative alle 3 grandi macrocategorie, in base a quale macrocategoria hai cliccato
 $("#statistiche").click(function(){
+  $('.macrosezione').removeClass('active');
+  $('#statistiche').addClass('active');
 
-    if(!$('#statistiche').hasClass( "active" )) {$('#statistiche').addClass('active');}
-    if($('#amministrazione').hasClass( "active" )) {$('#amministrazione').removeClass('active');}
-    if($('#impostazioni').hasClass( "active" )) {$('#impostazioni').removeClass('active');}
-
-
-    if($('#sezioniStatistiche').css('display') == 'none') {$('#sezioniStatistiche').css('display', 'grid');}
-    if($('#sezioniAmministrazione').css('display') == 'grid') {$('#sezioniAmministrazione').css('display', 'none');}
-    if($('#sezioniImpostazioni').css('display') == 'grid') {$('#sezioniImpostazioni').css('display', 'none');}
+  $('.gruppoDiSezioni').css('display', 'none');
+  $('#sezioniStatistiche').css('display', 'grid');
 });
 
 $("#amministrazione").click(function(){
+    $('.macrosezione').removeClass('active');
+    $('#amministrazione').addClass('active');
 
-    if($('#statistiche').hasClass( "active" )) {$('#statistiche').removeClass('active');}
-    if(!$('#amministrazione').hasClass( "active" )) {$('#amministrazione').addClass('active');}
-    if($('#impostazioni').hasClass( "active" )) {$('#impostazioni').removeClass('active');}
-
-
-    if($('#sezioniStatistiche').css('display') == 'grid') {$('#sezioniStatistiche').css('display', 'none');}
-    if($('#sezioniAmministrazione').css('display') == 'none') {$('#sezioniAmministrazione').css('display', 'grid');}
-    if($('#sezioniImpostazioni').css('display') == 'grid') {$('#sezioniImpostazioni').css('display', 'none');}
+    $('.gruppoDiSezioni').css('display', 'none');
+    $('#sezioniAmministrazione').css('display', 'grid');
 });
 
 $("#impostazioni").click(function(){
+  $('.macrosezione').removeClass('active');
+  $('#impostazioni').addClass('active');
 
-    if($('#statistiche').hasClass( "active" )) {$('#statistiche').removeClass('active');}
-    if($('#amministrazione').hasClass( "active" )) {$('#amministrazione').removeClass('active');}
-    if(!$('#impostazioni').hasClass( "active" )) {$('#impostazioni').addClass('active');}
-
-
-    if($('#sezioniStatistiche').css('display') == 'grid') {$('#sezioniStatistiche').css('display', 'none');}
-    if($('#sezioniAmministrazione').css('display') == 'grid') {$('#sezioniAmministrazione').css('display', 'none');}
-    if($('#sezioniImpostazioni').css('display') == 'none') {$('#sezioniImpostazioni').css('display', 'grid');}
+  $('.gruppoDiSezioni').css('display', 'none');
+  $('#sezioniImpostazioni').css('display', 'grid');
 });
 
 //  Funzioni che mostrano un solo Div alla volta, nascondendo quello che c-era prima
@@ -46,9 +34,6 @@ $(".sezione").click(function(){
     $(".sezione").removeClass('active');
     $(this).addClass('active');
     });
-
-
-
 
 
 // FUNZIONI PER LE MINISEZIONI DELLO STATS
