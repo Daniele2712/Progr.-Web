@@ -53,14 +53,14 @@ class Request{
         $pos = strpos($uri,'?');                                        // posizione alla quale iniziano i parametri, percio' il ?
         $params = explode("/",$pos===FALSE?$uri:substr($uri,0,$pos));
         array_shift($params);
-        
+
         if(count($params)>0 && $params[0]=="api"){
             $this->rest = true;
             array_shift($params);   //cosi mi sbarazzo del pezzo in cima "api"
-            $this->controller = "Controllers\\Api\\".array_shift($params);
+            $this->controller = "Controllers\\Api\\C_".array_shift($params);
             $this->action = "default";
         }elseif(count($params)>0 && $params[0]!==""){
-            $this->controller = "Controllers\\".array_shift($params);
+            $this->controller = "Controllers\\C_".array_shift($params);
             $this->action = "default";
         }
         if($this->rest)

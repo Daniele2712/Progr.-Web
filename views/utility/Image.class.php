@@ -14,7 +14,7 @@ class Image implements View{
     private $size = 0;
     private $data = "";
 
-    public function setImage(\Models\Immagine $immagine){
+    public function setImage(\Models\M_Immagine $immagine){
         $this->mime = $immagine->getMIMEType();
         $this->size = $immagine->getSize();
         $this->data = $immagine->getImage();

@@ -120,9 +120,9 @@ class Error implements View{
     /**
      * metodo per settare l'utente
      *
-     * @param    \Models\Utente    $user    modello dell'utente
+     * @param    \Models\M_Utente    $user    modello dell'utente
      */
-    public function setUser(\Models\Utente $user){
+    public function setUser(\Models\M_Utente $user){
         $this->user = $user;
         $smarty = \Singleton::Smarty();
         switch(get_class($user)){ // ricordo che  $user= \Singleton::Session()->getUser()

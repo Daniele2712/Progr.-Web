@@ -93,7 +93,7 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
     /**
      * metodo per settare l'utente
      *
-     * @param    \Models\Utente    $user    modello dell'utente
+     * @param    \Models\M_Utente    $user    modello dell'utente
      */
     public function setUser(){
         $session = \Singleton::Session();

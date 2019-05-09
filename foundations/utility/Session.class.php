@@ -48,7 +48,7 @@ class Session{
             throw new \InvalidArgumentException("username input was empty");
         if($password === '')
             throw new \InvalidArgumentException("password input was empty");
-        $_SESSION["userId"] = Utente::login($username,$password);       //dice al /foundation/utente di eseguira la metodo login(), che restituisce l-id della persona loggata
+        $_SESSION["userId"] = F_Utente::login($username,$password);       //dice al /foundation/utente di eseguira la metodo login(), che restituisce l-id della persona loggata
          return $_SESSION["userId"];
     }
 
@@ -88,13 +88,13 @@ class Session{
     /**
      * metodo che restituisce l'utente usato per il login
      *
-     * @return    \Models\Utente    utente loggato
+     * @return    \Models\M_Utente    utente loggato
      * @throws    Exception         se l'utente non è loggato
      */
-    public function getUser(): \Models\Utente{
+    public function getUser(): \Models\M_Utente{
         if(!isset($_SESSION["userId"]) || !is_int($_SESSION["userId"]))
             throw new \Exception("User not Found", 5);
-        $user = Utente::find($_SESSION["userId"]);
+        $user = F_Utente::find($_SESSION["userId"]);
         if(method_exists($user, 'getCarrello')) $_SESSION["cartId"] = $user->getCarrello()->getId();        //A: solo se l-utente e' un utente registrato,e quindi ha un carrello,
          // altrimenti, ex se e' un gestore , non devo imposotare il cookie cartId, xke il gestore non ha un carrello
         return $user;
@@ -109,9 +109,9 @@ class Session{
         return isset($_SESSION["userId"]) && $_SESSION["userId"]!==NULL;
     }
 
-    public function getCart():\Models\Carrello{
+    public function getCart():\Models\M_Carrello{
         if(isset($_SESSION["cartId"]))
-            return Carrello::find($_SESSION["cartId"]);
+            return F_Carrello::find($_SESSION["cartId"]);
         elseif(isset($_SESSION["guestCart"]))
             return $_SESSION["guestCart"];
         elseif(isset($_SESSION["userId"])){             //lo userId ce l-hanno solo gli utenti registrati, i quali hanno anche un carrello come attributo, e la metodo getCarrello
@@ -119,14 +119,14 @@ class Session{
             $_SESSION["cartId"] = $cart->getId();
             return $cart;
         }else{
-            $_SESSION["guestCart"] = new \Models\Carrello(0);
+            $_SESSION["guestCart"] = new \Models\M_Carrello(0);
             return $_SESSION["guestCart"];
         }
     }
 
 
 
-    public function getAddr():\Models\Indirizzo{
+    public function getAddr():\Models\M_Indirizzo{
         if(array_key_exists("address",$_SESSION))
             return $_SESSION["address"];
         throw new \Exception("Error Address not set", 1);
@@ -136,9 +136,9 @@ class Session{
 
     }
 
-    public function getOrder():\Models\Ordine{
+    public function getOrder():\Models\M_Ordine{
         if(isset($_SESSION["orderId"]))
-            return Ordine::find($_SESSION["orderId"]);
+            return F_Ordine::find($_SESSION["orderId"]);
     }
 
     public function getMessage():string{
@@ -147,11 +147,11 @@ class Session{
         return "";
     }
 
-    public function getUserValuta():\Models\Money{
+    public function getUserValuta():\Models\M_Money{
         if($this->isLogged())
             return $this->getUser()->getValuta();
         else
-            return \Models\Money::EUR();
+            return \Models\M_Money::EUR();
     }
 
     public function setGuestAddress(int $id_comune, string $via, string $civico, string $note){
@@ -162,14 +162,14 @@ class Session{
         elseif($civico == "")
             throw new \ModelException("Error civico required", __CLASS__, array("civico"=>$civico), 0);
 
-        $_SESSION["address"] = new \Models\Indirizzo(0,\Foundations\Comune::find($id_comune), $via, $civico, $note);
+        $_SESSION["address"] = new \Models\M_Indirizzo(0,F_Comune::find($id_comune), $via, $civico, $note);
     }
 
-    public function setUserAddress(\Models\Indirizzo $addr){
+    public function setUserAddress(\Models\M_Indirizzo $addr){
         $_SESSION["address"] = clone $addr;
     }
 
-    public function setGuestCart(\Models\Carrello $c){
+    public function setGuestCart(\Models\M_Carrello $c){
         $_SESSION["cartId"] = NULL;
         $_SESSION["guestCart"] = clone $c;
     }
@@ -179,7 +179,7 @@ class Session{
         $_SESSION["cartId"] = $id;
     }
 
-    public function setGuestPayment(\Models\Pagamento $payment){
+    public function setGuestPayment(\Models\M_Pagamento $payment){
         $_SESSION["paymentId"] = NULL;
         $_SESSION["guestPayment"] = $payment;
     }

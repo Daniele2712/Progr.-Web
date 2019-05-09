@@ -14,5 +14,5 @@ $config['mysql']['password'] = 'password';
 $config['mysql']['host'] = 'host';
 $config['mysql']['database'] = 'progr_web';
 
-$config['default']['controller'] = 'shop';
+$config['default']['controller'] = 'C_spesa';
 $config['default']['action'] = 'home';

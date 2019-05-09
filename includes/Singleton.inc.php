@@ -37,7 +37,7 @@ class Singleton{
 
     public static function Settings(){
         if(!self::$settings_handler)
-            self::$settings_handler = new Models\Settings();
+            self::$settings_handler = new \Models\M_Settings();
         return self::$settings_handler;
     }
 }
