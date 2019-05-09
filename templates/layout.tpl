@@ -13,15 +13,12 @@
         {$templateHeadIncludes}
         <script type="text/javascript"> var logged={if $logged}"{$logged}"{else}{"false"}{/if}</script>
         <title>{$siteTitle}</title>
-        <link rel="shortcut icon" href="/download/favicon"/>
     </head>
     <body>
         <div id="header">
-            <div class="centralbox headerWrapper">
-                <div id="logobox">
-                    <a href="{$homeLink}">
+            <div class="wrapper">
+                <div id="logobox" onClick="window.location='{$homeLink}'">
                         <img id ="logoimg" src="/templates/img/logo.png" />
-                    </a>
                 </div><div id="titlebox">
                     <img id ="logowriting" src="/templates/img/OnlineShopping.png" />
                 </div><div id="profilebox">
@@ -30,12 +27,12 @@
             </div>
         </div>
         <div id="content">
-            <div class="centralbox">
+            <div class="wrapper">
                 {include file="contents/$templateContentIncludes"}
             </div>
         </div>
         <div id="footer">
-            <div class="centralbox">
+            <div class="wrapper">
                 {include file='footer.tpl'}
             </div>
         </div>

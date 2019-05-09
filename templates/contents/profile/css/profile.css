@@ -4,7 +4,8 @@
     grid-template-areas:"user username bars";
     width:100%;
     height:100%;
-    justify-items:space-evenly;
+    grid-column-gap: 10px;
+    justify-items:space-between;
     align-items:center;
 }
 
@@ -33,8 +34,8 @@
     display:none;
     position:relative;
     width:200px;
-    top:50px;
-    right:0px;
+    top:0px;
+    right:25px;
     z-index: 1;
 }
 
@@ -72,22 +73,13 @@
     padding:10px;
 }
 
-@media screen and (min-width:800px) and (max-width:1024px){   /* questa  parte serve per i TABLET */    
-#topProfile{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    grid-template-areas:"username bars";
-    width:100%;
-    height:100%;
-    justify-items:space-evenly;
-    align-items:center;
+@media screen and (min-width:800px) and (max-width:1024px){   /* questa  parte serve per i TABLET */
+  #profile #dropdownMenu{
+      right:-55px;
+  }
+
 }
 
-#profile #user{
-    display:none;
-}
-}
-    
 @media screen and (max-width:800px){     /* questa  parte serve per i Telefonini */
 #topProfile{
     display:grid;
@@ -96,7 +88,10 @@
     width:100%;
     height:100%;
     align-items:center;
-    
+
+}
+#profile #dropdownMenu{
+    right:80px;
 }
 
 #profile #user{
@@ -107,11 +102,5 @@
     display:none;
 }
 
-#dialog_container{
-    position:relative !important;
-    top:0px !important;
-    right:0px !important;
-    z-index:1;
-}
 
 }

@@ -2,7 +2,7 @@
         width:100%;
         height:100%;
     }
-    
+
 #login #loginAndRegister{
     width: 100%;
     height: 100%;
@@ -12,11 +12,12 @@
 #login #loginAndRegister{
     display:grid;
     grid-template-columns: 1fr 1fr;
+    grid-column-gap: 15px;
     justify-items:center;
     align-items:center;
     justify-content:space-evenly;
 }
-    
+
 #login #loginAndRegister>div{
     cursor:pointer;
 }
@@ -104,24 +105,23 @@
 
 
 
-
 }
 
 @media screen and (min-width:800px) and (max-width:1024px){   /* questa  parte serve per i TABLET */
-    
+
 #login #registerbox{
     background-color: rgba(191, 216, 227, .8);
 }
 
 #login #loginbox{
     background-color: rgba(191, 216, 227, .8);
-}    
+}
 
 
 }
 
 @media screen and (max-width:800px){     /* questa  parte serve per i Telefonini */
-    
+
 #login #registerbox{
     background-color: rgba(191, 216, 227, .8);
 }
@@ -132,5 +132,5 @@
 
 
 
-   
+
 }
