@@ -2,7 +2,7 @@
 namespace Controllers\Api;
 use \Views\Request as Request;
 
-class ApiController{
+class C_ApiController{
 
     /*          API URLs
         GET
@@ -12,7 +12,7 @@ class ApiController{
                             ├── id/$int ├──                 mosstra tutti gli item del magazzino con ID $int
                                         ├──categoria/$cat   mostra tutti gli item del magazzino con ID $int aventi categoria $cat
                             ├── categoria/$cat              mostra tutti gli item di tuti i magazzini con categoria $cat
-            ├── dipendenti  /nome/cognome/ruolo/                    
+            ├── dipendenti  /nome/cognome/ruolo/
      * i filtri per i prodotti sono :
      * nome(non serve il nome completo, basta anche una sottostringa del nome)
      * magazzino
@@ -90,8 +90,8 @@ class ApiController{
         else self::setError("non_loggato");
         break;
 
-    
-    
+
+
 
     case 'indirizzi':
         if(sizeof($params)==0 or $params[0]=='' )     self::showIndirizzi();
@@ -103,7 +103,7 @@ class ApiController{
         if(sizeof($params)==0 or $params[0]=='' )     self::showCategorie();
          else self::setError("no_parameters_after_categorie");
          break;
-     
+
 
 
 
@@ -584,9 +584,9 @@ class ApiController{
                     if(isset($rows)) echo json_encode($rows);
                     else self::setSuccess("empty");
             }
-            
-   
-    
+
+
+
 
     private static function showCategorie(){
         $categorie=\Singleton::DB()->query("SELECT categorie.id as id_categoria, categorie.nome as nome_categoria, categorie.padre as id_padre FROM categorie;");
@@ -594,9 +594,9 @@ class ApiController{
         if(isset($rows)) echo json_encode($rows);
         else self::setSuccess("empty");
     }
-    
-    
-    
+
+
+
 /*          END static functionS FOR GET       */
 
     private static function utenteLoggato(){

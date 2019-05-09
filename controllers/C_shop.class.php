@@ -17,7 +17,7 @@ class C_shop{
          $session = \Singleton::Session();
             if($session->isLogged())            //nel caso l-utente abbia digitato direttamente l-indirizzo senza essersi loggato, lo mando alla home
             {
-                $v = new \Views\Gestore();
+                $v = new \Views\V_Gestore();
                 $v->setUser();
                 $v->render();
             }
@@ -29,7 +29,7 @@ class C_shop{
          $session = \Singleton::Session();
             if($session->isLogged())            //nel caso l-utente abbia digitato direttamente l-indirizzo senza essersi loggato, lo mando alla home
             {
-                $v = new \Views\Amministratore();
+                $v = new \Views\V_Amministratore();
                 $v->setUser();
                 $v->render();
             }

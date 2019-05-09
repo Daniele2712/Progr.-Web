@@ -58,7 +58,9 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
         }
         $this->smarty->assign("siteTitle",$settings->getSiteName());
         global $config;
-        $this->smarty->assign("homeLink","/".$config['default']['controller']."/".$config['default']['action']);
+        $fullController = $config['default']['controller'];
+        $controller = substr($fullController, strrpos($fullController, '_')+1);
+        $this->smarty->assign("homeLink","/".$controller."/".$config['default']['action']);
         $this->smarty->assign("templateContentIncludes",$this->content.".tpl");
 
         $resources_str = "";
@@ -98,7 +100,7 @@ abstract class HTMLView implements View{    /* la view ha solo la funzione rende
     public function setUser(){
         $session = \Singleton::Session();
         if($session->isLogged()){   // solo se l'utente e' loggato fa queste cose
-            $userType=$session->getUser()->getRuolo();         // restituisce UtenteRegistrato, Amministratore,Gestore, Corriere, ecc
+            $userType = $session->getUser()->getRuolo();         // restituisce UtenteRegistrato, Amministratore,Gestore, Corriere, ecc
             $this->smarty->assign('logged', $session->getUser()->getRuolo());
             $this->smarty->assign('username', $session->getUser()->getUsername());
         }else

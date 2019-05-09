@@ -36,7 +36,7 @@ class C_indirizzi implements Controller{
                     $ruolo=$session->getUser()->getRuolo();
                     if($ruolo=="Amministratore")
                     {
-                        $magazzini = \Foundations\F_Dipendente::getMagazziniOfAmministratore();
+                        $magazzini = \Foundations\Utenti\F_Dipendente::getMagazziniOfAmministratore();
                         $numero_magazzini= sizeof($magazzini);
                         if($numero_magazzini>0)
                         {
@@ -51,7 +51,7 @@ class C_indirizzi implements Controller{
                     elseif($ruolo=="Gestore")
                     {
                         $idGestore=$session->getUser()->getId();
-                        $magazzini = \Foundations\F_Dipendente::getMagazziniOfDipendenteWithId($idGestore);
+                        $magazzini = \Foundations\Utenti\F_Dipendente::getMagazziniOfDipendenteWithId($idGestore);
                         $numero_magazzini= sizeof($magazzini);
                         if($numero_magazzini>0)
                             {
