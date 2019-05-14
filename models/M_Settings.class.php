@@ -22,6 +22,10 @@ class M_Settings extends Model{
         return $this->settings["background"];
     }
 
+    public function getFavicon():int{
+        return $this->settings["favicon"];
+    }
+
     public function getArray():array{
         $r = array();
         foreach($this->settings as $k => $v)

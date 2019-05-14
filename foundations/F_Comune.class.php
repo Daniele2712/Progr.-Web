@@ -9,11 +9,11 @@ if(!defined("EXEC")){
 class F_Comune extends Foundation{
     protected static $table = "comuni";
 
-    public static function insert(Model $obj): int{
+    public static function insert(Model $obj, array $params = array()): int{
 
     }
 
-    public static function update(Model $obj){
+    public static function update(Model $obj, array $params = array()){
 
     }
 

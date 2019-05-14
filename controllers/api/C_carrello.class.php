@@ -37,14 +37,14 @@ class C_carrello implements Controller{
 
     private static function add(Request $req){
         $session = \Singleton::Session();
-        if(!$session->checkCSRF($req->getCSRF())){
-            $v = new \Views\JSONView(array("r"=>410, "CSRF"=>$session->getCSRF())); //Token non valido
+        if(!$session->checkCSRF($req->getCSRF())){                           //controllo il token, non voglio aggiungere lo stesso articolo 2 volte
+            $v = new \Views\JSONView(array("r"=>410, "CSRF"=>$session->getCSRF())); //Token non valido, mando un errore al js tramite json
             return $v->render();
         }else{
             $id = $req->getParam(1);
             $qta = $req->getParam(2);
             $cart = $session->getCart();
-            $cart->addProdottoById($id, $qta);
+            $cart->addProdottoById($id, $qta);                                      //chiamo il modello passando direttamente le variabili
             $v = new \Views\Api\V_CarrelloAdd(array("r"=>200));                       //Token valido
             $v->setCSRF($session->getCSRF());
             $v->setCart($cart, $session->getUserValuta());

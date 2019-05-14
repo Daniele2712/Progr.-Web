@@ -52,19 +52,19 @@ class M_Magazzino extends Model{
         new \ModelException("Item not found", __CLASS__, array("id_prod"=>$prod->getId()),1);
     }
 
-    public static function getAvailableItems(\Views\Request $req):array{
-        $idCategoria = $req->getInt(0);         //id Categoria
+    public static function getCatalogo(\Views\Request $req):array{
+        $idCategoria = $req->getInt(0);         //id Categoria                  //prendo l'input dalla richiesta
         $page = $req->getInt(1,1);              //numero pagina
-        $filters = \Foundations\F_Filtro::findInCat($idCategoria);
+        $filters = \Foundations\F_Filtro::findInCat($idCategoria);              //tramite i foundations prendo gli altri modelli
+        $filtered = $req->getBool("filtered",FALSE,"POST");
 
-        if($req->getBool("filtered",FALSE,"POST"))
+        if($filtered)
             foreach($filters as $filtro)
                 $filtro->getParams($req);
 
         $r = array();
         $n = 50;
         $i = 0;
-        $filtered = $req->getBool("filtered",FALSE,"POST");
         $magazzino = \Foundations\F_Magazzino::findClosestTo(\Singleton::Session()->getAddr());
         foreach ($magazzino->items as $item)
             if($item->getQuantita()>0 && $item->getProdotto()->hasCat($idCategoria))
@@ -73,7 +73,9 @@ class M_Magazzino extends Model{
                     if($i >= ($page-1)*$n && $i < $page*$n)     //divido l'elenco in pagine di 50 prodotti
                         $r[] = $item;
             }
-        return array("items"=>$r, "filters"=>$filters);
+
+        $cat = \Foundations\F_Categoria::findMainCategories()
+        return array("items"=>$r, "filters"=>$filters, "categories"=>$cat);     //restituisco tutto quello che serve al controller
     }
 
     public function getIndirizzo():\Models\M_Indirizzo{

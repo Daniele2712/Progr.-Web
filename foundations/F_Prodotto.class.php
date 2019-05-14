@@ -36,7 +36,7 @@ class F_Prodotto extends Foundation{
         return new \Models\M_Prodotto($obj["id"], $obj["nome"], F_Categoria::find($obj["id_categoria"]), new \Models\M_Money($obj["prezzo"], $obj["id_valuta"]), $r);
     }
 
-    public static function update(Model $prodotto){
+    public static function update(Model $prodotto, array $params = array()){
         $DB = \Singleton::DB();
         $sql = "UPDATE prodotti SET nome=?, info=?, descrizione=?, id_categoria=?, prezzo=?, id_valuta=? WHERE id = ?";
         $p = $DB->prepare($sql);
@@ -48,7 +48,7 @@ class F_Prodotto extends Foundation{
         $p->close();
     }
 
-    public static function insert(Model $prodotto): int{
+    public static function insert(Model $prodotto, array $params = array()): int{
         $DB = \Singleton::DB();
         $sql = "INSERTO INTO categorie VALUES(NULL, ?, ?, ?, ? ,? ,?)";
         $p = $DB->prepare($sql);

@@ -9,7 +9,7 @@ if(!defined("EXEC")){
 class F_Carrello extends Foundation{
     protected static $table = "carrelli";
 
-    public static function update(Model $carrello){
+    public static function update(Model $carrello, array $params = array()){
         $DB = \Singleton::DB();
         $sql = "UPDATE ".self::$table." SET totale=?, id_valuta=? WHERE id = ?";
         $p = $DB->prepare($sql);
@@ -22,11 +22,11 @@ class F_Carrello extends Foundation{
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
         foreach($carrello->getProdotti() as $item){     //Andrei: non ho capito ancora che fanno queste ultime righe :(
-            $r = F_Item::save($item);
+            $r = F_Item_Carrello::save($item);
         }
     }
 
-    public static function insert(Model $carrello): int{
+    public static function insert(Model $carrello, array $params = array()): int{
         $DB = \Singleton::DB();
         $sql = "INSERTO INTO ".self::$table." VALUES(NULL, ?, ?)";
         $p = $DB->prepare($sql);
@@ -115,7 +115,7 @@ class F_Carrello extends Foundation{
 
     public static function create(array $obj): Model{      // funzione che genera il Model a partire da un array associativo con un solo campo, id
         $r = new \Models\M_Carrello($obj["id"]);
-        $items = F_Item::getCarrelloItems($obj["id"]);
+        $items = F_Item_Carrello::getCarrelloItems($obj["id"]);
         foreach($items as $item)
             $r->addItem($item);
         return $r;

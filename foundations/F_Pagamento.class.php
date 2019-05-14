@@ -17,7 +17,7 @@ class F_Pagamento extends Foundation{
         throw new \Exception("Error Payment Type not found", 2);
     }
 
-    public static function save(Model $pagamento){
+    public static function save(Model $pagamento, array $params = array()){
         $Fname = "\\Foundations\\Pagamenti\\F_".$pagamento->getType();
         if(!class_exists($Fname))
             throw new \Exception("Error Payment Type not found", 2);
@@ -26,7 +26,7 @@ class F_Pagamento extends Foundation{
         return $id;
     }
 
-    public static function insert(Model $pagamento): int{
+    public static function insert(Model $pagamento, array $params = array()): int{
         $DB = \Singleton::DB();
         $tipo = $pagamento->getType();
 
@@ -41,7 +41,7 @@ class F_Pagamento extends Foundation{
         return $id;
     }
 
-    public static function update(Model $pagamento){
+    public static function update(Model $pagamento, array $params = array()){
         $DB = \Singleton::DB();
         $id = $pagamento->getId();
         $tipo = $pagamento->getType();

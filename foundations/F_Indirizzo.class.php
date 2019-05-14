@@ -14,7 +14,7 @@ class F_Indirizzo extends Foundation{
         return new \Models\M_Indirizzo($obj["id"], $comune, $obj["via"], $obj["civico"], $obj["note"], $obj["latitudine"], $obj["longitudine"]);
     }
 
-    public static function insert(Model $obj): int{
+    public static function insert(Model $obj, array $params = array()): int{
         $sql = "INSERT INTO indirizzi VALUES (NULL, ?, ?, ?, ?, ?, ?)";
         $p = \Singleton::DB()->prepare($sql);
         $id_comune = $obj->getComune()->getId();
@@ -31,7 +31,7 @@ class F_Indirizzo extends Foundation{
         return $id;
     }
 
-    public static function update(Model $obj){
+    public static function update(Model $obj, array $params = array()){
 
     }
 

@@ -14,11 +14,11 @@ if(!defined("EXEC")){
 class F_UtenteRegistrato extends F_Utente{
     protected static $table = "utenti_registrati";
 
-    public static function insert(\Models\Model $obj): int{
+    public static function insert(\Models\Model $obj, array $params = array()): int{
 
     }
 
-    public static function update(\Models\Model $obj){
+    public static function update(\Models\Model $obj, array $params = array()){
 
     }
 

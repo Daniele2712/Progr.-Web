@@ -27,7 +27,7 @@ class F_Carta extends Foundation{
         return new M_Carta($id_pagamento, $idCarta, $num, $cvv, $nome, $cognome, $dataScadenza);
     }
 
-    public static function insert(Model $carta): int{
+    public static function insert(Model $carta, array $params = array()): int{
         $DB = \Singleton::DB();
         $idPagamento = $carta->getId();
         $numero = $carta->getNumero();
@@ -45,7 +45,7 @@ class F_Carta extends Foundation{
         return $DB->lastId();
     }
 
-    public static function update(Model $carta){
+    public static function update(Model $carta, array $params = array()){
         $DB = \Singleton::DB();
         $idCarta = $carta->getIdCarta();
         $idPagamento = $carta->getId();

@@ -16,11 +16,11 @@ class F_Dipendente extends F_Utente{
     private static $ruoli = array();
     private static $contratti = array();
 
-    public static function insert(Model $obj): int{
+    public static function insert(Model $obj, array $params = array()): int{
 
     }
 
-    public static function update(Model $obj){
+    public static function update(Model $obj, array $params = array()){
 
     }
 

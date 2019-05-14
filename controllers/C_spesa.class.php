@@ -19,19 +19,19 @@ class C_spesa implements Controller{
      * mostra il catalogo contenente i prodotti del magazzino più vicino all'indirizzo desiderato
      */
     public static function catalogo(Request $req){
-        $session = \Singleton::Session();
-        if($session->timedOut() || $session->isNew()){
-            $session->setMessage("Sessione scaduta per inattivit&agrave;");
-            \Views\HTTPView::redirect("/spesa/home");
+        $session = \Singleton::Session();                                       //prende la sessione
+        if($session->timedOut() || $session->isNew()){                          //controlli sulla sessione
+            $session->setMessage("Sessione scaduta per inattivit&agrave;");     //messaggio di errore custom
+            \Views\HTTPView::redirect("/spesa/home");                           //effettuo un redirect a /spesa/home
         }
         $valuta = $session->getUserValuta();
-        $v = new \Views\V_Catalogo();
+        $v = new \Views\V_Catalogo();                                           //istanzio la view
         $v->fillBasket($session->getCart(), $valuta);
-        $data = \Models\M_Magazzino::getAvailableItems($req);
-        $v->fillItems($data["items"], $valuta);
-        $v->fillCategories(\Foundations\F_Categoria::findMainCategories());
+        $data = \Models\M_Magazzino::getCatalogo($req);                         //metodo statico del model che fa il lavoro sporco
+        $v->fillItems($data["items"], $valuta);                                     //passando la request
+        $v->fillCategories($data["categories"]);                                //passo i models alla view
         $v->fillFilters($data["filters"]);
-        $v->render();
+        $v->render();                                                           //mostro la view
     }
 
     public static function checkout(Request $req){

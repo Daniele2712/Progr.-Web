@@ -21,17 +21,19 @@ abstract class Foundation{
      * metodo per inserire un Model nel DB
      *
      * @param   \Models\Model   $object     il Model da inserire
+     * @param   array           $params     array di parametri opzionali per l'inserimento
      * @return  int                         l'id del Model inserito
      */
-    public abstract static function insert(Model $object): int;
+    public abstract static function insert(Model $object, array $params = array()): int;
 
 
     /**
      * metodo pre aggiornare un Model nel DB
      *
      * @param   \Models\Model  $object     il Model da aggiornare
+     * @param   array          $params     array di parametri opzionali per l'update
      */
-    public abstract static function update(Model $object);
+    public abstract static function update(Model $object, array $params = array());
 
 
     /**
@@ -209,16 +211,17 @@ abstract class Foundation{
     /**
      * metodo per modificare o inserire un Model sul DB
      *
-     * @param    \Models\Model   $obj  il Model da salvare
-     * @return   int|null              l'eventuale id del nuovo Model
+     * @param    \Models\Model   $obj       il Model da salvare
+     * @param    array           $params    array di parametri opzionali per il salvataggio
+     * @return   int|null                   l'eventuale id del nuovo Model
      */
-    public static function save(Model $obj){
+    public static function save(Model $obj, array $params = array()){
         if($obj->getId()<=0 || !static::seek($obj->getId())){
-            $id = static::insert($obj);
+            $id = static::insert($obj, $params);
             $obj->setId($id);
             return $id;
         }else
-            return static::update($obj);
+            return static::update($obj, $params);
     }
 
 }

@@ -9,7 +9,7 @@ if(!defined("EXEC")){
 class F_DatiAnagrafici extends Foundation{
     protected static $table = "dati_anagrafici";
 
-    public static function insert(Model $dati_anagrafici): int{
+    public static function insert(Model $dati_anagrafici, array $params = array()): int{
             $DB = \Singleton::DB();
             $nome = $dati_anagrafici->getNome();
             $cognome = $dati_anagrafici->getCognome();
@@ -25,7 +25,7 @@ class F_DatiAnagrafici extends Foundation{
             return $DB->lastId();
     }
 
-    public static function update(Model $dati_anagrafici){
+    public static function update(Model $dati_anagrafici, array $params = array()){
             $DB = \Singleton::DB();
             $id = $dati_anagrafici->getId();
             $nome = $dati_anagrafici->getNome();

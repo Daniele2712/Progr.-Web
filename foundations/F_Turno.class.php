@@ -32,11 +32,11 @@ class F_Turno extends Foundation{
         return new \Models\M_Turno($obj["id"], $obj["giorno_inizio"], $obj["ora_inizio"], $obj["giorno_fine"], $obj["ora_fine"]);
     }
 
-    public static function insert(Model $obj): int{
+    public static function insert(Model $obj, array $params = array()): int{
 
     }
 
-    public static function update(Model $obj){
+    public static function update(Model $obj, array $params = array()){
 
     }
 }

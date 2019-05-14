@@ -47,11 +47,11 @@ class F_Filtro extends Foundation{
         return $r;
     }
 
-    public static function insert(Model $obj): int{
+    public static function insert(Model $obj, array $params = array()): int{
 
     }
 
-    public static function update(Model $obj){
+    public static function update(Model $obj, array $params = array()){
 
     }
 

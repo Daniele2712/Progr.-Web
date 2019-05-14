@@ -32,7 +32,7 @@ class C_download implements Controller{
     }
 
     public static function favicon(Request $req){
-        $id = \Singleton::Settings()->getBackground();
+        $id = \Singleton::Settings()->getFavicon();
         try{
             $image = \Foundations\F_Immagine::find($id);
         }catch(\SQLException $e){

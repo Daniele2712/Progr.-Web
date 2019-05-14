@@ -56,11 +56,11 @@ class F_Immagine extends Foundation{
         return new \Models\M_Immagine($obj["id"], $obj["nome"], $obj["size"], $obj["type"], $obj["immagine"]);
     }
 
-    public static function insert(Model $obj): int{
+    public static function insert(Model $obj, array $params = array()): int{
 
     }
 
-    public static function update(Model $obj){
+    public static function update(Model $obj, array $params = array()){
 
     }
 }

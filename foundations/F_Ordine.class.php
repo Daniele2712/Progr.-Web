@@ -61,7 +61,7 @@ class F_Ordine extends Foundation{
         return $ordini;
     }
 
-    public static function save(Model $ordine){
+    public static function save(Model $ordine, array $params = array()){
         F_Pagamento::save($ordine->getPagamento());
         F_Indirizzo::save($ordine->getIndirizzo());
         F_DatiAnagrafici::save($ordine->getDatiAnagrafici());
@@ -72,7 +72,7 @@ class F_Ordine extends Foundation{
         return parent::save($ordine);
     }
 
-    public static function insert(Model $ordine): int{
+    public static function insert(Model $ordine, array $params = array()): int{
         /*  1) inserire nella tabbella ordini il mio ordine     */
         //tabbella ordini e fatta cosi   id 	id_pagamento 	id_indirizzo 	id_dati_anagrafici 	subtotale 	spese_spedizione 	totale 	id_valuta 	data_ordine 	data_consegna
         $DB = \Singleton::DB();
@@ -201,7 +201,7 @@ class F_Ordine extends Foundation{
         return json_encode($itemsArray);
     }
 
-    public static function update(Model $ordine){   // magari lo posso usare x aggiungere un PAGAMENTO algi ordini che non ce l-hnno, xke di default non ce l'hanno
+    public static function update(Model $ordine, array $params = array()){   // magari lo posso usare x aggiungere un PAGAMENTO algi ordini che non ce l-hnno, xke di default non ce l'hanno
 
     }
 }

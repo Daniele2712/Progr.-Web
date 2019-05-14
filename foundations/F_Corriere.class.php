@@ -9,11 +9,11 @@ if(!defined("EXEC")){
 class F_Corriere extends F_Dipendente{
   protected static $table = "corrieri";
 
-    public static function insert(Model $user): int{
+    public static function insert(Model $user, array $params = array()): int{
 
     }
 
-    public static function update(Model $user){
+    public static function update(Model $user, array $params = array()){
 
     }
 
