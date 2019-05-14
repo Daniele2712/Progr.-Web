@@ -1,9 +1,10 @@
 #footer{
 	background-color: #292c2f;
-    height: 260px;
-    overflow: hidden;
-	grid-area: footer;
+  height: 260px;
+  overflow: hidden;
 	margin-top:50px;
+	display:grid;
+	justify-content: center;
 }
 
 .footer-distributed{
