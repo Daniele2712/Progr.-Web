@@ -30,7 +30,7 @@ class C_user implements Controller {
         $session = \Singleton::Session();
         if ($session->isLogged()) {
             $user = $session->getUser();
-            if (is_a($user, "\\Models\\F_UtenteRegistrato")) {
+            if (is_a($user, "\\Models\\Utenti\\M_UtenteRegistrato")) {
                 $v = new \Views\Api\V_IndirizziUtente(array("r" => 200));
                 $v->setIndirizzi($user->getIndirizzi());
                 $v->setIndirizzoPreferito($user->getIndirizzoPreferito());

@@ -10,7 +10,7 @@ if(!defined("EXEC")){
 class C_carrello implements Controller{
     public static function get(Request $req){
         $session = \Singleton::Session();
-        if($session->isLogged() && is_a($session->getUser(),"\\Models\\M_UtenteRegistrato") || !$session->isLogged()){
+        if($session->isLogged() && is_a($session->getUser(),"\\Models\\Utenti\\M_UtenteRegistrato") || !$session->isLogged()){
             $v = new \Views\Api\V_Carrello(array("r"=>200));
             $v->setCart($session->getCart(),$session->getUserValuta());
             $v->render();
@@ -61,7 +61,7 @@ class C_carrello implements Controller{
         $CSRF = $session->getCSRF();
         if($session->isLogged()){
             $user = $session->getUser();
-            if(is_a($user,"\\Models\\M_UtenteRegistrato")){
+            if(is_a($user,"\\Models\\Utenti\\M_UtenteRegistrato")){
                 if($req->getParam(1)==="add"){
                     $id_comune = $req->getInt("comuneId",0,"POST");
                     $via = $req->getString("via","","POST");

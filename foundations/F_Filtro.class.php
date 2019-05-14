@@ -16,7 +16,7 @@ class F_Filtro extends Foundation{
             $sql = "SELECT * FROM filtri WHERE id_categoria IS NULL AND filtrabile = 1";
             $p = $DB->prepare($sql);
         }else{
-            $categorie = Categoria::find($idCat)->getAncestors();
+            $categorie = F_Categoria::find($idCat)->getAncestors();
             $sql = "SELECT * FROM filtri WHERE (id_categoria IS NULL OR id_categoria IN (" .
                     implode(",", array_fill(0, count($categorie), "?")) . ")) AND filtrabile = 1";
             $p = $DB->prepare($sql);
@@ -70,7 +70,7 @@ class F_Filtro extends Foundation{
         else
             while ($row = $res->fetch_array(MYSQLI_ASSOC))
                 $opzioni[] = array("id"=>$row["id"], "nome"=>$row["valore"]);
-        return new \Models\M_Filtro($obj["id"], $obj["nome"], $obj["filtrabile"], $obj["tipo"], ($obj["id_categoria"] === NULL ? NULL : Categoria::find($obj["id_categoria"])), $opzioni);
+        return new \Models\M_Filtro($obj["id"], $obj["nome"], $obj["filtrabile"], $obj["tipo"], ($obj["id_categoria"] === NULL ? NULL : F_Categoria::find($obj["id_categoria"])), $opzioni);
     }
 
     /**

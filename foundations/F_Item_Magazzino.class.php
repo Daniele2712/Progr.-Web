@@ -59,7 +59,7 @@ class F_Item_Magazzino extends Foundation{
     public static function create(array $obj): Model{
         $pro = F_Prodotto::find($obj["id_prodotto"]);
         $pre = $pro->getPrezzo();
-        $pre->setPrezzo($pro->getPrezzo()->getPrezzo()*$row["quantita"]);
+        $pre->setPrezzo($pro->getPrezzo()->getPrezzo()*$obj["quantita"]);
         return new \Models\M_Item($pro, $pre, $obj["quantita"]);
     }
 }

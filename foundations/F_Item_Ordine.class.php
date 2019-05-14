@@ -61,7 +61,7 @@ class F_Item_Ordine extends Foundation{
     public static function create(array $obj): Model{
         $pro = F_Prodotto::find($obj["id_prodotto"]);
         $pre = $pro->getPrezzo();
-        $pre->setPrezzo($row["prezzo"] * $row["quantita"]);
+        $pre->setPrezzo($obj["prezzo"] * $obj["quantita"]);
         return new \Models\M_Item($pro, $pre, $obj["quantita"]);
     }
 }

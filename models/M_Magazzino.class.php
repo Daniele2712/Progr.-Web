@@ -12,7 +12,7 @@ class M_Magazzino extends Model{
     private $dipendenti = array();
 
 
-    public function __construct(int $id, M_Indirizzo $indirizzo, array $items=array(), M_Dipendente $responsabile, array $dipendenti = array()){
+    public function __construct(int $id, M_Indirizzo $indirizzo, array $items=array(), Utenti\M_Dipendente $responsabile, array $dipendenti = array()){
         $this->id = $id;
         $this->indirizzo = clone $indirizzo;
         foreach($items as $i){
@@ -74,7 +74,7 @@ class M_Magazzino extends Model{
                         $r[] = $item;
             }
 
-        $cat = \Foundations\F_Categoria::findMainCategories()
+        $cat = \Foundations\F_Categoria::findMainCategories();
         return array("items"=>$r, "filters"=>$filters, "categories"=>$cat);     //restituisco tutto quello che serve al controller
     }
 
