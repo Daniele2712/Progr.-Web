@@ -7,8 +7,6 @@ $("#statistiche").click(function(){
 
   $('.gruppoDiSezioni').css('display', 'none');
   $('#sezioniStatistiche').css('display', 'grid');
-
-    
 });
 
 $("#amministrazione").click(function(){
@@ -36,9 +34,6 @@ $(".sezione").click(function(){
     $(".sezione").removeClass('active');
     $(this).addClass('active');
     });
-
-
-
 
 
 // FUNZIONI PER LE MINISEZIONI DELLO STATS

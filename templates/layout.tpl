@@ -17,8 +17,10 @@
     <body>
         <div id="header">
             <div class="wrapper">
-                <div id="logobox" onClick="window.location='{$homeLink}'">
+                <div id="logobox">
+                    <a href="{$homeLink}">
                         <img id ="logoimg" src="/templates/img/logo.png" />
+                    </a>
                 </div><div id="titlebox">
                     <img id ="logowriting" src="/templates/img/OnlineShopping.png" />
                 </div><div id="profilebox">
