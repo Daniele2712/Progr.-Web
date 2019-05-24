@@ -19,11 +19,17 @@ class M_Settings extends Model{
     }
 
     public function getBackground():int{
+      if(!isset($this->settings["background"]) && !is_numeric($this->settings["background"]))
+        throw new \ModelException("Background not found", __CLASS__ , array("v"=>$this->settings["background"]),2);
         return $this->settings["background"];
     }
 
-    public function getFavicon():int{
-        return $this->settings["favicon"];
+    public function getFavicon():int {
+      if(!isset($this->settings["favicon"]))
+        throw new \ModelException("Favicon not found", __CLASS__ , array(),3);
+      elseif(!is_numeric($this->settings["favicon"]))
+        throw new \ModelException("Favicon not valid", __CLASS__ , array("v"=>$this->settings["favicon"]),3);
+      return $this->settings["favicon"];
     }
 
     public function getArray():array{

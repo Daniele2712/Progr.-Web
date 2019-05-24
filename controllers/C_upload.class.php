@@ -111,6 +111,46 @@ class C_upload{
         }
     }
 
+    public static function uploadMagazzino(Request $req){
+      if(!\Singleton::Session()->isLogged() ){ // Se la richiesta la fa un utente NON loggato
+        \Foundations\Log::logMessage("!Non Authorized Request! Non logged User tried to access admin function(uploadMagazzino)!",$req);
+        header('Location: '."http://".$req->getServerName());
+      }
+      elseif(\Singleton::Session()->getUser()->getRuolo() != "Amministratore") // Se la richiesta la fa un utente loggato ma che non e' amministratore
+      {
+           $badUserId=\Singleton::Session()->getUser()->getId();
+           \Foundations\Log::logMessage("!Non Authorized Request! User(ID=$badUserId) tried to access admin function(uploadMagazzino)!",$req);
+           header('Location: '."http://".$req->getServerName());
+     }
+     else{   // se la richiesta la fa effettivamente l-amministratore che ha il permesso di farla
+       $citta=$req->getString('citta', NULL, 'POST');
+       $cap=intval($req->getString('cap', NULL, 'POST'));
+       $provincia=$req->getString('provincia', NULL, 'POST');
+       $via=$req->getString('via', NULL, 'POST');
+       $civico=$req->getString('civico', NULL, 'POST');
+
+       /* Verifica che i valori inseriti vadano BENE  */
+
+       $comuneSelezionato=\Foundations\F_Comune::search($citta, $cap,$provincia);  //Controllo che la combinazione citta, cap e provincia sia presente nel db
+       if(!$comuneSelezionato){
+         echo "La combinazione '$citta' , '$cap' , '$provincia' non esiste.";
+       }
+       else{ //Se effettivamente la combinazione c'e nel database
+         $indirizzo=\Foundations\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico);  //Cerco l'indirizzo che voglio usare
+         if($indirizzo==NULL){   // cioe se non ha trovato nel BD il mio indirizzo
+           $indirizzoTemp=new \Models\M_Indirizzo(-1, $comuneSelezionato, $via, $civico, "noteeee");  // creo un nuovo indirizzo temporaneo, con ID -1, solo per poter inserire quel indirizzo nel DB
+           if(\Foundations\F_Indirizzo::insert($indirizzoTemp, array())) echo "Nuovo indirizzo inserito corretamente"; // e lo inserisco nel DB
+           else echo "Errore inserimento indirizzo.";  // oppure fallisco nel inserirlo nel DB
+           $indirizzo=\Foundations\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico); // il mio indirizzo ha come id -1 quindi lo sovrascrivo con in altro indirizzo, uguale, ma con l-id giusto, preso dal DB
+         }
+
+         $newMagazzino= new \Models\M_Magazzino(-1, $indirizzo, array(), NULL, array());  //  ho usato -1 per i'id xke ho bisogno di un intero, tanto quando verra memorizzato nel db usera un id prograssivo. Qui creo il modello del magazzino che poi andro' ad aggingere nel DB
+         if(\Foundations\F_Magazzino::insert($newMagazzino)) echo "Magazzino inserito correttamente."; // inserisco il magazzino nel DB
+         else echo "Errore inserimento magazzino.";    //oppure fallisco nel farlo
+       }
+    }
+  }
+
     public static function uploadGestore(Request $req){
 
         /*  DEVO ANCHE FILTRARE STI VALORI x VEDERE SE VANNO BENE!  */
@@ -196,7 +236,7 @@ if ($uploadOk == 0) {
      else{
          $esistePadre=mysqli_fetch_array($DB->query("SELECT count(*) FROM `categorie` WHERE nome='$padre';"))[0];
          if($esistePadre!=0){
-            $idPadre=mysqli_fetch_array($DB->query("SELECT id FROM `categorie` WHERE nome='$padre';"))[0];
+           $idPadre=mysqli_fetch_array($DB->query("SELECT id FROM `categorie` WHERE nome='$padre';"))[0];
            if($DB->query("INSERT INTO `categorie` (`nome`, `padre`) VALUES ('$categoria' , '$idPadre');")) echo " Categoria aggiornata!";
             else " Non e possibile aggiungere la categoria ";
          }
@@ -204,24 +244,7 @@ if ($uploadOk == 0) {
         }
      }
 
-     public static function uploadMagazzino(Request $req){
-         $DB=\Singleton::DB();
-        $nome=$req->getString('nome', NULL, 'POST');
-        $cognome=$req->getString('cognome', NULL, 'POST');
-        $id_ruolo=$req->getString('ruoloDipendente', NULL, 'POST');
 
-        //get Id gestore
-        $id_gestore=1;
-
-        // eventualmente crea l-indirizzo se non esiste
-
-        //get Id indirizzo
-        $id_indirizzo=1;
-
-        if($DB->query("INSERT INTO `magazzini` (`id_gestore`, `id_indirizzo`) VALUES ('$id_gestore' , '$id_indirizzo');")) echo " Magazzino inserito";
-          else " Non e possibile aggiungere il magazzino ";
-
-     }
 
     private function category_exists($id){
         $dbresponse=\Singleton::DB()->query("SELECT COUNT(*) as result FROM `categorie` WHERE id=$id;");

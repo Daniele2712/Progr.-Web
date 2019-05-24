@@ -21,7 +21,7 @@ class F_Comune extends Foundation{
         return new \Models\M_Comune($obj["id"], $obj["nome"], $obj["CAP"], $obj["provincia"]);
     }
 
-    public static function search(string $comune, int $CAP, string $provincia):\Models\M_Comune{
+    public static function search(string $comune, int $CAP, string $provincia){ 
         $DB = \Singleton::DB();
         $sql = "SELECT * FROM ".self::$table." WHERE nome = ? AND CAP = ? AND provincia = ?";
         $p = $DB->prepare($sql);
@@ -29,10 +29,11 @@ class F_Comune extends Foundation{
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $res = $p->get_result();
+        $fetchedResul=$res->fetch_assoc();
         $p->close();
         $r = null;
-        if($res)
-            $r = self::create($res->fetch_assoc());
+        if($fetchedResul)
+            $r = self::create($fetchedResul);
         return $r;
     }
 

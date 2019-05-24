@@ -1,0 +1,25 @@
+[24/05/2019 17:51:31] Administrator(id:1) logged
+[24/05/2019 17:52:20] Administrator(id:1) logged
+[24/05/2019 18:09:51] Administrator(id:1) logged
+[24/05/2019 18:29:55] Administrator(id:1) logged
+[24/05/2019 18:30:27] Administrator(id:1) logged
+[24/05/2019 18:30:34] Gestore(id:2) logged
+[24/05/2019 18:30:42] !Non Authorized Request! User(ID= 2 tried to access admin function!
+[24/05/2019 18:31:32] Gestore(id:2) logged
+[24/05/2019 18:31:45] !Non Authorized Request! User(ID=2) tried to access admin function!
+[24/05/2019 18:39:54] Gestore(id:2) logged
+[24/05/2019 18:40:37] !Non Authorized Request! User(ID=2) tried to access admin function(uploadMagazzino)!
+[24/05/2019 18:40:53] !Non Authorized Request! Non logged User tried to access admin function(uploadMagazzino)!
+[24/05/2019 19:18:54] Administrator(id:1) logged
+[24/05/2019 19:57:45] Administrator(id:1) logged
+[24/05/2019 20:00:28] Administrator(id:1) logged
+[24/05/2019 20:07:09] Administrator(id:1) logged
+[24/05/2019 20:12:23] Administrator(id:1) logged
+[24/05/2019 20:13:01] Administrator(id:1) logged
+[24/05/2019 20:32:20] Administrator(id:1) logged
+[24/05/2019 20:35:36] Administrator(id:1) logged
+[24/05/2019 20:37:31] Administrator(id:1) logged
+[24/05/2019 20:39:00] Administrator(id:1) logged
+[24/05/2019 20:42:09] Administrator(id:1) logged
+[24/05/2019 20:44:58] Administrator(id:1) logged
+[24/05/2019 20:46:26] Administrator(id:1) logged
