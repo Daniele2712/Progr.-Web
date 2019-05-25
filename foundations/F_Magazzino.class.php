@@ -58,6 +58,17 @@ class F_Magazzino extends Foundation{
       $id = $DB->lastId();
       return $id;
     }
+    public static function insertByIds(int $idMagazzino, int $idGestore): int{ /*   e piu facile usare questa funzione che non la insert, per la quale devo creare prima il modello. in particolare la creo per la classe F_Dipendente::insertGestore*/
+      $DB = \Singleton::DB();
+      $sql = "INSERT INTO ".self::$table." VALUES(NULL,?,?);";
+      $p = $DB->prepare($sql);
+      $p->bind_param("ii", $idMagazzino, $idGestore);
+      if(!$p->execute())
+          throw new \SQLException("Error Executing Statementdasdsa", $sql, $p->error, 3);
+      $p->close();
+      $id = $DB->lastId();
+      return $id;
+    }
 
     public static function update(Model $mag, array $params = array()){
     }
@@ -67,5 +78,18 @@ class F_Magazzino extends Foundation{
         $items = F_Item_Magazzino::getMagazzinoItems($obj["id"]);
         $ges = Utenti\F_Dipendente::find($obj["id_gestore"]);
         return new \Models\M_Magazzino($obj["id"], $ind, $items, $ges);
+    }
+
+    public static function existIdMagazzino(int $id){
+      $DB = \Singleton::DB();
+      $sql = "SELECT * FROM ".self::$table." WHERE id = ?";
+      $p = $DB->prepare($sql);
+      $p->bind_param("i",$id);
+      if(!$p->execute())
+          throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+      $res = $p->get_result();
+      $fetchedResul=$res->fetch_assoc();
+      if ($fetchedResul) return true;
+      else return false;
     }
 }

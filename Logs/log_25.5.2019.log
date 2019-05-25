@@ -1,0 +1,28 @@
+[25/05/2019 00:07:04] !Privilege Escalation Attempt! Loged User(id:1) tried to access Gestore Page!
+[25/05/2019 00:07:10] Administrator(id:1) logged
+[25/05/2019 00:10:17] Administrator(id:1) logged
+[25/05/2019 00:10:26] Administrator(id:1) logged
+[25/05/2019 00:56:05] Administrator(id:1) logged
+[25/05/2019 01:00:52] Administrator(id:1) logged
+[25/05/2019 01:02:07] Administrator(id:1) logged
+[25/05/2019 01:02:31] Administrator(id:1) logged
+[25/05/2019 01:03:32] Administrator(id:1) logged
+[25/05/2019 01:53:14] Administrator(id:1) logged
+[25/05/2019 01:53:20] Administrator(id:1) logged
+[25/05/2019 01:53:23] Administrator(id:1) logged
+[25/05/2019 01:53:43] Administrator(id:1) logged
+[25/05/2019 12:08:08] !Privilege Escalation Attempt! Non Logged User tried to access Admin Page!
+[25/05/2019 12:39:26] Administrator(id:1) logged
+[25/05/2019 12:45:42] Administrator(id:1) logged
+[25/05/2019 13:23:18] Administrator(id:1) logged
+[25/05/2019 13:38:26] Administrator(id:1) logged
+[25/05/2019 20:24:22] Administrator(id:1) logged
+[25/05/2019 21:22:58] !Non Authorized Request! Non logged User tried to access admin function(uploadMagazzino)!
+[25/05/2019 21:23:04] !Non Authorized Request! Non logged User tried to access admin function(uploadMagazzino)!
+[25/05/2019 21:24:03] !Non Authorized Request! Non logged User tried to access admin function(uploadMagazzino)!
+[25/05/2019 21:27:17] Administrator(id:1) logged
+[25/05/2019 21:27:40] Administrator(id:1) logged
+[25/05/2019 21:33:04] Administrator(id:1) logged
+[25/05/2019 21:33:42] Administrator(id:1) logged
+[25/05/2019 21:33:53] Administrator(id:1) logged
+[25/05/2019 23:37:30] !Privilege Escalation Attempt! Non Logged User tried to access Admin Page!

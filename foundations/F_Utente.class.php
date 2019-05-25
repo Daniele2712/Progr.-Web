@@ -9,6 +9,7 @@ if(!defined("EXEC")){
 abstract class F_Utente extends Foundation{
     protected static $table = "utenti";
 
+
     public static function login($user,$pw): int{
         $DB = \Singleton::DB();
         $sql = "SELECT id FROM utenti WHERE username = ? AND password = ?;";
@@ -27,6 +28,30 @@ abstract class F_Utente extends Foundation{
             throw new \ModelException("Model Not Found", __CLASS__, array("username"=>$user, "password"=>$pw), 0);
         else
             return $id;
+    }
+
+/*    $idInsertedDatiAna, $gestore->getRuolo(), $gestore->getEmail(), $gestore->getUsername(), md5($password), $gestore->getIdValuta()    */
+//  public static function insert(int $idDatiAna, string $tipoUtente, string $email, string $username, string $password, $idValutePref=null): int{
+
+
+    public static function insert(Model $utente, array $params = array()): int{
+
+            $idDatiAna=$utente->getDatiAnagrafici()->getId();
+            $tipoUtente= $params['tipoUtente'];
+            $email=$utente->getEmail();
+            $username=$utente->getUsername();
+            $password=$params['password'];
+            $idValutePref=$utente->getIdValuta();
+
+            $DB = \Singleton::DB();
+
+            $sql = "INSERT INTO ".self::$table." (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`, `idValutaDefault`) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+            $p = $DB->prepare($sql);
+            $p->bind_param("issssi", $idDatiAna, $tipoUtente, $email, $username,$password,$idValutePref);
+            if(!$p->execute())
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+            $p->close();
+            return $DB->lastId();
     }
 
     public static function create(array $obj): Model{
@@ -54,5 +79,15 @@ abstract class F_Utente extends Foundation{
         }
         else return null;
     }
+
+        public static function setPassword($pass, $userId){
+          $sql = "UPDATE `utenti` SET `password` = '?' WHERE `utenti`.`id` = ?";
+          $p = \Singleton::DB()->prepare($sql);
+          $p->bind_param("si",$pass,$userId);
+          if(!$p->execute())
+              throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+          $p->bind_result($qualcosa);
+          var_dump($qualcosa);
+        }
 
 }

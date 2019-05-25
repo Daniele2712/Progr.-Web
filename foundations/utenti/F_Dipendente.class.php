@@ -19,6 +19,64 @@ class F_Dipendente extends F_Utente{
     public static function insert(Model $obj, array $params = array()): int{
 
     }
+public static function insertGestore(M_Dipendente $gestore, string $password, int $id_magazzino): array{ /* Nel caso divideremo ulteriormente la calsse Dipendente creando gesotre, amminisitratore e altri, questa funzione la metteremo nella parte del Gestore*/
+
+  /*  Per prima cosa aggiungo alla tabblla dei dati anagrafici i dati anagrafici del Gestore  */
+    $idInsertedDatiAna=\Foundations\F_DatiAnagrafici::insert($gestore->getDatiAnagrafici());
+    if($idInsertedDatiAna)  echo "Dati anagrafici inseriti con successo  (ID - $idInsertedDatiAna).</br>";
+    else echo "Errore inserimento dati anagrafici.</br>";
+    //Ora aggiorno il modello per cambiarli l-id dei dati anagrafici, prima era 0 e adesso lo imposto uguale a $idInsertedDatiAna
+    $DatiAnaTemp=$gestore->getDatiAnagrafici();
+    $DatiAnaTemp->setId($idInsertedDatiAna);
+    $gestore->setDatiAnagrafici($DatiAnaTemp);
+
+  /*  Per seconda cosa aggiungo alla tabblla degli utenti l-utente creato con i dati del gestore */
+    $params['password']=$password;
+    $params['tipoUtente']='Dipendente';
+    $idInsertedUser=\Foundations\F_Utente::insert($gestore,$params);
+    if($idInsertedUser)  echo "Utente inserito con successo (ID - $idInsertedUser).</br>";
+    else echo "Errore inserimento utente.</br>";
+    //Ora aggiorno il modello per cambiare l-idid del USER ,prima era 0 e adesso lo imposto uguale a $idInsertedUser
+    $gestore->setUtenteId($idInsertedUser);
+
+    /*  Per terza cosa aggiungo alla tabblla dei dipendenti il l-utente appena creato, con id del ruolo 3(gestore)  */
+    $idOfGestore=self::ruoloToId('gestore');
+    $idInsertedDipendente=self::insertUserIntoDipendentiTable($gestore->getUtenteId(), $idOfGestore ,self::contrattoToId($gestore->getTipoContratto()),NULL, $gestore->getOreSettimanali(), $gestore->getStipendioOrario()->getPrezzo(), $gestore->getStipendioOrario()->getIdValuta(),  $id_magazzino);
+    if($idInsertedDipendente)  echo "Dipendente inserito con successo (ID - $idInsertedDipendente).</br>";
+    else echo "Errore inserimento dipendente.</br>";
+    $gestore->setDipendenteId($idInsertedDipendente);
+
+    /*  Per quarta cosa aggiungo linko il gestore al suo negozio  */
+    $idInsertedMagazzini=\Foundations\F_Magazzino::insertByIds($gestore->getDipendenteId(),$id_magazzino);
+    if($idInsertedMagazzini)  echo "Link Gestore-Magazzino avvenuto con successo (ID - $idInsertedMagazzini).</br>";
+    else echo "Errore inserimento link Gestore-Magazzino.</br>";
+
+
+    $r['idInsertedDatiAna']=$idInsertedDatiAna;
+    $r['idInsertedUtente']=$idInsertedUser;
+    $r['idInsertedDipendente']=$idInsertedDipendente;
+    $r['idInsertedMagazzini']=$idInsertedMagazzini;
+    return $r;
+    }
+
+    public static function insertUserIntoDipendentiTable($idUser, $idRuolo, $idTipoContratto, $dataAssunzione=NULL, $oreSettimanali, $pagaOraria, $idValuta, $idMagazzino=NULL){
+      if($dataAssunzione === NULL) $dataAssunzione = new \DateTime();
+      $dataAssunzione=date_format($dataAssunzione, 'Y-m-d');
+
+
+      $DB = \Singleton::DB();
+      $sql = "INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_assunzione`, `ore_settimanali`, `paga_oraria`, `id_valuta`, `id_magazzino`) VALUES (NULL, ? , ? , ? , ? , ? , ? , ? , ?)";
+      $p = $DB->prepare($sql);
+      $p->bind_param("iiisidii", $idUser, $idRuolo, $idTipoContratto, $dataAssunzione,$oreSettimanali,$pagaOraria, $idValuta, $idMagazzino);
+      if(!$p->execute())
+          throw new \SQLException("Error Executing Statssssssement", $sql, $p->error, 3);
+      $p->close();
+      return $DB->lastId();
+    }
+
+    public static function insertDipendente(M_Dipendente $obj): int{
+        /*  aggiungi al db il dipendente */
+    }
 
     public static function update(Model $obj, array $params = array()){
 
@@ -52,7 +110,7 @@ class F_Dipendente extends F_Utente{
         */
 
         //  quindi la seguente istruzione vuol dire che a  prescindere da tutto, io creo un dipendente
-        return self::create_dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, self::getContratto($tipoContratto), new \DateTime($dataAssunzione), $oreSettimanali, new M_Money($prezzo,$valuta), $turni);
+        return self::create_dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, self::getContratto($tipoContratto), new \DateTime($dataAssunzione), $oreSettimanali, new M_Money($prezzo,$valuta), NULL, $turni);   /* Quando crei un dipendente metto la valuta a EURO, questo va cambiato, in particolare va cambiata la querry per avere acnche informazioni sulid Della valuta preferita del utente, ora non avendo la querry complessa do per scontato che l'utente usi EURO*/
     }
 
     public static function create(array $obj): Model{
@@ -61,12 +119,74 @@ class F_Dipendente extends F_Utente{
 
     protected static function create_dipendente(int $id_utente, M_DatiAnagrafici $dati_anagrafici, string $email,
         string $username, int $id_dipendente, string $ruolo, string $tipoContratto = '', \DateTime $dataAssunzione,
-        int $oreSettimanali = 0, M_Money $stipendioOrario = NULL, array $turni = array()): M_Dipendente{
+        int $oreSettimanali = 0, M_Money $stipendioOrario = NULL, $idValutaPref, array $turni = array()): M_Dipendente{
         if($dataAssunzione === NULL)
             $dataAssunzione = new \DateTime();
         if($stipendioOrario === NULL)
             $stipendioOrario = M_Money(0,1);
-        return new M_Dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, $tipoContratto, $dataAssunzione, $oreSettimanali, $stipendioOrario, $turni);
+        return new M_Dipendente($id_utente, $dati_anagrafici, $email, $username, $id_dipendente, $ruolo, $tipoContratto, $dataAssunzione, $oreSettimanali, $stipendioOrario,$idValutaPref, $turni);
+    }
+
+    /*  Ora, non so bene dove mettere queste funzioni, ma per ora le lasciamo in F_Dipendente finche troviamo un altro posto migliore */
+    public static function idToRuolo(int $idRuolo){
+        $DB = \Singleton::DB();
+        $sql = "SELECT ruolo FROM dipendenti_ruoli WHERE id = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param("i",$idRuolo);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $fetchedResul=$res->fetch_assoc();
+      return $fetchedResul['ruolo'];
+    }
+    public static function ruoloToId(string $Ruolo){
+      $DB = \Singleton::DB();
+      $sql = "SELECT id FROM dipendenti_ruoli WHERE ruolo = ?";
+      $p = $DB->prepare($sql);
+      $p->bind_param("s",$Ruolo);
+      if(!$p->execute())
+          throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+      $res = $p->get_result();
+      $fetchedResul=$res->fetch_assoc();
+      return $fetchedResul['id'];
+    }
+    public static function existsIdRuolo($id_ruolo){
+        if(self::idToRuolo($id_ruolo) != NULL) return true;
+        else return false;
+    }
+    public static function existsNomeRuolo($nome_ruolo){
+      if(self::ruoloToId($nome_ruolo) != NULL) return true;
+      else return false;
+    }
+    public static function idToContratto(int $id_contratto){
+        $DB = \Singleton::DB();
+        $sql = "SELECT contratto FROM dipendenti_contratti WHERE id = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param("i",$id_contratto);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $fetchedResul=$res->fetch_assoc();
+      return $fetchedResul['contratto'];
+    }
+    public static function contrattoToId(string $nome_contratto){
+      $DB = \Singleton::DB();
+      $sql = "SELECT id FROM dipendenti_contratti WHERE contratto = ?";
+      $p = $DB->prepare($sql);
+      $p->bind_param("s",$nome_contratto);
+      if(!$p->execute())
+          throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+      $res = $p->get_result();
+      $fetchedResul=$res->fetch_assoc();
+      return $fetchedResul['id'];
+    }
+    public static function existsIdContratto($id_contratto){
+      if(self::idToContratto($id_contratto) !=NULL) return true;
+      else return false;
+    }
+    public static function existsNomeContratto($nome_contratto){
+      if(self::contrattoToId($nome_contratto) != NULL) return true;
+      else return false;
     }
 
     private static function getRuolo($id_ruolo){
@@ -181,5 +301,6 @@ class F_Dipendente extends F_Utente{
 
             return $data_array;
     }
+
 }
 ?>

@@ -1,6 +1,7 @@
 <?php
 namespace Controllers;
 use \Views\Request as Request;
+use \Foundations\utenti\F_Dipendente as F_Dipendente;
 if(!defined("EXEC")){
     header("location: /index.php");
 	return;
@@ -10,6 +11,22 @@ if(!defined("EXEC")){
 class C_upload{
     /*          DEVI FILTRARE GLI INPUT X EVITARE SQL INJECTION E ROBA SIMILE*/
                     //DA aggiornare l-upload, per prendere in considerazione la parte dell-immagine preferita, e del size, e altre cose
+
+   private static function isAdmin($req){
+     if(!\Singleton::Session()->isLogged() ){ // Se la richiesta la fa un utente NON loggato
+       \Foundations\Log::logMessage("!Non Authorized Request! Non logged User tried to access admin function(uploadMagazzino)!",$req);
+       header('Location: '."http://".$req->getServerName());
+     }
+     elseif(\Singleton::Session()->getUser()->getRuolo() != "Amministratore") // Se la richiesta la fa un utente loggato ma che non e' amministratore
+     {
+          $badUserId=\Singleton::Session()->getUser()->getId();
+          \Foundations\Log::logMessage("!Non Authorized Request! User(ID=$badUserId) tried to access admin function(uploadMagazzino)!",$req);
+          header('Location: '."http://".$req->getServerName());
+    }
+    else{   // se la richiesta la fa effettivamente l-amministratore che ha il permesso di farla
+      return true;
+      }
+ }
 
     public static function uploadProduct(Request $req){
 
@@ -112,73 +129,79 @@ class C_upload{
     }
 
     public static function uploadMagazzino(Request $req){
-      if(!\Singleton::Session()->isLogged() ){ // Se la richiesta la fa un utente NON loggato
-        \Foundations\Log::logMessage("!Non Authorized Request! Non logged User tried to access admin function(uploadMagazzino)!",$req);
-        header('Location: '."http://".$req->getServerName());
-      }
-      elseif(\Singleton::Session()->getUser()->getRuolo() != "Amministratore") // Se la richiesta la fa un utente loggato ma che non e' amministratore
-      {
-           $badUserId=\Singleton::Session()->getUser()->getId();
-           \Foundations\Log::logMessage("!Non Authorized Request! User(ID=$badUserId) tried to access admin function(uploadMagazzino)!",$req);
-           header('Location: '."http://".$req->getServerName());
-     }
-     else{   // se la richiesta la fa effettivamente l-amministratore che ha il permesso di farla
+      if(self::isAdmin($req)){   // se la richiesta la fa effettivamente l-amministratore che ha il permesso di farla
        $citta=$req->getString('citta', NULL, 'POST');
        $cap=intval($req->getString('cap', NULL, 'POST'));
        $provincia=$req->getString('provincia', NULL, 'POST');
        $via=$req->getString('via', NULL, 'POST');
        $civico=$req->getString('civico', NULL, 'POST');
 
+       $tuttoOK=TRUE;
+
+       if(!$tuttoOK){
+         echo "I parametri inseriti non sono validi ";
+         return;
+       }
+
        /* Verifica che i valori inseriti vadano BENE  */
 
        $comuneSelezionato=\Foundations\F_Comune::search($citta, $cap,$provincia);  //Controllo che la combinazione citta, cap e provincia sia presente nel db
        if(!$comuneSelezionato){
-         echo "La combinazione '$citta' , '$cap' , '$provincia' non esiste.";
+         echo "La combinazione '$citta' , '$cap' , '$provincia' non esiste.".PHP_EOL;
        }
        else{ //Se effettivamente la combinazione c'e nel database
          $indirizzo=\Foundations\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico);  //Cerco l'indirizzo che voglio usare
          if($indirizzo==NULL){   // cioe se non ha trovato nel BD il mio indirizzo
-           $indirizzoTemp=new \Models\M_Indirizzo(-1, $comuneSelezionato, $via, $civico, "noteeee");  // creo un nuovo indirizzo temporaneo, con ID -1, solo per poter inserire quel indirizzo nel DB
-           if(\Foundations\F_Indirizzo::insert($indirizzoTemp, array())) echo "Nuovo indirizzo inserito corretamente"; // e lo inserisco nel DB
-           else echo "Errore inserimento indirizzo.";  // oppure fallisco nel inserirlo nel DB
+           $indirizzoTemp=new \Models\M_Indirizzo(-1, $comuneSelezionato, $via, $civico);  // creo un nuovo indirizzo temporaneo, con ID -1, solo per poter inserire quel indirizzo nel DB
+           if(\Foundations\F_Indirizzo::insert($indirizzoTemp, array())) echo "Nuovo indirizzo inserito corretamente.</br>"; // e lo inserisco nel DB
+           else echo "Errore inserimento indirizzo.</br>";  // oppure fallisco nel inserirlo nel DB
            $indirizzo=\Foundations\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico); // il mio indirizzo ha come id -1 quindi lo sovrascrivo con in altro indirizzo, uguale, ma con l-id giusto, preso dal DB
          }
 
          $newMagazzino= new \Models\M_Magazzino(-1, $indirizzo, array(), NULL, array());  //  ho usato -1 per i'id xke ho bisogno di un intero, tanto quando verra memorizzato nel db usera un id prograssivo. Qui creo il modello del magazzino che poi andro' ad aggingere nel DB
-         if(\Foundations\F_Magazzino::insert($newMagazzino)) echo "Magazzino inserito correttamente."; // inserisco il magazzino nel DB
-         else echo "Errore inserimento magazzino.";    //oppure fallisco nel farlo
+         if(\Foundations\F_Magazzino::insert($newMagazzino)) echo "Magazzino inserito correttamente.</br>"; // inserisco il magazzino nel DB
+         else echo "Errore inserimento magazzino.</br>";    //oppure fallisco nel farlo
        }
     }
   }
 
     public static function uploadGestore(Request $req){
-
-        /*  DEVO ANCHE FILTRARE STI VALORI x VEDERE SE VANNO BENE!  */
-        /*  LO FARO IN SEGUITO                                      */
+        if(self::isAdmin($req)){   // se la richiesta la fa effettivamente l-amministratore che ha il permesso di farla
 
         /* req conosce i parametri della PSOT, li prendo per poi usarli per aggiungere tutto nel DB */
         $nome=$req->getString('nome', NULL, 'POST');
         $cognome=$req->getString('cognome', NULL, 'POST');
-        $id_ruolo=$req->getString('ruoloDipendente', NULL, 'POST');
+        $email=$req->getString('email', NULL, 'POST');
+        $username=$req->getString('username', NULL, 'POST');
+        $password=$req->getString('password', NULL, 'POST');
         $id_contratto=$req->getString('contrattoDipendente', NULL, 'POST');
-        $stipendio=$req->getFloat('stipendioOrario', NULL, 'POST');
+        $floatStipendio=$req->getFloat('stipendioOrario', NULL, 'POST');
         $id_magazzino=$req->getString('magazzino', NULL, 'POST');
+
         $tuttoOK=TRUE;  // in caso qualcosa vada male lo imposto a FALSE e non faccio nemmeno i prossimi passi.
+        //check if ruolo exists
+        if(empty($nome) || empty($cognome) || empty($email) || empty($username) || empty($password) || empty($id_contratto) || empty($floatStipendio) || empty($id_magazzino)) $tuttoOK=false;
+
+        if(!F_Dipendente::existsNomeRuolo('gestore')) $tuttoOK=FALSE;
+        else $nomeRuolo='gestore';
+        //check if id_contratto exists
+        $nomeContratto=F_Dipendente::idToContratto($id_contratto);
+        if(!$nomeContratto) $tuttoOK=FALSE;
+        //check if id_magazzino existsIdRuolo
+        if(!\Foundations\F_Magazzino::existIdMagazzino($id_magazzino)) $tuttoOK=FALSE;
+        if(!$tuttoOK){  // se ci sono stati problemi mostro questo messaggio ed esco, altrimenti continuo.
+          echo "I parametri inseriti non sono validi ";
+          return;
+        }
 
 
-        /*  Verifica che:       se qualcosa va male imposto tuttoOK=FALSE;
-         *  id_ruolo esiste
-         *  colui che inserisce il ruolo ha il permesso di farlo(un gestore non puo inserire un amministratore)
-         *  il magazzino in cui si vuole inserire il dipendente e sotto il controllo del gestore
-         */
-
-      /*            Inserimento dipendente        */
-        if($tuttoOK)
-        {
-        $DB = \Singleton::DB();
-        echo "Successfully updated gestori.<br/>";
-        echo "$nome $cognome was added to the list<br/><br/>";
-        echo "(PS. ancora da implementare)";
+        // create dati datiAnagrafici
+        $datiAna=new \Models\M_DatiAnagrafici(0 , $nome, $cognome, "0000", new \DateTime('1922-02-02'));  // adesso il modello ha id 0, ma appena lo metto nel db aggiornero l-id con quello presente nel db
+        // create dipendente
+        $stipendio=new \Models\M_Money($floatStipendio); // automaticamente lo mette in euro
+        $dipendente=new \Models\utenti\M_Dipendente(0, $datiAna, $email, $username,0, $nomeRuolo, $nomeContratto, new \DateTime(), 40 ,$stipendio, NULL, array() );
+        // Add password to that usera
+        $risult=\Foundations\utenti\F_Dipendente::insertGestore($dipendente, md5($password),$id_magazzino);
         }
     }
 

@@ -453,12 +453,13 @@
             <div class="insertTitle"><h1>Inserisci nuovo Gestore</h1></div>
             <form id="addGestoreDivForm" method="POST" action="/upload/uploadGestore" enctype="multipart/form-data">
 
-                <div><label>Nome :</label><input type="text" name="nome" placeholder="Nome" id="nomeGestore"></div>
-                <div><label>Cognome :</label><input type="text" name="cognome" placeholder="Cognome" id="cognomeGestore"></textarea></div>
-                <div><label>Username :</label><input type="text" name="username" placeholder="Username" id="usernameGestore"></textarea></div>
-                <div><label>Password :</label><input type="password" name="password" placeholder="**********" id="passwordGestore"></textarea></div>
+                <div><label>Nome :</label><input type="text" name="nome" placeholder="Nome" id="nomeGestore" autocomplete="off"></div>
+                <div><label>Cognome :</label><input type="text" name="cognome" placeholder="Cognome" id="cognomeGestore" autocomplete="off"></textarea></div>
+                <div><label>Email :</label><input type="text" name="email" placeholder="example@yahoo.com" id="emailGestore" autocomplete="off"></textarea></div>
+                <div><label>Username :</label><input type="text" name="username" placeholder="Username" id="usernameGestore" autocomplete="off"></textarea></div>
+                <div><label>Password :</label><input type="password" name="password" placeholder="**********" id="passwordGestore" autocomplete="off"></textarea></div>
                 <div><label>Contratto :</label><select name="contrattoDipendente" class="selectContrattoDipendente" ></select></div>
-                <div><label>Stipendio :</label><input name="stipendioOrario" type="text"  placeholder="€ / ORA"></div>
+                <div><label>Stipendio :</label><input name="stipendioOrario" type="text"  placeholder="€ / ORA" autocomplete="off"></div>
                 <div><label>Magazzino :</label><select name="magazzino" class='listaNomiMagazzini'></select></div>
                 <button type="submit">INSERT</button>
             </form>

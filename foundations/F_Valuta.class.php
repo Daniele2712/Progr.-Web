@@ -40,6 +40,25 @@ class F_Valuta{
         $p->close();
         return array('id'=>$id, 'sigla'=>$sigla, 'nome'=>$nome, 'simbolo'=>$simbolo);
     }
+    public static function siglaToId(string $sigla): int{
+        $DB = \Singleton::DB();
+        $sql = "SELECT id FROM valute WHERE sigla = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param("s",$sigla);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->bind_result($id);
+        $r = $p->fetch();
+        if($r === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+        elseif($r === NULL)
+            throw new \ModelException("Sigla Not Found", __CLASS__, array("sigla"=>$sigla), 0);
+        $p->close();
+        return $r;
+    }
+    public static function getDefaultId(): int{
+      return self::siglaToId('EUR');
+    }
 
     public static function exchangeRate(string $from, string $to){
         if($from === $to)
