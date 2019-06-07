@@ -10,20 +10,20 @@ class M_Prodotto extends Model{
 	private $nome="";
 	private $info="";
 	private $descrizione="";
-	private $sottocategoria;
+	private $categoria;
 	private $prezzo;            //Money
 	private $tag=array();
-    private $foto = array();
-    private $fotoPreferita = array();
-    private $valori = array();
+  private $fotoPreferita = array();
+  private $foto = array();
+  private $valori = array();
 	//Costruttori
-	public function __construct(int $id, string $nome, M_Categoria $cat, M_Money $price, array $valori){
+	public function __construct(int $id, string $nome,string $info, string $descrizione, M_Categoria $cat, M_Money $price, array $valori=array()){
         $this->id = $id;
-		$this->nome = $nome;
-		$this->sottocategoria = $cat;
-		$this->prezzo = $price;
-        $this->foto = \Foundations\F_Immagine::findByProduct($this->id);
-        $this->fotoPreferita = \Foundations\F_Immagine::findFavouriteByProduct($this->id);
+    		$this->nome = $nome;
+        $this->info=$info;
+        $this->descrizione=$descrizione;
+    		$this->categoria = $cat;
+    		$this->prezzo = $price;
         $this->valori = $valori;
     }
 	//Metodi
@@ -42,51 +42,35 @@ class M_Prodotto extends Model{
         if($idCategoria === 0)
             return true;
         else
-            return $this->sottocategoria->hasCat($idCategoria);
+            return $this->categoria->hasCat($idCategoria);
     }
 
-	public function setInfo($i){
-        $this->info = $i;
-    }
+	public function setInfo($i){  $this->info = $i;}
+	public function setDescrizione($d){  $this->descrizione = $d;}
+  public function setTag(array $t){  $this->tag = array($t);}
+  public function getNome(){  return $this->nome; }
+  public function getPrezzo() : \Models\M_Money{  return clone $this->prezzo;  }
+  public function getInfo(){  return $this->info;}
+  public function getDescrizione(){ return $this->descrizione;  }
+  public function getCategoriaId(){ return $this->categoria->getId();  }
 
-	public function setDescrizione($d){
-        $this->descrizione = $d;
-    }
-
-	public function setTag(array $t){
-        $this->tag = array($t);
-    }
-
-    public function getNome(){
-        return $this->nome;
-    }
-
-	public function getPrezzo() : \Models\M_Money{
-        return clone $this->prezzo;
-    }
-
-    public function getInfo(){
-        return $this->info;
-    }
-
-    public function getDescrizione(){
-        return $this->descrizione;
-    }
-
-    public function getCategoriaId(){
-        return $this->categoria->getid();
-    }
-
-    public function getImmaginePreferita():M_Immagine{
-        return clone $this->fotoPreferita;
-    }
-
-    public function getImmagini():array{
+  public function getImmagini():array{
         $r = array();
         foreach($this->foto as $f){
             $r[] = clone $f;
         }
         return $r;
     }
+
+  public function getFotoPreferita(){return clone $this->fotoPreferita[0];}
+  public function setFotoPreferita(M_Immagine $img){
+    $this->fotoPreferita[0]=clone $img;
+  }
+
+  public function getOtherFoto(){return $this->foto;}
+  public function addOtherFoto(M_Immagine $img){
+    $this->foto[]=clone $img;
+  }
+
 
 }

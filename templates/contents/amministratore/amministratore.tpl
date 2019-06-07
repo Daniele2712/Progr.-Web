@@ -51,39 +51,26 @@
         </div>
 
         <div id="statsContainer">
-        <span id="backwardImage" class="niceButton">&nbsp;<&nbsp;</span>
-        <div id="images">
             <div id="statisticheAnnualiDiv" class="statsImages selected">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
+              <a href="/api/img/mese2.png" data-lightbox="statsAnnuali"><img src="/api/img/mese2.png"/></a>
+              <a href="/api/img/mese3.png" data-lightbox="statsAnnuali"><img src="/api/img/mese3.png"/></a>
+              <a href="/api/img/settimana13.png" data-lightbox="statsAnnuali"><img src="/api/img/settimana13.png"/></a>
+              <a href="/api/img/settimana14.png" data-lightbox="statsAnnuali"><img src="/api/img/settimana14.png"/></a>
             </div>
 
             <div id="statisticheMensiliDiv" class="statsImages" style="display:none;">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
+              <a href="/api/img/settimana14.png" data-lightbox="statsMensili"><img src="/api/img/settimana14.png"/></a>
+              <a href="/api/img/mese2.png" data-lightbox="statsMensili"><img src="/api/img/mese2.png"/></a>
+              <a href="/api/img/settimana13.png" data-lightbox="statsMensili"><img src="/api/img/settimana13.png"/></a>
+              <a href="/api/img/mese3.png" data-lightbox="statsMensili"><img src="/api/img/mese3.png"/></a>
             </div>
 
             <div id="statisticheSettimanaliDiv" class="statsImages" style="display:none;">
-                <img src="/api/img/settimana13.png">
-                <img src="/api/img/settimana14.png">
-                <img src="/api/img/settimana15.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
-
+              <a href="/api/img/settimana13.png" data-lightbox="statsSettimanali"><img src="/api/img/settimana13.png"/></a>
+              <a href="/api/img/settimana14.png" data-lightbox="statsSettimanali"><img src="/api/img/settimana14.png"/></a>
+              <a href="/api/img/settimana15.png" data-lightbox="statsSettimanali"><img src="/api/img/settimana15.png"/></a>
+              <a href="/api/img/mese3.png" data-lightbox="statsSettimanali"><img src="/api/img/mese3.png"/></a>
             </div>
-
-
-        </div>
-        <span id="forwardImage" class="niceButton">&nbsp;>&nbsp;</span>
         </div>
 
 
@@ -142,7 +129,7 @@
                 <div class='lineaDiSeparazione'></div>
                 <div id='ElencoProdottiRicevuti' class="elenco">
                 </div>
-            </div>
+        </div>
     </div>
 
     <div id="sezioneProdottiVendutiDiv" class="divGestionale">
@@ -214,7 +201,8 @@
             <span id="addMagazzinoExitButton">&nbsp;X&nbsp;</span>
             <div class="insertTitle"><h1>Inserisci nuovo magazzino</h1></div>
             <form id="addMagazzinoDivForm" method="POST" action="/upload/uploadMagazzino" enctype="multipart/form-data">
-                <div><label>Citta :</label><input type="text" name="citta" id="nomeCitta" placeholder="Roma"></textarea></div>
+                <div><label>Citta :</label><input type="text" name="citta" id="nomeCitta" placeholder="Roma" class=autoload_comune></input><input type="hidden" name="hiddenCitta" class="autoload_comune_id"></div>
+
                 <div><label>CAP :</label><input type="text" name="cap" id="cap" placeholder="64100"></div>
                 <div><label>Provincia :</label><input type="text" name="provincia" id="provincia" placeholder="RM"></div>
                 <div><label>Via :</label><input type="text" name="via" placeholder="Via Giuseppe Verdi"></div>
@@ -252,7 +240,7 @@
 
             <div id="ProdottiFiltroCategoria">
                 Categoria:  <select id='inputProdottiFiltroCategoria'>
-                                <option value="Tutte">Tutte</option>
+                                <option value="">Tutte</option>
                             </select>
             </div>
 
@@ -298,7 +286,11 @@
 
       <form id="inserisciProdottoForm" method="POST" action="/upload/uploadProduct" enctype="multipart/form-data">
             <div>
-                <label>Image :</label><input type="file" name="image" id="aggiungiProdotti-immagine">
+                <label>Default Image :</label><input type="file" name="favoriteImage" id="aggiungiProdotti-favoriteImage">
+                <div id="image-base64"></div>
+            </div>
+            <div>
+                <label>Other Images :</label><input type="file" name="otherImages[]" id="aggiungiProdotti-otherImages" multiple>
                 <div id="image-base64"></div>
             </div>
             <div><label>Nome :</label><input type="text" name="nome" id="nomeProdotto"></div>
@@ -400,6 +392,9 @@
 
                 <div><label>Nome :</label><input type="text" name="nome" placeholder="Nome" id="nomeDipendente"></div>
                 <div><label>Cognome :</label><input type="text" name="cognome" placeholder="Cognome" id="cognomeDipendente"></textarea></div>
+                <div><label>Email :</label><input type="text" name="email" placeholder="example@yahoo.com" id="emailDipendente" autocomplete="off"></textarea></div>
+                <div><label>Username :</label><input type="text" name="username" placeholder="Username" id="usernameDipendente" autocomplete="off"></textarea></div>
+                <div><label>Password :</label><input type="password" name="password" placeholder="**********" id="passwordDipendente" autocomplete="off"></textarea></div>
                 <div><label>Ruolo :</label><select name="ruoloDipendente" class="ruoliDipendenti"></select></div>
                 <div><label>Contratto :</label><select name="contrattoDipendente" class="selectContrattoDipendente" ></select></div>
                 <div><label>Stipendio :</label><input name="stipendioOrario" type="text"  placeholder="€ / ORA"></div>
@@ -433,10 +428,12 @@
                     <div id='idGestore'><b>ID</b></div>
                     <div id='nomeGestore'><b>Nome</b></div>
                     <div id='cognomeGestore'><b>Cognome</b></div>
+                    <div id='telGestore'><b>Tel</b></div>
+                    <div id='emailGestore'><b>Email</b></div>
                     <div id='stipendioOrarioGestore'><b>€/ora</b></div>
-                    <div id='magazzinoGestore'><b>€/ora</b></div>
-                    <div id='modificaProdotto'><i class="far fa-edit"></i></div>
-                    <div id='cancellaProdotto'><i class="fas fa-trash-alt"></i></div>
+                    <div id='magazzinoGestore'><b>Mag</b></div>
+                    <div id='modificaGestore'><i class="far fa-edit"></i></div>
+                    <div id='cancellaGestore'><i class="fas fa-trash-alt"></i></div>
                 </div>
 
                 <div class='lineaDiSeparazione'></div>

@@ -69,13 +69,13 @@ abstract class F_Utente extends Foundation{
     public static function getRuoloOfUserId($idUtente){ // magari puoi fare anche un controllo prima x vedere se e effettivamente un dipendente o no...qui do x scontato che e un dipendente
             //Restituisce UtenteRegistrato, oppure Gestore, Corriere, Amministratore, ecc se l-utente e un dipendente
 
-        if(\Foundations\F_UtenteRegistrato::isUtenteRegistrato($idUtente))
+        if(\Foundations\utenti\F_UtenteRegistrato::isUtenteRegistrato($idUtente))
         {
            return "UtenteRegistrato";
         }
-        else if(\Foundations\F_Dipendente::isDipendente($idUtente))
+        else if(\Foundations\utenti\F_Dipendente::isDipendente($idUtente))
         {
-            return \Foundations\F_Dipendente::getRuoloOfDipendenteWithId($idUtente);
+            return \Foundations\utenti\F_Dipendente::getRuoloOfDipendenteWithId($idUtente);
         }
         else return null;
     }
@@ -88,6 +88,19 @@ abstract class F_Utente extends Foundation{
               throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
           $p->bind_result($qualcosa);
           var_dump($qualcosa);
+        }
+
+        public static function seekUsername(string $username): bool{
+
+            $DB = \Singleton::DB();
+            $sql = "SELECT * FROM ".static::$table." WHERE `username` = ?";
+            $p = $DB->prepare($sql);
+            $p->bind_param('s',$username);
+            if(!$p->execute())
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+            $res = $p->get_result();
+            $p->close();
+            return $res && $res->num_rows>=1;  /*  nel caso in cui il get_result() fallisce res sara uguale a NULL, quindi devo ferificare sia che != NULL e sia che num_rows>=1*/
         }
 
 }

@@ -262,34 +262,28 @@
 }
 
 #statsContainer{
+    position:relative;
     width:100%;
     height:500px;
-    display:grid;
-    justify-items:center;
-    align-items:center;
-    grid-template-columns:1fr 20fr 1fr;
-    grid-template-areas: "sx centerImage dx";
 
-}
-
-#images{
-    position:relative;
-    grid-area:centerImage;
-    width:100%;
-    height:100%;
-    display:grid;
-    grid-auto-flow:column;
-    overflow:hidden;
 }
 
 .statsImages{
-    position:absolute;
-    right:0px;
-    width:100%;
-    height:100%;
-    display:grid;
-    grid-auto-flow:column;
+  overflow:hidden;
+  height:100%;
+  width:100%;
 }
+.statsImages a{
+  height:100%;
+  width:100%;
+}
+
+#images{
+  height:100%;
+  width:100%;
+}
+
+
 
 .statsImages img{
     width:750px;
@@ -587,7 +581,7 @@
 #inserisciProdottoForm{
     display:grid;
     grid-gap:10px;
-    grid-template-rows:repeat(10, 1fr);
+    grid-template-rows:repeat(11, 1fr);
     self-justify:center;
     justify-items:center;
     margin-bottom:15px;
@@ -608,7 +602,7 @@
 #addEmployeeDivForm{
     display:grid;
     grid-gap:10px;
-    grid-template-rows:repeat(7, 1fr);
+    grid-template-rows:repeat(10, 1fr);
     self-justify:center;
     justify-items:center;
     margin-bottom:15px;

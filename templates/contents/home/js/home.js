@@ -13,8 +13,20 @@ $(document).ready(function(){
     $("#dialog #user_address .change").click(show_addresses);
     $("#dialog #user_addresses #add_new").click(add_user_address);
     $("#dialog #new_user_address .next").click(save_user_address);
-
+    redirectLoggedUsers();
 })
+
+function redirectLoggedUsers(){
+  if(logged==="Gestore") gestore_shop();
+  else if(logged==="Amministratore") amministratore_shop();
+  }
+
+function gestore_shop(){
+    location.href="/shop/gestore";
+}
+function amministratore_shop(){
+    location.href="/shop/amministratore";
+}
 
 function guest_shop(){
     $("#dialog #shop_button").hide();
@@ -132,8 +144,4 @@ function save_user_address(){
             ajax_error(req, text, error);
         }
     });
-}
-
-function gestore_shop(){
-    location.href="/shop/gestore";
 }

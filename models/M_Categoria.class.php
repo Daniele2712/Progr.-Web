@@ -35,7 +35,11 @@ class M_Categoria extends Model{
 	public function getNome():string{
         return $this->categoria;
 	}
-    public function getPadreid(){
-        $this->padre->getid();
+  public function hasPadre():bool{
+    if($this->padre!=NULL) return true;
+    else return false;
+  }
+    public function getPadre(){
+        return clone $this->padre;
     }
 }

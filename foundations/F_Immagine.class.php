@@ -63,4 +63,8 @@ class F_Immagine extends Foundation{
     public static function update(Model $obj, array $params = array()){
 
     }
+    public static function getDefaultFoto():Model{
+        return self::find(1); // semplicemente cerca nel database la foto con id 1 e te la restituisce come modello. La foto numero 1 sara la foto di default
+    }
+
 }

@@ -49,39 +49,26 @@
         </div>
 
         <div id="statsContainer">
-        <span id="backwardImage" class="niceButton">&nbsp;<&nbsp;</span>
-        <div id="images">
             <div id="statisticheAnnualiDiv" class="statsImages selected">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
+              <a href="/api/img/mese2.png" data-lightbox="statsAnnuali"><img src="/api/img/mese2.png"/></a>
+              <a href="/api/img/mese3.png" data-lightbox="statsAnnuali"><img src="/api/img/mese3.png"/></a>
+              <a href="/api/img/settimana13.png" data-lightbox="statsAnnuali"><img src="/api/img/settimana13.png"/></a>
+              <a href="/api/img/settimana14.png" data-lightbox="statsAnnuali"><img src="/api/img/settimana14.png"/></a>
             </div>
 
             <div id="statisticheMensiliDiv" class="statsImages" style="display:none;">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
+              <a href="/api/img/settimana14.png" data-lightbox="statsMensili"><img src="/api/img/settimana14.png"/></a>
+              <a href="/api/img/mese2.png" data-lightbox="statsMensili"><img src="/api/img/mese2.png"/></a>
+              <a href="/api/img/settimana13.png" data-lightbox="statsMensili"><img src="/api/img/settimana13.png"/></a>
+              <a href="/api/img/mese3.png" data-lightbox="statsMensili"><img src="/api/img/mese3.png"/></a>
             </div>
 
             <div id="statisticheSettimanaliDiv" class="statsImages" style="display:none;">
-                <img src="/api/img/settimana13.png">
-                <img src="/api/img/settimana14.png">
-                <img src="/api/img/settimana15.png">
-                <img src="/api/img/mese2.png">
-                <img src="/api/img/mese3.png">
-                <img src="/api/img/mese2.png">
-
+              <a href="/api/img/settimana13.png" data-lightbox="statsSettimanali"><img src="/api/img/settimana13.png"/></a>
+              <a href="/api/img/settimana14.png" data-lightbox="statsSettimanali"><img src="/api/img/settimana14.png"/></a>
+              <a href="/api/img/settimana15.png" data-lightbox="statsSettimanali"><img src="/api/img/settimana15.png"/></a>
+              <a href="/api/img/mese3.png" data-lightbox="statsSettimanali"><img src="/api/img/mese3.png"/></a>
             </div>
-
-
-        </div>
-        <span id="forwardImage" class="niceButton">&nbsp;>&nbsp;</span>
         </div>
 
 
@@ -276,27 +263,31 @@
         </div>
 
 
-      <div id="addProductDiv">
-        <span id="addProductExitButton">&nbsp;X&nbsp;</span>
-        <div class="insertTitle"><h1>Inserisci nuovo prodotto</h1></div>
+        <div id="addProductDiv">
+          <span id="addProductExitButton">&nbsp;X&nbsp;</span>
+          <div class="insertTitle"><h1>Inserisci nuovo prodotto</h1></div>
 
-      <form id="inserisciProdottoForm" method="POST" action="/upload/uploadProduct" enctype="multipart/form-data">
-            <div>
-                <label>Image :</label><input type="file" name="image" id="aggiungiProdotti-immagine">
-                <div id="image-base64"></div>
-            </div>
-            <div><label>Nome :</label><input type="text" name="nome" id="nomeProdotto"></div>
-            <div><label>Descrizione :</label><textarea cols="40" rows="3" name="descrizione" placeholder="Describe the product"></textarea></div>
-            <div><label>Info :</label><textarea cols="40" rows="3" name="info" placeholder="Info about the product"></textarea></div>
-            <div><label>Categoria :</label> <select id='aggiungiProdotti-categoria' name="categoria"></select></div>
-            <div><label>Price :</label><input type="text" name="prezzo"></div>
-            <div><label>Valuta :</label><select id='aggiungiProdotti-valuta' name="valuta"></select></div>
-            <div><label>Quantita :</label><input type="text" name="quantita"></div>
-            <div><label>Magazzino :</label><select class='listaNomiMagazzini' name="magazzino"></select></div>
-            <button type="submit">INSERT</button>
-      </form>
-            <div id="addProductMessage"></div>
-    </div>
+        <form id="inserisciProdottoForm" method="POST" action="/upload/uploadProduct" enctype="multipart/form-data">
+              <div>
+                  <label>Default Image :</label><input type="file" name="favoriteImage" id="aggiungiProdotti-favoriteImage">
+                  <div id="image-base64"></div>
+              </div>
+              <div>
+                  <label>Other Images :</label><input type="file" name="otherImages[]" id="aggiungiProdotti-otherImages" multiple>
+                  <div id="image-base64"></div>
+              </div>
+              <div><label>Nome :</label><input type="text" name="nome" id="nomeProdotto"></div>
+              <div><label>Descrizione :</label><textarea cols="40" rows="3" name="descrizione" placeholder="Describe the product"></textarea></div>
+              <div><label>Info :</label><textarea cols="40" rows="3" name="info" placeholder="Info about the product"></textarea></div>
+              <div><label>Categoria :</label> <select id='aggiungiProdotti-categoria' name="categoria"></select></div>
+              <div><label>Price :</label><input type="text" name="prezzo"></div>
+              <div><label>Valuta :</label><select id='aggiungiProdotti-valuta' name="valuta"></select></div>
+              <div><label>Quantita :</label><input type="text" name="quantita"></div>
+              <div><label>Magazzino :</label><select class='listaNomiMagazzini' name="magazzino"></select></div>
+              <button type="submit">INSERT</button>
+        </form>
+              <div id="addProductMessage"></div>
+      </div>
 
     <div id="addCategoriaDiv">
     <span id="addCategoriaExitButton">&nbsp;X&nbsp;</span>
@@ -384,6 +375,9 @@
 
                 <div><label>Nome :</label><input type="text" name="nome" placeholder="Nome" id="nomeDipendente"></div>
                 <div><label>Cognome :</label><input type="text" name="cognome" placeholder="Cognome" id="cognomeDipendente"></textarea></div>
+                <div><label>Email :</label><input type="text" name="email" placeholder="example@yahoo.com" id="emailDipendente" autocomplete="off"></textarea></div>
+                <div><label>Username :</label><input type="text" name="username" placeholder="Username" id="usernameDipendente" autocomplete="off"></textarea></div>
+                <div><label>Password :</label><input type="password" name="password" placeholder="**********" id="passwordDipendente" autocomplete="off"></textarea></div>
                 <div><label>Ruolo :</label><select name="ruoloDipendente" class="ruoliDipendenti"></select></div>
                 <div><label>Contratto :</label><select name="contrattoDipendente" class="selectContrattoDipendente" ></select></div>
                 <div><label>Stipendio :</label><input name="stipendioOrario" type="text"  placeholder="€ / ORA"></div>

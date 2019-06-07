@@ -101,6 +101,40 @@ class Request{
         return $this->rest;
     }
 
+
+    /*  Funzioni che mi servono per uploadare prodotti  */
+    public function learn(){
+      return $this->globals;
+    }
+
+
+    public function hasFavoriteImageUploaded(){ /*  verifica se e stata uploadata un immagine come immagine favorita*/
+      if(!empty($this->globals['_FILES']['favoriteImage']['name'])) return true;
+      else return false;
+    }
+    public function getOrderedFavoriteImage(){  /*  restituisce un array con i 4 campi che descrivono l-imamgine*/
+        return array('name'=>$this->globals['_FILES']['favoriteImage']['name'],'type'=>$this->globals['_FILES']['favoriteImage']['type'],'tmp_name'=> $this->globals['_FILES']['favoriteImage']['tmp_name'],'size'=>$this->globals['_FILES']['favoriteImage']['size']);
+    }
+
+    public function hasOtherImagesUploaded(){ /*  verifica se e stata uploadata ALMENO un immagine nella categoria Other(cioe non favorita)*/
+      if(!empty($this->globals['_FILES']['otherImages']['name'][0])) return true;
+      else return false;
+    }
+    public function getOrderedOtherImages(){ /*  restituisce un array di array. ogni array figlio contiene 4 campi che descrivono un immagine other. La dimension del araru padre e; il numero di foto uploadata come other */
+      $orderedImages= array();
+      for($i=0; $i<sizeof($this->globals['_FILES']['otherImages']['name']); $i++)
+      {
+        $orderedImages[]=array('name'=>$this->globals['_FILES']['otherImages']['name'][$i],'type'=>$this->globals['_FILES']['otherImages']['type'][$i],'tmp_name'=> $this->globals['_FILES']['otherImages']['tmp_name'][$i],'size'=>$this->globals['_FILES']['otherImages']['size'][$i] );
+      }
+      return $orderedImages;
+    }
+
+
+
+  /*  FINE Funzioni che mi servono per uploadare prodotti  */
+
+
+
     public function getImgLocation(){
         return $this->globals['_FILES']['image']['tmp_name'];
     }

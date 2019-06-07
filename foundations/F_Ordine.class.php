@@ -126,8 +126,6 @@ class F_Ordine extends Foundation{
         return  $idUltimoOrdine;  // ti rida solo l-ultimo id inserito nella tabbella Ordini (e non items_oridne!)
     }
 
-
-
     public static function create(array $row): Model{
         $indirizzo = F_Indirizzo::find($row['id_indirizzo']);
         $datiAnagrafici = F_DatiAnagrafici::find($row['id_dati_anagrafici']);
@@ -204,4 +202,82 @@ class F_Ordine extends Foundation{
     public static function update(Model $ordine, array $params = array()){   // magari lo posso usare x aggiungere un PAGAMENTO algi ordini che non ce l-hnno, xke di default non ce l'hanno
 
     }
+
+    public static function getOrdiniFiltrati($idMagzzino, $idOrdine, $code){        // !!! ATTENZIONE LA FUNZIONE SHOW DIPENDENTI DOVREBBE VERIFICARE PRIMA SE IN EFFETTI L-UTENTE CHE RICHIEDE DI VEDERE I PRODOTTI HA IL DIRITTO DI FARLO PER EVITARE CHE UN GESTORE VEDA PRODOTTI DI TUTTI I MAGAZZINI
+            $rows=array();
+
+            /*  DA MODOIFICARE PER PERMETTERE IL FILTRAGGIO DEGLI ORDINI ATTRAVERSO TUTTE E 3 LE Variabili magazzino, id e code   */
+
+            // {"id_prodotto":"2","nome_prodotto":"piselli","categoria_prodotto":"alimentari","descrizione_prodotto":"blabla","info_prodotto":"altro bla","prezzo_prodotto":"7.95","simbolo_valuta_prodotto":"&euro;","id_magazzino":"1","quantita_prodotto":"178"}
+            //aggiungere eventuali controlli sul tipo di variabile che gli viene passato e possibili sql injection
+            if($id_magazzino===null) $sql_id_magazzino="items_magazzino.id_magazzino LIKE '%'";
+            else $sql_id_magazzino="items_magazzino.id_magazzino=$id_magazzino";        //possiible che devo trasformare il id in un nnumero??? con intval? Oppure i singoli apici....
+
+            if($categoria===null) $sql_nome_categoria="categorie.nome LIKE '%'";
+            else $sql_nome_categoria="categorie.nome='$categoria'";
+
+            if($id_categoria===null) $sql_id_categoria="categorie.id LIKE '%'";
+            else $sql_id_categoria="categorie.id='$id_categoria'";
+
+            if($nome===null) $sql_nome_prodotto="prodotti.nome LIKE '%'";
+            else $sql_nome_prodotto= "prodotti.nome LIKE '%$nome%'";
+
+            if($prezzo_min===null) $sql_prezzo_min="prodotti.prezzo LIKE '%'";
+            else $sql_prezzo_min = "prodotti.prezzo > $prezzo_min";
+
+            if($prezzo_max===null) $sql_prezzo_max="prodotti.prezzo LIKE '%'";
+            else $sql_prezzo_max="prodotti.prezzo < $prezzo_max";
+
+            /* HO PROBLEMI A USARE LA PREPARED STATEMENT!!!  DEVO RISOLVERE PERCHE NON VOGLIO FARE TUTTO CON LA QUERRY*/
+            /*
+            $conn= \Singleton::DB();
+            $stmt = $conn->prepare("SELECT prodotti.id as id_prodotto, prodotti.nome as nome_prodotto, categorie.nome as categoria_prodotto, prodotti.descrizione as descrizione_prodotto, prodotti.info as info_prodotto, prodotti.prezzo as prezzo_prodotto, valute.simbolo as simbolo_valuta_prodotto, items_magazzino.id_magazzino as id_magazzino, items_magazzino.quantita as quantita_prodotto FROM prodotti, categorie, items_magazzino, valute WHERE categorie.id=prodotti.id_categoria AND valute.id=prodotti.id_valuta AND items_magazzino.id_prodotto=prodotti.id AND ? AND ? AND ? AND ? AND ? AND ?");
+            $stmt->bind_param("ssssss", $sql_id_magazzino, $sql_nome_categoria, $sql_id_categoria, $sql_nome_prodotto, $sql_prezzo_min, $sql_prezzo_max);
+            $stmt->execute();
+            $prodotti=$stmt->get_result();
+            $stmt->close();
+             while($r = $prodotti->fetch_assoc()) {$rows[] = $r;}
+                        if(isset($rows)) echo json_encode($rows);
+                        else self::setSuccess("empty");
+            }
+            */
+            /*  SOLUZIONE CON LA QUERRY */
+            $prodotti=\Singleton::DB()->query("SELECT prodotti.id as id_prodotto, prodotti.nome as nome_prodotto, categorie.nome as categoria_prodotto, prodotti.descrizione as descrizione_prodotto, prodotti.info as info_prodotto, prodotti.prezzo as prezzo_prodotto, valute.simbolo as simbolo_valuta_prodotto, items_magazzino.id_magazzino as id_magazzino, items_magazzino.quantita as quantita_prodotto FROM prodotti, categorie, items_magazzino, valute WHERE categorie.id=prodotti.id_categoria AND valute.id=prodotti.id_valuta AND items_magazzino.id_prodotto=prodotti.id AND $sql_id_magazzino AND $sql_nome_categoria AND $sql_id_categoria AND $sql_nome_prodotto AND $sql_prezzo_min AND $sql_prezzo_max");
+            while($r = $prodotti->fetch_assoc()) {$rows[] = $r;}
+                        return $rows;
+    }
+
+    public static function getOrdiniByIdMagazzino($idMagzzino){ // Funziona
+            $rows=array();
+            /*
+            $rows sara fatto in questo modo
+             *
+             * id_ordine
+             * id_tipo_pagamento
+             * tipo_pagamento
+             * cap_indirizzo_ordine
+             * nome_indirizzo_ordine
+             * provincia_indirizzo_ordine
+             * via_indirizzo_ordine
+             * civico_indirizzo_ordine
+             * nome_utente_ordine
+             * cognome_utente_ordine
+             * subtotale_ordine
+             * spedizione_ordine
+             * totale_ordine
+             * simbolo_valuta_ordine
+             * data_ordine
+             * consegna_ordine
+             *
+             */
+            $conn= \Singleton::DB();
+            $stmt = $conn->prepare("SELECT ordini.id as id_ordine, ordini.id_pagamento as id_tipo_pagamento, pagamenti.tipo as tipo_pagamento, comuni.CAP as cap_indirizzo_ordine, comuni.nome as nome_indirizzo_ordine, comuni.provincia as provincia_indirizzo_ordine, indirizzi.via as via_indirizzo_ordine, indirizzi.civico as civico_indirizzo_ordine, dati_anagrafici.nome as nome_utente_ordine, dati_anagrafici.cognome as cognome_utente_ordine, ordini.subtotale as subtotale_ordine, ordini.spese_spedizione as spedizione_ordine, ordini.totale as totale_ordine, valute.simbolo as simbolo_valuta_ordine, ordini.data_ordine as data_ordine, ordini.data_consegna as consegna_ordine FROM ordini,indirizzi,comuni,valute,dati_anagrafici,pagamenti WHERE ordini.id_dati_anagrafici=dati_anagrafici.id AND ordini.id_pagamento=pagamenti.id AND ordini.id_indirizzo=indirizzi.id AND comuni.id=indirizzi.id_comune AND ordini.id_valuta=valute.id AND ordini.id_magazzino=?");
+            $stmt->bind_param("i", $idMagzzino);
+            $stmt->execute();
+            $ordini=$stmt->get_result();
+            $stmt->close();
+            while($r = $ordini->fetch_assoc()) {$rows[] = $r;}
+            return $rows;
+    }
+
 }

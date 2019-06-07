@@ -1,7 +1,7 @@
 .gestore{
     display:grid;
     align-items:center;
-    grid-template-columns:1fr repeat(2, 3fr) 1fr 1fr 1fr 1fr;
+    grid-template-columns:1fr repeat(4, 3fr) 1fr 1fr 1fr 1fr;
     padding:5px;
     height:60px;
 }
@@ -44,20 +44,23 @@
 
 
 #addMagazzinoDiv{
-    background-color:white;
-    width:60%;
-    max-width:600px;
-    display:none;
-    border:3px lightgrey solid;
-    border-radius: 15px;
-    justify-items:center;
-    align-items:center;
-    grid-gap:15px;
-    position: absolute;
-    top:150px;
-    z-index:2;
-    justify-content:center;
-    justify-self:center;
+  background-color:white;
+  width:600px;
+  max-width:100%;
+  display:none;
+  border:3px lightgrey solid;
+  border-radius: 15px;
+  justify-items:center;
+  align-items:center;
+  grid-gap:15px;
+  position: absolute;
+  top:150px;
+  z-index:2;
+  justify-content:center;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 #addMagazzinoDivForm{
     display:grid;
