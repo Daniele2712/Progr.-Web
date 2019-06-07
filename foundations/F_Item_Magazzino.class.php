@@ -41,7 +41,7 @@ class F_Item_Magazzino extends Foundation{
         return $id;
     }
 
-    public static function update(Model $item, array $params = array()){
+    public static function update(Model $item, array $params = array()): int{
         $DB = \Singleton::DB();
         $id = $item->getId();
         $id_magazzino = $params["id_magazzino"];
@@ -54,12 +54,13 @@ class F_Item_Magazzino extends Foundation{
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
+        return $id;
     }
 
     public static function create(array $obj): Model{
         $pro = F_Prodotto::find($obj["id_prodotto"]);
         $pre = $pro->getPrezzo();
         $pre->setPrezzo($pro->getPrezzo()->getPrezzo()*$obj["quantita"]);
-        return new \Models\M_Item($pro, $pre, $obj["quantita"]);
+        return new \Models\M_Item($obj["id"], $pro, $pre, $obj["quantita"]);
     }
 }

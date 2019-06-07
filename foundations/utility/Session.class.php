@@ -12,22 +12,22 @@ class Session{
 
     public static $session_time = 12000;
     private $new_session = FALSE;
+    private $timed_out = FALSE;
     /**
      * inizializza la sessione
      */
     public function __construct(){
         session_start();
-        if(isset($_SESSION["last_time"]) && $_SESSION["last_time"]+self::$session_time < time())
+        if(isset($_SESSION["last_time"]) && $_SESSION["last_time"]+self::$session_time < time()){
             session_unset();
-        else{
-            if(!isset($_SESSION["last_time"]))
+            $this->timed_out = TRUE;
+        }elseif(!isset($_SESSION["last_time"]))
                 $this->new_session = TRUE;
-            $_SESSION["last_time"] = time();
-        }
+        $_SESSION["last_time"] = time();
     }
 
     public function timedOut(){
-        return !isset($_SESSION["last_time"]);
+        return $this->timed_out;
     }
 
     public function isNew(){
@@ -124,7 +124,10 @@ class Session{
         }
     }
 
-
+    public function emptyCart(){
+        unset($_SESSION["guestCart"]);
+        unset($_SESSION["cartId"]);
+    }
 
     public function getAddr():\Models\M_Indirizzo{
         if(array_key_exists("address",$_SESSION))
@@ -197,5 +200,14 @@ class Session{
         $_SESSION["message"] = $msg;
     }
 
+    public function setClosestMagazzino(\Models\M_Magazzino $magazzino){
+        $_SESSION["idMagazzino"] = $magazzino->getId();
+    }
+
+    public function getClosestMagazzino(): \Models\M_Magazzino{
+        if(!isset($_SESSION["idMagazzino"]))
+            throw new \ModelException("Error closest magazzino not set", __CLASS__, array("session"=>$_SESSION), 1);
+        return \Foundations\F_Magazzino::find($_SESSION["idMagazzino"]);
+    }
 
 }

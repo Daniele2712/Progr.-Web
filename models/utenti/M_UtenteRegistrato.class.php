@@ -47,6 +47,10 @@ class M_UtenteRegistrato extends M_Utente{
         return clone $this->carrello;
     }
 
+    public function setCarrello(\Models\M_Carrello $cart){
+        $this->carrello = clone $cart;
+    }
+
     public function setNewCartAddress(int $id_comune, string $via, string $civico, string $note){
         $addr = new M_Indirizzo(0, \Foundations\F_Comune::find($id_comune), $via, $civico, $note);
         $this->addAddress($addr);
@@ -57,7 +61,7 @@ class M_UtenteRegistrato extends M_Utente{
         $id = \Foundations\F_Indirizzo::save($addr);
         $addr->setId($id);
         $this->indirizzi[] = clone $addr;
-        \Foundations\F_UtenteRegistrato::addAddress($this->getId(), $addr->getId());
+        \Foundations\Utenti\F_UtenteRegistrato::addAddress($this->getId(), $addr->getId());
         return $id;
     }
 

@@ -31,8 +31,8 @@
             <h1>Usare questo indirizzo di spedizione?</h1>
             <div id="location"></div>
             <div id="actions">
-                <button class="button next">Continua</button>
                 <button class="button change">Cambia</button>
+                <button class="button next">Continua</button>
             </div>
         </div>
         <div id="user_addresses">

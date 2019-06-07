@@ -9,20 +9,36 @@ class V_Catalogo extends HTMLView{
     public function __construct(){
         parent::__construct();
         $this->layout = "layout";
-        $this->content = "spesa/spesa";
-        $this->addCSS("spesa/css/spesa.css");
-        $this->addJS("spesa/js/spesa.js");
+        $this->content = "catalogo/catalogo";
+        $this->addCSS("catalogo/css/catalogo.css");
+        $this->addJS("catalogo/js/catalogo.js");
         $this->setCSRF(\Singleton::Session()->getCSRF());
     }
 
-    public function fillCategories($categories){
+    public function fillCategories(array $categories, int $current){
         $catNames = array();
-        foreach($categories as $cat)
-            $catNames[] = array("id" => $cat->getId(), "nome" => $cat->getNome());
-        $this->smarty->assign('categorie_for_tpl' , $catNames);
+        if($current !== 0)
+            $current_cat = \Foundations\F_Categoria::find($current);
+        foreach($categories as $cat){
+            $catNames[] = array(
+                "id" => $cat->getId(),
+                "nome" => $cat->getNome(),
+                "active" => (
+                    $current === $cat->getId() ||
+                    $current !== 0 && ($current_cat->isSubcategory() && $current_cat->getFather()->getId() == $cat->getId() ) ? 'active' : '')
+                );
+            }
+        $this->smarty->assign('categories' , $catNames);
     }
 
-    public function fillFilters($filters){
+    public function fillSubcategories(array $subcategories, int $current){
+        $catNames = array();
+        foreach($subcategories as $sub)
+            $catNames[] = array("id" => $sub->getId(), "nome" => $sub->getNome(), "active" => ($current === $sub->getId()?'active':''));
+        $this->smarty->assign('subcategories' , $catNames);
+    }
+
+    public function fillFilters(array $filters){
         $filtri = array();
         foreach($filters as $filtro){
             $filtri[] = array(
@@ -65,5 +81,21 @@ class V_Catalogo extends HTMLView{
         $this->smarty->assign('prodotti_for_carello' , $itemsBasket);
         $this->smarty->assign('total_for_carrello' , $carrello->getTotale()->getPrezzo($valuta));
         $this->smarty->assign('valuta_for_carrello' , $valuta->getValutaSymbol());
+    }
+
+    public function setPages(int $pages, int $current, string $link, int $cat){
+        $array_pages = array();
+        if($current > 2)
+            $array_pages[] = 1;
+        if($current > 1)
+            $array_pages[] = $current-1;
+        $array_pages[] = $current;
+        if($pages-$current > 0)
+            $array_pages[] = $current+1;
+        if($pages-$current > 1)
+            $array_pages[] = $pages;
+        $this->smarty->assign('pages' , $array_pages);
+        $this->smarty->assign('current_page' , $current);
+        $this->smarty->assign('link' , $link."/".$cat);
     }
 }

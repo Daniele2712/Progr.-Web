@@ -35,7 +35,14 @@ class M_Categoria extends Model{
 	public function getNome():string{
         return $this->categoria;
 	}
-    public function getPadreid(){
-        $this->padre->getid();
+
+    public function getFather(): M_Categoria{
+        if($this->padre !== NULL)
+            return clone $this->padre;
+        throw new \ModelException("Father not found", __CLASS__, array("id"=>$this->getId()), 0);
+    }
+
+    public function isSubcategory(): bool{
+        return $this->padre !== NULL;
     }
 }

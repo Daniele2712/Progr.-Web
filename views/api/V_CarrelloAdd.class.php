@@ -15,10 +15,10 @@ class V_CarrelloAdd extends JSONView{
             $this->data["carrello"]["items"][] = array(
                 "nome"=>$item->getProdotto()->getNome(),
                 "quantita"=>$item->getQuantita(),
-                "prezzo"=>$item->getTotale()->getPrezzo($valuta));
+                "prezzo"=>number_format($item->getTotale()->getPrezzo($valuta), 2));
         }
         $this->data["carrello"]["valuta"] = $valuta->getValutaSymbol();
-        $this->data["carrello"]["totale"] = $carrello->getTotale()->getPrezzo();
+        $this->data["carrello"]["totale"] = number_format($carrello->getTotale()->getPrezzo(), 2);
     }
 
     public function setCSRF(string $token){

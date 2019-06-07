@@ -9,7 +9,7 @@ if(!defined("EXEC")){
 class F_Carrello extends Foundation{
     protected static $table = "carrelli";
 
-    public static function update(Model $carrello, array $params = array()){
+    public static function update(Model $carrello, array $params = array()): int{
         $DB = \Singleton::DB();
         $sql = "UPDATE ".self::$table." SET totale=?, id_valuta=? WHERE id = ?";
         $p = $DB->prepare($sql);
@@ -17,13 +17,14 @@ class F_Carrello extends Foundation{
         $prezzo=$money->getPrezzo();
         $valuta=$money->getValuta();
         $id=$carrello->getId();
-        $p->bind_param("dsi", $prezzo, $valuta, $id);   //ho passato i parametri con delle variabili xke se no faveca storie tipo :Only variables should be passed by reference
+        $p->bind_param("dsi", $prezzo, $valuta, $id);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
-        foreach($carrello->getProdotti() as $item){     //Andrei: non ho capito ancora che fanno queste ultime righe :(
-            $r = F_Item_Carrello::save($item);
+        foreach($carrello->getItems() as $item){
+            $r = F_Item_Carrello::save($item, array("id_carrello"=>$id));
         }
+        return $id;
     }
 
     public static function insert(Model $carrello, array $params = array()): int{
@@ -35,7 +36,11 @@ class F_Carrello extends Foundation{
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
-        return $DB->lastId();   //ritorna l-id del carrello appena inserito nel db
+        $id = $DB->lastId();   //ritorna l-id del carrello appena inserito nel db
+        foreach($carrello->getItems() as $item){
+            $r = F_Item_Carrello::save($item, array("id_carrello"=>$id));
+        }
+        return $id;
     }
 
     public static function insertItems_Carrello($id_carrello,$id_prodotto, $totale, $id_valuta, $quantita): int{

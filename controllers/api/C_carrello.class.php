@@ -1,6 +1,7 @@
 <?php
 namespace Controllers\Api;
 use \Controllers\Controller as Controller;
+use \Controllers\Error as Error;
 use \Views\Request as Request;
 if(!defined("EXEC")){
     header("location: /index.php");
@@ -16,7 +17,7 @@ class C_carrello implements Controller{
             $v->render();
         }else{                                                      //non autorizzato
             $v = new \Views\JSONView(array("r"=>403));
-            $v->render();
+            return $v->render();
         }
     }
 
@@ -27,7 +28,7 @@ class C_carrello implements Controller{
         elseif($p === "add")
             return self::add($req);
         else
-            Error::Error400($request);
+            Error::Error400($req);
 
     }
 
@@ -43,11 +44,10 @@ class C_carrello implements Controller{
         }else{
             $id = $req->getParam(1);
             $qta = $req->getParam(2);
-            $cart = $session->getCart();
-            $cart->addProdottoById($id, $qta);                                      //chiamo il modello passando direttamente le variabili
+            \Models\M_Carrello::addProdottoById($id, $qta);
             $v = new \Views\Api\V_CarrelloAdd(array("r"=>200));                       //Token valido
             $v->setCSRF($session->getCSRF());
-            $v->setCart($cart, $session->getUserValuta());
+            $v->setCart($session->getCart(), $session->getUserValuta());
             return $v->render();
         }
     }
@@ -72,7 +72,8 @@ class C_carrello implements Controller{
                     }catch(\ModelException $e){
                         if($e->getCode()===2){                                  //indirizzo errato
                             $v = new \Views\JSONView(array("r"=>404, "CSRF"=>$CSRF));
-                            $v->render();
+                            var_dump($e);
+                            return $v->render();
                         }else
                             throw $e;
                     }
@@ -81,14 +82,14 @@ class C_carrello implements Controller{
                         $user->setCartAddress($req->getParam(1));
                     }catch(\ModelException $e){
                         $v = new \Views\JSONView(array("r"=>403, "CSRF"=>$CSRF));          //Id indirizzo non valido
-                        $v->render();
+                        return $v->render();
                     }
                 }
                 $v = new \Views\JSONView(array("r"=>200, "CSRF"=>$CSRF));
                 $v->render();
             }else{                                                      //Utente non valido
                 $v = new \Views\JSONView(array("r"=>403, "CSRF"=>$CSRF));
-                $v->render();
+                return $v->render();
             }
         }else{                                                          //Visitatore
             $id_comune = $req->getInt("comuneId",0,"POST");

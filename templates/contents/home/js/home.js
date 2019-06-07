@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function(){
     $("#dialog #start").click(function(){
         if(logged===false)
             guest_shop();

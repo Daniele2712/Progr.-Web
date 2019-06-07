@@ -20,6 +20,11 @@ class Request{
      */
     private $action;
     /**
+     * url senza parametri
+     * @var    string
+     */
+    private $base_url;
+    /**
      * parametri aggiuntivi della URI
      * @var    array
      */
@@ -29,6 +34,11 @@ class Request{
      * @var    bool
      */
     private $rest = FALSE;
+    /**
+     * flag: TRUE se il body della richiesta (POST) è vuoto
+     * @var    bool
+     */
+    private $empty = TRUE;
     /**
      * metodo della richiesta
      * @var    string
@@ -56,20 +66,27 @@ class Request{
 
         if(count($params)>0 && $params[0]=="api"){
             $this->rest = true;
-            array_shift($params);   //cosi mi sbarazzo del pezzo in cima "api"
-            $this->controller = "Controllers\\Api\\C_".array_shift($params);
+            $this->base_url = array_shift($params).'/';   //cosi mi sbarazzo del pezzo in cima "api"
+            $c = array_shift($params);
+            $this->base_url .= $c.'/';
+            $this->controller = "Controllers\\Api\\C_$c";
             $this->action = "default";
         }elseif(count($params)>0 && $params[0]!==""){
-            $this->controller = "Controllers\\C_".array_shift($params);
+            $c = array_shift($params);
+            $this->base_url = "/$c/";
+            $this->controller = "Controllers\\C_$c";
             $this->action = "default";
         }
         if($this->rest)
             $this->action = strtolower($this->method);
-        elseif(count($params)>0 && $params[0]!=="")
+        elseif(count($params)>0 && $params[0]!==""){
             $this->action = array_shift($params);
+            $this->base_url .= $this->action;
+        }
         $this->params = $params;
 
         $array = array('_POST', '_GET', '_REQUEST', '_SERVER', '_ENV', '_FILES');
+        $this->empty = count($_POST) > 0;
         foreach ($GLOBALS as $key=>$value)
             if(array_search($key,$array,TRUE)!==FALSE)
                 $this->globals[$key] = $value;
@@ -101,6 +118,10 @@ class Request{
         return $this->rest;
     }
 
+    public function isEmpty():bool{
+        return $this->empty;
+    }
+
     public function getImgLocation(){
         return $this->globals['_FILES']['image']['tmp_name'];
     }
@@ -117,6 +138,9 @@ class Request{
         return $this->globals['_FILES']['image']['name'];
     }
 
+    public function getBaseURL(){
+        return $this->base_url;
+    }
 
     public function getServerName(){
         return $this->globals['_SERVER']['SERVER_NAME'];
@@ -345,7 +369,7 @@ class Request{
 				break;
 			case 'string':
 				if(is_string($tmp))
-					return $tmp;
+					return htmlentities($tmp);
 				elseif(empty($tmp))
 					return $default;
 				break;

@@ -13,7 +13,7 @@ class F_Comune extends Foundation{
 
     }
 
-    public static function update(Model $obj, array $params = array()){
+    public static function update(Model $obj, array $params = array()): int{
 
     }
 

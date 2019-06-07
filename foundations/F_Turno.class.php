@@ -33,10 +33,10 @@ class F_Turno extends Foundation{
     }
 
     public static function insert(Model $obj, array $params = array()): int{
-
+        return 0;
     }
 
-    public static function update(Model $obj, array $params = array()){
-
+    public static function update(Model $obj, array $params = array()): int{
+        return 0;
     }
 }

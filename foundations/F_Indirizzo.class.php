@@ -31,8 +31,8 @@ class F_Indirizzo extends Foundation{
         return $id;
     }
 
-    public static function update(Model $obj, array $params = array()){
-
+    public static function update(Model $obj, array $params = array()): int{
+        return $obj->getId();
     }
 
     public static function getIndirizziByUserId(int $id){       //r=ti dice anche gli indirizzi preferiti   restituisce un array di indirizzi

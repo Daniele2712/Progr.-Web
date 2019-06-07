@@ -24,7 +24,10 @@ $(document).ready(function(){
             $(this).val(val.substring(0, val.indexOf("(")));
             return false;
         }
-    })
+    });
+    if(document.cookie===""){
+        $("#banner .wrapper").html("<span>Devi abilitare l'uso dei cookie per utilizzare il sito</span>");
+    }
 })
 
 function ajax_error(req, text, error){
@@ -34,6 +37,8 @@ function ajax_error(req, text, error){
 function ajax_common(resp, errorFunction){
     if(resp.CSRF)
         setCookie("CSRF",resp.CSRF);
+    if(resp.r==303)
+        location.href=resp.url;
     if(resp.r==410)
         location.reload();
     if(resp.r==404 && resp.msg){

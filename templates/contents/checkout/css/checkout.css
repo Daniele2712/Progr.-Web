@@ -1,16 +1,14 @@
-#main_wrapper{
-    display:grid;
-    padding:20px;
-    justify-content: space-evenly;
-    align-content:space-between;
-    grid-template-columns:3fr 1fr;
-    grid-template-areas:
-        "address cart"
-        "payment cart"
-        "next cart";
+#checkout{
+    padding: 20px;
+    display: flex;
+    box-sizing: border-box;
 }
 
-.container{
+#checkout #main_content{
+    flex: 2 1;
+}
+
+#checkout .container{
   background-color: #f2f2f2;
   padding: 10px;
   border: 1px solid lightgrey;
@@ -19,56 +17,69 @@
   margin-right: 20px;
 }
 
-.title{
-    font-size: 30px;
+#checkout .title{
+    font-size: 2rem;
     text-align: center;
     width: 100%;
     margin-bottom: 30px;
+    text-transform: uppercase;
 }
 
-#address{
-    grid-area: address;
-}
-
-#payment{
-    grid-area:payment;
-}
-
-#next{
-    grid-area: next;
-}
-
-.hidden{
-    display: none;
-}
-
-.element_wrapper{
+#checkout .element_wrapper{
     display: flex;
-    align-items: flex-start;
+    flex-flow: column;
     justify-content: space-around;
     margin-bottom: 40px;
 }
 
-.element{
-    font-size:1.3em;
+#checkout .element{
+    font-size: 1.3rem;
     margin: 10px;
+    display: flex;
 }
 
-label {
-  margin-bottom: 10px;
-  display: block;
+#checkout .label{
+    width: 33%;
 }
 
-input[type=text]{
-    margin-bottom: 20px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: white;
-    color: black;
+#checkout .actions{
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0 5px 0;
 }
 
-.payment_element{
+#checkout #address{
+}
+
+#checkout #address #addresses_list{
+    display: none;
+}
+
+#checkout .saved_address{
+    padding: 5px;
+    font-size: 1.2rem;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+#checkout .saved_address:hover{
+    border: 1px solid rgb(191, 216, 227);
+    background-color: rgba(191, 216, 227, 0.6);
+    border-radius: 5px;
+}
+
+#checkout #payment{
+    display: none;
+}
+
+#checkout #payment .element_wrapper{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+#checkout .payment_element{
     width:130px;
     height: 95px;
     display:flex;
@@ -79,23 +90,23 @@ input[type=text]{
     border-radius:5px;
     border:1px grey solid;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
-.payment_element:active{ /*Clicked and held*/
+#checkout .payment_element:active, #checkout .payment_element:hover, #checkout .payment_element.active{ /*Clicked and held*/
     box-shadow: 0px 5px 6px;
 }
 
-.actions{
-    display: flex;
-    justify-content: space-around;
+#checkout .payment_method{
+    display: none;
 }
 
-#payment_method .element_wrapper{
-    display:grid;
-    justify-items:center;
-    align-items:center;
-    grid-template-columns:1fr 1fr;
-    grid-auto-flow: row;
+#checkout #next{
+    display: none;
+}
+
+#checkout .hidden{
+    display: none;
 }
 
 #paga{
@@ -105,15 +116,16 @@ input[type=text]{
 }
 
 
-#cart a{
+#checkout #cart a{
     text-decoration:none;
 }
 
-#cart{
-    grid-area:cart;
+#checkout #cart{
+    flex: 1 0;
+    margin: 0;
 }
 
-span.price{
+#checkout span.price{
     float: right;
     color: grey;
 }

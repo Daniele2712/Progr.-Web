@@ -19,11 +19,33 @@ class M_Settings extends Model{
     }
 
     public function getBackground():int{
+        if(!isset($this->settings["background"]) || !is_numeric($this->settings["background"]))
+            throw new \ModelException("Background Not Found", __CLASS__, array("v"=>$this->settings["background"]),2);
         return $this->settings["background"];
     }
 
     public function getFavicon():int{
+        if(!isset($this->settings["favicon"]) || !is_numeric($this->settings["favicon"]))
+            throw new \ModelException("Favicon Not Found", __CLASS__, array("v"=>$this->settings["favicon"]),3);
         return $this->settings["favicon"];
+    }
+
+    public function getPaypalEmail():string{
+        if(!isset($this->settings["paypal_email"]) || !is_string($this->settings["paypal_email"]) || $this->settings["paypal_email"] == '')
+            throw new \ModelException("PayPal Email Not Found", __CLASS__, array("v"=>$this->settings["paypal_email"]),4);
+        return $this->settings["paypal_email"];
+    }
+
+    public function getPaypalSandbox():bool{
+        if(!isset($this->settings["paypal_sandbox"]))
+            return false;
+        return $this->settings["paypal_sandbox"];
+    }
+
+    public function getMaxShippingDistance():float{
+        if(!isset($this->settings["max_shipping_distance"]))
+            return 5;
+        return $this->settings["max_shipping_distance"];
     }
 
     public function getArray():array{

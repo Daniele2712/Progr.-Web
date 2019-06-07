@@ -33,14 +33,15 @@ class M_Ordine extends Model{     /*  Chiedi a mattia: devo mettere INDIRIZZO e 
         $this->totale = $totale;
         $this->idValuta = $idValuta;
         if(isset($dataOrdine) && is_a($dataOrdine, 'DateTime'))
-            $this->dataOrdine = $dataOrdine;      //la parte con is_a DateTime serve x identificare le volte in cui non gli passi la data e si mette in automatico a nonSettato, che e una stringa, e non un datetime
+            $this->dataOrdine = $dataOrdine;
         else
-            $this->dataOrdine = null;
+            $this->dataOrdine = new \DateTime();
         if(isset($dataConsegna) && is_a($dataConsegna, 'DateTime'))
             $this->dataConsegna = $dataConsegna;
         else
             $this->dataConsegna = null;
         $this->stato = $stato;
+        $this->link = md5($totale."-".$this->dataOrdine->format('Y-m-d H:i:s'));
     }
 	//Metodi
     public static function nuovo(Request $req): M_Ordine{
@@ -57,7 +58,10 @@ class M_Ordine extends Model{     /*  Chiedi a mattia: devo mettere INDIRIZZO e 
         $mese = $req->getInt("mese", intval(date("n")), "POST");
         $anno = $req->getInt("anno", intval(date("Y")), "POST");
         $data = new \DateTime($anno."-".$mese."-".$giorno);
-        $dati = new M_DatiAnagrafici(0, $nome, $cognome, $telefono, $data);
+        if($session->isLogged())
+            $dati = $session->getUser()->getDatiAnagrafici();
+        else
+            $dati = new M_DatiAnagrafici(0, $nome, $cognome, $telefono, $data);
         $magazzino = \Foundations\F_Magazzino::findClosestTo($addr);
 
         $subtotale = $carrello->getTotale()->getPrezzo();
@@ -66,8 +70,12 @@ class M_Ordine extends Model{     /*  Chiedi a mattia: devo mettere INDIRIZZO e 
 
         $valuta = $session->getUserValuta()->getValuta();
 
-        $ordine = new M_Ordine(0, $carrello->getItems(), $pagamento, $addr, $dati, $magazzino, $subtotale, $spedizione, $totale, $valuta, new \DateTime(), NULL, "lavorazione");
-        $r = \Foundations\F_Ordine::save($ordine);
+        $magazzino->removeItems($carrello->getItems());
+
+        $ordine = new M_Ordine(0, $carrello->getItems(), $pagamento, $addr, $dati, $magazzino, $subtotale, $spedizione, $totale, $valuta, new \DateTime(), new \DateTime(date("Y-m-d H:i:s", strtotime("+2 hours"))), "attesa pagamento");
+        \Foundations\F_Ordine::save($ordine);
+        \Foundations\F_Magazzino::save($magazzino);
+        $session->emptyCart();
         return $ordine;
     }
 	public function setItems(array $items){
@@ -110,13 +118,13 @@ class M_Ordine extends Model{     /*  Chiedi a mattia: devo mettere INDIRIZZO e 
 		return $this->items;
 	}
     public function getPagamento(){   //non ci metto cosa ritorna, xke se non e settato il pagamento ritornera null.
-		return $this->pagamento;
+		return clone $this->pagamento;
 	}
     public function getIndirizzo() : \Models\M_Indirizzo{   //rstituisce un Model
-		return $this->indirizzo;
+		return clone $this->indirizzo;
 	}
     public function getDatiAnagrafici() : \Models\M_DatiAnagrafici{
-		return $this->datiAnagrafici;
+		return clone $this->datiAnagrafici;
 	}
     public function getSubtotale(){
 		return $this->subtotale;
@@ -137,10 +145,13 @@ class M_Ordine extends Model{     /*  Chiedi a mattia: devo mettere INDIRIZZO e 
 		return $this->dataConsegna;
 	}
     public function getMagazzino(){
-		return $this->magazzino;
+		return clone $this->magazzino;
 	}
     public function getStato(){
 		return $this->stato;
+	}
+    public function getLink(){
+		return $this->link;
 	}
 
     public function addItems(array $items){

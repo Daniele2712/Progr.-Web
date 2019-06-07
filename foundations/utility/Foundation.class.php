@@ -33,7 +33,7 @@ abstract class Foundation{
      * @param   \Models\Model  $object     il Model da aggiornare
      * @param   array          $params     array di parametri opzionali per l'update
      */
-    public abstract static function update(Model $object, array $params = array());
+    public abstract static function update(Model $object, array $params = array()): int;
 
 
     /**
@@ -183,6 +183,8 @@ abstract class Foundation{
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $res = $p->get_result();
         $p->close();
+        if($res === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
         $r = array();
         while($row = $res->fetch_assoc())
             $r[] = static::create($row);
@@ -215,7 +217,7 @@ abstract class Foundation{
      * @param    array           $params    array di parametri opzionali per il salvataggio
      * @return   int|null                   l'eventuale id del nuovo Model
      */
-    public static function save(Model $obj, array $params = array()){
+    public static function save(Model $obj, array $params = array()): int{
         if($obj->getId()<=0 || !static::seek($obj->getId())){
             $id = static::insert($obj, $params);
             $obj->setId($id);

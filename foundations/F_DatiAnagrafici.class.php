@@ -25,7 +25,7 @@ class F_DatiAnagrafici extends Foundation{
             return $DB->lastId();
     }
 
-    public static function update(Model $dati_anagrafici, array $params = array()){
+    public static function update(Model $dati_anagrafici, array $params = array()): int{
             $DB = \Singleton::DB();
             $id = $dati_anagrafici->getId();
             $nome = $dati_anagrafici->getNome();
@@ -39,6 +39,7 @@ class F_DatiAnagrafici extends Foundation{
             if(!$p->execute())
                 throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
             $p->close();
+            return $id;
     }
 
     public static function create(array $object): Model{

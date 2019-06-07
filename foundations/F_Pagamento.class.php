@@ -12,12 +12,12 @@ class F_Pagamento extends Foundation{
     public static function create(array $obj): Model{
         $DB = \Singleton::DB();
         $Fname = "\\Foundations\\Pagamenti\\F_".$obj["tipo"];
-        if(class_exists($Fname) && (new \ReflectionClass($Fname))->isSubclassOf("\\Foundations\\F_Pagamento"))
-            return $Fname::create_payment($obj["id"]);
+        if(class_exists($Fname))
+            return $Fname::create(array("id_pagamento"=>$obj["id"]));
         throw new \Exception("Error Payment Type not found", 2);
     }
 
-    public static function save(Model $pagamento, array $params = array()){
+    public static function save(Model $pagamento, array $params = array()): int{
         $Fname = "\\Foundations\\Pagamenti\\F_".$pagamento->getType();
         if(!class_exists($Fname))
             throw new \Exception("Error Payment Type not found", 2);
@@ -41,7 +41,7 @@ class F_Pagamento extends Foundation{
         return $id;
     }
 
-    public static function update(Model $pagamento, array $params = array()){
+    public static function update(Model $pagamento, array $params = array()): int{
         $DB = \Singleton::DB();
         $id = $pagamento->getId();
         $tipo = $pagamento->getType();
@@ -52,6 +52,7 @@ class F_Pagamento extends Foundation{
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
+        return $id;
     }
 
 }

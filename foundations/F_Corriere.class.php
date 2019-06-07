@@ -13,7 +13,7 @@ class F_Corriere extends F_Dipendente{
 
     }
 
-    public static function update(Model $user, array $params = array()){
+    public static function update(Model $user, array $params = array()): int{
 
     }
 

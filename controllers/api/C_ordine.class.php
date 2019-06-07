@@ -152,6 +152,21 @@ class C_ordine implements Controller{
     }
 
     public static function post(Request $req){
+        $cmd = $req->getString("type","","POST");
+        switch($cmd){
+            case 'PayPal':
+                $session = \Singleton::Session();
+                if($session->timedOut() || $session->isNew()){
+                    $session->setMessage("Sessione scaduta per inattivit&agrave;");
+                    $v = new \Views\JSONView(array("r"=>303, "url"=>"/"));
+                    return $v->render();
+                }
+                $ordine = \Models\M_Ordine::nuovo($req);
+                $v = new \Views\Api\V_OrdinePaypal(array("r"=>200));
+                $v->setOrder($ordine);
+                return $v->render();
+                break;
+        }
     }
 
     public static function default(Request $req){
