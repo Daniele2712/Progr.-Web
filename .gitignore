@@ -1,6 +1,7 @@
 includes/config.inc.php
 libs/smarty/templates_c/*
 libs/smarty/cache/*
+Logs/*
 nbproject
 test
 check.sh
