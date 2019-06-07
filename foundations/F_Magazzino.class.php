@@ -57,7 +57,32 @@ class F_Magazzino extends Foundation{
     }
 
     public static function insert(Model $mag, array $params = array()): int{
-        return 0;
+      $indirizzo=$mag->getIndirizzo();
+      if($indirizzo) $idIndirizzo=$indirizzo->getId();
+      $gestore=$mag->getResponsabile();
+      if($gestore) $id_gestore=$gestore->getId();
+      else $id_gestore=NULL;
+
+      $DB = \Singleton::DB();
+      $sql = "INSERT INTO ".self::$table." VALUES(NULL,?,?);";
+      $p = $DB->prepare($sql);
+      $p->bind_param("ii", $id_gestore, $idIndirizzo);
+      if(!$p->execute())
+          throw new \SQLException("Error Executing Statementdasdsa", $sql, $p->error, 3);
+      $p->close();
+      $id = $DB->lastId();
+      return $id;
+    }
+    public static function insertByIds(int $idMagazzino, int $idGestore): int{ /*   e piu facile usare questa funzione che non la insert, per la quale devo creare prima il modello. in particolare la creo per la classe F_Dipendente::insertGestore*/
+      $DB = \Singleton::DB();
+      $sql = "INSERT INTO ".self::$table." VALUES(NULL,?,?);";
+      $p = $DB->prepare($sql);
+      $p->bind_param("ii", $idMagazzino, $idGestore);
+      if(!$p->execute())
+          throw new \SQLException("Error Executing Statementdasdsa", $sql, $p->error, 3);
+      $p->close();
+      $id = $DB->lastId();
+      return $id;
     }
 
     public static function update(Model $mag, array $params = array()): int{

@@ -23,8 +23,12 @@ class M_Indirizzo extends Model{
         $this->via = $via;
         $this->civico = $civico;
         $this->note = $note;
+        if($lat==NULL || $lng==NULL) $this->findLatLng();
+        else{
         $this->lat = $lat;
         $this->lng = $lng;
+        }
+
     }
 
     public function __clone(){

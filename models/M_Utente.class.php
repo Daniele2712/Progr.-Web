@@ -6,35 +6,32 @@ if(!defined("EXEC")){
 }
 
 abstract class M_Utente extends Model{
-    private $email;
-    private $username;
     private $datiAnagrafici;
-    private $valuta;
+    private $username;
+    private $email;
+    private $idValuta;
 
-    public function __construct(int $id, M_DatiAnagrafici $datiAnagrafici, string $email="", string $username="", int $valuta = NULL){
+    public function __construct(int $idUtente, M_DatiAnagrafici $datiAnagrafici, string $email="", string $username="", $idValuta = NULL){
         $this->datiAnagrafici = clone $datiAnagrafici;
-        $this->id = $id;
+        $this->id = $idUtente;
         $this->email = $email;
         $this->username = $username;
-        if($valuta === NULL)
-            $valuta = M_Money::EUR();
-        else
-            $valuta = new M_Money(0, $valuta);
-        $this->valuta = $valuta;
+        if($idValuta==NULL) $this->idValuta=\Foundations\F_Valuta::getDefaultId();
+        else $this->idValuta = $idValuta;
     }
 
-
-    public function getUsername(){
-        return $this->username;
-    }
-
-    public function getDatiAnagrafici() : M_DatiAnagrafici{
-        return $this->datiAnagrafici;
-    }
-
-    public function getValuta(): M_Money{
-        return clone $this->valuta;
-    }
-
+    public function getUtenteId(){return $this->id;}  /*  fa la stessa cosa di getId, che viene ereditata, ma e' piu chiaro il significato, contrapposto a getDipendenteId*/
+    public function getDatiAnagrafici() : M_DatiAnagrafici{return clone $this->datiAnagrafici;}
+    public function getUsername(){ return $this->username; }
+    public function getEmail(){return $this->email;}
+    public function getIdValuta(): int{return $this->idValuta;}
     public abstract function getRuolo();
+
+    public function setUtenteId($idUtente){$this->id=$idUtente;} /*  fa la stessa cosa di setId */
+    public function setDatiAnagrafici($datiAna){$this->datiAnagrafici=$datiAna;}
+    public function setUsername($username){ $this->username=$username;}
+    public function setEmail($email){$this->email=$email;}
+    public function setIdValuta($idVal){ $this->idValuta=$idVal;}
+
+
 }

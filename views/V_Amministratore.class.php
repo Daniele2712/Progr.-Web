@@ -20,6 +20,10 @@ class V_Amministratore extends HTMLView{
         $this->addCSS('amministratore/css/amministratore.css');     // in css e js del amministratore metto solo cose che appartengono al amministratore
         $this->addJS('amministratore/js/amministratore.js');
 
+        /*  aggiungo css e js per far funzionare la lightbox delle statistiche    */
+        $this->addCSS('lightbox/css/lightbox.min.css');
+        $this->addJS('lightbox/js/lightbox.min.js');
+
     }
 
     public function HTMLRender(){

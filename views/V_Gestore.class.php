@@ -18,6 +18,10 @@ class V_Gestore extends HTMLView{
         $this->addCSS('gestore/css/gestore.css');
         $this->addJS('gestore/js/gestore.js');
 
+        /*  aggiungo css e js per far funzionare la lightbox delle statistiche    */
+        $this->addCSS('lightbox/css/lightbox.min.css');
+        $this->addJS('lightbox/js/lightbox.min.js');
+
     }
 
     public function HTMLRender(){

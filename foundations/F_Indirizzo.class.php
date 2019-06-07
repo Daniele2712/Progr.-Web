@@ -34,6 +34,22 @@ class F_Indirizzo extends Foundation{
     public static function update(Model $obj, array $params = array()): int{
         return $obj->getId();
     }
+    
+    public static function search(int $id_comune, string $via, int $civico){
+        $DB = \Singleton::DB();
+        $sql = "SELECT * FROM ".self::$table." WHERE id_comune = ? AND via = ? AND civico = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param("isi", $id_comune, $via, $civico);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $fetchedResul=$res->fetch_assoc();
+        $p->close();
+        $r = null;
+        if($fetchedResul)
+            $r = self::create($fetchedResul);
+        return $r;
+    }
 
     public static function getIndirizziByUserId(int $id){       //r=ti dice anche gli indirizzi preferiti   restituisce un array di indirizzi
         $p = \Singleton::DB()->prepare("

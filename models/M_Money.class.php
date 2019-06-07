@@ -9,11 +9,12 @@ class M_Money extends Model{
 	//Attributi
 	private $prezzo = 0.0;
 	private $idValuta = 1;
-    private static $valute = array();
+  private static $valute = array();
 	//Costruttore
-	public function __construct(float $pre, int $idVal){
+	public function __construct(float $pre, int $idVal=-1){
 		$this->prezzo = $pre;
-		$this->idValuta = $idVal;
+		if($idVal=-1) $this->idValuta =\Foundations\F_Valuta::getDefaultId();
+    else $this->idValuta = $idVal;
         self::loadValute();
 	}
 	//Metodi
@@ -35,6 +36,7 @@ class M_Money extends Model{
 	public function getValuta():int{                //nome improprio, si dovrebbe chiamare getIdValuta, ma ormai abbiamo scritto tanto codice con questa funzione, sa le vambiamo nome dovremmo cambiare il codice dapertutto
 		return $this->idValuta;
 	}
+  public function getIdValuta():int{ return $this->idValuta;} //fa la stessa cosa di getValuta ma ha un nome giusto. Non cancello getValuta perche potrebbe essere usato in altri parti del sito
 
     public function getValutaCode():string{
         return self::findValutaCode($this->idValuta);

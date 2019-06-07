@@ -10,7 +10,7 @@ if(!defined("EXEC")){
 class C_img implements Controller{
 
     public static function get(Request $req){
-
+      header('Content-type: image/png');
         $params=$req->getOtherParams();
         if(sizeof($params)>1)
         {

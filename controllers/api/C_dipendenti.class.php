@@ -14,61 +14,63 @@ class C_dipendenti implements Controller{
         $params=$req->getOtherParams();
 
             $ok=TRUE;   // se l-utente sbaglia a scrivere salto molti controlli
-            if(in_array("nome", $params) && $ok)
-                {
-                $index=array_search('nome', $params);
-                    if(isset($params[$index+1]))
-                        {
-                        if($params[$index+1]!=""){$nome_dipendente=$params[$index+1];}
-                        else $nome_dipendente=null;
-                        }
-                    else {$ok=FALSE; self::setError("expected_nome");}
+            $filters=array(); // questo filtro lo passero alla funzione F_Dipendente::showDipendenti
+
+            if($ok && in_array("nome", $params)) {
+                  $index=array_search('nome', $params);
+                  if(isset($params[$index+1])) {$filters['nome']=$params[$index+1];}
+                  else {$ok=FALSE; self::setError("expected_nome");}
                 }
-            else $nome_dipendente=null;
 
-            if(in_array("cognome", $params) && $ok)
-                {
-                $index=array_search('cognome', $params);
-                    if(isset($params[$index+1]))
-                        {
-                        if($params[$index+1]!="") {$cognome_dipendente=$params[$index+1];}
-                        else $cognome_dipendente=null;
-                        }
-                    else {$ok=FALSE; self::setError("expected_cognome");}
+            if($ok && in_array("cognome", $params)){
+                  $index=array_search('cognome', $params);
+                  if(isset($params[$index+1])) {$filters['cognome']=$params[$index+1];}
+                  else {$ok=FALSE; self::setError("expected_cognome");}
                 }
-            else $cognome_dipendente=null;
 
-            if(in_array("ruolo", $params) && $ok)
+            if($ok && in_array("ruolo", $params))
                 {
-                $index=array_search('ruolo', $params);
+                  $index=array_search('ruolo', $params);
                     if(isset($params[$index+1]))
                         {
-                           if($params[$index+1]!="") {
-                                if(self::existsRuolo($params[$index+1]))  { $ruolo_dipendente=$params[$index+1]; }
-                                else {$ok=FALSE; self::setError("ruolo_not_exists",$params[$index+1]);}
-                                }
-                            else $ruolo_dipendente=null;
-
+                          if(self::existsRuolo($params[$index+1]))  { $filters['ruolo']=$params[$index+1]; }
+                          else {$ok=FALSE; self::setError("ruolo_not_exists",$params[$index+1]);}
                         }
-                    else {$ok=FALSE; self::setError("expected_ruolo");};
+                    else {$ok=FALSE; self::setError("expected_ruolo");}
                 }
-                 else $ruolo_dipendente=null;
 
-            if(in_array("magazzino", $params) && $ok)   //non verifico se il magazzino esiste o meno
+            if($ok && in_array("idMagazzino", $params))   //non verifico se il magazzino esiste o meno
                 {
-                $index=array_search('magazzino', $params);
-                    if(isset($params[$index+1]))
-                        {
-                           if($params[$index+1]!="") { $id_magazzino_dipendente=$params[$index+1]; }
-                           else $id_magazzino_dipendente=null;
-                        }
+                $index=array_search('idMagazzino', $params);
+                    if(isset($params[$index+1])) {
+                       if(\Foundations\F_Magazzino::seek($params[$index+1])) {$filters['idMagazzino']=$params[$index+1];}
+                       else {\Foundations\Log::logMessage("Qualcuno cerca di di filtrare per un Magazzino che non esiste, non sarebbe dovuto accadere.",$req); $ok=FALSE;}
+                     }
                     else {$ok=FALSE; self::setError("expected_magazzino");};
                 }
-            else $id_magazzino_dipendente=null;
 
+              if($ok && in_array("username", $params)){
+                    $index=array_search('username', $params);
+                    if(isset($params[$index+1])) {$filters['username']=$params[$index+1];}
+                    else {$ok=FALSE; self::setError("expected_username");}
+                  }
 
-                if($ok) self::showDipendenti($nome_dipendente, $cognome_dipendente, $ruolo_dipendente, $id_magazzino_dipendente);      // !!! ATTENZIONE LA FUNZIONE SHOW DIPENDENTI DOVREBBE VERIFICARE PRIMA SE IN EFFETTI L-UTENTE CHE RICHIEDE DI VEDERE I DIPENDENTI HA IL DIRITTO DI FARLO PER EVITARE CHE UN GESTORE VEDA UTENTI DI TUTTI I MAGAZZINI
+              if($ok && in_array("email", $params)){
+                    $index=array_search('email', $params);
+                    if(isset($params[$index+1])) {$filters['email']=$params[$index+1];}
+                    else {$ok=FALSE; self::setError("expected_email");}
+                  }
+              if($ok && in_array("telefono", $params)){
+                    $index=array_search('telefono', $params);
+                    if(isset($params[$index+1])) {$filters['telefono']=$params[$index+1];}
+                    else {$ok=FALSE; self::setError("expected_telefono");}
+                  }
+                  /*  Ora, se va tutto bene faccio la chiamata che mi mostra i dipendenti filtrati. Se i parametri non li passo, la classe F_Dipendenti scegliera tutti di quella categoria, senza FILTRARE*/
+                if($ok) $dipendenti=\Foundations\utenti\F_Dipendente::showDipendenti($filters);      // !!! ATTENZIONE LA FUNZIONE SHOW DIPENDENTI DOVREBBE VERIFICARE PRIMA SE IN EFFETTI L-UTENTE CHE RICHIEDE DI VEDERE I DIPENDENTI HA IL DIRITTO DI FARLO PER EVITARE CHE UN GESTORE VEDA UTENTI DI TUTTI I MAGAZZINI
 
+                /*essendo una api devo ritornare il risultato in formato json*/
+                if($dipendenti) { $v = new \Views\JSONView(array("r" => 200, "dipendenti"=>$dipendenti)); $v->render();}  //non devo passarli i dati del dipendente in formato json, si occuper la JSONView di trasformarlo in Json prima di renderizzarlo
+                else{ self::setSuccess("empty");}
     }
 
     public static function post(Request $req){
@@ -79,31 +81,9 @@ class C_dipendenti implements Controller{
     }
 
 
- private static function showDipendenti($nome_dipendente, $cognome_dipendente, $ruolo_dipendente, $id_magazzino_dipendente){  // !!! ATTENZIONE LA FUNZIONE SHOW DIPENDENTI DOVREBBE VERIFICARE PRIMA SE IN EFFETTI L-UTENTE CHE RICHIEDE DI VEDERE I DIPENDENTI HA IL DIRITTO DI FARLO PER EVITARE CHE UN GESTORE VEDA UTENTI DI TUTTI I MAGAZZINI
 
-        // IL FORMATO RITORNATO SARA DEL TIPO: {"id_dipendente":"8","nome_dipendente":"Luigi","cognome_dipendente":"Verdi","ruolo_dipendente":"Pulizie","paga_oraria_dipendente":"6.31","id_magazzino_dipendente":"2"}
-        if($nome_dipendente===null) {$sql_nome_dipendente="dati_anagrafici.nome LIKE '%'";}
-        else {$sql_nome_dipendente="dati_anagrafici.nome LIKE '%$nome_dipendente%'";}
-
-        if($cognome_dipendente===null) {$sql_cognome_dipendente="dati_anagrafici.cognome LIKE '%'";}
-        else{$sql_cognome_dipendente="dati_anagrafici.cognome LIKE '%$cognome_dipendente%'";}
-
-        if($ruolo_dipendente==="Tutti" || $ruolo_dipendente===null) {$sql_ruolo_dipendente="dipendenti_ruoli.ruolo LIKE '%'";}
-        else{$sql_ruolo_dipendente="dipendenti_ruoli.ruolo='$ruolo_dipendente'";}
-
-        if($id_magazzino_dipendente===null) {$sql_id_magazzino_dipendente="dipendenti.id_magazzino LIKE '%'";}
-        else {$sql_id_magazzino_dipendente="dipendenti.id_magazzino='$id_magazzino_dipendente'";}
-
-        // AGGIUNGI GLI SQL FILTER
-        $fullQuerry="SELECT dipendenti.id as id_dipendente , dati_anagrafici.nome as nome_dipendente,  dati_anagrafici.cognome as cognome_dipendente, dipendenti_ruoli.ruolo as ruolo_dipendente,  dipendenti.paga_oraria as paga_oraria_dipendente, dipendenti.id_magazzino as id_magazzino_dipendente FROM dipendenti,dati_anagrafici,utenti,dipendenti_ruoli WHERE dati_anagrafici.id=utenti.id_datianagrafici AND utenti.id=dipendenti.id_utente AND dipendenti.ruolo=dipendenti_ruoli.id AND $sql_nome_dipendente AND $sql_cognome_dipendente AND $sql_ruolo_dipendente AND $sql_id_magazzino_dipendente";
-        $dipendenti=\Singleton::DB()->query($fullQuerry);
-         while($r = mysqli_fetch_assoc($dipendenti)) {$rows[] = $r; }
-                    if(isset($rows)) echo json_encode($rows);
-                    else self::setSuccess("empty");
-    }
 
 private static function existsRuolo($ruolo){
-
     return true;
 }
 
@@ -136,6 +116,21 @@ private static function setError($error, $var=''){
         http_response_code(400);
         echo '{
             "message":"You must enter a magazzino after .../magazzino/"}';
+        break;
+    case 'expected_username':
+        http_response_code(400);
+        echo '{
+            "message":"You must enter a username after .../magazzino/"}';
+    break;
+    case 'expected_telefono':
+        http_response_code(400);
+        echo '{
+            "message":"You must enter a telefono after .../magazzino/"}';
+        break;
+    case 'expected_email':
+        http_response_code(400);
+        echo '{
+            "message":"You must enter an email after .../magazzino/"}';
         break;
     }
 }

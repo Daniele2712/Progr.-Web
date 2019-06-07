@@ -210,4 +210,29 @@ class Session{
         return \Foundations\F_Magazzino::find($_SESSION["idMagazzino"]);
     }
 
+    public function isAdmin(){              //TODO: non penso sia il posto ne il modo giusto
+      if(isset($_SESSION['userId']))
+      {
+        $ruolo= \Foundations\F_Utente::getRuoloOfUserId($_SESSION['userId']);
+        if(strtolower($ruolo)=='amministratore') return true;
+      }
+      return false;
+    }
+
+    public function isAdminOrGestore(){
+      if(isset($_SESSION['userId']))
+      {
+        $ruolo= \Foundations\F_Utente::getRuoloOfUserId($_SESSION['userId']);
+        if(strtolower($ruolo)=='amministratore' or strtolower($ruolo)=='gestore') return true;
+      }
+      return false;
+    }
+    public function hasAccessToMagazzino($idMagazzino){
+      /*  Verifica se l-utente loggato ha accesso al magazzino selezionato. Se e' un amministratore ha accesso a tutto invece se e; un gestore devo vedere se il negozio gli appartiene*/
+      return true;  //TODO scrivere il codice di questa funzione
+    }
+
+
+
+
 }

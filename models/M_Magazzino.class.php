@@ -13,13 +13,13 @@ class M_Magazzino extends Model{
     private $dipendenti = array();
 
 
-    public function __construct(int $id, M_Indirizzo $indirizzo, array $items=array(), Utenti\M_Dipendente $responsabile, array $dipendenti = array()){
+    public function __construct(int $id, M_Indirizzo $indirizzo, array $items=array(), Utenti\M_Dipendente $responsabile=NULL, array $dipendenti = array()){
         $this->id = $id;
         $this->indirizzo = clone $indirizzo;
         foreach($items as $i){
             $this->items[] = clone $i;
         }
-        $this->responsabile = clone $responsabile;
+        if($responsabile) $this->responsabile = clone $responsabile; else $this->responsabile=NULL;
         foreach($dipendenti as $d){
             $this->dipendenti[] = clone $d;
         }
@@ -110,6 +110,11 @@ class M_Magazzino extends Model{
     public function getIndirizzo():\Models\M_Indirizzo{
         return clone $this->indirizzo;
     }
+    public function getResponsabile(){
+        if($this->responsabile) return clone $this->responsabile;
+        else return NULL;
+    }
+
 
     public function getNumDipendenti():int{
         return $dipendenti->count();

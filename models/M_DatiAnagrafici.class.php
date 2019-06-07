@@ -18,7 +18,7 @@ class M_DatiAnagrafici extends Model{
         $this->cognome = $cognome;
         $this->telefono = $telefono;
         if($nascita === null)
-            $this->dataNascita = new \DateTime();
+            $this->dataNascita = new \DateTime('1900-01-01'); 
         else
             $this->dataNascita = clone $nascita;
     }

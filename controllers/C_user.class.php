@@ -33,7 +33,7 @@ class C_user implements Controller{
             $idUser=$session->login($username,$pw);
             $tmp["r"] = 200;
             $user = \Singleton::Session()->getUser();
-            if(is_a($user,"\\Models\\Dipendente")) $tmp["type"]= $user->getRuolo();
+            if(is_a($user,"\\Models\\Utenti\\M_Dipendente")) $tmp["type"]= $user->getRuolo();
             else  $tmp["type"] = "Cliente";   //forse si potrebbe aggiungere il caso in cui sia sottoclasse di utente registrato, e poi -lelse, dove e' utente/cliente
             (new \Views\JSONView($tmp))->render();
         }catch(\ModelException $e){             //utente non trovato

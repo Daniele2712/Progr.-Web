@@ -1,6 +1,7 @@
 <?php
 namespace Controllers;
 use \Views\Request as Request;
+use \utenti\F_Dipendente as F_Dipendente;
 if(!defined("EXEC")){
     header("location: /index.php");
 	return;
@@ -8,226 +9,179 @@ if(!defined("EXEC")){
 
 
 class C_upload{
-    /*          DEVI FILTRARE GLI INPUT X EVITARE SQL INJECTION E ROBA SIMILE*/
-                    //DA aggiornare l-upload, per prendere in considerazione la parte dell-immagine preferita, e del size, e altre cose
+/*
+\Singleton::Session()::isAdmin()            --verifica se l-utente loggato e' un amministratore
+\Singleton::Session()::isAdminOrGestore()   --verifica se l-utente loggato e' un amministratore o un gestore
+*/
+public static function uploadProduct(Request $req){
+  if(\Singleton::Session()::isAdminOrGestore()){ // se la richiesta la fa effettivamente l-amministratore o il gestore
+  /*  Creo l'array con la sola immagine favorita, da mettere nel costruttore del modello del prodotto*/
+  if($req->hasFavoriteImageUploaded()){
+      $arrayFav=array();
+     $favImg=$req->getOrderedFavoriteImage();
+     $imgContent=file_get_contents($favImg['tmp_name']);
+     $M_favImg=new \Models\M_Immagine(0,$favImg['name'],$favImg['size'],$favImg['type'], $imgContent);
+     $arrayFav[]=clone $M_favImg;
+  }else{
+    echo "Non e' stata aggiunta la foto Favorita. Verra usata la todo di default.</br>";
+    $defaultFoto=\F_Immagine::getDefaultFoto();
+    $arrayFav=array($defaultFoto);
+  }
 
-    public static function uploadProduct(Request $req){
-
-        /*  DEVO ANCHE FILTRARE STI VALORI x VEDERE SE VANNO BENE!  */
-        /*  LO FARO IN SEGUITO                                      */
-
-        /* req conosce i parametri della PSOT, li prendo per poi usarli per aggiungere tutto nel DB */
-        $nome=$req->getString('nome', NULL, 'POST');
-        $descrizione=$req->getString('descrizione', NULL, 'POST');
-        $info=$req->getString('info', NULL, 'POST');
-        $id_categoria=$req->getString('categoria', NULL, 'POST');
-        $prezzo=$req->getFloat('prezzo', NULL, 'POST');
-        $valuta=$req->getString('valuta', NULL, 'POST');
-        $quantita=$req->getInt('quantita', NULL, 'POST');
-        $magazzino=$req->getInt('magazzino', NULL, 'POST');   /*  Devo usare la sessione per impostare il magazzino dentro cui inserire i prodotti*/
-        $tuttoOK=TRUE;  // in caso qualcosa vada male lo imposto a FALSE e non faccio nemmeno i prossimi passi.
-
-
-        if(!self::category_exists(intval($id_categoria)) && $id_categoria!='NULL') {$tuttoOK=false; echo "Category $id_categoria do not exists.";}
-
-      /*            Inserimento prodotto        */
-        if($tuttoOK)
-        {
-        $DB = \Singleton::DB();
-        if($id_categoria!='NULL') $id_categoria!="'".$id_categoria."'";
-        $querry = $DB->prepare("INSERT INTO `prodotti` (`nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `id_valuta`) VALUES ('$nome', '$info', '$descrizione',$id_categoria,'$prezzo','$valuta')");
-        if($querry->execute()) {$last_prodotto = $DB->lastId(); echo "SUCCESS inserting product $nome (id $last_prodotto) into table 'prodotti'</br>";}
-        else {echo "ERROR uploading prodotto $nome"; $tuttoOK=FALSE;}
-        }
-        /*  devo metter un contorllo che fa in modo che se l-inserimento del prodotto oppure del immagine non va a buon fine, NON deve essere fatto nemmeno  */
-        /*  l'inserimento nella tabbella imamgini_prodotti, che puo essere comunque fatta, a prescindere dal esito delle prime due, ma darebbe risultati sbagliati */
-        /*  cioe collega un prodotto alla foto sbagliata  */
-
-
-         /*         Inserimento immagine        */
-        if($tuttoOK)
-        {
-        $file_location=$req->getImgLocation();  // mezza specie di controllo x vedere se riesce a capire che qualcuno ha messo un immagine
-        if(isset($file_location))
-        {
-        $imgName=$req->getImgName();
-        $imgType=$req->getImgType();
-        $mediumBlob=file_get_contents($file_location);
-        $querry = $DB->prepare("INSERT INTO `immagini` (`id`,`nome`, `size`, `type`, `immagine`) VALUES  (NULL, ?, 'img size', ?,?)");
-        $querry->bind_param("sss", $imgName, $imgType, $mediumBlob);
-
-        if($querry->execute()) {$last_image = $DB->lastId(); echo "SUCCESS inserting image $imgName (id $last_image) into table 'immagini'</br>";}
-        else {echo "ERROR uploading $imgName into table 'immagini'</br>"; $tuttoOK=FALSE;}
-        }
-        else {echo "ERROR finding the image! </br>"; $tuttoOK=FALSE;}
-        }
-
-
-        /*          Inserimento in immagini_prodotti        */
-        if($tuttoOK)
-        {
-        if($dbresponse=$DB->query("INSERT INTO `immagini_prodotti` (`id`, `id_immagine`, `id_prodotto`)  VALUES (NULL, $last_image, $last_prodotto);")) echo " SUCCESS linking image $imgName (id $last_image) and prouct $nome (id $last_prodotto) inside 'immagini_prodotti'!</br>";
-        else {" immagini_prodotto NON inserito con successo! ";  $tuttoOK=FALSE;}
-        }
-
-        /*  Ora devo collegare il prodotto appena inserito con la tabbella che sa in che */
-        if($tuttoOK)
-        {
-        $querry = $DB->prepare("INSERT INTO `items_magazzino` (`id_magazzino`, `id_prodotto`, `quantita`) VALUES  (?, ?, ?)");
-        $querry->bind_param("iii", $magazzino, $last_prodotto, $quantita);
-        if($querry->execute()) echo "SUCCESS linking product $nome (id $last_prodotto) and magazzino with id $magazzino inside 'items_magazzino'</br>";
-        else {echo "Error Linking $nome(id $last_prodotto) into to magazzino $magazzino)"; $tuttoOK=FALSE;}
-        }
+  /*  Creo l'array con tutte le other immagini, da mettere nel costruttore del modello del prodotto*/
+  if($req->hasOtherImagesUploaded()){
+    $arayOther=array();
+    $otherImg=$req->getOrderedOtherImages();
+    foreach($otherImg as $singleImage){
+      $singleImageContent=file_get_contents($singleImage['tmp_name']);
+      $M_singleImg=new \Models\M_Immagine(0,$singleImage['name'],$singleImage['size'],$singleImage['type'], $singleImageContent);
+      $arrayOther[]=clone $M_singleImg;
     }
+  }else{
+    echo "Non sono state aggiunte altre foto.</br>";
+    $arrayOther=array();
+  }
 
-    public static function uploadDipendente(Request $req){
+  /*  Creo il modello del prodotto  */
+  $nome=$req->getString('nome', NULL, 'POST');
+  $info=$req->getString('info', NULL, 'POST');
+  $descrizione=$req->getString('descrizione', NULL, 'POST');
+  $id_categoria=$req->getString('categoria', NULL, 'POST');
+  $cat=\F_Categoria::find($id_categoria); if(!\F_Categoria::seek(intval($id_categoria)) && $id_categoria!='NULL') {$tuttoOK=false; echo "Category $id_categoria do not exists.";}
 
-        /*  DEVO ANCHE FILTRARE STI VALORI x VEDERE SE VANNO BENE!  */
-        /*  LO FARO IN SEGUITO                                      */
-
-        /* req conosce i parametri della PSOT, li prendo per poi usarli per aggiungere tutto nel DB */
-        $nome=$req->getString('nome', NULL, 'POST');
-        $cognome=$req->getString('cognome', NULL, 'POST');
-        $id_ruolo=$req->getString('ruoloDipendente', NULL, 'POST');
-        $id_contratto=$req->getString('contrattoDipendente', NULL, 'POST');
-        $stipendio=$req->getFloat('stipendioOrario', NULL, 'POST');
-        $id_magazzino=$req->getString('magazzino', NULL, 'POST');
-        $tuttoOK=TRUE;  // in caso qualcosa vada male lo imposto a FALSE e non faccio nemmeno i prossimi passi.
-
-
-        /*  Verifica che:       se qualcosa va male imposto tuttoOK=FALSE;
-         *  id_ruolo esiste
-         *  colui che inserisce il ruolo ha il permesso di farlo(un gestore non puo inserire un amministratore)
-         *  il magazzino in cui si vuole inserire il dipendente e sotto il controllo del gestore
-         */
-
-      /*            Inserimento dipendente        */
-        if($tuttoOK)
-        {
-        $DB = \Singleton::DB();
-        echo "Successfully updated dipendenti.<br/>";
-        echo "$nome $cognome was added to the list<br/><br/>";
-        echo "(PS. ancora da implementare)";
-        }
-    }
-
-    public static function uploadGestore(Request $req){
-
-        /*  DEVO ANCHE FILTRARE STI VALORI x VEDERE SE VANNO BENE!  */
-        /*  LO FARO IN SEGUITO                                      */
-
-        /* req conosce i parametri della PSOT, li prendo per poi usarli per aggiungere tutto nel DB */
-        $nome=$req->getString('nome', NULL, 'POST');
-        $cognome=$req->getString('cognome', NULL, 'POST');
-        $id_ruolo=$req->getString('ruoloDipendente', NULL, 'POST');
-        $id_contratto=$req->getString('contrattoDipendente', NULL, 'POST');
-        $stipendio=$req->getFloat('stipendioOrario', NULL, 'POST');
-        $id_magazzino=$req->getString('magazzino', NULL, 'POST');
-        $tuttoOK=TRUE;  // in caso qualcosa vada male lo imposto a FALSE e non faccio nemmeno i prossimi passi.
+  $prezzo=$req->getFloat('prezzo', NULL, 'POST');
+  $idValuta=$req->getString('valuta', NULL, 'POST');
+  $money=new \Models\M_Money($prezzo,$idValuta);
+  $quantita=$req->getInt('quantita', NULL, 'POST');
+  $magazzino=$req->getInt('magazzino', NULL, 'POST');   /*  Devo usare la sessione per impostare il magazzino dentro cui inserire i prodotti*/
 
 
-        /*  Verifica che:       se qualcosa va male imposto tuttoOK=FALSE;
-         *  id_ruolo esiste
-         *  colui che inserisce il ruolo ha il permesso di farlo(un gestore non puo inserire un amministratore)
-         *  il magazzino in cui si vuole inserire il dipendente e sotto il controllo del gestore
-         */
+  $newProdotto=new \Models\M_Prodotto(0, $nome, $info, $descrizione, $cat, $money);
+  $newProdotto->setFotoPreferita($arrayFav[0]);   /*  Al modello del prodotto ci aggiungo la foto preferita   */
+  foreach($arrayOther as $img) $newProdotto->addOtherFoto($img); /*  Al modello del prodotto ci aggiungo le altre foto    */
 
-      /*            Inserimento dipendente        */
-        if($tuttoOK)
-        {
-        $DB = \Singleton::DB();
-        echo "Successfully updated gestori.<br/>";
-        echo "$nome $cognome was added to the list<br/><br/>";
-        echo "(PS. ancora da implementare)";
-        }
-    }
+  $params=array('idMagazzino'=>$magazzino, 'quantita'=>$quantita);
+  $insertedId=\F_Prodotto::insert($newProdotto, $params);
 
-
-
-    public static function saveProduct(Request $req){
-
-        /*  Per ora non serve, ma se in un futuro dovremmo salvare dei file sul server (quindi non nel database) questa ci puo essere utile  */
-
-$target_dir = "/tmp/phptemp/";
-$file_name=$req->getImgName();
-$target_file = $target_dir.$file_name;
-echo "file di arrivo $target_file";
-$uploadOk = 1;
-
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-}
-// Check file size
-if ($req->getImgSize() > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
-// Allow certain file formats
-$imageFileType=$req->getImgType();
-if($imageFileType != "image/jpeg" && $imageFileType != "image/png" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($req->getImgLocation(), $target_file)) {
-        echo "The file $file_name has been uploaded.";
-    } else {
-        echo "else ----Sorry, there was an error uploading your file.";
-    }
+  }
+  else {\Foundations\Log::logMessage("Tentato accesso a uploadProduct riservata solo agli admin e ai gestori", $req);}
+  return;
 }
 
-    }
+public static function uploadMagazzino(Request $req){
+  if(\Singleton::Session()::isAdmin()){
+   $citta=$req->getString('citta', NULL, 'POST');
+   $cap=intval($req->getString('cap', NULL, 'POST'));
+   $provincia=$req->getString('provincia', NULL, 'POST');
+   $via=$req->getString('via', NULL, 'POST');
+   $civico=$req->getString('civico', NULL, 'POST');
 
-     public static function uploadCategory(Request $req){
-         $DB=\Singleton::DB();
-         $categoria=$req->getString('categoria' , NULL , 'POST');
-         $padre=$req->getString('padre' , NULL , 'POST');
+   $tuttoOK=TRUE;
 
-     if(strtolower($padre)=='null')
-     {
-          if($DB->query("INSERT INTO `categorie` (`nome`, `padre`) VALUES ('$categoria' , NULL);")) echo " Categoria $categoria aggiornata!";
-          else " Non e possibile aggiungere la categoria ";
-     }
-     else{
-         $esistePadre=mysqli_fetch_array($DB->query("SELECT count(*) FROM `categorie` WHERE nome='$padre';"))[0];
-         if($esistePadre!=0){
-            $idPadre=mysqli_fetch_array($DB->query("SELECT id FROM `categorie` WHERE nome='$padre';"))[0];
-           if($DB->query("INSERT INTO `categorie` (`nome`, `padre`) VALUES ('$categoria' , '$idPadre');")) echo " Categoria aggiornata!";
-            else " Non e possibile aggiungere la categoria ";
-         }
-         else{ echo "PADRE NON ESISTE! </br> Se desideri aggiungere una categoria senza padre, aggiungi il valore 'NULL' nel riquadro padre";}
-        }
+   if(!$tuttoOK){
+     echo "I parametri inseriti non sono validi ";
+     return;
+   }
+
+   /* Verifica che i valori inseriti vadano BENE  */
+
+   $comuneSelezionato=\F_Comune::search($citta, $cap,$provincia);  //Controllo che la combinazione citta, cap e provincia sia presente nel db
+   if(!$comuneSelezionato){
+     echo "La combinazione '$citta' , '$cap' , '$provincia' non esiste.".PHP_EOL;
+   }
+   else{ //Se effettivamente la combinazione c'e nel database
+     $indirizzo=\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico);  //Cerco l'indirizzo che voglio usare
+     if($indirizzo==NULL){   // cioe se non ha trovato nel BD il mio indirizzo
+       $indirizzoTemp=new \Models\M_Indirizzo(-1, $comuneSelezionato, $via, $civico);  // creo un nuovo indirizzo temporaneo, con ID -1, solo per poter inserire quel indirizzo nel DB
+       if(\F_Indirizzo::insert($indirizzoTemp, array())) echo "Nuovo indirizzo inserito corretamente.</br>"; // e lo inserisco nel DB
+       else echo "Errore inserimento indirizzo.</br>";  // oppure fallisco nel inserirlo nel DB
+       $indirizzo=\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico); // il mio indirizzo ha come id -1 quindi lo sovrascrivo con in altro indirizzo, uguale, ma con l-id giusto, preso dal DB
      }
 
-     public static function uploadMagazzino(Request $req){
-         $DB=\Singleton::DB();
-        $nome=$req->getString('nome', NULL, 'POST');
-        $cognome=$req->getString('cognome', NULL, 'POST');
-        $id_ruolo=$req->getString('ruoloDipendente', NULL, 'POST');
+     $newMagazzino= new \Models\M_Magazzino(-1, $indirizzo, array(), NULL, array());  //  ho usato -1 per i'id xke ho bisogno di un intero, tanto quando verra memorizzato nel db usera un id prograssivo. Qui creo il modello del magazzino che poi andro' ad aggingere nel DB
+     if(\F_Magazzino::insert($newMagazzino)) echo "Magazzino inserito correttamente.</br>"; // inserisco il magazzino nel DB
+     else echo "Errore inserimento magazzino.</br>";    //oppure fallisco nel farlo
+   }
+  }
+  else \Foundations\Log::logMessage("Tentato accesso a richiesta riservata solo agli admin", $req);
+}
 
-        //get Id gestore
-        $id_gestore=1;
+public static function uploadDipendente(Request $req, array $params=NULL){
+  if(\Singleton::Session()::isAdminOrGestore()){
+    $tuttoOK=TRUE;  // in caso qualcosa vada male lo imposto a FALSE e non faccio nemmeno i prossimi passi.
 
-        // eventualmente crea l-indirizzo se non esiste
+    /* req conosce i parametri della PSOT, li prendo per poi usarli per aggiungere tutto nel DB */
+    $nome=$req->getString('nome', NULL, 'POST');
+    $cognome=$req->getString('cognome', NULL, 'POST');
+    $email=$req->getString('email', NULL, 'POST');
+    $username=$req->getString('username', NULL, 'POST'); if(\F_Utente::seekUsername($username)) {echo "Username already in use"; return;}
+    $password=$req->getString('password', NULL, 'POST');
+    if(isset($params['ruolo'])) $nomeRuolo=$params['ruolo']; else $nomeRuolo=$req->getString('ruoloDipendente', NULL, 'POST');
+    if(strtolower($nomeRuolo)=='gestore' or strtolower($nomeRuolo)=='amministratore'){  /*  Se vuoi inserire un gestore o un amministratore devi essere admin*/
+      if(!\Singleton::Session()::isAdmin()) {\Log::logMessage("Tentato inserimento di un gesore/amministratore da parte di utente che non e' gestore", $req); echo "Non hai i permessi per effettuare l'operazione"; return;}}
+    $id_contratto=$req->getString('contrattoDipendente', NULL, 'POST');
+    $floatStipendio=$req->getFloat('stipendioOrario', NULL, 'POST');
+    $id_magazzino=$req->getString('magazzino', NULL, 'POST');
 
-        //get Id indirizzo
-        $id_indirizzo=1;
 
-        if($DB->query("INSERT INTO `magazzini` (`id_gestore`, `id_indirizzo`) VALUES ('$id_gestore' , '$id_indirizzo');")) echo " Magazzino inserito";
-          else " Non e possibile aggiungere il magazzino ";
+    //check if ruolo exists
+    if(empty($nome) || empty($cognome) || empty($email) || empty($username) || empty($password) || empty($id_contratto) || empty($floatStipendio) || empty($id_magazzino)) $tuttoOK=false;
 
-     }
+    if(!F_Dipendente::existsNomeRuolo($nomeRuolo)) $tuttoOK=FALSE;
+    //check if id_contratto exists
+    $nomeContratto=F_Dipendente::idToContratto($id_contratto);
+    if(!$nomeContratto) $tuttoOK=FALSE;
+    //check if id_magazzino existsIdRuolo
+    if(!\F_Magazzino::seek($id_magazzino)) $tuttoOK=FALSE;
 
-    private function category_exists($id){
-        $dbresponse=\Singleton::DB()->query("SELECT COUNT(*) as result FROM `categorie` WHERE id=$id;");
-        while($r = mysqli_fetch_assoc($dbresponse)) {$rows[] = $r; }
-        $categoriesFound=$rows[0]['result'];
-        if($categoriesFound!=0) return true;
-        else return false;
+
+
+    if(!$tuttoOK){  // se ci sono stati problemi mostro questo messaggio ed esco, altrimenti continuo.
+      echo "I parametri inseriti non sono validi ";
+      return;
     }
+    else{ // se va tutto bene e passo tutti i controlli, faccio creo il dipendente e poi gli faccio l-upload
+    // create modello dati datiAnagrafici
+    $datiAna=new \Models\M_DatiAnagrafici(0 , $nome, $cognome, "0000", new \DateTime('1922-02-02'));  // adesso il modello ha id 0, ma appena lo metto nel db aggiornero l-id con quello presente nel db
+    // create modello dipendente  (dipendente estende l-utente,  e per questo non devo creare prima l-utente, ma direttamente il dipendente)
+    $stipendio=new \Models\M_Money($floatStipendio); // automaticamente lo mette in euro, potrei metterlo anche direttamtne nella creazione del dipendente
+    $dipendente=new \Models\utenti\M_Dipendente(0, $datiAna, $email, $username,0, $nomeRuolo, $nomeContratto, new \DateTime(), 40 ,$stipendio, NULL, array() );
+    // Upload that user to the database
+    $risult=\utenti\F_Dipendente::insertDipendente($dipendente, md5($password),$id_magazzino);
+    return $result;
+    }
+  }
+  else {\Foundations\Log::logMessage("Tentato accesso a uploadDipendente riservata solo agli admin e ai gestori", $req);}
+  return;
+}
+
+public static function uploadGestore(Request $req){
+  if(\Singleton::Session()::isAdmin()){
+  $params['ruolo']='gestore';   // impostando questa variabile forzo l-upload di un gestore, e la funzione uploadDipendenti non cerchera piu il ruolo, ma lo forzera a gestore
+  self::uploadDipendente($req, $params);
+  }
+  else {\Foundations\Log::logMessage("Tentato accesso a uploadGestore riservata solo agli admin", $req);}
+  return;
+}
+
+public static function uploadCategory(Request $req){
+  if(\Singleton::Session()::isAdminOrGestore()){
+   $categoria=$req->getString('categoria' , NULL , 'POST');
+   $padre=$req->getString('padre' , NULL , 'POST');
+   //if(empty($categoria)) {echo "Non hai inserito una categoria!<br>"; return;}
+   if(empty($padre)) {$padre=NULL;}
+   else{
+     if(!\F_Categoria::seekName($padre)) {echo "Il padre che hai inserito ('$padre') non esiste!<br>"; return;}
+     else {$idPadre=\F_Categoria::nameToId($padre);
+            $padre=\F_Categoria::find($idPadre);
+          }
+   }
+   $newCategoria=new \Models\M_Categoria(0, $categoria, $padre); // Creo il modello del modello che voglio inserire nel DB
+   $newId=\F_Categoria::insert($newCategoria);
+   echo "Nuova categoria inserita : $categoria (ID: $newId)";
+  }
+  else {\Foundations\Log::logMessage("Tentato accesso a uploadCategory riservata solo agli admin e ai gestori", $req);}
+  return;
+}
+
 }

@@ -15,7 +15,7 @@ class F_Categoria extends Foundation{
 
     public static function insert(Model $categoria, array $params = array()): int{
         $DB = \Singleton::DB();
-        $sql = "INSERTO INTO categorie VALUES(NULL, ?, ?)";
+        $sql = "INSERT INTO categorie VALUES(NULL, ?, ?)";
         $p = $DB->prepare($sql);
         $money=$carrello->getTotale();
         $p->bind_param("si", $categoria->getCategoria(), $categoria->getFather()->getId());
@@ -47,6 +47,42 @@ class F_Categoria extends Foundation{
         }
         return $rows;
     }
+    public static function seekName(string $name): bool{
+        $DB = \Singleton::DB();
+        $sql = "SELECT * FROM ".static::$table." WHERE nome = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param('s',$name);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $p->close();
+        return $res && $res->num_rows===1;
+    }
+
+    public static function idToName(int $id){
+      $DB = \Singleton::DB();
+      $sql = "SELECT nome FROM ".static::$table." WHERE id = ?";
+      $p = $DB->prepare($sql);
+      $p->bind_param('i',$id);
+      if(!$p->execute())
+          throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+      $res = $p->get_result();
+      $p->close();
+      return $res && $res->num_rows===1;
+    }
+
+    public static function nameToId(string $nome){
+      $DB = \Singleton::DB();
+      $sql = "SELECT id FROM ".static::$table." WHERE nome = ?";
+      $p = $DB->prepare($sql);
+      $p->bind_param('s',$name);
+      if(!$p->execute())
+          throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+      $res = $p->get_result();
+      $p->close();
+      return $res;
+    }
+
 
     public static function findSubcategories(int $idCat){
         $rows = array();
