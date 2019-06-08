@@ -46,8 +46,6 @@
             <div id="statisticheAnnuali" class="minisezione active"><span>Annuale</span></div>
             <div id="statisticheSettimanali" class="minisezione"><span>Settimanale</span></div>
             <div id="statisticheMensili" class="minisezione"><span>Mensile</span></div>
-
-
         </div>
 
         <div id="statsContainer">
