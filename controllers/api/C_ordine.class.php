@@ -136,6 +136,11 @@ public static function get(Request $req){
                         }
                     }
             }
+  else{
+        $v = new \Views\JSONView();
+        $v->setError("expected_parameter_in_url");
+        }
+}
 
     public static function post(Request $req){
         $cmd = $req->getString("type","","POST");
@@ -151,31 +156,25 @@ public static function get(Request $req){
                 $v = new \Views\Api\V_OrdinePaypal(array("r"=>200));
                 $v->setOrder($ordine);
                 return $v->render();
-                break;
+            break;
         }
     }
 
-public static function post(Request $req){
-}
 
-public static function default(Request $req){
-    self::get($req);
-}
+    public static function default(Request $req){
+        self::get($req);
+    }
 
 
 
-private static function setSuccess($info){
-  switch($info){
-    case 'empty':
-        http_response_code(200);
-        echo '{"message":"Everything went right but the result is empty"}';
-    break;
-  }
-}
-
-
-
-
+    private static function setSuccess($info){
+        switch($info){
+            case 'empty':
+                $v = new \Views\JSONView(array("r"=>200, "message"=>"Everything went right but the result is empty"));
+                return $v->render();
+            break;
+        }
+    }
 
     //uniqid('php_', TRUE) - genera string di 23 catarreri random , se ci metto false come secondo parametro, mi sceglie 13 caratteri
 

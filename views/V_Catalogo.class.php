@@ -55,7 +55,7 @@ class V_Catalogo extends HTMLView{
         $items = array();
         foreach($arrayItems as $item){
             $prodotto = $item->getProdotto();
-            $y['imgId'] = $prodotto->getImmaginePreferita()->getId();
+            $y['imgId'] = $prodotto->getFotoPreferita()->getId();
             $y['id'] = $prodotto->getId();
             $y['nome'] = $prodotto->getNome();
             $y['supply'] = $item->getQuantita();

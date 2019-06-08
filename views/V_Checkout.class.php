@@ -13,6 +13,7 @@ class V_Checkout extends HTMLView{
         $this->content = "checkout/checkout";
         $this->addCSS("checkout/css/checkout.css");
         $this->addJS("checkout/js/checkout.js");
+        $this->smarty->assign('datiAnagrafici', array("nome"=>"", "cognome"=>"", "telefono"=>""));
     }
 
     public function setMainAddress(\Models\M_Indirizzo $addr){

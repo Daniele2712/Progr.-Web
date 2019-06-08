@@ -150,11 +150,11 @@ class Session{
         return "";
     }
 
-    public function getUserValuta():\Models\M_Money{
+    public function getUserValuta(): \Models\M_Money{
         if($this->isLogged())
-            return $this->getUser()->getValuta();
+            return new \Models\M_Money(0, $this->getUser()->getIdValuta());
         else
-            return \Models\M_Money::EUR();
+            return new \Models\M_Money(0, F_Valuta::getDefaultId());
     }
 
     public function setGuestAddress(int $id_comune, string $via, string $civico, string $note){
