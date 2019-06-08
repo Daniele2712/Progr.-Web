@@ -1,32 +1,63 @@
 <?php
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', dirname(__FILE__));
-define('EXEC', true);
-require_once(ROOT.DS.'includes'.DS.'config.inc.php');
-require_once(ROOT.DS.'includes'.DS.'autoload.inc.php');
-Controllers\FrontController::route(new Views\Request());
-/*
-$prodottoA=\Foundations\Prodotto::find(1);
-$prodottoB=\Foundations\Prodotto::find(2);
-$itemA= new \Models\Item($prodottoA,NULL, 3);
-$itemB= new \Models\Item($prodottoB,NULL, 15);
-$items[]=$itemA;
-$items[]=$itemB;
-$indirizzo=\Foundations\Indirizzo::find(1);
-$datiAna=\Foundations\DatiAnagrafici::find(1);
-$ordine=new \Models\Ordine($items, $indirizzo, $datiAna);
+if(file_exists('install.php')){
+?>
+<head>
+<title>Installation</title>
+<style>
+body{
+width:100%;
+padding-top:50px;
+display:grid;
+justify-content: center;
+justify:center;
+}
+.content{
+  position:relative;
+  width:500px;
+  max-width:100%;
+  text-align: center;
+}
+form{
+  border:2px solid grey;
+  border-radius:5px;
+  padding:30px;
+}
+input{
+  margin-bottom:10px;
+}
+h2{
+  width:100%;
+  padding:12px;
+}
+h3{
+  width:100%;
+  padding:12px;
+}
 
-ob_start();
-var_dump($indirizzo);
-$result=ob_get_content();
-ob_end_clean();
-$a=var_dump($ordine);
+</style>
+</head>
 
+<body>
+  <div class='content'>
+    <h2>Wellcome to the Installation Guide</h2>
+    <h3>In order to get started with the setup you must enter the requested data</h3>
+    <form action="/install.php" method='POST'>
 
-$ord=\Foundations\Ordine::find(1);
-echo \Foundations\Ordine::orderToJson($ord);
- */
-//$res=\Foundations\Ordine::itemsOfOrderJson(1);
-
-//var_dump(\Foundations\Ordine::codeExists(111));
-//var_dump(\Foundations\Indirizzo::getIndirizziByUserIdFull(1));
+      DB Host:<br>
+      <input type="text" name="DBhost"><br>
+      DB Name:<br>
+      <input type="text" name="DBname"><br>
+      DB Username:<br>
+      <input type="text" name="DBusername"><br>
+      DB Password:<br>
+      <input type="text" name="DBpassword"><br><br>
+      <input type="submit" value="SETUP">
+    </form>
+  </div>
+</body>
+<?php
+}
+else{
+  echo "Il file che stai cercando e' stato gia' cancellato.";
+}
+?>
