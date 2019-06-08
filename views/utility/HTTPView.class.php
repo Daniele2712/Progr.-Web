@@ -10,4 +10,8 @@ class HTTPView{
         header("location: ".$url);
         die();
     }
+
+    public static function Ok(){
+        header("HTTP/1.1 200 OK");
+    }
 }

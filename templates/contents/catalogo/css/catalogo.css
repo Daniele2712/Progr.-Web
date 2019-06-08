@@ -1,22 +1,25 @@
-.wrapper{
+#content>.wrapper{
     display:grid;
-    grid-template-columns:1fr 4fr 1fr;
-    grid-template-areas:
-    "categories categories categories"
-    "filters items basket"
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "categories categories categories"
+        "left pager basket"
+        "left items basket"
+        "left pager2 basket";
 }
 
 
 /*              CATEGORIES              */
 
 #categories{
-    min-width:100%;
-    grid-area:categories;
-    height:100px;
+    width: 100%;
+    grid-area: categories;
+    height: 100px;
     background: linear-gradient(lightgrey, white);
-    display:grid; align-items: center; justify-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .categoryclass{
@@ -45,10 +48,16 @@
 /*          END FO CATEGORIES              */
 
 /*          FILTERS              */
+#left{
+    grid-area:left;
+}
+
+#subcategories{
+
+}
 
 #filters{
     padding:10px;
-    grid-area:filters;
 }
 
 .divfiltri{
@@ -88,6 +97,32 @@
 }
 
 /*          END OF FILTERS              */
+
+/*          PAGER               */
+
+.pager{
+    grid-area: pager;
+    display: flex;
+    justify-content: center;
+}
+
+#items+.pager{
+    grid-area: pager2;
+}
+
+.pager>.page{
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin: 0 3px;
+    text-decoration: none;
+}
+
+.pager>.page.current{
+    background-color: #0b6b10;
+}
+
+/*          END OF PAGER               */
 
 /*          ITEMS              */
 

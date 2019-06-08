@@ -2,6 +2,7 @@ $(document).ready(function(){
     $("#payButton").click(function(){
         location.href="/spesa/checkout/";
     });
+    $("#reset_filters").click(resetFilters);
 });
 
 
@@ -76,4 +77,10 @@ function updateCarrello(data){
     }
     $(".cartList").append(html);
     $("#prezzo_totale").html(data['valuta'] + ' ' + data['totale']);
+}
+
+function resetFilters(){
+    var $filtersBox = $("#filters");
+    $filtersBox.find("input[type='text']").each(function(){$(this).val('')});
+    $filtersBox.find("input:checked").each(function(){$(this).prop("checked", false)});
 }

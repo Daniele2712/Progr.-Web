@@ -3,10 +3,6 @@
     padding:0px;
 }
 
-body{
-
-}
-
 html, body{
     font-size: 16px;
     font-family: sans-serif;
@@ -37,6 +33,26 @@ html, body{
     text-align: center;
 }
 
+label{
+  margin-bottom: 10px;
+  display: block;
+}
+
+input{
+    background-color: white;
+}
+
+input[type=text]{
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: white;
+    color: black;
+    display: block;
+    height: 30px;
+}
+
 /* questa  parte serve per i PC */
 #header{
     background-color: rgb(211,211,211);
@@ -44,16 +60,31 @@ html, body{
     width:100%;
     display:grid;
     justify-content: center;
+    overflow: hidden;
+}
+
+#banner{
+    background: #ef3737;
+    width: 100%;
+}
+
+#banner span{
+    text-transform: uppercase;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 30px 0;
+    display: block;
 }
 
 #content{
-    display:grid;
     width:100%;
     min-height:600px;
-    justify-content: center;
+    overflow: hidden;
 }
+
 .wrapper{
-  width:1024px;
+  width:1224px;
+  margin: 0 auto;
 }
 
 #header .wrapper{
@@ -89,83 +120,73 @@ html, body{
 }
 
 #logoimg{
-  width:100%;
-  max-height:100%;
-  max-width:100%;
+    width:100%;
+    max-height:100%;
+    max-width:100%;
 }
+
 #logowriting{
-  width:100%;
-  max-height:100%;
-  max-width:100%;
+    width:100%;
+    max-height:100%;
+    max-width:100%;
 }
 
 
-@media screen and (max-width:1024px){          /* questa  parte serve per i TABLET */
-  #header{
-    justify-content: stretch;
-  }
+@media screen and (max-width:1224px){          /* questa  parte serve per i TABLET */
+    .wrapper{
+        width:100%;
+    }
+    #header .wrapper{
+        grid-template-columns:2fr 1fr;
+    }
+    #content .wrapper{
+        justify-self:stretch;
+    }
 
-  #content{
-      justify-content: stretch;
-  }
-.wrapper{
-  width:100%;
-}
-#header .wrapper{
-  grid-template-columns:2fr 1fr;
-}
-#content .wrapper{
-justify-self:stretch;
-}
-
-#logobox{
+    #logobox{
         display: none;
     }
 
 
 
 
-#header #titlebox{
-    height:90%;
-    width:90%;
-    display: inline-block;
-    overflow: hidden;
-    display:grid;
-    justify-items:center;
-    align-items:center;
-}
+    #header #titlebox{
+        height:90%;
+        width:90%;
+        display: inline-block;
+        overflow: hidden;
+        display:grid;
+        justify-items:center;
+        align-items:center;
+    }
 
-@media screen and (max-width:800px){     /* questa  parte serve per i Telefonini */
+    @media screen and (max-width:800px){     /* questa  parte serve per i Telefonini */
 
-  #header .wrapper{
-    display:grid;
-    grid-template-columns:auto min-content;
-    align-content:center;
-    justify-content:space-around;
-  }
+        #header .wrapper{
+            display:grid;
+            grid-template-columns:auto min-content;
+            align-content:center;
+            justify-content:space-around;
+        }
 
-#header #titlebox{
-  display: none;
-}
+        #header #titlebox{
+            display: none;
+        }
 
-#header #logobox{
-  width:90%;
-  height:90%;
-  display:grid;
-  justify-items:center;
-  align-items:center;
-}
+        #header #logobox{
+            width:90%;
+            height:90%;
+            display:grid;
+            justify-items:center;
+            align-items:center;
+        }
 
-#profilebox{
-  width:100%;
-  height:100%;
-  display:grid;
-  justify-items:center;
-  align-items:center;
-}
-
-
-}
-}
-
+        #profilebox{
+            width:100%;
+            height:100%;
+            display:grid;
+            justify-items:center;
+            align-items:center;
+        }
+    }
 }

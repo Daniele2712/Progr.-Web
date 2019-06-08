@@ -43,7 +43,7 @@ class F_Item_Carrello extends Foundation{
         return $id;
     }
 
-    public static function update(Model $item, array $params = array()){
+    public static function update(Model $item, array $params = array()): int{
         $DB = \Singleton::DB();
         $id = $item->getId();
         $id_carrello = $params["id_carrello"];
@@ -58,11 +58,12 @@ class F_Item_Carrello extends Foundation{
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
+        return $id;
     }
 
     public static function create(array $obj): Model{
         $pro = F_Prodotto::find($obj["id_prodotto"]);
         $pre = new \Models\M_Money($obj["totale"], $obj["id_valuta"]);
-        return new \Models\M_Item($pro, $pre, $obj["quantita"]);
+        return new \Models\M_Item($obj["id"], $pro, $pre, $obj["quantita"]);
     }
 }

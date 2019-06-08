@@ -17,7 +17,7 @@ class F_Dipendente extends F_Utente{
     private static $contratti = array();
 
     public static function insert(Model $obj, array $params = array()): int{
-
+        return 0;
     }
 public static function insertDipendente(M_Dipendente $dipendente, string $password, int $id_magazzino): array{ /* Nel caso divideremo ulteriormente la calsse Dipendente creando gesotre, amminisitratore e altri, questa funzione la metteremo nella parte del Gestore*/
 
@@ -128,8 +128,8 @@ public static function insertGestore(M_Dipendente $gestore, string $password, in
 
 
 
-    public static function update(Model $obj, array $params = array()){
-
+    public static function update(Model $obj, array $params = array()): int{
+        return 0;
     }
 
     public static function create_user(int $id_utente, M_DatiAnagrafici $dati_anagrafici, string $email, string $username): M_Dipendente{

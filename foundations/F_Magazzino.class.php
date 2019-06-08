@@ -11,7 +11,7 @@ class F_Magazzino extends Foundation{
 
     public static function RiempiMagazzino($id){
         $ret=array();
-        $result = \Singleton::DB()->query("SELECT id_gestore, id_indirizzo FROM magazzini WHERE id=".$id);
+        $result = \Singleton::DB()->query("SELECT id_gestore, id_indirizzo FROM ".self::$table." WHERE id=".$id);
         if($result){
             $row = $result->fetch_array(MYSQLI_ASSOC);
             $ges = Dipendente::find($row["id_gestore"]);
@@ -23,22 +23,37 @@ class F_Magazzino extends Foundation{
         return $mag;
     }
 
-    public static function findClosestTo($addr){
-        $result = \Singleton::DB()->query("SELECT id_indirizzo FROM ".self::$table);
-        if($result){
-            while($row = $result->fetch_assoc())
-                $id[] = $row["id_indirizzo"];
-            $mag_arr = self::findMany($id);
-            $dis = NULL;
-            foreach($mag_arr as $mag){
-                $ret = $addr->distance($mag->getIndirizzo());
-                if($ret < $dis || $dis === NULL){
-                   $dis = $ret;
-                   $mag_fin = $mag;
-               }
+    public static function findClosestTo($addr):\Models\M_Magazzino{
+        $addr_arr = self::getIndirizzi();
+        $dis = \Singleton::Settings()->getMaxShippingDistance();
+        $mag_fin = NULL;
+        foreach($addr_arr as $k=>$addr){
+            $ret = $addr->distance($addr);
+            if($ret <= $dis){
+               $dis = $ret;
+               $mag_fin = $k;
            }
         }
-        return $mag_fin;
+        if($mag_fin === NULL)
+            throw new \ModelException("Closest Magazzino not found", __CLASS__, array("addr_id"=>$addr->getId()), 0);
+        return self::find($mag_fin);
+    }
+
+    public static function getIndirizzi(): array{
+        $DB = \Singleton::DB();
+        $sql = "SELECT id, id_indirizzo FROM ".self::$table;
+        $p = $DB->prepare($sql);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $r = array();
+        $res = $p->get_result();
+        $p->close();
+        if($res === FALSE)
+            throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
+        else
+            while ($row = $res->fetch_array(MYSQLI_NUM))
+                $r[$row[0]] = F_Indirizzo::find($row[1]);
+        return $r;
     }
 
     public static function insert(Model $mag, array $params = array()): int{
@@ -70,7 +85,8 @@ class F_Magazzino extends Foundation{
       return $id;
     }
 
-    public static function update(Model $mag, array $params = array()){
+    public static function update(Model $mag, array $params = array()): int{
+        return 0;
     }
 
     public static function create(array $obj):Model{
@@ -80,7 +96,17 @@ class F_Magazzino extends Foundation{
         return new \Models\M_Magazzino($obj["id"], $ind, $items, $ges);
     }
 
-    
-
-
+    public static function sellItem(\Models\M_Item $item, int $id_magazzino){
+        $ret = array();
+        $DB = \Singleton::DB();
+        $sql = "INSERT INTO prodotti_venduti VALUES (null, ?, ?, ?, ?)";
+        $p = $DB->prepare($sql);
+        $id = $item->getProdotto()->getId();
+        $qta = $item->getQuantita();
+        $data = date("Y-m-d");
+        $p->bind_param("iisi", $id, $qta, $data, $id_magazzino);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->close();
+    }
 }

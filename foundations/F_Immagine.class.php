@@ -60,7 +60,7 @@ class F_Immagine extends Foundation{
 
     }
 
-    public static function update(Model $obj, array $params = array()){
+    public static function update(Model $obj, array $params = array()): int{
 
     }
     public static function getDefaultFoto():Model{

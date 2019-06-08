@@ -22,9 +22,9 @@ class F_Carta extends Foundation{
         if($r === FALSE)
             throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
         elseif($r === NULL)
-            throw new \ModelException("Model Not Found", __CLASS__, array("id"=>$id_pagamento), 0);
+            throw new \ModelException("Model Not Found", __CLASS__, array("id"=>$data["id_pagamento"]), 0);
         $p->close();
-        return new M_Carta($id_pagamento, $idCarta, $num, $cvv, $nome, $cognome, $dataScadenza);
+        return new M_Carta($data["id_pagamento"], $idCarta, $num, $cvv, $nome, $cognome, $dataScadenza);
     }
 
     public static function insert(Model $carta, array $params = array()): int{

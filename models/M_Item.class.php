@@ -11,8 +11,8 @@ class M_Item extends Model{
 	private $quantità=0;    // e' un intero
 	private $prezzo;        // e' un MONEY
 	//Costruttori
-	public function __construct(M_Prodotto $p, M_Money $m=NULL, int $q=1){      // se inizializzi un item senza mettere il money, te lo calcola in
-        $this->setId(0);                                                        // automatico in base alla quantia
+	public function __construct(int $id, M_Prodotto $p, M_Money $m=NULL, int $q=1){      // se inizializzi un item senza mettere il money, te lo calcola in
+        $this->id = $id;                                                        // automatico in base alla quantia
 		$this->prodotto = clone $p;
 		$this->quantità = $q;
                 if($m===NULL)
@@ -38,6 +38,10 @@ class M_Item extends Model{
 
 	public function getQuantita(){
 		return $this->quantità;
+	}
+
+	public function setQuantita(int $qta){
+		$this->quantità = $qta;
 	}
 
     public function add(int $qta){

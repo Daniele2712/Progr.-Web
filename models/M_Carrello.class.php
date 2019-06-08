@@ -16,9 +16,13 @@ class M_Carrello extends Model{
 	}
 
 	//Metodi
-	public function addProdottoById(int $id, int $q){
+	public static function addProdottoById(int $id, int $q){
+        $session = \Singleton::Session();
         $prodotto = \Foundations\F_Prodotto::find($id);
-        $this->addProdotto($prodotto, $q);
+        $cart = $session->getCart();
+        $cart->addProdotto($prodotto, $q);
+        if($session->isLogged())
+            \Foundations\F_Carrello::save($cart);   //TODO: controllare qta salvataggio
     }
 
 	public function addProdotto(M_Prodotto $pro, int $q){
@@ -38,7 +42,7 @@ class M_Carrello extends Model{
         if(!$f){
     		$pre = $pro->getPrezzo();
     		$pre->setPrezzo($pre->getPrezzo() * $q);
-    		$i=new M_Item($pro, $pre, $q);
+    		$i=new M_Item(0, $pro, $pre, $q);
     		$this->prodotti[]=$i;
         }
 		$this->AggiornaPrezzi();

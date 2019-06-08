@@ -27,34 +27,49 @@ class C_spesa implements Controller{
         $valuta = $session->getUserValuta();
         $v = new \Views\V_Catalogo();                                           //istanzio la view
         $v->fillBasket($session->getCart(), $valuta);
-        $data = \Models\M_Magazzino::getCatalogo($req);                         //metodo statico del model che fa il lavoro sporco
-        $v->fillItems($data["items"], $valuta);                                     //passando la request
-        $v->fillCategories($data["categories"]);                                //passo i models alla view
+        $data = \Models\M_Magazzino::getCatalogo($req);                         //metodo statico del model che fa il lavoro sporco passando la request
+        $v->fillItems($data["items"], $valuta);
+        $v->fillCategories($data["categories"], $req->getInt(0));               //passo i models alla view
+        $v->fillSubcategories($data["subcategories"], $req->getInt(0));
         $v->fillFilters($data["filters"]);
+        $v->setPages($data["pages"], $req->getInt(1,1), $req->getBaseURL(), $req->getInt(0));
         $v->render();                                                           //mostro la view
     }
 
     public static function checkout(Request $req){
         $session = \Singleton::Session();
+        $settings = \Singleton::Settings();
         if($session->timedOut() || $session->isNew()){
             $session->setMessage("Sessione scaduta per inattivit&agrave;");
             \Views\HTTPView::redirect("/spesa/home");
         }
         $v = new \Views\V_Checkout();
-        $v->setAddress($session->getAddr());
-        if($session->isLogged())
+        $v->setMainAddress($session->getAddr());
+        if($session->isLogged()){
             $v->setLoggedUser($session->getUser());
+            $v->setUserAddresses($session->getUser()->getIndirizzi());
+        }
         $v->fillBasket($session->getCart(), $session->getUserValuta());
+        $v->setPayPal(
+            \Models\Pagamenti\M_PayPal::getPaypalFormUri(),
+            $session->getUserValuta()->getValutaCode(),
+            $settings->getPaypalEmail(),
+            $session->getCart()->getTotale()->getPrezzo(),
+            $settings->getPaypalSandbox()
+        );
         $v->render();
     }
 
-    public static function ordine(Request $req){
+    public static function end(Request $req){
         $session = \Singleton::Session();
         if($session->timedOut() || $session->isNew()){
             $session->setMessage("Sessione scaduta per inattivit&agrave;");
             \Views\HTTPView::redirect("/spesa/home");
         }
-        $ordine = \Models\M_Ordine::nuovo($req);
+        $ordine = \Foundations\F_Ordine::findByLink($req->getString(0));
+        $v = new \Views\V_OrderGreetings();
+        $v->setOrder($ordine);
+        $v->render();
     }
 
     public static function ordini(Request $req){

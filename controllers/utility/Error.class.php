@@ -107,11 +107,16 @@ class Error implements Controller{
         }
         $v->isRest($req->isRest());
         $message = "PHP Fatal error<br/>".$e->getMessage();
+        $message2 = "PHP Fatal error: {$e->getMessage()}<br/>{$e->getFile()}({$e->getLine()})<br/>";
+        if(is_a($e,"\SQLException"))
+            $message2 .= $e->getSQL()."<br/>".$e->getError()."<br/>";
+        $message2 .= "<pre>{$e->getTraceAsString()}</pre>";
         global $config;
-        if($config['debug'])
-            //$message .= "<pre>".$e->getTrace()."</pre>";
-            $message = "PHP Fatal error: {$e->getMessage()}<br/>{$e->getFile()}({$e->getLine()})<br/>" . "<pre>{$e->getTraceAsString()}</pre>";
-        $v->error(500, $message);
+        if($config['debug']){
+            $v->error(500, $message2);
+        }else
+            $v->error(500, $message);
+        \Foundations\Log::logMessage($message2);
         die();
     }
 

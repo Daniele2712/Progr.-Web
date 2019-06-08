@@ -15,11 +15,11 @@ class F_UtenteRegistrato extends F_Utente{
     protected static $table = "utenti_registrati";
 
     public static function insert(\Models\Model $obj, array $params = array()): int{
-
+        return 0;
     }
 
-    public static function update(\Models\Model $obj, array $params = array()){
-
+    public static function update(\Models\Model $obj, array $params = array()): int{
+        return 0;
     }
 
     public static function create_user(int $id_utente, M_DatiAnagrafici $dati_anagrafici, string $email, string $username): M_UtenteRegistrato{

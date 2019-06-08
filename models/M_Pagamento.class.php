@@ -18,7 +18,7 @@ abstract class M_Pagamento extends Model{
     }
 
     public static function nuovo(Request $req){
-        $type = "\\Models\\Pagamenti\\M_".$req->getString("tipo_pagamento","","POST");
+        $type = "\\Models\\Pagamenti\\M_".$req->getString("type","","POST");
         if(class_exists($type) && (new \ReflectionClass($type))->isSubclassOf("\\Models\\M_Pagamento"))
             return $type::newPayment($req);
     }

@@ -39,24 +39,15 @@ class M_Money extends Model{
   public function getIdValuta():int{ return $this->idValuta;} //fa la stessa cosa di getValuta ma ha un nome giusto. Non cancello getValuta perche potrebbe essere usato in altri parti del sito
 
     public function getValutaCode():string{
-        $valuta = self::findValuta($this->idValuta);
-        if(empty($valuta))
-            new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$this->idValuta),1);
-        return self::$valute[$this->idValuta][1];
+        return self::findValutaCode($this->idValuta);
     }
 
     public function getValutaName():string{
-        $valuta = self::findValuta($this->idValuta);
-        if(empty($valuta))
-            new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$this->idValuta),1);
-        return self::$valute[$this->idValuta][2];
+        return self::findValutaName($this->idValuta);
     }
 
     public function getValutaSymbol():string{
-        $valuta = self::findValuta($this->idValuta);
-        if(empty($valuta))
-            new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$this->idValuta),1);
-        return $valuta[3];
+        return self::findValutaSymbol($this->idValuta);
     }
 
     public static function findValuta(int $id):array{
@@ -70,22 +61,21 @@ class M_Money extends Model{
     public static function findValutaCode(int $id): string{
         $valuta = self::findValuta($id);
         if(empty($valuta))
-            new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$id),1);
+            new \ModelException("Valuta Code Not Found", __CLASS__, array("id_valuta"=>$id),1);
         return $valuta[1];
     }
 
     public static function findValutaName(int $id): string{
         $valuta = self::findValuta($id);
         if(empty($valuta))
-            new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$id),1);
+            new \ModelException("Valuta Name Not Found", __CLASS__, array("id_valuta"=>$id),1);
         return $valuta[2];
     }
 
     public static function findValutaSymbol(int $id): string{
         $valuta = self::findValuta($id);
-            var_dump($valuta);
         if(empty($valuta))
-            new \ModelException("Data Not Found", __CLASS__, array("id_valuta"=>$id),1);
+            new \ModelException("Valuta Symbol Found", __CLASS__, array("id_valuta"=>$id),1);
         return $valuta[3];
     }
 

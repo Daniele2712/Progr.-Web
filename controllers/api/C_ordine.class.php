@@ -136,34 +136,45 @@ public static function get(Request $req){
                         }
                     }
             }
-
   else{
         $v = new \Views\JSONView();
         $v->setError("expected_parameter_in_url");
         }
 }
 
-public static function post(Request $req){
-}
-
-public static function default(Request $req){
-    self::get($req);
-}
-
-
-
-private static function setSuccess($info){
-  switch($info){
-    case 'empty':
-        http_response_code(200);
-        echo '{"message":"Everything went right but the result is empty"}';
-    break;
-  }
-}
-
-
+    public static function post(Request $req){
+        $cmd = $req->getString("type","","POST");
+        switch($cmd){
+            case 'PayPal':
+                $session = \Singleton::Session();
+                if($session->timedOut() || $session->isNew()){
+                    $session->setMessage("Sessione scaduta per inattivit&agrave;");
+                    $v = new \Views\JSONView(array("r"=>303, "url"=>"/"));
+                    return $v->render();
+                }
+                $ordine = \Models\M_Ordine::nuovo($req);
+                $v = new \Views\Api\V_OrdinePaypal(array("r"=>200));
+                $v->setOrder($ordine);
+                return $v->render();
+            break;
+        }
+    }
 
 
+    public static function default(Request $req){
+        self::get($req);
+    }
+
+
+
+    private static function setSuccess($info){
+        switch($info){
+            case 'empty':
+                $v = new \Views\JSONView(array("r"=>200, "message"=>"Everything went right but the result is empty"));
+                return $v->render();
+            break;
+        }
+    }
 
     //uniqid('php_', TRUE) - genera string di 23 catarreri random , se ci metto false come secondo parametro, mi sceglie 13 caratteri
 

@@ -16,9 +16,9 @@ class V_Carrello extends JSONView{
                 "id"=>$item->getProdotto()->getId(),
                 "nome"=>$item->getProdotto()->getNome(),
                 "quantita"=>$item->getQuantita(),
-                "prezzo"=>$item->getTotale()->getPrezzo($valuta));
+                "prezzo"=>number_format($item->getTotale()->getPrezzo($valuta), 2));
         }
         $this->data["valuta"] = $valuta->getValutaSymbol();
-        $this->data["totale"] = $carrello->getTotale()->getPrezzo();
+        $this->data["totale"] = number_format($carrello->getTotale()->getPrezzo(), 2);
     }
 }

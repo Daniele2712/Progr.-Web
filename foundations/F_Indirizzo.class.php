@@ -31,6 +31,10 @@ class F_Indirizzo extends Foundation{
         return $id;
     }
 
+    public static function update(Model $obj, array $params = array()): int{
+        return $obj->getId();
+    }
+    
     public static function search(int $id_comune, string $via, int $civico){
         $DB = \Singleton::DB();
         $sql = "SELECT * FROM ".self::$table." WHERE id_comune = ? AND via = ? AND civico = ?";
@@ -45,10 +49,6 @@ class F_Indirizzo extends Foundation{
         if($fetchedResul)
             $r = self::create($fetchedResul);
         return $r;
-    }
-
-    public static function update(Model $obj, array $params = array()){
-
     }
 
     public static function getIndirizziByUserId(int $id){       //r=ti dice anche gli indirizzi preferiti   restituisce un array di indirizzi

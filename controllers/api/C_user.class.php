@@ -3,6 +3,7 @@
 namespace Controllers\Api;
 
 use \Controllers\Controller as Controller;
+use \Controllers\Error as Error;
 use \Views\Request as Request;
 
 if (!defined("EXEC")) {
@@ -37,11 +38,11 @@ class C_user implements Controller {
                 $v->render();
             } else {
                 $v = new \Views\JSONView(array("r" => 403));
-                $v->render();
+                return $v->render();
             }
         } else {
             $v = new \Views\JSONView(array("r" => 403));
-            $v->render();
+            return $v->render();
         }
     }
 

@@ -31,12 +31,12 @@ class JSONView implements View{
     /**
      * metodo per stampare i dati con codifica JSON
      */
-    
-    
+
+
     public function render(){
             echo json_encode($this->data);
     }
-    
+
     public function setError($error,$other='NULL'){     //devo vedere ancora come fare sta cosa degli errore. Mi piacerebbe far gestire gli errori a questa view...
         switch($error){
     case 'fill_fields':

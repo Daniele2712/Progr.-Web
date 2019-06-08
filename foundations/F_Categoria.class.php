@@ -17,24 +17,24 @@ class F_Categoria extends Foundation{
         $DB = \Singleton::DB();
         $sql = "INSERT INTO categorie VALUES(NULL, ?, ?)";
         $p = $DB->prepare($sql);
-        $nome=$categoria->getNome();
-        if($categoria->hasPadre()) $padre=$categoria->getPadre(); else $padre=NULL;
-        $p->bind_param("si", $nome, $padre);
+        $money=$carrello->getTotale();
+        $p->bind_param("si", $categoria->getCategoria(), $categoria->getFather()->getId());
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
         return $DB->lastId();
     }
 
-    public static function update(Model $categoria, array $params = array()){
+    public static function update(Model $categoria, array $params = array()): int{
         $DB = \Singleton::DB();
         $sql = "UPDATE categorie SET nome=?, padre=? WHERE id = ?";
         $p = $DB->prepare($sql);
         $money = $carrello->getTotale();
-        $p->bind_param("sii", $categoria->getCategoria(), $categoria->getPadreid(), $categoria->getid());
+        $p->bind_param("sii", $categoria->getCategoria(), $categoria->getFather()->getId(), $categoria->getid());
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
+        return $categoria->getid();
     }
 
     public static function findMainCategories(){
@@ -83,6 +83,21 @@ class F_Categoria extends Foundation{
       return $res;
     }
 
+
+    public static function findSubcategories(int $idCat){
+        $rows = array();
+        $DB = \Singleton::DB();
+        $sql = "SELECT * from categorie WHERE padre = ?";
+        $p = $DB->prepare($sql);
+        $p->bind_param("i", $idCat);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $res = $p->get_result();
+        $p->close();
+        while($row = mysqli_fetch_assoc($res))
+            $rows[] = self::create($row);
+        return $rows;
+    }
 
 }
 ?>
