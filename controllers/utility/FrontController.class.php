@@ -19,6 +19,10 @@ class FrontController{
     public static function route(\Views\Request $request){
         $controller = $request->getController();
         $action = $request->getAction();
+        if(file_exists(ROOT.DS."install") && !$request->isRest()){                 //per la prima installazione
+            $controller = "Install\Controllers\C_install";
+            $action = "default";
+        }
         if(class_exists($controller)){
             if(method_exists($controller, $action))
                 try{

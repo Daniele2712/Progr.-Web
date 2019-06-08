@@ -1,0 +1,3 @@
+<div>
+    Installazione Guidata
+</div>
