@@ -1,7 +1,7 @@
 {* Smarty *}
 <div id="login">
     <div id="loginAndRegister">
-        <div id="registerbutton">REGISTER</div><div id="loginbutton">LOGIN</div>
+        <div id="registerbutton">REGISTRATI</div><div id="loginbutton">ACCEDI</div>
     </div>
     <div id="dialog_container">
         <div id="loginbox">
@@ -15,7 +15,7 @@
             <div id="message"></div>
             <div class="actions">
                 <button id="login_submit" class="button">Login</button>
-                <a href="/forgot">I forgot my password</a>
+                <a href="/forgot">Ho dimenticato la mia password</a>
             </div>
         </div>
         <div id="registerbox">
