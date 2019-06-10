@@ -31,7 +31,6 @@ try {
   $db->exec($query);
   $db->commit();
   $db=null;
-  echo "SUCCESS connectiong to DataBase.</br>";
   } catch (PDOException $e){
         echo "FAILED connectiong to DataBase Invalid credentials.</br>";
         return ;
@@ -44,8 +43,8 @@ $configs="\$config['mysql']['database'] = '$DBname';
 \$config['mysql']['user'] = '$DBusername';
 \$config['mysql']['password'] = '$DBpassword';";
 
-if(file_put_contents($configurationFile, $configs, FILE_APPEND)) echo "SUCCESS updating Config File.</br>"; /*  Aggiunge al file di configurazione le impostazioni per collegarsi al DB*/
-else {echo "FAILED to update config file. Please insert the configuration parameters inside $configurationFile by hand.</br>"; return;}
+if(!file_put_contents($configurationFile, $configs, FILE_APPEND)){ /*  Aggiunge al file di configurazione le impostazioni per collegarsi al DB*/
+    echo "FAILED to update config file. Please insert the configuration parameters inside $configurationFile by hand.</br>"; return;}
 
 
 /*  Ultima cosa che devo fare e' modificare il contenuto di index.php e mettergli il vero contenuto*/
@@ -54,10 +53,8 @@ file_put_contents('../index.php',file_get_contents($originalIndex));
 /*  Ora cancello la cartella di istallazione perche non serve piu   */
 if(!is_dir('../install')) {echo "Cannot find install directory! </br>";}
 else{
-  echo "Deleting install folder...</br>";
   deleteDirectory('../install');
   if(is_dir('../install')) echo "FAILED deleting install folder, please remove it by hand;</br>";
-  else echo "SUCCESS deleting install folder.</br>";
 }
 
 
