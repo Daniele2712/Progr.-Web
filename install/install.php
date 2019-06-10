@@ -53,8 +53,7 @@ else{
 
 
 /*  e per ultima redirezionare l'utente*/
-$serverName=$_SERVER['HTTP_HOST'];
-header("Location: $serverName");
+header("Location: /");
 
 /*  Funzione per calcellare la directory  */
 function deleteDirectory($dir) {
