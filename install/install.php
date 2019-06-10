@@ -14,9 +14,18 @@ try {
   $db = new PDO("mysql:host=$DBhost;", $DBusername, $DBpassword); // tentativo di connessione al dbms (default: mysql)
   $db->beginTransaction(); // inizia la transazione
 
-  $query = 'DROP DATABASE IF EXISTS ' . $DBname . ';
-            CREATE DATABASE ' . $DBname . ' ;
-            USE ' . $DBname . ';'; // costruisce il database
+  $query = "SET FOREIGN_KEY_CHECKS = 0;";
+  $db->exec($query);
+
+  $query = "SELECT table_name FROM information_schema.tables WHERE table_schema = '$DBname';";
+  $res = $db->exec($query);
+  foreach ($res as $row){
+    $query = "DROP TABLE IF EXISTS ".$row["table_name"];
+    $db->exec($query);
+}
+
+  $query = "SET FOREIGN_KEY_CHECKS = 1;";
+  $db->exec($query);
 
   $query = $query . file_get_contents($dbFile); // crea la querruy con la creazione del db
   $db->exec($query);
