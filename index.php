@@ -132,6 +132,8 @@ function removableDirectory($dir){
 
     if (!is_dir($dir))
         return is_writable($dir);
+    elseif(!is_writable($dir) || !is_executable($dir))
+        return false;
 
     foreach (scandir($dir) as $item){
         if ($item == '.' || $item == '..')
