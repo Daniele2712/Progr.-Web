@@ -54,22 +54,6 @@ h3{
 <body>
   <div class='content'>
     <h2>Welcome to the Installation Guide</h2>
-    <h3>In order to get started with the setup you must enter the requested data</h3>
-    <form action="install/install.php" method='POST'>
-
-      DB Host:<br>
-      <input type="text" name="DBhost"><br>
-      DB Name:<br>
-      <input type="text" name="DBname"><br>
-      DB Username:<br>
-      <input type="text" name="DBusername"><br>
-      DB Password:<br>
-      <input type="text" name="DBpassword"><br><br>
-      <input type="submit" value="SETUP"
-      <?php if(!$ok) echo " disabled";?>
-      >
-    </form>
-    <h4>The setup might take several minutes, just be patient</h4>
     <p>Before starting remember the following things:</p>
     <ul>
      <li>
@@ -107,6 +91,23 @@ h3{
         }
      ?></li>
     </ul>
+    <h3>In order to get started with the setup you must enter the requested data</h3>
+    <form action="/install/install.php" method='POST'>
+
+      DB Host:<br>
+      <input type="text" name="DBhost"><br>
+      DB Name:<br>
+      <input type="text" name="DBname"><br>
+      DB Username:<br>
+      <input type="text" name="DBusername"><br>
+      DB Password:<br>
+      <input type="text" name="DBpassword"><br><br>
+      <input type="submit" value="SETUP"
+      <?php if(!$ok) echo " disabled";?>
+      >
+    </form>
+    <h4>The setup might take several minutes, just be patient</h4>
+
   </div>
 </body>
 <?php
