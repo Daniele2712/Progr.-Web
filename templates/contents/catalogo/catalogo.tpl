@@ -23,61 +23,64 @@
     {/foreach}
 </div>
 <div id="left">
-    <div id="subcategories">
-        {if count($subcategories) > 0}
+    {if count($subcategories) > 0}
+        <div id="subcategories" class="dialog">
             <h1 align="center">sottocategorie</h1>
             {foreach from=$subcategories item="sub"}
                 <a class="subcategoryclass {$sub.active}" href="/spesa/catalogo/{$sub.id}">{$sub.nome}</a>
             {/foreach}
-        {/if}
-    </div>
-    <div id="filters">
+        </div>
+      {/if}
+
+    <div id="filters" class="dialog">
         <form id="filterform" method="POST">
             <h1 align="center">filtri</h1>
-            {foreach from=$filtri_for_tpl item="filtro"}
-                <div class="divfiltri" data-type="{$filtro.tipo}">
-                    {if $filtro.tipo == "checkbox"}
-                        <label>{$filtro.nome}</label><input type="checkbox" value='1' name='filter_{$filtro.nome}'/>
-                    {elseif $filtro.tipo == "range"}
-                        <p>{$filtro.nome}</p>
-                        <label>Min</label><input type='text' name='filter_{$filtro.nome}_min'
-                        {if isset($filtro.valore)}
-                            value="{$filtro.valore[0]}"
-                        {/if}
-                        /><label>Max</label><input type='text' name='filter_{$filtro.nome}_max'
-                        {if isset($filtro.valore)}
-                            value="{$filtro.valore[1]}"
-                        {/if}
-                        />
-                    {elseif $filtro.tipo == "value"}
-                        <label>{$filtro.nome}</label><input type='text' name='{$filtro.nome}'
-                        {if isset($filtro.valore)}
-                            value="{$filtro.valore}"
-                        {/if}
-                        />
-                    {elseif $filtro.tipo == "radio"}
-                        <p>{$filtro.nome}</p>
-                        {foreach from=$filtro.opzioni item=o}
-                            <label>{$o.nome}</label><input type="radio" value="{$o.id}" name="filter_{$filtro.nome}"
-                            {if isset($filtro.valore) && $filtro.valore == $o.id}
-                                checked
-                            {/if}
-                            /><br/>
-                        {/foreach}
-                    {elseif $filtro.tipo == "multicheckbox"}
-                        <p>{$filtro.nome}</p>
-                        {foreach from=$filtro.opzioni item=o}
-                            <label>{$o.nome}</label><input type="checkbox" value="{$o.id}" name="filter_{$filtro.nome}[]"
-                            {if isset($filtro.valore) && in_array($o.id,$filtro.valore)}
-                                checked
-                            {/if}/><br/>
-                        {/foreach}
-                    {/if}
-                </div>
-            {/foreach}
-            <input type="hidden" name="filtered" value="true"/>
-            <button id="reset_filters" type=button class="button">Reset Filtri</button>
-            <button class="button">Filtra</button>
+            <div class="dialog-wrapper">
+              {foreach from=$filtri_for_tpl item="filtro"}
+                  <div class="divfiltri" data-type="{$filtro.tipo}">
+                      {if $filtro.tipo == "checkbox"}
+                          <label>{$filtro.nome}</label><input type="checkbox" value='1' name='filter_{$filtro.nome}'/>
+                      {elseif $filtro.tipo == "range"}
+                          <p>{$filtro.nome}</p>
+                          <div><label>Min</label><input type='text' name='filter_{$filtro.nome}_min'
+                          {if isset($filtro.valore)}
+                              value="{$filtro.valore[0]}"
+                          {/if}
+                          /></div><div><label>Max</label><input type='text' name='filter_{$filtro.nome}_max'
+                          {if isset($filtro.valore)}
+                              value="{$filtro.valore[1]}"
+                          {/if}
+                          /></div>
+                      {elseif $filtro.tipo == "value"}
+                        <div><label>{$filtro.nome}</label><input type='text' name='{$filtro.nome}'
+                          {if isset($filtro.valore)}
+                              value="{$filtro.valore}"
+                          {/if}
+                          /></div>
+                      {elseif $filtro.tipo == "radio"}
+                          <p>{$filtro.nome}</p>
+                          {foreach from=$filtro.opzioni item=o}
+                              <div><label>{$o.nome}</label><input type="radio" value="{$o.id}" name="filter_{$filtro.nome}"
+                              {if isset($filtro.valore) && $filtro.valore == $o.id}
+                                  checked
+                              {/if}
+                              /></div>
+                          {/foreach}
+                      {elseif $filtro.tipo == "multicheckbox"}
+                          <p>{$filtro.nome}</p>
+                          {foreach from=$filtro.opzioni item=o}
+                              <div><label>{$o.nome}</label><input type="checkbox" value="{$o.id}" name="filter_{$filtro.nome}[]"
+                              {if isset($filtro.valore) && in_array($o.id,$filtro.valore)}
+                                  checked
+                              {/if}/></div>
+                          {/foreach}
+                      {/if}
+                  </div>
+              {/foreach}
+                <input type="hidden" name="filtered" value="true"/>
+                <button id="reset_filters" type=button class="button">Reset Filtri</button>
+                <button class="button">Filtra</button>
+            </div>
         </form>
     </div>
 </div>
@@ -109,7 +112,7 @@
 </div>
 {pager pages=$pages current=$current_page link=$link}
 <div id="basket">
-    <div id="basked_wrapper">
+    <div id="basked_wrapper" class="dialog">
         <div id="basket-fa">
             <i id="imgCarello" class="fas fa-4x fa-cart-plus"></i>
         </div>

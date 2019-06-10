@@ -2,8 +2,9 @@
     height:800px;/* blocca l'altezza del content*/
     background-image: url(/download/background);
     background-repeat: no-repeat;
-    background-size: 100%;
     background-color: #292c2f;
+    background-size: cover;
+    background-position: center center;
 }
 
 #message_box{
@@ -135,4 +136,23 @@
 
 #dialog #new_user_address{
     display: none;
+}
+#content{
+}
+@media screen and (max-width:1224px){          /* questa  parte serve per i TABLET */
+
+}
+  @media screen and (max-width:800px){     /* questa  parte serve per i Telefonini */
+#dialog{
+
+  width:80%;
+  margin:10%;
+}
+shop_button{
+  width:100%;
+}
+#shop_button #start{
+  width:100%;
+}
+
 }

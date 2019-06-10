@@ -9,15 +9,15 @@
 			<a href="#">Faq</a>
 			<a href="#">Contact</a>
 		</p>
-		<p class="footer-company-name">Online Shopping &copy; 2018</p>
+		<p class="footer-company-name">{$siteTitle} &copy; 2019</p>
 	</div><div class="footer-center">
 		<div>
 			<i class="fa fa-map-marker"></i>
-			<p><span>21 Revolution Street</span> Paris, France</p>
+			<p><span>Via Roma, 30</span> L'Aquila, Italy</p>
 		</div>
 		<div>
 			<i class="fa fa-phone"></i>
-			<p>+1 555 123456</p>
+			<p>0862 303 030</p>
 		</div>
 		<div>
 			<i class="fa fa-envelope"></i>
@@ -26,7 +26,7 @@
 	</div><div class="footer-right">
 		<p class="footer-company-about">
 			<span>About the company</span>
-			Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+			Queso sito e' stato creato da un agenzia non profit di tre persone: Mattia, Daniele e Andrei. Lo scopo e' stato fin dall'inizio uno solo: passare un esame univeristario.
 		</p>
 		<div class="footer-icons">
 			<a href="#">

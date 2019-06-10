@@ -33,7 +33,14 @@ class F_Prodotto extends Foundation{
                 }else
                     $r[$row["nome"]] = $row["valore"];
             }
-        $fotoPreferita = \Foundations\F_Immagine::findFavouriteByProduct($obj["id"]);
+        try{
+            $fotoPreferita = \Foundations\F_Immagine::findFavouriteByProduct($obj["id"]);
+        }catch(\SQLException $e){
+            if($e->getCode() === 8)
+              $fotoPreferita = \Foundations\F_Immagine::getDefaultFoto();
+            else
+              throw $e;
+        }
         $foto = \Foundations\F_Immagine::findByProduct($obj["id"]);
         return new \Models\M_Prodotto($obj["id"], $obj["nome"], $obj["info"], $obj["descrizione"], F_Categoria::find($obj["id_categoria"]), new \Models\M_Money($obj["prezzo"], $obj["id_valuta"]), $r, $fotoPreferita, $foto);
     }

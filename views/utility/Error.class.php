@@ -82,7 +82,9 @@ class Error implements View{
 
             $resources_str = "";
             global $config;
-            $smarty->assign("homeLink","/".$config['default']['controller']."/".$config['default']['action']);
+            $fullController = $config['default']['controller'];
+            $controller = substr($fullController, strrpos($fullController, '_')+1);
+            $smarty->assign("homeLink","/".$controller."/".$config['default']['action']);
             foreach($this->resources["css"] as $file)
                 $resources_str .= "<link rel='stylesheet' type='text/css' href='/templates/contents/$file'/>";
             foreach($this->resources["js"] as $file)

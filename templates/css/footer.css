@@ -2,27 +2,20 @@
 	background-color: #292c2f;
     height: 260px;
     overflow: hidden;
-	display:grid;
-	justify-content: center;
-    overflow: hidden;
 }
 
 .footer-distributed{
-	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
-	box-sizing: border-box;
 	width: 100%;
     height: 100%;
-	text-align: left;
 	font-weight: bold;
-    font-size: 16px;
-	padding: 5px 50px;
+	display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "left center right";
 }
 
 .footer-distributed .footer-left,
 .footer-distributed .footer-center,
 .footer-distributed .footer-right{
-	display: inline-block;
-	vertical-align: top;
 	box-sizing: border-box;
     padding: 5px;
 }
@@ -30,8 +23,7 @@
 /* Footer left */
 
 .footer-distributed .footer-left{
-	width: 40%;
-    grid-area: title;
+    grid-area: left;
 }
 
 /* The company logo */
@@ -65,7 +57,7 @@
 /* Footer Center */
 
 .footer-distributed .footer-center{
-	width: 35%;
+    grid-area: center;
 }
 
 .footer-distributed .footer-center i{
@@ -110,8 +102,7 @@
 /* Footer Right */
 
 .footer-distributed .footer-right{
-	width: 20%;
-    grid-area: about;
+    grid-area: right;
 }
 
 .footer-distributed .footer-company-about{
@@ -132,6 +123,8 @@
 
 .footer-distributed .footer-icons{
 	margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .footer-distributed .footer-icons a{
@@ -151,7 +144,7 @@
 
 /* If you don't want the footer to be responsive, remove these media queries */
 
-@media screen and (min-width:800px) and (max-width:1024px){
+@media screen and (min-width:800px) and (max-width:1224px){
     #footer{
         height: 500px;
     }
@@ -161,13 +154,24 @@
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
         grid-template-areas:
-            "info about"
-            "title title";
+            "center right"
+            "left left";
 	}
+}
 
-    .footer-distributed .footer-left,
-    .footer-distributed .footer-center,
-    .footer-distributed .footer-right{
-    	width: 100%;
+
+@media screen and (max-width:800px){
+    #footer{
+        height: 500px;
     }
+
+	.footer-distributed{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas:
+            "center"
+            "right"
+            "left";
+	}
 }
