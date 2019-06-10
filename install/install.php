@@ -27,7 +27,7 @@ try {
   $query = "SET FOREIGN_KEY_CHECKS = 1;";
   $db->exec($query);
 
-  $query = $query . file_get_contents($dbFile); // crea la querruy con la creazione del db
+  $query = file_get_contents($dbFile); // crea la querruy con la creazione del db
   $db->exec($query);
   $db->commit();
   $db=null;
