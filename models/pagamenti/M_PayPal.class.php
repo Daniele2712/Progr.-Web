@@ -58,7 +58,7 @@ class M_PayPal extends M_Pagamento{
      *
      * @return string
      */
-    public function getPaypalUri(){
+    public static function getPaypalUri(){
         if (self::$use_sandbox) {
             return self::SANDBOX_VERIFY_URI;
         } else {
@@ -66,7 +66,7 @@ class M_PayPal extends M_Pagamento{
         }
     }
 
-    public function getPaypalFormUri(){
+    public static function getPaypalFormUri(){
        if (self::$use_sandbox) {
            return self::SANDBOX_FORM_URI;
        } else {
