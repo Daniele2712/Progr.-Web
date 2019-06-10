@@ -1,10 +1,11 @@
 <?php
 if(file_exists('install/install.php')){
+    $root = is_writable(__DIR__);
     $index = is_writable(__FILE__);
     $install = removableDirectory("install");
     $includes = is_writable("includes/config.inc.php");
     $smarty = is_writable("libs/smarty/templates_c");
-    $ok = $index && $install && $includes && $smarty;
+    $ok = $root && $index && $install && $includes && $smarty;
 ?>
 <head>
 <title>Installation</title>
@@ -56,6 +57,15 @@ h3{
     <h2>Welcome to the Installation Guide</h2>
     <p>Before starting remember the following things:</p>
     <ul>
+     <li>
+     <?php
+        if(!$root){
+            echo "<span class='error'>root folder is not writable</span>";
+        }else{
+            echo "<span class='ok'>root folder is writable</span>";
+        }
+     ?>
+     </li>
      <li>
      <?php
         if(!$index){
