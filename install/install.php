@@ -13,8 +13,7 @@ if(empty($DBname) OR empty($DBhost) OR empty($DBusername)) {echo "DB name, DB us
 try {
   $db = new PDO("mysql:host=$DBhost;", $DBusername, $DBpassword); // tentativo di connessione al dbms (default: mysql)
   $db->beginTransaction(); // inizia la transazione
-
-  $query = "SET FOREIGN_KEY_CHECKS = 0;";
+  $query = 'USE ' . $DBname . '; SET FOREIGN_KEY_CHECKS = 0;';
   $db->exec($query);
 
   $query = "SELECT table_name FROM information_schema.tables WHERE table_schema = '$DBname';";
