@@ -18,7 +18,7 @@ try {
   $db->exec($query);
 
   $query = "SELECT table_name FROM information_schema.tables WHERE table_schema = '$DBname';";
-  $res = $db->exec($query);
+  $res = $db->query($query);
   foreach ($res as $row){
     $query = "DROP TABLE IF EXISTS ".$row["table_name"];
     $db->exec($query);
