@@ -16,7 +16,7 @@ $(document).ready(function(){
     });
 
     $("#goToProfile").click(function(){
-        location.href="/.../...";
+        location.href="/spesa/profilo";
     });
     $("#goToCarrello").click(function(){
          location.href="/spesa/checkout";

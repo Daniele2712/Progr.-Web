@@ -119,6 +119,17 @@ class C_spesa implements Controller{
         }
     }
 
+    public static function profilo(Request $req){
+        $session = \Singleton::Session();
+        $settings = \Singleton::Settings();
+        if($session->timedOut() || $session->isNew()){
+            $session->setMessage("Sessione scaduta per inattivit&agrave;");
+            \Views\HTTPView::redirect("/spesa/home");
+        }
+        $v = new \Views\V_Profilo();
+        $v->render();
+    }
+
     public static function completaordine(Request $req){
         $session = \Singleton::Session();
         $cart = $session->getCart();
