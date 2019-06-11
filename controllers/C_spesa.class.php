@@ -44,7 +44,17 @@ class C_spesa implements Controller{
             \Views\HTTPView::redirect("/spesa/home");
         }
         $v = new \Views\V_Checkout();
+        try{
         $v->setMainAddress($session->getAddr());
+        }
+        catch(\Exception $e){
+            if($e->getCode()==1)
+            {
+                $u=$session->getUser();
+                $v->setMainAddress($u->getIndirizzoPreferito());
+            }
+            else throw $e;
+        }
         if($session->isLogged()){
             $v->setLoggedUser($session->getUser());
             $v->setUserAddresses($session->getUser()->getIndirizzi());
