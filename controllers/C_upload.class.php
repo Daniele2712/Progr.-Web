@@ -24,7 +24,7 @@ public static function uploadProduct(Request $req){
      $arrayFav[]=clone $M_favImg;
   }else{
     echo "Non e' stata aggiunta la foto Favorita. Verra usata la todo di default.</br>";
-    $defaultFoto=\F_Immagine::getDefaultFoto();
+    $defaultFoto=\Foundations\F_Immagine::getDefaultFoto();
     $arrayFav=array($defaultFoto);
   }
 
@@ -47,7 +47,7 @@ public static function uploadProduct(Request $req){
   $info=$req->getString('info', NULL, 'POST');
   $descrizione=$req->getString('descrizione', NULL, 'POST');
   $id_categoria=$req->getString('categoria', NULL, 'POST');
-  $cat=\F_Categoria::find($id_categoria); if(!\F_Categoria::seek(intval($id_categoria)) && $id_categoria!='NULL') {$tuttoOK=false; echo "Category $id_categoria do not exists.";}
+  $cat=\Foundations\F_Categoria::find($id_categoria); if(!\Foundations\F_Categoria::seek(intval($id_categoria)) && $id_categoria!='NULL') {$tuttoOK=false; echo "Category $id_categoria do not exists.";}
 
   $prezzo=$req->getFloat('prezzo', NULL, 'POST');
   $idValuta=$req->getString('valuta', NULL, 'POST');
@@ -61,7 +61,7 @@ public static function uploadProduct(Request $req){
   foreach($arrayOther as $img) $newProdotto->addOtherFoto($img); /*  Al modello del prodotto ci aggiungo le altre foto    */
 
   $params=array('idMagazzino'=>$magazzino, 'quantita'=>$quantita);
-  $insertedId=\F_Prodotto::insert($newProdotto, $params);
+  $insertedId=\Foundations\F_Prodotto::insert($newProdotto, $params);
 
   }
   else {\Foundations\Log::logMessage("Tentato accesso a uploadProduct riservata solo agli admin e ai gestori", $req);}
@@ -85,21 +85,21 @@ public static function uploadMagazzino(Request $req){
 
    /* Verifica che i valori inseriti vadano BENE  */
 
-   $comuneSelezionato=\F_Comune::search($citta, $cap,$provincia);  //Controllo che la combinazione citta, cap e provincia sia presente nel db
+   $comuneSelezionato=\Foundations\F_Comune::search($citta, $cap,$provincia);  //Controllo che la combinazione citta, cap e provincia sia presente nel db
    if(!$comuneSelezionato){
      echo "La combinazione '$citta' , '$cap' , '$provincia' non esiste.".PHP_EOL;
    }
    else{ //Se effettivamente la combinazione c'e nel database
-     $indirizzo=\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico);  //Cerco l'indirizzo che voglio usare
+     $indirizzo=\Foundations\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico);  //Cerco l'indirizzo che voglio usare
      if($indirizzo==NULL){   // cioe se non ha trovato nel BD il mio indirizzo
        $indirizzoTemp=new \Models\M_Indirizzo(-1, $comuneSelezionato, $via, $civico);  // creo un nuovo indirizzo temporaneo, con ID -1, solo per poter inserire quel indirizzo nel DB
-       if(\F_Indirizzo::insert($indirizzoTemp, array())) echo "Nuovo indirizzo inserito corretamente.</br>"; // e lo inserisco nel DB
+       if(\Foundations\F_Indirizzo::insert($indirizzoTemp, array())) echo "Nuovo indirizzo inserito corretamente.</br>"; // e lo inserisco nel DB
        else echo "Errore inserimento indirizzo.</br>";  // oppure fallisco nel inserirlo nel DB
-       $indirizzo=\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico); // il mio indirizzo ha come id -1 quindi lo sovrascrivo con in altro indirizzo, uguale, ma con l-id giusto, preso dal DB
+       $indirizzo=\Foundations\F_Indirizzo::search($comuneSelezionato->getId(), $via, $civico); // il mio indirizzo ha come id -1 quindi lo sovrascrivo con in altro indirizzo, uguale, ma con l-id giusto, preso dal DB
      }
 
      $newMagazzino= new \Models\M_Magazzino(-1, $indirizzo, array(), NULL, array());  //  ho usato -1 per i'id xke ho bisogno di un intero, tanto quando verra memorizzato nel db usera un id prograssivo. Qui creo il modello del magazzino che poi andro' ad aggingere nel DB
-     if(\F_Magazzino::insert($newMagazzino)) echo "Magazzino inserito correttamente.</br>"; // inserisco il magazzino nel DB
+     if(\Foundations\F_Magazzino::insert($newMagazzino)) echo "Magazzino inserito correttamente.</br>"; // inserisco il magazzino nel DB
      else echo "Errore inserimento magazzino.</br>";    //oppure fallisco nel farlo
    }
   }
@@ -114,7 +114,7 @@ public static function uploadDipendente(Request $req, array $params=NULL){
     $nome=$req->getString('nome', NULL, 'POST');
     $cognome=$req->getString('cognome', NULL, 'POST');
     $email=$req->getString('email', NULL, 'POST');
-    $username=$req->getString('username', NULL, 'POST'); if(\F_Utente::seekUsername($username)) {echo "Username already in use"; return;}
+    $username=$req->getString('username', NULL, 'POST'); if(\Foundations\F_Utente::seekUsername($username)) {echo "Username already in use"; return;}
     $password=$req->getString('password', NULL, 'POST');
     if(isset($params['ruolo'])) $nomeRuolo=$params['ruolo']; else $nomeRuolo=$req->getString('ruoloDipendente', NULL, 'POST');
     if(strtolower($nomeRuolo)=='gestore' or strtolower($nomeRuolo)=='amministratore'){  /*  Se vuoi inserire un gestore o un amministratore devi essere admin*/
@@ -132,7 +132,7 @@ public static function uploadDipendente(Request $req, array $params=NULL){
     $nomeContratto=F_Dipendente::idToContratto($id_contratto);
     if(!$nomeContratto) $tuttoOK=FALSE;
     //check if id_magazzino existsIdRuolo
-    if(!\F_Magazzino::seek($id_magazzino)) $tuttoOK=FALSE;
+    if(!\Foundations\F_Magazzino::seek($id_magazzino)) $tuttoOK=FALSE;
 
 
 
@@ -147,7 +147,7 @@ public static function uploadDipendente(Request $req, array $params=NULL){
     $stipendio=new \Models\M_Money($floatStipendio); // automaticamente lo mette in euro, potrei metterlo anche direttamtne nella creazione del dipendente
     $dipendente=new \Models\utenti\M_Dipendente(0, $datiAna, $email, $username,0, $nomeRuolo, $nomeContratto, new \DateTime(), 40 ,$stipendio, NULL, array() );
     // Upload that user to the database
-    $risult=\utenti\F_Dipendente::insertDipendente($dipendente, md5($password),$id_magazzino);
+    $risult=\Foundations\Utenti\F_Dipendente::insertDipendente($dipendente, md5($password),$id_magazzino);
     return $result;
     }
   }
@@ -171,13 +171,13 @@ public static function uploadCategory(Request $req){
    //if(empty($categoria)) {echo "Non hai inserito una categoria!<br>"; return;}
    if(empty($padre)) {$padre=NULL;}
    else{
-     if(!\F_Categoria::seekName($padre)) {echo "Il padre che hai inserito ('$padre') non esiste!<br>"; return;}
-     else {$idPadre=\F_Categoria::nameToId($padre);
-            $padre=\F_Categoria::find($idPadre);
+     if(!\Foundations\F_Categoria::seekName($padre)) {echo "Il padre che hai inserito ('$padre') non esiste!<br>"; return;}
+     else {$idPadre=\Foundations\F_Categoria::nameToId($padre);
+            $padre=\Foundations\F_Categoria::find($idPadre);
           }
    }
    $newCategoria=new \Models\M_Categoria(0, $categoria, $padre); // Creo il modello del modello che voglio inserire nel DB
-   $newId=\F_Categoria::insert($newCategoria);
+   $newId=\Foundations\F_Categoria::insert($newCategoria);
    echo "Nuova categoria inserita : $categoria (ID: $newId)";
   }
   else {\Foundations\Log::logMessage("Tentato accesso a uploadCategory riservata solo agli admin e ai gestori", $req);}
