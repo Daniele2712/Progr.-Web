@@ -131,6 +131,6 @@ class M_UtenteRegistrato extends M_Utente{
         $DB->begin_transaction();
         \Foundations\F_Utente::save($user);
         $DB->commit();
-
+        \Singleton::Session()->login($username,$password);
     }
 }

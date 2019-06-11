@@ -43,11 +43,11 @@
                       {elseif $filtro.tipo == "range"}
                           <p>{$filtro.nome}</p>
                           <div><label>Min</label><input type='text' name='filter_{$filtro.nome}_min'
-                          {if isset($filtro.valore)}
+                          {if isset($filtro.valore) && !($filtro.valore[0] == 0 && $filtro.valore[1] == 0)}
                               value="{$filtro.valore[0]}"
                           {/if}
                           /></div><div><label>Max</label><input type='text' name='filter_{$filtro.nome}_max'
-                          {if isset($filtro.valore)}
+                          {if isset($filtro.valore) && !($filtro.valore[0] == 0 && $filtro.valore[1] == 0)}
                               value="{$filtro.valore[1]}"
                           {/if}
                           /></div>
