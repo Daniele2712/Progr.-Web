@@ -44,7 +44,7 @@ input{
     background-color: white;
 }
 
-input[type=text]{
+input[type=text], input[type=password]{
     margin-bottom: 10px;
     padding: 5px;
     border: 1px solid #ccc;

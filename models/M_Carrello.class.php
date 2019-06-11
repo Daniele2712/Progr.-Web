@@ -18,11 +18,15 @@ class M_Carrello extends Model{
 	//Metodi
 	public static function addProdottoById(int $id, int $q){
         $session = \Singleton::Session();
+        $DB = \Singleton::DB();
         $prodotto = \Foundations\F_Prodotto::find($id);
         $cart = $session->getCart();
         $cart->addProdotto($prodotto, $q);
-        if($session->isLogged())
+        if($session->isLogged()){
+            $DB->begin_transaction();
             \Foundations\F_Carrello::save($cart);   //TODO: controllare qta salvataggio
+            $DB->commit();
+        }
     }
 
 	public function addProdotto(M_Prodotto $pro, int $q){

@@ -46,6 +46,7 @@ class M_Ordine extends Model{     /*  Chiedi a mattia: devo mettere INDIRIZZO e 
 	//Metodi
     public static function nuovo(Request $req): M_Ordine{
         $session = \Singleton::Session();
+        $DB = \Singleton::DB();
         $carrello = $session->getCart();
         $addr = $session->getAddr();
 
@@ -73,9 +74,11 @@ class M_Ordine extends Model{     /*  Chiedi a mattia: devo mettere INDIRIZZO e 
         $magazzino->removeItems($carrello->getItems());
 
         $ordine = new M_Ordine(0, $carrello->getItems(), $pagamento, $addr, $dati, $magazzino, $subtotale, $spedizione, $totale, $valuta, new \DateTime(), new \DateTime(date("Y-m-d H:i:s", strtotime("+2 hours"))), "attesa pagamento");
+        $DB->begin_transaction();
         \Foundations\F_Ordine::save($ordine);
         \Foundations\F_Magazzino::save($magazzino);
         $session->emptyCart();
+        $DB->commit();
         return $ordine;
     }
 	public function setItems(array $items){
