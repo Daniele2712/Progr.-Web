@@ -32,7 +32,8 @@ class F_UtenteRegistrato extends Foundation{
         $p = $DB->prepare($sql);
         foreach($obj->getIndirizzi() as $indirizzo){
             $idInd = \Foundations\F_Indirizzo::save($indirizzo);
-            $p->bind_param("iii", $idRegistrato, $idInd, $idPreferito == $idInd);
+            $pref = $idPreferito == $idInd;
+            $p->bind_param("iii", $idRegistrato, $idInd, $pref);
             if(!$p->execute())
                 throw new \SQLException("Error Executing Statement", $sql, $p->error, 4);
             $p->close();

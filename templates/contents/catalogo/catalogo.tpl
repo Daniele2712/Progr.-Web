@@ -133,7 +133,7 @@
         </div>
 
         <div id="pay">
-            <button id="payButton" class="button">Pay Now</button>
+            <button id="payButton" class="button">Paga</button>
         </div>
     </div>
 </div>
