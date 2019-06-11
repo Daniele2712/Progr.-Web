@@ -34,8 +34,12 @@ class M_Prodotto extends Model{
         foreach($filters as $filtro){
             if($filtro->getNome() === "prezzo")         //questo è un filtro particolare, è hardcodato
                 $valore = $this->prezzo->getPrezzo();
-            else                                        //qui vanno i filtri normali, quelli modificabili per intenderci
+            else{                                       //qui vanno i filtri normali, quelli modificabili per intenderci
+                if(!array_key_exists($filtro->getNome(), $this->valori)){
+                        return FALSE;
+                }
                 $valore = $this->valori[$filtro->getNome()];
+            }
             if(!$filtro->filtra($valore))
                 return FALSE;
         }
