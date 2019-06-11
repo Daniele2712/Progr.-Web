@@ -27,12 +27,12 @@ class F_UtenteRegistrato extends Foundation{
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
         $idRegistrato = $DB->lastId();
-        $idPreferito = $obj->getIndirizzoPreferito()->getId();
+        $indPreferito = $obj->getIndirizzoPreferito();
         $sql = "INSERT INTO indirizzi_utenti VALUES(NULL, ?, ?, ?);";
         $p = $DB->prepare($sql);
         foreach($obj->getIndirizzi() as $indirizzo){
             $idInd = \Foundations\F_Indirizzo::save($indirizzo);
-            $pref = $idPreferito == $idInd;
+            $pref = $indPreferito->equals($indirizzo);
             $p->bind_param("iii", $idRegistrato, $idInd, $pref);
             if(!$p->execute())
                 throw new \SQLException("Error Executing Statement", $sql, $p->error, 4);
