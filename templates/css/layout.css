@@ -28,10 +28,9 @@ html, body{
     border: 1px solid rgba(191, 216, 227, .8);
     border-radius: 5px;
     font-size: 110%;
-    width: 49%;
+    width: 65%;
     box-sizing: border-box;
     display: inline-block;
-    line-height: 27px;
     text-align: center;
 }
 
