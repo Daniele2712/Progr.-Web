@@ -77,6 +77,13 @@ class M_Indirizzo extends Model{
         return $angle * M_Indirizzo::$earthRadius;
     }
 
+    public function equals(M_Indirizzo $ind): bool{
+        return $this->comune->getId() === $ind->comune->getId()
+            && $this->via === $ind->via
+            && $this->civico === $ind->civico
+            && $this->note === $ind->note;
+    }
+
     private function findLatLng(){
         $url = "https://api.opencagedata.com/geocode/v1/json?q=".
             urlencode($this->getVia().", ".$this->getComune()->getCAP()." ".$this->getComune()->getNome()." ".$this->getComune()->getProvincia()).
