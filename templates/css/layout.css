@@ -153,6 +153,10 @@ input[type=text], input[type=password]{
     max-width:100%;
 }
 
+#register_button{
+    width:65%;
+    height:100%;
+}
 
 @media screen and (max-width:1224px){          /* questa  parte serve per i TABLET */
     .wrapper{

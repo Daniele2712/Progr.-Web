@@ -28,6 +28,7 @@ $(document).ready(function(){
     })
 
     $("#login #register_button").click(register);
+    checkPassword();
 });
 
 function login(){
@@ -75,4 +76,13 @@ function register(){
             ajax_error(req, text, error);
         }
     });
+}
+
+function checkPassword(){
+    $('#registerPassword, #confermaPassword').on('keyup', function () {
+  if ($('#registerPassword').val() == $('#confermaPassword').val()) {
+    $('#samePass').html('');
+  } else
+    $('#samePass').html('Not Matching').css('color', 'red');
+  });
 }
