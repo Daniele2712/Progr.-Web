@@ -164,7 +164,7 @@ public static function insertGestore(M_Dipendente $gestore, string $password, in
     }
 
     public static function create(array $obj): Model{
-        return F_Utente::find($obj["id_utente"]);
+        return self::create_user($obj["id"], $obj["dati"], $obj["email"], $obj["username"]);
     }
 
     protected static function create_dipendente(int $id_utente, M_DatiAnagrafici $dati_anagrafici, string $email,
@@ -393,7 +393,7 @@ public static function insertGestore(M_Dipendente $gestore, string $password, in
            return $rows;
        }
 
-       
+
 
 }
 ?>

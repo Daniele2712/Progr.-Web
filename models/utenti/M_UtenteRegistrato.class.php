@@ -16,8 +16,8 @@ class M_UtenteRegistrato extends M_Utente{
     private $indirizzo_preferito;
     private $carrello;
 
-    public function __construct($idUtente, $datiAnagrafici, $email, $username, int $idRegistrato=0, int $punti = 0, array $pagamenti = array(), array $indirizzi = array(), M_Indirizzo $indirizzo_preferito, M_Carrello $carrello){
-        parent::__construct($idUtente, $datiAnagrafici, $email, $username);
+    public function __construct($idUtente, $datiAnagrafici, $email, $username, $password, int $idRegistrato=0, int $punti = 0, array $pagamenti = array(), array $indirizzi = array(), M_Indirizzo $indirizzo_preferito, M_Carrello $carrello){
+        parent::__construct($idUtente, $datiAnagrafici, $email, $username, $password);
         $this->idRegistrato = $idRegistrato;
         $this->punti = $punti;
         foreach($pagamenti as $p){
@@ -37,6 +37,14 @@ class M_UtenteRegistrato extends M_Utente{
             $r[] = clone $i;
         }
         return $r;
+    }
+
+    public function getIdRegistrato(): int{
+        return $this->idRegistrato;
+    }
+
+    public function getPunti(): int{
+        return $this->punti;
     }
 
     public function getIndirizzoPreferito(): M_Indirizzo{
@@ -109,5 +117,20 @@ class M_UtenteRegistrato extends M_Utente{
 
     public function getRuolo(){
         return "UtenteRegistrato";
+    }
+
+    public static function nuovo(string $nome,string $cognome,string $email,string $username,string $password,int $comuneId,string $via,string $civico,string $note){
+        $DB = \Singleton::DB();
+
+        $dati = new \Models\M_DatiAnagrafici(0, $nome, $cognome);
+        $indirizzo = new \Models\M_Indirizzo(0, \Foundations\F_Comune::find($comuneId), $via, $civico, $note);
+        $cart = new \Models\M_Carrello(0);
+
+        $user = new M_UtenteRegistrato(0, $dati, $email, $username, $password, 0, 0, array(), array($indirizzo), $indirizzo, $cart);
+
+        $DB->begin_transaction();
+        \Foundations\F_Utente::save($user);
+        $DB->commit();
+
     }
 }

@@ -26,6 +26,8 @@ $(document).ready(function(){
         if(e.which ==  13 && $("#login #loginbox #loginUsername").val()!="" && $("#login #loginbox #loginPassword").val()!="")
             login();
     })
+
+    $("#login #register_button").click(register);
 });
 
 function login(){
@@ -54,6 +56,22 @@ function login(){
             console.log(req);
             console.log(text);
             console.log(error);
+            ajax_error(req, text, error);
+        }
+    });
+}
+function register(){
+    $.ajax({
+        url:"/api/user/",
+        method:"POST",
+        dataType:"json",
+        data:"cmd=register&"+$("#login #registerbox input").serialize(),
+        success:function(data){
+            if(data.r===200){   //sembra che non uso le variabile ritornate dalla post tmp[r] e tmp[type]
+                location.reload();    //la differenza sara' che ora ci sara una sessione con un utente loggato
+            }
+        },
+        error:function(req, text, error){
             ajax_error(req, text, error);
         }
     });

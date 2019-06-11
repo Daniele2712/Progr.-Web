@@ -22,7 +22,7 @@ class M_Dipendente extends M_Utente{
             $dataAssunzione = new \DateTime();
         if($stipendioOrario === NULL)
             $stipendioOrario = new M_Money(0,1);
-        parent::__construct($idUtente, $datiAnagrafici, $email, $username,$idValuta);
+        parent::__construct($idUtente, $datiAnagrafici, $email, $username, "", $idValuta);
         $this->idDipendente = $idDipendente;
         $this->ruolo = $ruolo;
         $this->tipoContratto = $tipoContratto;

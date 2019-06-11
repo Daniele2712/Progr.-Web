@@ -33,38 +33,74 @@ abstract class F_Utente extends Foundation{
 /*    $idInsertedDatiAna, $gestore->getRuolo(), $gestore->getEmail(), $gestore->getUsername(), md5($password), $gestore->getIdValuta()    */
 //  public static function insert(int $idDatiAna, string $tipoUtente, string $email, string $username, string $password, $idValutePref=null): int{
 
+    public static function save(Model $utente, array $params = array()): int{
+        $Fname = "\\Foundations\\Utenti\\F_".$utente->getType();
+        if(!class_exists($Fname))
+            throw new \Exception("Error User Type not found", 2);
+        $id = parent::save($utente);
+        $Fname::save($utente);
+        return $id;
+    }
 
     public static function insert(Model $utente, array $params = array()): int{
+        if($utente->getDatiAnagrafici()->getId() != 0)
+            $idDatiAna = $utente->getDatiAnagrafici()->getId();
+        else
+            $idDatiAna = F_DatiAnagrafici::save($utente->getDatiAnagrafici());
+        $tipoUtente= isset($params['tipoUtente'])?$params['tipoUtente']:$utente->getType();
+        $email=$utente->getEmail();
+        $username=$utente->getUsername();
+        $password= isset($params['password'])?$params['password']:$utente->getPassword();
+        $idValutePref=$utente->getIdValuta();
 
-            $idDatiAna=$utente->getDatiAnagrafici()->getId();
-            $tipoUtente= $params['tipoUtente'];
-            $email=$utente->getEmail();
-            $username=$utente->getUsername();
-            $password=$params['password'];
-            $idValutePref=$utente->getIdValuta();
+        $DB = \Singleton::DB();
 
-            $DB = \Singleton::DB();
+        $sql = "INSERT INTO ".self::$table." (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`, `idValutaDefault`) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+        $p = $DB->prepare($sql);
+        $p->bind_param("issssi", $idDatiAna, $tipoUtente, $email, $username,$password,$idValutePref);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->close();
+        return $DB->lastId();
+    }
 
-            $sql = "INSERT INTO ".self::$table." (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`, `idValutaDefault`) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
-            $p = $DB->prepare($sql);
-            $p->bind_param("issssi", $idDatiAna, $tipoUtente, $email, $username,$password,$idValutePref);
-            if(!$p->execute())
-                throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
-            $p->close();
-            return $DB->lastId();
+    public static function update(Model $utente, array $params = array()): int{
+        $DB = \Singleton::DB();
+        $idDatiAnagrafici = F_DatiAnagrafici::save($utente->getDatiAnagrafici());
+        $tipo = $utente->getType();
+        $email = $utente->getEmail();
+        $username = $utente->getUsername();
+        $password = $utente->getPassword();
+        $idValuta = $utente->getIdValuta();
+        $id = $utente->getId();
+
+        $sql = "UPDATE ".self::$table." SET id_datianagrafici = ?, tipo_utente = ?, email = ?, username = ?, password = ?, idValutaDefault = ? WHERE id = ?;";
+        $p = $DB->prepare($sql);
+        $p->bind_param("issssii", $idDatiAnagrafici, $tipo, $email, $username, $password, $idValuta, $id);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->close();
+        return $id;
     }
 
     public static function create(array $obj): Model{
         $DB = \Singleton::DB();
         $dati_anagrafici = F_DatiAnagrafici::find($obj["id_datianagrafici"]);
         $Fname = "\\Foundations\\Utenti\\F_".$obj["tipo_utente"];
-        if(class_exists($Fname) && (new \ReflectionClass($Fname))->isSubclassOf("\\Foundations\\F_Utente"))
-            return $Fname::create_user($obj["id"], $dati_anagrafici, $obj["email"], $obj["username"]);
+        if(class_exists($Fname))
+            return $Fname::create(array(
+                "id"=>$obj["id"],
+                "dati"=>$dati_anagrafici,
+                "email"=>$obj["email"],
+                "username"=>$obj["username"],
+                "password" => $obj["password"],
+                "valuta" => $obj["idValutaDefault"]
+            ));
         else throw new \Exception("Error User Type not found", 2);
     }
 
 
-    protected abstract static function create_user(int $id, \Models\M_DatiAnagrafici $dati_anagrafici, string $email, string $username);
+    //protected abstract static function create_user(int $id, \Models\M_DatiAnagrafici $dati_anagrafici, string $email, string $username);
 
     public static function getRuoloOfUserId($idUtente){ // magari puoi fare anche un controllo prima x vedere se e effettivamente un dipendente o no...qui do x scontato che e un dipendente
             //Restituisce UtenteRegistrato, oppure Gestore, Corriere, Amministratore, ecc se l-utente e un dipendente

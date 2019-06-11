@@ -21,9 +21,31 @@ class C_user implements Controller {
             self::indirizziMagazzini($req);
         } else
             Error::Error400($request);
-        }
+    }
 
-        public static function default(Request $req){
+    public static function post(Request $req){
+        $cmd = $req->getString("cmd","","POST");
+        switch($cmd){
+            case "register":
+                $nome = $req->getString("nome", "", "POST");
+                $cognome = $req->getString("cognome", "", "POST");
+                $email = $req->getString("email", "", "POST");
+                $username = $req->getString("username", "", "POST");
+                $password = $req->getString("password", "", "POST");
+                $comuneId = $req->getInt("comuneId", 0, "POST");
+                $via = $req->getString("via", "", "POST");
+                $civico = $req->getString("civico", "", "POST");
+                $note = $req->getString("note", "", "POST");
+                \Models\Utenti\M_UtenteRegistrato::nuovo($nome, $cognome, $email, $username, $password, $comuneId, $via, $civico, $note);
+                $v = new \Views\JSONView(array("r" => 200));
+                return $v->render();
+                break;
+        }
+        $v = new \Views\JSONView(array("r" => 404));
+        return $v->render();
+    }
+
+    public static function default(Request $req){
         self::get($req);
     }
 

@@ -19,6 +19,8 @@ class Database{
      */
 	private $connection;
 
+    private $inTransaction = FALSE;
+
     /**
      * inizializza la connessione al DBMS utilizzando i parametri del file di configurazione
      */
@@ -109,6 +111,7 @@ class Database{
             throw new \SQLException("Error Not Connected", "", "", 1);
         if(!$this->connection->begin_transaction())
             throw new \SQLException("Error Begin Transaction", "", $this->error(), 5);
+        $this->inTransaction = TRUE;
     }
 
     /**
@@ -122,6 +125,7 @@ class Database{
             throw new \SQLException("Error Not Connected", "", "", 1);
         if(!$this->connection->commit())
             throw new \SQLException("Error Commit", "", $this->error(), 6);
+        $this->inTransaction = FALSE;
     }
 
     /**
@@ -135,6 +139,7 @@ class Database{
             throw new \SQLException("Error Not Connected", "", "", 1);
         if(!$this->connection->rollback())
             throw new \SQLException("Error Rollback", "", $this->error(), 7);
+        $this->inTransaction = FALSE;
     }
 
     /**
@@ -147,5 +152,10 @@ class Database{
         if(!$this->connection)
             throw new \SQLException("Error Not Connected", "", "", 1);
         return $this->connection->error;
+    }
+
+    public function __destruct(){
+        if($this->inTransaction)
+            $this->rollback();
     }
 }

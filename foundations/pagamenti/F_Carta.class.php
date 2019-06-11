@@ -45,7 +45,7 @@ class F_Carta extends Foundation{
         return $DB->lastId();
     }
 
-    public static function update(Model $carta, array $params = array()){
+    public static function update(Model $carta, array $params = array()): int{
         $DB = \Singleton::DB();
         $idCarta = $carta->getIdCarta();
         $idPagamento = $carta->getId();
@@ -60,5 +60,6 @@ class F_Carta extends Foundation{
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
+        return $idCarta;
     }
 }

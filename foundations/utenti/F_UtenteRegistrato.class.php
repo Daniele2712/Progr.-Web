@@ -1,5 +1,6 @@
 <?php
 namespace Foundations\Utenti;
+use \Foundations\Foundation as Foundation;
 use \Foundations\F_Utente as F_Utente;
 use \Foundations\F_Indirizzo as F_Indirizzo;
 use \Foundations\F_Carrello as F_Carrello;
@@ -11,18 +12,59 @@ if(!defined("EXEC")){
 	return;
 }
 
-class F_UtenteRegistrato extends F_Utente{
+class F_UtenteRegistrato extends Foundation{
     protected static $table = "utenti_registrati";
 
     public static function insert(\Models\Model $obj, array $params = array()): int{
-        return 0;
+        $DB = \Singleton::DB();
+        $id = $obj->getId();
+        $punti = $obj->getPunti();
+        $idCarrello = \Foundations\F_Carrello::save($obj->getCarrello());
+        $sql = "INSERT INTO ".self::$table." VALUES(NULL, ?, ?, ?);";
+        $p = $DB->prepare($sql);
+        $p->bind_param("iii", $id, $punti, $idCarrello);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->close();
+        $idRegistrato = $DB->lastId();
+        $idPreferito = $obj->getIndirizzoPreferito()->getId();
+        $sql = "INSERT INTO indirizzi_utenti VALUES(NULL, ?, ?, ?);";
+        $p = $DB->prepare($sql);
+        foreach($obj->getIndirizzi() as $indirizzo){
+            $idInd = \Foundations\F_Indirizzo::save($indirizzo);
+            $p->bind_param("iii", $idRegistrato, $idInd, $idPreferito == $idInd);
+            if(!$p->execute())
+                throw new \SQLException("Error Executing Statement", $sql, $p->error, 4);
+            $p->close();
+        }
+        return $idRegistrato;
     }
 
     public static function update(\Models\Model $obj, array $params = array()): int{
-        return 0;
+        $DB = \Singleton::DB();
+        $id = $obj->getId();
+        $punti = $obj->getPunti();
+        $carrello = $obj->getCarrello();
+        $idCarrello = \Foundations\F_Carrello::save($carrello);
+
+        $idRegistrato = $obj->getIdRegistrato();
+
+        $sql = "UPDATE ".self::$table." SET id_utente = ?, punti = ?, id_carrello = ? WHERE id = ?;";
+        $p = $DB->prepare($sql);
+        $p->bind_param("iiii", $id, $punti, $idCarrello, $idRegistrato);
+        if(!$p->execute())
+            throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
+        $p->close();
+        return $idRegistrato;
     }
 
-    public static function create_user(int $id_utente, M_DatiAnagrafici $dati_anagrafici, string $email, string $username): M_UtenteRegistrato{
+    public static function create(array $obj): Model{
+        $id_utente = $obj["id"];
+        $dati_anagrafici = $obj["dati"];
+        $email = $obj["email"];
+        $username = $obj["username"];
+        $password = $obj["password"];
+        $idValuta = $obj["valuta"];
         $sql = "SELECT id, punti, id_carrello FROM ".self::$table." WHERE id_utente = ?";
         $p = \Singleton::DB()->prepare($sql);
         $p->bind_param("i",$id_utente);
@@ -54,7 +96,7 @@ class F_UtenteRegistrato extends F_Utente{
         $indirizzi = F_Indirizzo::getIndirizziByUserId($id_utente);
         $carrello = F_Carrello::find($id_carrello);
 
-        return new M_UtenteRegistrato($id_utente, $dati_anagrafici, $email, $username, $id, $punti, array(), $indirizzi, $indirizzo_preferito, $carrello);
+        return new M_UtenteRegistrato($id_utente, $dati_anagrafici, $email, $username, $password, $id, $punti, array(), $indirizzi, $indirizzo_preferito, $carrello);
     }
 
     public static function addAddress(int $id_user, int $id_addr){

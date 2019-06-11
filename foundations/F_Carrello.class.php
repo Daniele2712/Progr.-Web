@@ -15,9 +15,9 @@ class F_Carrello extends Foundation{
         $p = $DB->prepare($sql);
         $money = $carrello->getTotale();
         $prezzo=$money->getPrezzo();
-        $valuta=$money->getValuta();
+        $valuta=$money->getIdValuta();
         $id=$carrello->getId();
-        $p->bind_param("dsi", $prezzo, $valuta, $id);
+        $p->bind_param("dii", $prezzo, $valuta, $id);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();
@@ -29,10 +29,12 @@ class F_Carrello extends Foundation{
 
     public static function insert(Model $carrello, array $params = array()): int{
         $DB = \Singleton::DB();
-        $sql = "INSERTO INTO ".self::$table." VALUES(NULL, ?, ?)";
+        $sql = "INSERT INTO ".self::$table." VALUES(NULL, ?, ?)";
         $p = $DB->prepare($sql);
         $money = $carrello->getTotale();
-        $p->bind_param("ds", $money->getPrezzo(), $money->getValuta());
+        $totale = $money->getPrezzo();
+        $idValuta = $money->getIdValuta();
+        $p->bind_param("di", $totale, $idValuta);
         if(!$p->execute())
             throw new \SQLException("Error Executing Statement", $sql, $p->error, 3);
         $p->close();

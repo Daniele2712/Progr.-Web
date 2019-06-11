@@ -92,7 +92,7 @@ class F_Magazzino extends Foundation{
     public static function create(array $obj):Model{
         $ind = F_Indirizzo::find($obj["id_indirizzo"]);
         $items = F_Item_Magazzino::getMagazzinoItems($obj["id"]);
-        $ges = Utenti\F_Dipendente::find($obj["id_gestore"]);
+        $ges = F_Utente::find($obj["id_gestore"]);
         return new \Models\M_Magazzino($obj["id"], $ind, $items, $ges);
     }
 
