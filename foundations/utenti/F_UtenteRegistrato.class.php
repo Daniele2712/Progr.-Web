@@ -33,7 +33,7 @@ class F_UtenteRegistrato extends Foundation{
         foreach($obj->getIndirizzi() as $indirizzo){
             $idInd = \Foundations\F_Indirizzo::save($indirizzo);
             $pref = $indPreferito->equals($indirizzo);
-            $p->bind_param("iii", $idRegistrato, $idInd, $pref);
+            $p->bind_param("iii", $id, $idInd, $pref);
             if(!$p->execute())
                 throw new \SQLException("Error Executing Statement", $sql, $p->error, 4);
             $p->close();
@@ -90,7 +90,7 @@ class F_UtenteRegistrato extends Foundation{
         if($r === FALSE)
             throw new \SQLException("Error Fetching Statement", $sql, $p->error, 4);
         elseif($r === NULL)
-            throw new \SQLException("Empty Result", $sql, 0, 8);
+            throw new \SQLException("Empty Result", $sql, $id_utente, 8);
         $p->close();
 
         $indirizzo_preferito = F_Indirizzo::find($id_indirizzo_preferito);
