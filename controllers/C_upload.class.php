@@ -1,7 +1,7 @@
 <?php
 namespace Controllers;
 use \Views\Request as Request;
-use \utenti\F_Dipendente as F_Dipendente;
+use \Foundations\utenti\F_Dipendente as F_Dipendente;
 if(!defined("EXEC")){
     header("location: /index.php");
 	return;
@@ -147,7 +147,7 @@ public static function uploadDipendente(Request $req, array $params=NULL){
     $stipendio=new \Models\M_Money($floatStipendio); // automaticamente lo mette in euro, potrei metterlo anche direttamtne nella creazione del dipendente
     $dipendente=new \Models\utenti\M_Dipendente(0, $datiAna, $email, $username,0, $nomeRuolo, $nomeContratto, new \DateTime(), 40 ,$stipendio, NULL, array() );
     // Upload that user to the database
-    $risult=\Foundations\Utenti\F_Dipendente::insertDipendente($dipendente, md5($password),$id_magazzino);
+    $result=\Foundations\Utenti\F_Dipendente::insertDipendente($dipendente, md5($password),$id_magazzino);
     return $result;
     }
   }
