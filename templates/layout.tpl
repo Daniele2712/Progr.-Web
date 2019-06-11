@@ -23,7 +23,9 @@
                         <img id ="logoimg" src="/templates/img/logo.png" />
                     </a>
                 </div><div id="titlebox">
-                    <img id ="logowriting" src="/templates/img/OnlineShopping.png" />
+                  <a href="{$homeLink}">
+                      <img id ="logowriting" src="/templates/img/OnlineShopping.png" />
+                  </a>
                 </div><div id="profilebox">
                         {include file="contents/$templateLoginOrProfileIncludes"}
                 </div>

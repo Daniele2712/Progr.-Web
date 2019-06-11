@@ -14,15 +14,15 @@ $(document).ready(function(){
             }
         });
     });
-    
+
     $("#goToProfile").click(function(){
         location.href="/.../...";
     });
     $("#goToCarrello").click(function(){
-         location.href="/checkout/displaycheckout";
+         location.href="/spesa/checkout";
     });
     $("#goToOrdini").click(function(){
          location.href="/spesa/ordini";
     });
-    
+
 });
