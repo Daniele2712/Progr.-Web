@@ -32,10 +32,10 @@
 
 #profile #dropdownMenu{
     display:none;
-    position:relative;
+    position:fixed;
     width:200px;
-    top:0px;
-    right:25px;
+    top:120px;
+    right:0px;
     z-index: 1;
 }
 
@@ -75,7 +75,7 @@
 
 @media screen and (min-width:800px) and (max-width:1024px){   /* questa  parte serve per i TABLET */
   #profile #dropdownMenu{
-      right:-55px;
+
   }
 
 }
@@ -91,7 +91,7 @@
 
 }
 #profile #dropdownMenu{
-    right:80px;
+    width:100%;
 }
 
 #profile #user{
