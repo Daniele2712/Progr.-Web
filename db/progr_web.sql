@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 10, 2019 at 06:50 PM
--- Server version: 5.7.26-0ubuntu0.18.04.1
--- PHP Version: 7.1.30-1+ubuntu18.04.1+deb.sury.org+1
+-- Host: localhost
+-- Creato il: Giu 11, 2019 alle 11:00
+-- Versione del server: 10.3.15-MariaDB
+-- Versione PHP: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -23,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `carrelli`
+-- Struttura della tabella `carrelli`
 --
 
 CREATE TABLE `carrelli` (
@@ -33,7 +35,7 @@ CREATE TABLE `carrelli` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `carrelli`
+-- Dump dei dati per la tabella `carrelli`
 --
 
 INSERT INTO `carrelli` (`id`, `totale`, `id_valuta`) VALUES
@@ -42,7 +44,7 @@ INSERT INTO `carrelli` (`id`, `totale`, `id_valuta`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `carte`
+-- Struttura della tabella `carte`
 --
 
 CREATE TABLE `carte` (
@@ -58,7 +60,7 @@ CREATE TABLE `carte` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categorie`
+-- Struttura della tabella `categorie`
 --
 
 CREATE TABLE `categorie` (
@@ -68,7 +70,7 @@ CREATE TABLE `categorie` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `categorie`
+-- Dump dei dati per la tabella `categorie`
 --
 
 INSERT INTO `categorie` (`id`, `nome`, `padre`) VALUES
@@ -101,7 +103,7 @@ INSERT INTO `categorie` (`id`, `nome`, `padre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comuni`
+-- Struttura della tabella `comuni`
 --
 
 CREATE TABLE `comuni` (
@@ -112,7 +114,7 @@ CREATE TABLE `comuni` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `comuni`
+-- Dump dei dati per la tabella `comuni`
 --
 
 INSERT INTO `comuni` (`id`, `CAP`, `nome`, `provincia`) VALUES
@@ -8217,7 +8219,7 @@ INSERT INTO `comuni` (`id`, `CAP`, `nome`, `provincia`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dati_anagrafici`
+-- Struttura della tabella `dati_anagrafici`
 --
 
 CREATE TABLE `dati_anagrafici` (
@@ -8229,7 +8231,7 @@ CREATE TABLE `dati_anagrafici` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `dati_anagrafici`
+-- Dump dei dati per la tabella `dati_anagrafici`
 --
 
 INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascita`) VALUES
@@ -8291,7 +8293,7 @@ INSERT INTO `dati_anagrafici` (`id`, `nome`, `cognome`, `telefono`, `data_nascit
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dipendenti`
+-- Struttura della tabella `dipendenti`
 --
 
 CREATE TABLE `dipendenti` (
@@ -8307,7 +8309,7 @@ CREATE TABLE `dipendenti` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `dipendenti`
+-- Dump dei dati per la tabella `dipendenti`
 --
 
 INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_assunzione`, `ore_settimanali`, `paga_oraria`, `id_valuta`, `id_magazzino`) VALUES
@@ -8418,7 +8420,7 @@ INSERT INTO `dipendenti` (`id`, `id_utente`, `ruolo`, `tipo_contratto`, `data_as
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dipendenti_contratti`
+-- Struttura della tabella `dipendenti_contratti`
 --
 
 CREATE TABLE `dipendenti_contratti` (
@@ -8427,7 +8429,7 @@ CREATE TABLE `dipendenti_contratti` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `dipendenti_contratti`
+-- Dump dei dati per la tabella `dipendenti_contratti`
 --
 
 INSERT INTO `dipendenti_contratti` (`id`, `contratto`) VALUES
@@ -8439,7 +8441,7 @@ INSERT INTO `dipendenti_contratti` (`id`, `contratto`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dipendenti_ruoli`
+-- Struttura della tabella `dipendenti_ruoli`
 --
 
 CREATE TABLE `dipendenti_ruoli` (
@@ -8448,7 +8450,7 @@ CREATE TABLE `dipendenti_ruoli` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `dipendenti_ruoli`
+-- Dump dei dati per la tabella `dipendenti_ruoli`
 --
 
 INSERT INTO `dipendenti_ruoli` (`id`, `ruolo`) VALUES
@@ -8462,7 +8464,7 @@ INSERT INTO `dipendenti_ruoli` (`id`, `ruolo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `filtri`
+-- Struttura della tabella `filtri`
 --
 
 CREATE TABLE `filtri` (
@@ -8474,21 +8476,20 @@ CREATE TABLE `filtri` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `filtri`
+-- Dump dei dati per la tabella `filtri`
 --
 
 INSERT INTO `filtri` (`id`, `nome`, `filtrabile`, `tipo`, `id_categoria`) VALUES
 (1, 'prezzo', 1, 'range', NULL),
 (2, 'display', 1, 'radio', 34),
 (3, 'ingredienti', 1, 'multicheckbox', 1),
-(4, 'scrematura', 1, 'radio', 3),
 (5, 'Taglia', 1, 'multicheckbox', 36),
 (6, 'Stagione', 1, 'multicheckbox', 36);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `immagini`
+-- Struttura della tabella `immagini`
 --
 
 CREATE TABLE `immagini` (
@@ -8500,7 +8501,7 @@ CREATE TABLE `immagini` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `immagini`
+-- Dump dei dati per la tabella `immagini`
 --
 
 INSERT INTO `immagini` (`id`, `nome`, `size`, `type`, `immagine`) VALUES
@@ -8513,18 +8514,18 @@ INSERT INTO `immagini` (`id`, `nome`, `size`, `type`, `immagine`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `immagini_prodotti`
+-- Struttura della tabella `immagini_prodotti`
 --
 
 CREATE TABLE `immagini_prodotti` (
   `id` int(11) NOT NULL,
   `id_immagine` int(11) DEFAULT NULL,
   `id_prodotto` int(11) NOT NULL,
-  `preferita` tinyint(1) NOT NULL DEFAULT '0'
+  `preferita` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `immagini_prodotti`
+-- Dump dei dati per la tabella `immagini_prodotti`
 --
 
 INSERT INTO `immagini_prodotti` (`id`, `id_immagine`, `id_prodotto`, `preferita`) VALUES
@@ -8604,7 +8605,7 @@ INSERT INTO `immagini_prodotti` (`id`, `id_immagine`, `id_prodotto`, `preferita`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `indirizzi`
+-- Struttura della tabella `indirizzi`
 --
 
 CREATE TABLE `indirizzi` (
@@ -8618,7 +8619,7 @@ CREATE TABLE `indirizzi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `indirizzi`
+-- Dump dei dati per la tabella `indirizzi`
 --
 
 INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`, `latitudine`, `longitudine`) VALUES
@@ -8670,18 +8671,18 @@ INSERT INTO `indirizzi` (`id`, `id_comune`, `via`, `civico`, `note`, `latitudine
 -- --------------------------------------------------------
 
 --
--- Table structure for table `indirizzi_utenti`
+-- Struttura della tabella `indirizzi_utenti`
 --
 
 CREATE TABLE `indirizzi_utenti` (
   `id` int(11) NOT NULL,
   `id_utente_r` int(11) NOT NULL,
   `id_indirizzo` int(11) NOT NULL,
-  `preferito` tinyint(1) NOT NULL DEFAULT '0'
+  `preferito` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `indirizzi_utenti`
+-- Dump dei dati per la tabella `indirizzi_utenti`
 --
 
 INSERT INTO `indirizzi_utenti` (`id`, `id_utente_r`, `id_indirizzo`, `preferito`) VALUES
@@ -8692,7 +8693,7 @@ INSERT INTO `indirizzi_utenti` (`id`, `id_utente_r`, `id_indirizzo`, `preferito`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `items_carrello`
+-- Struttura della tabella `items_carrello`
 --
 
 CREATE TABLE `items_carrello` (
@@ -8705,7 +8706,7 @@ CREATE TABLE `items_carrello` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `items_carrello`
+-- Dump dei dati per la tabella `items_carrello`
 --
 
 INSERT INTO `items_carrello` (`id`, `id_carrello`, `id_prodotto`, `totale`, `id_valuta`, `quantita`) VALUES
@@ -8715,7 +8716,7 @@ INSERT INTO `items_carrello` (`id`, `id_carrello`, `id_prodotto`, `totale`, `id_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `items_magazzino`
+-- Struttura della tabella `items_magazzino`
 --
 
 CREATE TABLE `items_magazzino` (
@@ -8726,7 +8727,7 @@ CREATE TABLE `items_magazzino` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `items_magazzino`
+-- Dump dei dati per la tabella `items_magazzino`
 --
 
 INSERT INTO `items_magazzino` (`id`, `id_magazzino`, `id_prodotto`, `quantita`) VALUES
@@ -8990,7 +8991,7 @@ INSERT INTO `items_magazzino` (`id`, `id_magazzino`, `id_prodotto`, `quantita`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `items_ordine`
+-- Struttura della tabella `items_ordine`
 --
 
 CREATE TABLE `items_ordine` (
@@ -9002,7 +9003,7 @@ CREATE TABLE `items_ordine` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `items_ordine`
+-- Dump dei dati per la tabella `items_ordine`
 --
 
 INSERT INTO `items_ordine` (`id`, `id_ordine`, `id_prodotto`, `prezzo`, `quantita`) VALUES
@@ -9016,7 +9017,7 @@ INSERT INTO `items_ordine` (`id`, `id_ordine`, `id_prodotto`, `prezzo`, `quantit
 -- --------------------------------------------------------
 
 --
--- Table structure for table `magazzini`
+-- Struttura della tabella `magazzini`
 --
 
 CREATE TABLE `magazzini` (
@@ -9026,7 +9027,7 @@ CREATE TABLE `magazzini` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `magazzini`
+-- Dump dei dati per la tabella `magazzini`
 --
 
 INSERT INTO `magazzini` (`id`, `id_gestore`, `id_indirizzo`) VALUES
@@ -9037,7 +9038,7 @@ INSERT INTO `magazzini` (`id`, `id_gestore`, `id_indirizzo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offerte`
+-- Struttura della tabella `offerte`
 --
 
 CREATE TABLE `offerte` (
@@ -9048,7 +9049,7 @@ CREATE TABLE `offerte` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `offerte`
+-- Dump dei dati per la tabella `offerte`
 --
 
 INSERT INTO `offerte` (`id`, `id_tipo`, `data_inizio`, `data_fine`) VALUES
@@ -9057,7 +9058,7 @@ INSERT INTO `offerte` (`id`, `id_tipo`, `data_inizio`, `data_fine`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offerte_mxn`
+-- Struttura della tabella `offerte_mxn`
 --
 
 CREATE TABLE `offerte_mxn` (
@@ -9071,7 +9072,7 @@ CREATE TABLE `offerte_mxn` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offerte_omaggi`
+-- Struttura della tabella `offerte_omaggi`
 --
 
 CREATE TABLE `offerte_omaggi` (
@@ -9083,7 +9084,7 @@ CREATE TABLE `offerte_omaggi` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offerte_omaggi_condizioni`
+-- Struttura della tabella `offerte_omaggi_condizioni`
 --
 
 CREATE TABLE `offerte_omaggi_condizioni` (
@@ -9096,7 +9097,7 @@ CREATE TABLE `offerte_omaggi_condizioni` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offerte_sconti`
+-- Struttura della tabella `offerte_sconti`
 --
 
 CREATE TABLE `offerte_sconti` (
@@ -9108,7 +9109,7 @@ CREATE TABLE `offerte_sconti` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `offerte_sconti`
+-- Dump dei dati per la tabella `offerte_sconti`
 --
 
 INSERT INTO `offerte_sconti` (`id`, `id_offerta`, `id_prodotto`, `prezzo`, `id_valuta`) VALUES
@@ -9117,7 +9118,7 @@ INSERT INTO `offerte_sconti` (`id`, `id_offerta`, `id_prodotto`, `prezzo`, `id_v
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offerte_tipi`
+-- Struttura della tabella `offerte_tipi`
 --
 
 CREATE TABLE `offerte_tipi` (
@@ -9126,7 +9127,7 @@ CREATE TABLE `offerte_tipi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `offerte_tipi`
+-- Dump dei dati per la tabella `offerte_tipi`
 --
 
 INSERT INTO `offerte_tipi` (`id`, `tipo`) VALUES
@@ -9137,7 +9138,7 @@ INSERT INTO `offerte_tipi` (`id`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `opzioni`
+-- Struttura della tabella `opzioni`
 --
 
 CREATE TABLE `opzioni` (
@@ -9147,14 +9148,12 @@ CREATE TABLE `opzioni` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `opzioni`
+-- Dump dei dati per la tabella `opzioni`
 --
 
 INSERT INTO `opzioni` (`id`, `valore`, `id_filtro`) VALUES
 (1, '23\"', 2),
 (2, '40\"', 2),
-(3, 'intero', 4),
-(4, 'parziale', 4),
 (5, 'senza glutine', 3),
 (6, 'S', 5),
 (7, 'XS', 5),
@@ -9169,7 +9168,7 @@ INSERT INTO `opzioni` (`id`, `valore`, `id_filtro`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ordini`
+-- Struttura della tabella `ordini`
 --
 
 CREATE TABLE `ordini` (
@@ -9189,7 +9188,7 @@ CREATE TABLE `ordini` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `ordini`
+-- Dump dei dati per la tabella `ordini`
 --
 
 INSERT INTO `ordini` (`id`, `id_pagamento`, `id_indirizzo`, `id_dati_anagrafici`, `subtotale`, `spese_spedizione`, `totale`, `id_valuta`, `data_ordine`, `data_consegna`, `id_magazzino`, `stato`, `link`) VALUES
@@ -9200,7 +9199,7 @@ INSERT INTO `ordini` (`id`, `id_pagamento`, `id_indirizzo`, `id_dati_anagrafici`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pagamenti`
+-- Struttura della tabella `pagamenti`
 --
 
 CREATE TABLE `pagamenti` (
@@ -9209,7 +9208,7 @@ CREATE TABLE `pagamenti` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `pagamenti`
+-- Dump dei dati per la tabella `pagamenti`
 --
 
 INSERT INTO `pagamenti` (`id`, `tipo`) VALUES
@@ -9223,7 +9222,7 @@ INSERT INTO `pagamenti` (`id`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pagamenti_preferiti`
+-- Struttura della tabella `pagamenti_preferiti`
 --
 
 CREATE TABLE `pagamenti_preferiti` (
@@ -9235,7 +9234,7 @@ CREATE TABLE `pagamenti_preferiti` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `paypal`
+-- Struttura della tabella `paypal`
 --
 
 CREATE TABLE `paypal` (
@@ -9245,7 +9244,7 @@ CREATE TABLE `paypal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `paypal`
+-- Dump dei dati per la tabella `paypal`
 --
 
 INSERT INTO `paypal` (`id`, `id_pagamento`, `number`) VALUES
@@ -9259,7 +9258,7 @@ INSERT INTO `paypal` (`id`, `id_pagamento`, `number`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prodotti`
+-- Struttura della tabella `prodotti`
 --
 
 CREATE TABLE `prodotti` (
@@ -9273,7 +9272,7 @@ CREATE TABLE `prodotti` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `prodotti`
+-- Dump dei dati per la tabella `prodotti`
 --
 
 INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `prezzo`, `id_valuta`) VALUES
@@ -9366,7 +9365,7 @@ INSERT INTO `prodotti` (`id`, `nome`, `info`, `descrizione`, `id_categoria`, `pr
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prodotti_ricevuti`
+-- Struttura della tabella `prodotti_ricevuti`
 --
 
 CREATE TABLE `prodotti_ricevuti` (
@@ -9378,7 +9377,7 @@ CREATE TABLE `prodotti_ricevuti` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `prodotti_ricevuti`
+-- Dump dei dati per la tabella `prodotti_ricevuti`
 --
 
 INSERT INTO `prodotti_ricevuti` (`id`, `id_prodotto`, `quantita`, `data`, `id_magazzino`) VALUES
@@ -9396,7 +9395,7 @@ INSERT INTO `prodotti_ricevuti` (`id`, `id_prodotto`, `quantita`, `data`, `id_ma
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prodotti_venduti`
+-- Struttura della tabella `prodotti_venduti`
 --
 
 CREATE TABLE `prodotti_venduti` (
@@ -9408,7 +9407,7 @@ CREATE TABLE `prodotti_venduti` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `prodotti_venduti`
+-- Dump dei dati per la tabella `prodotti_venduti`
 --
 
 INSERT INTO `prodotti_venduti` (`id`, `id_prodotto`, `quantita`, `data`, `id_magazzino`) VALUES
@@ -9422,7 +9421,7 @@ INSERT INTO `prodotti_venduti` (`id`, `id_prodotto`, `quantita`, `data`, `id_mag
 -- --------------------------------------------------------
 
 --
--- Table structure for table `settings`
+-- Struttura della tabella `settings`
 --
 
 CREATE TABLE `settings` (
@@ -9431,7 +9430,7 @@ CREATE TABLE `settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `settings`
+-- Dump dei dati per la tabella `settings`
 --
 
 INSERT INTO `settings` (`k`, `v`) VALUES
@@ -9444,7 +9443,7 @@ INSERT INTO `settings` (`k`, `v`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `turni`
+-- Struttura della tabella `turni`
 --
 
 CREATE TABLE `turni` (
@@ -9459,7 +9458,7 @@ CREATE TABLE `turni` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `utenti`
+-- Struttura della tabella `utenti`
 --
 
 CREATE TABLE `utenti` (
@@ -9473,7 +9472,7 @@ CREATE TABLE `utenti` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `utenti`
+-- Dump dei dati per la tabella `utenti`
 --
 
 INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `username`, `password`, `idValutaDefault`) VALUES
@@ -9491,7 +9490,7 @@ INSERT INTO `utenti` (`id`, `id_datianagrafici`, `tipo_utente`, `email`, `userna
 -- --------------------------------------------------------
 
 --
--- Table structure for table `utenti_registrati`
+-- Struttura della tabella `utenti_registrati`
 --
 
 CREATE TABLE `utenti_registrati` (
@@ -9502,7 +9501,7 @@ CREATE TABLE `utenti_registrati` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `utenti_registrati`
+-- Dump dei dati per la tabella `utenti_registrati`
 --
 
 INSERT INTO `utenti_registrati` (`id`, `id_utente`, `punti`, `id_carrello`) VALUES
@@ -9511,7 +9510,7 @@ INSERT INTO `utenti_registrati` (`id`, `id_utente`, `punti`, `id_carrello`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `valori`
+-- Struttura della tabella `valori`
 --
 
 CREATE TABLE `valori` (
@@ -9520,19 +9519,99 @@ CREATE TABLE `valori` (
   `id_opzione` int(11) DEFAULT NULL,
   `valore` varchar(100) DEFAULT NULL,
   `id_filtro` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `valori`
+-- Dump dei dati per la tabella `valori`
 --
 
 INSERT INTO `valori` (`id`, `id_prodotto`, `id_opzione`, `valore`, `id_filtro`) VALUES
-(1, 2, 5, NULL, 3);
+(1, 1, 5, NULL, 3),
+(2, 2, 5, NULL, 3),
+(3, 3, 5, NULL, 3),
+(4, 4, 5, NULL, 3),
+(5, 5, 5, NULL, 3),
+(6, 6, 5, NULL, 3),
+(7, 7, 5, NULL, 3),
+(8, 8, 5, NULL, 3),
+(9, 9, 5, NULL, 3),
+(10, 10, 5, NULL, 3),
+(11, 11, 5, NULL, 3),
+(12, 12, 5, NULL, 3),
+(13, 13, 5, NULL, 3),
+(14, 14, 5, NULL, 3),
+(15, 15, 5, NULL, 3),
+(16, 16, 5, NULL, 3),
+(17, 17, 5, NULL, 3),
+(18, 18, 5, NULL, 3),
+(19, 19, 5, NULL, 3),
+(20, 20, 5, NULL, 3),
+(24, 24, 5, NULL, 3),
+(25, 25, 5, NULL, 3),
+(26, 26, 5, NULL, 3),
+(27, 27, 5, NULL, 3),
+(28, 28, 5, NULL, 3),
+(29, 29, 5, NULL, 3),
+(30, 30, 5, NULL, 3),
+(31, 31, 5, NULL, 3),
+(32, 32, 5, NULL, 3),
+(33, 33, 5, NULL, 3),
+(34, 34, 5, NULL, 3),
+(35, 35, 5, NULL, 3),
+(36, 36, 5, NULL, 3),
+(37, 37, 5, NULL, 3),
+(38, 38, 5, NULL, 3),
+(39, 39, 5, NULL, 3),
+(40, 40, 5, NULL, 3),
+(41, 41, 5, NULL, 3),
+(42, 42, 5, NULL, 3),
+(43, 43, 5, NULL, 3),
+(44, 44, 5, NULL, 3),
+(45, 45, 5, NULL, 3),
+(46, 46, 5, NULL, 3),
+(47, 47, 5, NULL, 3),
+(48, 48, 5, NULL, 3),
+(49, 49, 5, NULL, 3),
+(50, 50, 5, NULL, 3),
+(51, 51, 5, NULL, 3),
+(52, 52, 5, NULL, 3),
+(53, 53, 5, NULL, 3),
+(54, 54, 5, NULL, 3),
+(55, 55, 5, NULL, 3),
+(56, 56, 5, NULL, 3),
+(57, 57, 5, NULL, 3),
+(58, 58, 5, NULL, 3),
+(59, 59, 5, NULL, 3),
+(60, 60, 5, NULL, 3),
+(61, 61, 5, NULL, 3),
+(62, 62, 5, NULL, 3),
+(63, 63, 5, NULL, 3),
+(64, 64, 5, NULL, 3),
+(65, 65, 5, NULL, 3),
+(66, 66, 5, NULL, 3),
+(67, 67, 5, NULL, 3),
+(68, 68, 5, NULL, 3),
+(69, 69, 5, NULL, 3),
+(70, 70, 5, NULL, 3),
+(71, 71, 5, NULL, 3),
+(128, 105, 2, NULL, 2),
+(129, 99, 8, NULL, 5),
+(130, 100, 8, NULL, 5),
+(131, 101, 8, NULL, 5),
+(132, 102, 7, NULL, 5),
+(133, 103, 9, NULL, 5),
+(134, 104, 10, NULL, 5),
+(136, 99, 13, NULL, 6),
+(137, 100, 12, NULL, 6),
+(138, 101, 12, NULL, 6),
+(139, 102, 13, NULL, 6),
+(140, 103, 13, NULL, 6),
+(141, 104, 14, NULL, 6);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `valute`
+-- Struttura della tabella `valute`
 --
 
 CREATE TABLE `valute` (
@@ -9543,7 +9622,7 @@ CREATE TABLE `valute` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `valute`
+-- Dump dei dati per la tabella `valute`
 --
 
 INSERT INTO `valute` (`id`, `sigla`, `nome`, `simbolo`) VALUES
@@ -9554,44 +9633,44 @@ INSERT INTO `valute` (`id`, `sigla`, `nome`, `simbolo`) VALUES
 (5, 'JPY', 'Yen', '&yen;');
 
 --
--- Indexes for dumped tables
+-- Indici per le tabelle scaricate
 --
 
 --
--- Indexes for table `carrelli`
+-- Indici per le tabelle `carrelli`
 --
 ALTER TABLE `carrelli`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_valuta` (`id_valuta`);
 
 --
--- Indexes for table `carte`
+-- Indici per le tabelle `carte`
 --
 ALTER TABLE `carte`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_pagamento` (`id_pagamento`);
 
 --
--- Indexes for table `categorie`
+-- Indici per le tabelle `categorie`
 --
 ALTER TABLE `categorie`
   ADD PRIMARY KEY (`id`),
   ADD KEY `padre` (`padre`);
 
 --
--- Indexes for table `comuni`
+-- Indici per le tabelle `comuni`
 --
 ALTER TABLE `comuni`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `dati_anagrafici`
+-- Indici per le tabelle `dati_anagrafici`
 --
 ALTER TABLE `dati_anagrafici`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `dipendenti`
+-- Indici per le tabelle `dipendenti`
 --
 ALTER TABLE `dipendenti`
   ADD PRIMARY KEY (`id`),
@@ -9603,32 +9682,32 @@ ALTER TABLE `dipendenti`
   ADD KEY `luogo_lavoro` (`id_magazzino`);
 
 --
--- Indexes for table `dipendenti_contratti`
+-- Indici per le tabelle `dipendenti_contratti`
 --
 ALTER TABLE `dipendenti_contratti`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `dipendenti_ruoli`
+-- Indici per le tabelle `dipendenti_ruoli`
 --
 ALTER TABLE `dipendenti_ruoli`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `filtri`
+-- Indici per le tabelle `filtri`
 --
 ALTER TABLE `filtri`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
--- Indexes for table `immagini`
+-- Indici per le tabelle `immagini`
 --
 ALTER TABLE `immagini`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `immagini_prodotti`
+-- Indici per le tabelle `immagini_prodotti`
 --
 ALTER TABLE `immagini_prodotti`
   ADD PRIMARY KEY (`id`),
@@ -9636,14 +9715,14 @@ ALTER TABLE `immagini_prodotti`
   ADD KEY `id_immagine` (`id_immagine`);
 
 --
--- Indexes for table `indirizzi`
+-- Indici per le tabelle `indirizzi`
 --
 ALTER TABLE `indirizzi`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_comune` (`id_comune`);
 
 --
--- Indexes for table `indirizzi_utenti`
+-- Indici per le tabelle `indirizzi_utenti`
 --
 ALTER TABLE `indirizzi_utenti`
   ADD PRIMARY KEY (`id`),
@@ -9651,7 +9730,7 @@ ALTER TABLE `indirizzi_utenti`
   ADD KEY `id_indirizzo` (`id_indirizzo`);
 
 --
--- Indexes for table `items_carrello`
+-- Indici per le tabelle `items_carrello`
 --
 ALTER TABLE `items_carrello`
   ADD PRIMARY KEY (`id`),
@@ -9660,7 +9739,7 @@ ALTER TABLE `items_carrello`
   ADD KEY `id_valuta` (`id_valuta`);
 
 --
--- Indexes for table `items_magazzino`
+-- Indici per le tabelle `items_magazzino`
 --
 ALTER TABLE `items_magazzino`
   ADD PRIMARY KEY (`id`),
@@ -9668,7 +9747,7 @@ ALTER TABLE `items_magazzino`
   ADD KEY `id_prodotto` (`id_prodotto`);
 
 --
--- Indexes for table `items_ordine`
+-- Indici per le tabelle `items_ordine`
 --
 ALTER TABLE `items_ordine`
   ADD PRIMARY KEY (`id`),
@@ -9676,7 +9755,7 @@ ALTER TABLE `items_ordine`
   ADD KEY `id_prodotto` (`id_prodotto`);
 
 --
--- Indexes for table `magazzini`
+-- Indici per le tabelle `magazzini`
 --
 ALTER TABLE `magazzini`
   ADD PRIMARY KEY (`id`),
@@ -9684,14 +9763,14 @@ ALTER TABLE `magazzini`
   ADD KEY `id_indirizzo` (`id_indirizzo`);
 
 --
--- Indexes for table `offerte`
+-- Indici per le tabelle `offerte`
 --
 ALTER TABLE `offerte`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_tipo` (`id_tipo`);
 
 --
--- Indexes for table `offerte_mxn`
+-- Indici per le tabelle `offerte_mxn`
 --
 ALTER TABLE `offerte_mxn`
   ADD PRIMARY KEY (`id`),
@@ -9699,7 +9778,7 @@ ALTER TABLE `offerte_mxn`
   ADD KEY `id_prodotto` (`id_prodotto`);
 
 --
--- Indexes for table `offerte_omaggi`
+-- Indici per le tabelle `offerte_omaggi`
 --
 ALTER TABLE `offerte_omaggi`
   ADD PRIMARY KEY (`id`),
@@ -9707,7 +9786,7 @@ ALTER TABLE `offerte_omaggi`
   ADD KEY `id_omaggio` (`id_prodotto_omaggio`);
 
 --
--- Indexes for table `offerte_omaggi_condizioni`
+-- Indici per le tabelle `offerte_omaggi_condizioni`
 --
 ALTER TABLE `offerte_omaggi_condizioni`
   ADD PRIMARY KEY (`id`),
@@ -9715,7 +9794,7 @@ ALTER TABLE `offerte_omaggi_condizioni`
   ADD KEY `id_offerta_omaggio` (`id_offerta_omaggio`);
 
 --
--- Indexes for table `offerte_sconti`
+-- Indici per le tabelle `offerte_sconti`
 --
 ALTER TABLE `offerte_sconti`
   ADD PRIMARY KEY (`id`),
@@ -9724,20 +9803,20 @@ ALTER TABLE `offerte_sconti`
   ADD KEY `id_valuta` (`id_valuta`);
 
 --
--- Indexes for table `offerte_tipi`
+-- Indici per le tabelle `offerte_tipi`
 --
 ALTER TABLE `offerte_tipi`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `opzioni`
+-- Indici per le tabelle `opzioni`
 --
 ALTER TABLE `opzioni`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_filtro` (`id_filtro`);
 
 --
--- Indexes for table `ordini`
+-- Indici per le tabelle `ordini`
 --
 ALTER TABLE `ordini`
   ADD PRIMARY KEY (`id`),
@@ -9748,14 +9827,14 @@ ALTER TABLE `ordini`
   ADD KEY `id_pagamento` (`id_pagamento`);
 
 --
--- Indexes for table `pagamenti`
+-- Indici per le tabelle `pagamenti`
 --
 ALTER TABLE `pagamenti`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id-tipo` (`tipo`);
 
 --
--- Indexes for table `pagamenti_preferiti`
+-- Indici per le tabelle `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
   ADD PRIMARY KEY (`id`),
@@ -9763,14 +9842,14 @@ ALTER TABLE `pagamenti_preferiti`
   ADD KEY `id_pagamento` (`id_pagamento`);
 
 --
--- Indexes for table `paypal`
+-- Indici per le tabelle `paypal`
 --
 ALTER TABLE `paypal`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_pagamento` (`id_pagamento`);
 
 --
--- Indexes for table `prodotti`
+-- Indici per le tabelle `prodotti`
 --
 ALTER TABLE `prodotti`
   ADD PRIMARY KEY (`id`),
@@ -9778,7 +9857,7 @@ ALTER TABLE `prodotti`
   ADD KEY `id_valuta` (`id_valuta`);
 
 --
--- Indexes for table `prodotti_ricevuti`
+-- Indici per le tabelle `prodotti_ricevuti`
 --
 ALTER TABLE `prodotti_ricevuti`
   ADD PRIMARY KEY (`id`),
@@ -9786,7 +9865,7 @@ ALTER TABLE `prodotti_ricevuti`
   ADD KEY `id_magazzino` (`id_magazzino`);
 
 --
--- Indexes for table `prodotti_venduti`
+-- Indici per le tabelle `prodotti_venduti`
 --
 ALTER TABLE `prodotti_venduti`
   ADD PRIMARY KEY (`id`),
@@ -9794,20 +9873,20 @@ ALTER TABLE `prodotti_venduti`
   ADD KEY `id_magazzino` (`id_magazzino`);
 
 --
--- Indexes for table `settings`
+-- Indici per le tabelle `settings`
 --
 ALTER TABLE `settings`
   ADD PRIMARY KEY (`k`);
 
 --
--- Indexes for table `turni`
+-- Indici per le tabelle `turni`
 --
 ALTER TABLE `turni`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_dipendente` (`id_dipendente`);
 
 --
--- Indexes for table `utenti`
+-- Indici per le tabelle `utenti`
 --
 ALTER TABLE `utenti`
   ADD PRIMARY KEY (`id`),
@@ -9815,7 +9894,7 @@ ALTER TABLE `utenti`
   ADD KEY `idValutaDefault` (`idValutaDefault`);
 
 --
--- Indexes for table `utenti_registrati`
+-- Indici per le tabelle `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
   ADD PRIMARY KEY (`id`),
@@ -9823,7 +9902,7 @@ ALTER TABLE `utenti_registrati`
   ADD KEY `id_carrello` (`id_carrello`);
 
 --
--- Indexes for table `valori`
+-- Indici per le tabelle `valori`
 --
 ALTER TABLE `valori`
   ADD PRIMARY KEY (`id`),
@@ -9832,219 +9911,255 @@ ALTER TABLE `valori`
   ADD KEY `id_filtro` (`id_filtro`);
 
 --
--- Indexes for table `valute`
+-- Indici per le tabelle `valute`
 --
 ALTER TABLE `valute`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT for table `carrelli`
+-- AUTO_INCREMENT per la tabella `carrelli`
 --
 ALTER TABLE `carrelli`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
--- AUTO_INCREMENT for table `carte`
+-- AUTO_INCREMENT per la tabella `carte`
 --
 ALTER TABLE `carte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `categorie`
+-- AUTO_INCREMENT per la tabella `categorie`
 --
 ALTER TABLE `categorie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
 --
--- AUTO_INCREMENT for table `comuni`
+-- AUTO_INCREMENT per la tabella `comuni`
 --
 ALTER TABLE `comuni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8194;
+
 --
--- AUTO_INCREMENT for table `dati_anagrafici`
+-- AUTO_INCREMENT per la tabella `dati_anagrafici`
 --
 ALTER TABLE `dati_anagrafici`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+
 --
--- AUTO_INCREMENT for table `dipendenti`
+-- AUTO_INCREMENT per la tabella `dipendenti`
 --
 ALTER TABLE `dipendenti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+
 --
--- AUTO_INCREMENT for table `dipendenti_contratti`
+-- AUTO_INCREMENT per la tabella `dipendenti_contratti`
 --
 ALTER TABLE `dipendenti_contratti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
--- AUTO_INCREMENT for table `dipendenti_ruoli`
+-- AUTO_INCREMENT per la tabella `dipendenti_ruoli`
 --
 ALTER TABLE `dipendenti_ruoli`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
--- AUTO_INCREMENT for table `filtri`
+-- AUTO_INCREMENT per la tabella `filtri`
 --
 ALTER TABLE `filtri`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
--- AUTO_INCREMENT for table `immagini`
+-- AUTO_INCREMENT per la tabella `immagini`
 --
 ALTER TABLE `immagini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `immagini_prodotti`
+-- AUTO_INCREMENT per la tabella `immagini_prodotti`
 --
 ALTER TABLE `immagini_prodotti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+
 --
--- AUTO_INCREMENT for table `indirizzi`
+-- AUTO_INCREMENT per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
 --
--- AUTO_INCREMENT for table `indirizzi_utenti`
+-- AUTO_INCREMENT per la tabella `indirizzi_utenti`
 --
 ALTER TABLE `indirizzi_utenti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `items_carrello`
+-- AUTO_INCREMENT per la tabella `items_carrello`
 --
 ALTER TABLE `items_carrello`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
 --
--- AUTO_INCREMENT for table `items_magazzino`
+-- AUTO_INCREMENT per la tabella `items_magazzino`
 --
 ALTER TABLE `items_magazzino`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=459;
+
 --
--- AUTO_INCREMENT for table `items_ordine`
+-- AUTO_INCREMENT per la tabella `items_ordine`
 --
 ALTER TABLE `items_ordine`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
--- AUTO_INCREMENT for table `magazzini`
+-- AUTO_INCREMENT per la tabella `magazzini`
 --
 ALTER TABLE `magazzini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `offerte`
+-- AUTO_INCREMENT per la tabella `offerte`
 --
 ALTER TABLE `offerte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
--- AUTO_INCREMENT for table `offerte_mxn`
+-- AUTO_INCREMENT per la tabella `offerte_mxn`
 --
 ALTER TABLE `offerte_mxn`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `offerte_omaggi`
+-- AUTO_INCREMENT per la tabella `offerte_omaggi`
 --
 ALTER TABLE `offerte_omaggi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `offerte_omaggi_condizioni`
+-- AUTO_INCREMENT per la tabella `offerte_omaggi_condizioni`
 --
 ALTER TABLE `offerte_omaggi_condizioni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `offerte_sconti`
+-- AUTO_INCREMENT per la tabella `offerte_sconti`
 --
 ALTER TABLE `offerte_sconti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
--- AUTO_INCREMENT for table `offerte_tipi`
+-- AUTO_INCREMENT per la tabella `offerte_tipi`
 --
 ALTER TABLE `offerte_tipi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `opzioni`
+-- AUTO_INCREMENT per la tabella `opzioni`
 --
 ALTER TABLE `opzioni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 --
--- AUTO_INCREMENT for table `ordini`
+-- AUTO_INCREMENT per la tabella `ordini`
 --
 ALTER TABLE `ordini`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `pagamenti`
+-- AUTO_INCREMENT per la tabella `pagamenti`
 --
 ALTER TABLE `pagamenti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
--- AUTO_INCREMENT for table `pagamenti_preferiti`
+-- AUTO_INCREMENT per la tabella `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `paypal`
+-- AUTO_INCREMENT per la tabella `paypal`
 --
 ALTER TABLE `paypal`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
--- AUTO_INCREMENT for table `prodotti`
+-- AUTO_INCREMENT per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+
 --
--- AUTO_INCREMENT for table `prodotti_ricevuti`
+-- AUTO_INCREMENT per la tabella `prodotti_ricevuti`
 --
 ALTER TABLE `prodotti_ricevuti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
--- AUTO_INCREMENT for table `prodotti_venduti`
+-- AUTO_INCREMENT per la tabella `prodotti_venduti`
 --
 ALTER TABLE `prodotti_venduti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
--- AUTO_INCREMENT for table `turni`
+-- AUTO_INCREMENT per la tabella `turni`
 --
 ALTER TABLE `turni`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `utenti`
+-- AUTO_INCREMENT per la tabella `utenti`
 --
 ALTER TABLE `utenti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
--- AUTO_INCREMENT for table `utenti_registrati`
+-- AUTO_INCREMENT per la tabella `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
--- AUTO_INCREMENT for table `valori`
+-- AUTO_INCREMENT per la tabella `valori`
 --
 ALTER TABLE `valori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+
 --
--- AUTO_INCREMENT for table `valute`
+-- AUTO_INCREMENT per la tabella `valute`
 --
 ALTER TABLE `valute`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
--- Constraints for dumped tables
+-- Limiti per le tabelle scaricate
 --
 
 --
--- Constraints for table `carrelli`
+-- Limiti per la tabella `carrelli`
 --
 ALTER TABLE `carrelli`
   ADD CONSTRAINT `carrelli_ibfk_1` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `carte`
+-- Limiti per la tabella `carte`
 --
 ALTER TABLE `carte`
   ADD CONSTRAINT `carte_ibfk_1` FOREIGN KEY (`id_pagamento`) REFERENCES `pagamenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `categorie`
+-- Limiti per la tabella `categorie`
 --
 ALTER TABLE `categorie`
   ADD CONSTRAINT `categorie_ibfk_1` FOREIGN KEY (`padre`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `dipendenti`
+-- Limiti per la tabella `dipendenti`
 --
 ALTER TABLE `dipendenti`
   ADD CONSTRAINT `dipendenti_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -10054,33 +10169,33 @@ ALTER TABLE `dipendenti`
   ADD CONSTRAINT `luogo_lavoro` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `filtri`
+-- Limiti per la tabella `filtri`
 --
 ALTER TABLE `filtri`
   ADD CONSTRAINT `filtri_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `immagini_prodotti`
+-- Limiti per la tabella `immagini_prodotti`
 --
 ALTER TABLE `immagini_prodotti`
   ADD CONSTRAINT `immagini_prodotti_ibfk_1` FOREIGN KEY (`id_immagine`) REFERENCES `immagini` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `immagini_prodotti_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `indirizzi`
+-- Limiti per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
   ADD CONSTRAINT `indirizzi_ibfk_1` FOREIGN KEY (`id_comune`) REFERENCES `comuni` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Constraints for table `indirizzi_utenti`
+-- Limiti per la tabella `indirizzi_utenti`
 --
 ALTER TABLE `indirizzi_utenti`
   ADD CONSTRAINT `indirizzi_utenti_ibfk_1` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `indirizzi_utenti_ibfk_2` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `items_carrello`
+-- Limiti per la tabella `items_carrello`
 --
 ALTER TABLE `items_carrello`
   ADD CONSTRAINT `items_carrello_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
@@ -10088,55 +10203,55 @@ ALTER TABLE `items_carrello`
   ADD CONSTRAINT `items_carrello_ibfk_3` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `items_magazzino`
+-- Limiti per la tabella `items_magazzino`
 --
 ALTER TABLE `items_magazzino`
   ADD CONSTRAINT `items_magazzino_ibfk_1` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `items_magazzino_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `items_ordine`
+-- Limiti per la tabella `items_ordine`
 --
 ALTER TABLE `items_ordine`
   ADD CONSTRAINT `items_ordine_ibfk_1` FOREIGN KEY (`id_ordine`) REFERENCES `ordini` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `items_ordine_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `magazzini`
+-- Limiti per la tabella `magazzini`
 --
 ALTER TABLE `magazzini`
   ADD CONSTRAINT `magazzini_ibfk_1` FOREIGN KEY (`id_gestore`) REFERENCES `dipendenti` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `magazzini_ibfk_2` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `offerte`
+-- Limiti per la tabella `offerte`
 --
 ALTER TABLE `offerte`
   ADD CONSTRAINT `offerte_ibfk_1` FOREIGN KEY (`id_tipo`) REFERENCES `offerte_tipi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `offerte_mxn`
+-- Limiti per la tabella `offerte_mxn`
 --
 ALTER TABLE `offerte_mxn`
   ADD CONSTRAINT `offerte_mxn_ibfk_1` FOREIGN KEY (`id_offerta`) REFERENCES `offerte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `offerte_mxn_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `offerte_omaggi`
+-- Limiti per la tabella `offerte_omaggi`
 --
 ALTER TABLE `offerte_omaggi`
   ADD CONSTRAINT `offerte_omaggi_ibfk_1` FOREIGN KEY (`id_prodotto_omaggio`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `offerte_omaggi_ibfk_2` FOREIGN KEY (`id_offerta`) REFERENCES `offerte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `offerte_omaggi_condizioni`
+-- Limiti per la tabella `offerte_omaggi_condizioni`
 --
 ALTER TABLE `offerte_omaggi_condizioni`
   ADD CONSTRAINT `offerte_omaggi_condizioni_ibfk_1` FOREIGN KEY (`id_offerta_omaggio`) REFERENCES `offerte_omaggi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `offerte_omaggi_condizioni_ibfk_2` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `offerte_sconti`
+-- Limiti per la tabella `offerte_sconti`
 --
 ALTER TABLE `offerte_sconti`
   ADD CONSTRAINT `offerte_sconti_ibfk_1` FOREIGN KEY (`id_offerta`) REFERENCES `offerte` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -10144,13 +10259,13 @@ ALTER TABLE `offerte_sconti`
   ADD CONSTRAINT `offerte_sconti_ibfk_3` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `opzioni`
+-- Limiti per la tabella `opzioni`
 --
 ALTER TABLE `opzioni`
   ADD CONSTRAINT `opzioni_ibfk_1` FOREIGN KEY (`id_filtro`) REFERENCES `filtri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `ordini`
+-- Limiti per la tabella `ordini`
 --
 ALTER TABLE `ordini`
   ADD CONSTRAINT `id_valuta` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -10160,65 +10275,66 @@ ALTER TABLE `ordini`
   ADD CONSTRAINT `ordini_ibfk_3` FOREIGN KEY (`id_pagamento`) REFERENCES `pagamenti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `pagamenti_preferiti`
+-- Limiti per la tabella `pagamenti_preferiti`
 --
 ALTER TABLE `pagamenti_preferiti`
   ADD CONSTRAINT `pagamenti_preferiti_ibfk_1` FOREIGN KEY (`id_utente_r`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `pagamenti_preferiti_ibfk_2` FOREIGN KEY (`id_pagamento`) REFERENCES `pagamenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `paypal`
+-- Limiti per la tabella `paypal`
 --
 ALTER TABLE `paypal`
   ADD CONSTRAINT `paypal_ibfk_1` FOREIGN KEY (`id_pagamento`) REFERENCES `pagamenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prodotti`
+-- Limiti per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
   ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `prodotti_ibfk_2` FOREIGN KEY (`id_valuta`) REFERENCES `valute` (`id`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `prodotti_ricevuti`
+-- Limiti per la tabella `prodotti_ricevuti`
 --
 ALTER TABLE `prodotti_ricevuti`
   ADD CONSTRAINT `id_magazzini_ricevuti` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `id_prodotti_ricevuti` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `prodotti_venduti`
+-- Limiti per la tabella `prodotti_venduti`
 --
 ALTER TABLE `prodotti_venduti`
   ADD CONSTRAINT `id_magazzini_venduti` FOREIGN KEY (`id_magazzino`) REFERENCES `magazzini` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `id_prodotti_venduti` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `turni`
+-- Limiti per la tabella `turni`
 --
 ALTER TABLE `turni`
   ADD CONSTRAINT `turni_ibfk_1` FOREIGN KEY (`id_dipendente`) REFERENCES `dipendenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `utenti`
+-- Limiti per la tabella `utenti`
 --
 ALTER TABLE `utenti`
   ADD CONSTRAINT `utenti_ibfk_1` FOREIGN KEY (`id_datianagrafici`) REFERENCES `dati_anagrafici` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `utenti_ibfk_2` FOREIGN KEY (`idValutaDefault`) REFERENCES `valute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `utenti_registrati`
+-- Limiti per la tabella `utenti_registrati`
 --
 ALTER TABLE `utenti_registrati`
   ADD CONSTRAINT `utenti_registrati_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `valori`
+-- Limiti per la tabella `valori`
 --
 ALTER TABLE `valori`
   ADD CONSTRAINT `valori_ibfk_2` FOREIGN KEY (`id_opzione`) REFERENCES `opzioni` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `valori_ibfk_3` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `valori_ibfk_4` FOREIGN KEY (`id_filtro`) REFERENCES `filtri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
