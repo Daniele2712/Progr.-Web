@@ -41,7 +41,7 @@
             </div>
             <div>
                 <label for="confermaPassword">Conferma Password</label>
-                <input type="password" name="confermaPassword" id="confermaPassword">
+                <input type="password" name="confermaPassword" id="confermaPassword"><span id="samePass"></span>
             </div>
             <div>
                 <label for="comune">Comune</label>
