@@ -28,9 +28,10 @@ html, body{
     border: 1px solid rgba(191, 216, 227, .8);
     border-radius: 5px;
     font-size: 110%;
-    width: 65%;
+    width: 49%;
     box-sizing: border-box;
     display: inline-block;
+    line-height: 27px;
     text-align: center;
 }
 
@@ -152,6 +153,10 @@ input[type=text], input[type=password]{
     max-width:100%;
 }
 
+#register_button{
+    width:65%;
+    height:100%;
+}
 
 @media screen and (max-width:1224px){          /* questa  parte serve per i TABLET */
     .wrapper{
