@@ -243,3 +243,8 @@
 #2 /home/kortexar/Desktop/Progr.-Web/controllers/utility/FrontController.class.php(25): Controllers\C_spesa::catalogo(Object(Views\Request))
 #3 /home/kortexar/Desktop/Progr.-Web/index.php(7): Controllers\FrontController::route(Object(Views\Request))
 #4 {main}</pre>
+[11/06/2019 12:38:18] Tentato accesso a uploadDipendente riservata solo agli admin e ai gestori
+[11/06/2019 13:49:27] Administrator(id:1) logged
+[11/06/2019 13:58:23] Administrator(id:1) logged
+[11/06/2019 15:55:22] !Privilege Escalation Attempt! Non Logged User tried to access Admin Page!
+[11/06/2019 15:56:23] Tentato accesso a uploadProduct riservata solo agli admin e ai gestori

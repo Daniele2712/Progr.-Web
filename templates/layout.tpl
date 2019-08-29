@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" href="/libs/fontawesome/css/all.css">
         <script type="text/javascript" src="/templates/js/libs/jquery.js"></script>
         <script type="text/javascript" src="/libs/jquery-ui/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="/libs/jquery-cookie/src/jquery_cookie.js" ></script>
+        <!--<script type="text/javascript" src="/libs/jquery-cookie/src/jquery_cookie.js" ></script>-->
         <script type="text/javascript" src="/templates/js/layout.js"></script>
         {$templateHeadIncludes}
         <script type="text/javascript"> var logged={if $logged}"{$logged}"{else}{"false"}{/if}</script>
